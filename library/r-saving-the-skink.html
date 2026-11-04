@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Volume 7 – IELTS Reading – Passage 3</title>
+
+<style>
+  :root{
+    --bg:#0b0f14;--card:#0f172a;--muted:#9fb0c3;--text:#e9f0f6;--accent:#38bdf8;--accent2:#22c55e;--danger:#ef4444;--border:#1e293b;
+    --chip:#0a2138;--input:#0b1322;--shadow:0 10px 40px rgba(0,0,0,.35);
+  }
+  [data-theme="light"]{
+    --bg:#f7fafc;--card:#ffffff;--muted:#5a6b7c;--text:#0b1220;--accent:#2563eb;--accent2:#16a34a;--danger:#dc2626;--border:#dbe4f0;
+    --chip:#eef5ff;--input:#f3f7fc;--shadow:0 10px 30px rgba(0,0,0,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,var(--bg),var(--bg));color:var(--text);line-height:1.65}
+  .wrap{max-width:1400px;margin:auto;padding:24px}
+  header{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+  h1{font-size:clamp(22px,4vw,34px);margin:0}
+  .right{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .pill{background:var(--chip);border:1px solid var(--border);padding:8px 12px;border-radius:999px;color:var(--muted)}
+  .brand{background:linear-gradient(90deg,var(--accent),#60a5fa);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
+  .grid{display:grid;grid-template-columns:1fr;gap:18px;margin-top:16px}
+  @media(min-width:1100px){.grid{grid-template-columns:1fr 1fr}}
+  .card{background:linear-gradient(180deg,var(--card),var(--card));border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:18px}
+  .passage{white-space:pre-wrap}
+  .badge{display:inline-block;padding:4px 8px;border-radius:999px;background:var(--chip);border:1px solid var(--border);color:var(--muted);font-size:.85rem}
+  .q{border:1px dashed var(--border);border-radius:12px;padding:14px;margin:12px 0}
+  .q h4{margin:0 0 6px 0}
+  .options{display:grid;gap:8px;margin-top:6px}
+  label{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--border);border-radius:10px;cursor:pointer}
+  input[type=text]{width:100%;padding:10px;border-radius:10px;border:1px solid var(--border);background:var(--input);color:var(--text)}
+  .controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  button{border:1px solid var(--border);background:var(--chip);color:var(--text);padding:10px 14px;border-radius:12px;cursor:pointer}
+  .btn-primary{background:linear-gradient(90deg,var(--accent),#60a5fa);border-color:#2563eb;color:#03101e}
+  .btn-ghost{background:transparent}
+  .score{font-weight:700}
+  .correct{outline:2px solid var(--accent2)}
+  .incorrect{outline:2px solid var(--danger)}
+  .explain{color:var(--muted);font-size:.95rem;margin-top:6px;display:none}
+  .explain.show{display:block}
+  details{border:1px solid var(--border);border-radius:12px;padding:10px 12px}
+  summary{cursor:pointer}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+  .stopwatch{font-feature-settings:"tnum";font-variant-numeric:tabular-nums;font-weight:700;padding:8px 12px;border:1px solid var(--border);border-radius:10px}
+  mark.hl{background:#fde047;color:inherit;padding:0 .15em;border-radius:.25em}
+  [data-theme="light"] mark.hl{background:#fff3b0}
+.brand a{text-decoration:none;background:linear-gradient(90deg,var(--accent),#60a5fa);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
+</style>
+<script>
+  // Theme toggle with persistence
+  document.addEventListener('DOMContentLoaded',function(){
+    const themeBtn = document.getElementById('themeBtn');
+    const rootHtml = document.documentElement;
+    const savedTheme = localStorage.getItem('v7_theme');
+    if(savedTheme){ rootHtml.setAttribute('data-theme', savedTheme); }
+    themeBtn?.addEventListener('click',()=>{
+      const cur = rootHtml.getAttribute('data-theme')==='light'?'dark':'light';
+      rootHtml.setAttribute('data-theme', cur);
+      localStorage.setItem('v7_theme', cur);
+    });
+
+    // Stopwatch
+    let t=0, iv=null, running=false;
+    const timerEl = document.getElementById('timer');
+    const startStop = document.getElementById('startStop');
+    const resetTimer = document.getElementById('resetTimer');
+    const lapBtn = document.getElementById('lapBtn');
+    const laps = document.getElementById('laps');
+    function fmt(s){ const m=Math.floor(s/60).toString().padStart(2,'0'); const ss=(s%60).toString().padStart(2,'0'); return m+':'+ss; }
+    function tick(){ t++; timerEl.textContent = fmt(t); }
+    startStop?.addEventListener('click',()=>{
+      if(!running){ iv=setInterval(tick,1000); running=true; startStop.textContent='Pause'; }
+      else{ clearInterval(iv); running=false; startStop.textContent='Start'; }
+    });
+    resetTimer?.addEventListener('click',()=>{
+      clearInterval(iv); running=false; t=0; timerEl.textContent='00:00'; startStop.textContent='Start'; laps.innerHTML='';
+    });
+    lapBtn?.addEventListener('click',()=>{
+      const li=document.createElement('li'); li.textContent='Lap – '+fmt(t); laps.appendChild(li);
+    });
+
+    // Highlight selection inside passage
+    const passage = document.getElementById('passage');
+    document.getElementById('hlBtn')?.addEventListener('click', ()=>{
+      const sel = window.getSelection();
+      if(!sel || sel.rangeCount===0) return;
+      const range = sel.getRangeAt(0);
+      if(!passage.contains(range.commonAncestorContainer)) return;
+      try{
+        const mark = document.createElement('mark');
+        mark.className='hl';
+        range.surroundContents(mark);
+        sel.removeAllRanges();
+      }catch(e){
+        const mark = document.createElement('mark'); mark.className='hl';
+        mark.appendChild(range.extractContents());
+        range.insertNode(mark);
+        sel.removeAllRanges();
+      }
+    });
+    document.getElementById('clearHlBtn')?.addEventListener('click', ()=>{
+      passage?.querySelectorAll('mark.hl').forEach(m=>{
+        const parent=m.parentNode;
+        while(m.firstChild) parent.insertBefore(m.firstChild, m);
+        parent.removeChild(m);
+      });
+    });
+
+    // Answer checking
+    const norm = v => (v||'').trim().toLowerCase().replace(/\s+/g,' ');
+    function check(){
+      let total=0,right=0;
+      document.querySelectorAll('.q').forEach(q=>{
+        total++;
+        const type=q.dataset.type;
+        const a=q.dataset.answer||'';
+        let user='';
+        if(type==='tfn' || type==='mc'){
+          const chosen=q.querySelector('input[type=radio]:checked');
+          user=chosen?chosen.value:'';
+          q.querySelectorAll('label').forEach(l=>l.classList.remove('correct','incorrect'));
+          if(chosen){
+            if(user===a){ chosen.parentElement.classList.add('correct'); right++; }
+            else{ chosen.parentElement.classList.add('incorrect'); }
+          }
+        } else if(type==='short' || type==='letter'){
+          user=q.querySelector('input[type=text]').value;
+          if(norm(user)===norm(a)){ q.classList.add('correct'); q.classList.remove('incorrect'); right++; }
+          else { q.classList.remove('correct'); q.classList.add('incorrect'); }
+        }
+        const ex=q.querySelector('.explain');
+        if(ex){ ex.textContent='Explanation: '+(q.dataset.explain||''); }
+      });
+      document.getElementById('score').textContent=`Score: ${right}/${total}`;
+    }
+    function resetAll(){
+      document.getElementById('score').textContent='';
+      document.querySelectorAll('input[type=radio]').forEach(i=>i.checked=false);
+      document.querySelectorAll('input[type=text]').forEach(i=>i.value='');
+      document.querySelectorAll('.correct,.incorrect').forEach(el=>{el.classList.remove('correct','incorrect')});
+    }
+    document.getElementById('checkBtn')?.addEventListener('click',check);
+    document.getElementById('toggleExplain')?.addEventListener('click',()=>{
+      document.querySelectorAll('.explain').forEach(e=>e.classList.toggle('show'));
+    });
+    document.getElementById('resetBtn')?.addEventListener('click',resetAll);
+  });
+</script>
+
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Volume 7 – IELTS Reading – Passage 3</h1>
+    <div class="right"><span class="pill brand"><a href="https://t.me/ieltswithkhmdv" target="_blank" rel="noopener">Jasurbek Khamidov | IELTS  (@ieltswithkhmdv)</a></span>
+      <span class="pill brand"><a href="https://t.me/ieltswithkhmdv" target="_blank" rel="noopener">Jasurbek Khamidov | IELTS  (@ieltswithkhmdv)</a></span>
+      <button id="themeBtn" title="Toggle light/dark">🌗 Theme</button>
+    </div>
+  </header>
+
+  <div class="grid">
+    <section class="card">
+      <h2>Saving the Skink</h2>
+      <p class="badge">Passage adapted from your PDF “Volume 7 (reading)”</p>
+
+      <div class="toolbar">
+        <button id="hlBtn">Highlight selection</button>
+        <button id="clearHlBtn" class="btn-ghost">Clear highlights</button>
+        <span class="stopwatch" id="timer">00:00</span>
+        <button id="startStop">Start</button>
+        <button id="lapBtn">Lap</button>
+        <button id="resetTimer" class="btn-ghost">Reset</button>
+      </div>
+
+      <div class="passage" id="passage">
+Saving the Skink
+What can be done to save the skink, one of New Zealand's most endangered lizards?
+
+New Zealand’s skinks (over 90 species) face predation, parasite infections, and habitat loss. Grand and Otago skinks mature late and have few young, making them especially vulnerable. DOC efforts like predator control and mammal‑proof fencing are underway, while captive breeding is a last resort. Public understanding and multi‑stakeholder projects are crucial.
+... (full passage in your PDF)
+</div>
+      <details style="margin-top:12px">
+        <summary>Notes</summary>
+        <ul id="laps" style="margin:0;padding-left:18px"></ul>
+      </details>
+    </section>
+
+    <section class="card" id="questions">
+      
+<h2>Questions 27–40</h2>
+
+<h3>27–31 • Short answers (from the summary)</h3>
+<div class="q" data-type="short" data-answer="small legs" data-explain="Skinks: shiny scales and small legs.">
+  <h4>27) Skinks are easily distinguished by their shiny scales and ______.</h4>
+  <input type="text" placeholder="Your answer">
+  <div class="explain"></div>
+</div>
+<div class="q" data-type="short" data-answer="body heat" data-explain="They regulate temperature (body heat) externally.">
+  <h4>28) Being reptiles, they must regulate their ______ externally.</h4>
+  <input type="text" placeholder="Your answer">
+  <div class="explain"></div>
+</div>
+<div class="q" data-type="short" data-answer="winter sleep" data-explain="They don't require a long winter sleep (hibernation).">
+  <h4>29) They are unique in that they do not require a long ______.</h4>
+  <input type="text" placeholder="Your answer">
+  <div class="explain"></div>
+</div>
+<div class="q" data-type="short" data-answer="location" data-explain="Identification depends on where found (location).">
+  <h4>30) Identification depends on their ______ and small differences.</h4>
+  <input type="text" placeholder="Your answer">
+  <div class="explain"></div>
+</div>
+<div class="q" data-type="short" data-answer="captivity" data-explain="In captivity they can live beyond thirty.">
+  <h4>31) In ______, skinks may live for about 30 years.</h4>
+  <input type="text" placeholder="Your answer">
+  <div class="explain"></div>
+</div>
+
+<h3>32–36 • YES / NO / NOT GIVEN</h3>
+<div class="q" data-type="tfn" data-answer="NO" data-explain="Cat removal did not stop decline.">
+  <h4>32) The DOC project to remove feral cats stopped the decline in Otago skink numbers.</h4>
+  <div class="options">
+    <label><input type="radio" name="q32" value="YES"> YES</label>
+    <label><input type="radio" name="q32" value="NO"> NO</label>
+    <label><input type="radio" name="q32" value="NOT GIVEN"> NOT GIVEN</label>
+  </div>
+  <div class="explain"></div>
+</div>
+<div class="q" data-type="tfn" data-answer="NO" data-explain="No direct serious health effects found.">
+  <h4>33) Parasite infections seriously affect wild skinks’ condition.</h4>
+  <div class="options">
+    <label><input type="radio" name="q33" value="YES"> YES</label>
+    <label><input type="radio" name="q33" value="NO"> NO</label>
+    <label><input type="radio" name="q33" value="NOT GIVEN"> NOT GIVEN</label>
+  </div>
+  <div class="explain"></div>
+</div>
+<div class="q" data-type="tfn" data-answer="YES" data-explain="Best conservation habitat is unknown.">
+  <h4>34) The best possible habitat for conserving skinks is unknown.</h4>
+  <div class="options">
+    <label><input type="radio" name="q34" value="YES"> YES</label>
+    <label><input type="radio" name="q34" value="NO"> NO</label>
+    <label><input type="radio" name="q34" value="NOT GIVEN"> NOT GIVEN</label>
+  </div>
+  <div class="explain"></div>
+</div>
+<div class="q" data-type="tfn" data-answer="NOT GIVEN" data-explain="No claim that they used to have larger numbers of young.">
+  <h4>35) Skinks used to have larger numbers of young than now.</h4>
+  <div class="options">
+    <label><input type="radio" name="q35" value="YES"> YES</label>
+    <label><input type="radio" name="q35" value="NO"> NO</label>
+    <label><input type="radio" name="q35" value="NOT GIVEN"> NOT GIVEN</label>
+  </div>
+  <div class="explain"></div>
+</div>
+<div class="q" data-type="tfn" data-answer="YES" data-explain="Common species may also face risk.">
+  <h4>36) The survival of the common species of skink may soon be at risk.</h4>
+  <div class="options">
+    <label><input type="radio" name="q36" value="YES"> YES</label>
+    <label><input type="radio" name="q36" value="NO"> NO</label>
+    <label><input type="radio" name="q36" value="NOT GIVEN"> NOT GIVEN</label>
+  </div>
+  <div class="explain"></div>
+</div>
+
+<h3>37–40 • Multiple choice</h3>
+<div class="q" data-type="mc" data-answer="C" data-explain="Considerable risk DOC will not succeed.">
+  <h4>37) What is being said about the future of the grand and Otago skinks?</h4>
+  <div class="options">
+    <label><input type="radio" name="q37" value="A"> More data is necessary first.</label>
+    <label><input type="radio" name="q37" value="B"> DOC is uncertain about timing.</label>
+    <label><input type="radio" name="q37" value="C"> There is a considerable risk of failure.</label>
+    <label><input type="radio" name="q37" value="D"> Identify their main predator first.</label>
+  </div>
+  <div class="explain"></div>
+</div>
+<div class="q" data-type="mc" data-answer="A" data-explain="Fence needed to cover both species’ habitat nuances.">
+  <h4>38) A problem with the fencing project was that</h4>
+  <div class="options">
+    <label><input type="radio" name="q38" value="A"> it needed to surround various kinds of habitat.</label>
+    <label><input type="radio" name="q38" value="B"> fence was not preferred by conservationists.</label>
+    <label><input type="radio" name="q38" value="C"> it had to be near a dense urban area.</label>
+    <label><input type="radio" name="q38" value="D"> unknown number of skinks inside.</label>
+  </div>
+  <div class="explain"></div>
+</div>
+<div class="q" data-type="mc" data-answer="D" data-explain="‘Last resort’ signals preference for wild conservation.">
+  <h4>39) The phrase ‘a last resort’ implies</h4>
+  <div class="options">
+    <label><input type="radio" name="q39" value="A"> a new approach to conservation.</label>
+    <label><input type="radio" name="q39" value="B"> doubt about captive breeding success.</label>
+    <label><input type="radio" name="q39" value="C"> skinks won’t reproduce outside their habitat.</label>
+    <label><input type="radio" name="q39" value="D"> a preference for conserving skinks in the wild.</label>
+  </div>
+  <div class="explain"></div>
+</div>
+<div class="q" data-type="mc" data-answer="C" data-explain="COET scheme on farmland.">
+  <h4>40) In the final paragraph, the writer is</h4>
+  <div class="options">
+    <label><input type="radio" name="q40" value="A"> referring to obstacles to conservation</label>
+    <label><input type="radio" name="q40" value="B"> appealing to landowners for donations</label>
+    <label><input type="radio" name="q40" value="C"> describing a conservation scheme on farmland</label>
+    <label><input type="radio" name="q40" value="D"> showing how to profit from ecology</label>
+  </div>
+  <div class="explain"></div>
+</div>
+
+      <div class="controls">
+        <button class="btn-primary" id="checkBtn">Check answers</button>
+        <button id="toggleExplain">Toggle explanations</button>
+        <button id="resetBtn" class="btn-ghost">Reset</button>
+        <span class="score" id="score"></span>
+      </div>
+      <p style="opacity:.75;margin-top:8px">Answer checking is case‑insensitive. Short answers accept exact wording.</p>
+    </section>
+  </div>
+
+  <footer style="margin-top:18px;opacity:.85">© Jasurbek Khamidov | IELTS  (@ieltswithkhmdv) — <a href="https://t.me/ieltswithkhmdv" target="_blank" rel="noopener">https://t.me/ieltswithkhmdv</a></footer>
+</div>
+</body>
+</html>

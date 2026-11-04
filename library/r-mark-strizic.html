@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IELTS Reading Test - Mark Strizic (Q27-40)</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      overflow: hidden;
+      color: #1e293b;
+    }
+    .test-wrapper { display:flex; flex-direction:column; height:100vh; }
+    .test-container { display:flex; flex:1; overflow:hidden; }
+
+    /* Header */
+    .header{
+      background:#ffffff;
+      border-bottom:1px solid #cbd5e1;
+      padding:1rem 2rem;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      box-shadow:0 4px 12px rgba(0,0,0,.08);
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .header__logo { display:flex; align-items:center; gap: .75rem; }
+    .header__title { font-size:1.1rem; font-weight:600; color:#1e293b; flex:1; min-width:300px; }
+    .header__timer{
+      font-size:1.25rem;
+      font-weight:600;
+      color:#dc2305;
+      background:#fef3c7;
+      padding:.5rem 1.5rem;
+      border-radius:9999px;
+      border:1px solid #fcd34d;
+      transition:all .3s ease;
+      white-space: nowrap;
+    }
+    .header__icons{ display:flex; gap:1.25rem; align-items:center; }
+    .header__telegram{
+      display:flex;
+      align-items:center;
+      gap:0.5rem;
+      padding:0.5rem 1.2rem;
+      background:linear-gradient(90deg, #0369a1, #0284c7);
+      color:#fff;
+      border-radius:9999px;
+      text-decoration:none;
+      font-weight:600;
+      font-size:0.9rem;
+      transition:all .3s ease;
+      border:1px solid #0c4a6e;
+    }
+    .header__telegram:hover{
+      transform:translateY(-2px);
+      box-shadow:0 4px 12px rgba(2, 132, 199, 0.5);
+    }
+
+    /* Answer Indicators */
+    .answer-indicators{
+      display:flex;
+      gap:0.5rem;
+      flex-wrap:wrap;
+      padding:1rem 2rem;
+      background:#f1f5f9;
+      border-bottom:1px solid #cbd5e1;
+      align-items:center;
+      font-size: 0.8rem;
+    }
+    .indicator-label{
+      font-weight:600;
+      color:#475569;
+      margin-right:0.5rem;
+    }
+    .answer-circle{
+      width:2.2rem;
+      height:2.2rem;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      color:#fff;
+      cursor:default;
+      transition:all .3s ease;
+      border:2px solid #cbd5e1;
+      background:#cbd5e1;
+      color:#64748b;
+      font-size:0.7rem;
+    }
+    .answer-circle.answered{
+      background:#10b981;
+      border-color:#059669;
+      box-shadow:0 0 8px rgba(16, 185, 129, 0.4);
+    }
+    .answer-circle.unanswered{
+      background:#ef4444;
+      border-color:#dc2626;
+      box-shadow:0 0 8px rgba(239, 68, 68, 0.4);
+    }
+
+    /* Panels */
+    .passage-container{
+      width:45%;
+      height:100%;
+      overflow-y:auto;
+      padding:1.5rem;
+      box-sizing:border-box;
+      background:#fafafa;
+      border-right:1px solid #cbd5e1;
+      position:relative;
+      user-select:text;
+    }
+    .questions-container{
+      flex:1;
+      height:100%;
+      overflow-y:auto;
+      padding:1.5rem;
+      box-sizing:border-box;
+      background:#fafafa;
+      position:relative;
+      user-select:text;
+    }
+    .passage-container::-webkit-scrollbar,
+    .questions-container::-webkit-scrollbar{ width:8px; }
+    .passage-container::-webkit-scrollbar-track,
+    .questions-container::-webkit-scrollbar-track{ background:#f1f5f9; }
+    .passage-container::-webkit-scrollbar-thumb,
+    .questions-container::-webkit-scrollbar-thumb{ background:#cbd5e1; border-radius:4px; }
+
+    /* Divider */
+    .divider{ 
+      width:14px; 
+      background:#cbd5e1; 
+      cursor:col-resize; 
+      position:relative;
+      user-select:none;
+    }
+    .divider-handle{
+      width:6px;
+      height:60px;
+      background:#94a3b8;
+      border-radius:4px;
+      position:absolute;
+      top:50%;
+      left:4px;
+      transform:translateY(-50%);
+    }
+
+    /* Highlight */
+    .highlight{ border-radius:.25rem; padding:0 .15rem; }
+    .highlight.yellow{ background:rgba(234, 179, 8, 0.6); }
+    .highlight.green{ background:rgba(34, 197, 94, 0.6); }
+    .highlight.pink{ background:rgba(236, 72, 153, 0.6); }
+    .highlight.blue{ background:rgba(59, 130, 246, 0.6); }
+    .highlight.purple{ background:rgba(147, 51, 234, 0.6); }
+    .highlight.red{ background:rgba(239, 68, 68, 0.6); }
+
+    .highlight-toolbar{
+      position:fixed;
+      background:#ffffff;
+      border:1px solid #cbd5e1;
+      border-radius:.5rem;
+      box-shadow:0 8px 16px rgba(0,0,0,.15);
+      display:none;
+      z-index:2000;
+      padding:.5rem;
+      transform:translate(-50%,-100%);
+      margin-top:-.5rem;
+      gap:.35rem;
+      align-items:center;
+      flex-direction: row;
+    }
+    .highlight-toolbar button{
+      background:none;
+      border:none;
+      width:2rem;
+      height:2rem;
+      cursor:pointer;
+      border-radius:.25rem;
+      transition:all .2s ease;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .highlight-toolbar button:hover{ background:#f1f5f9; transform:scale(1.08); }
+    .highlight-toolbar button.remove{ color:#ef4444; width:auto; padding:0 .5rem; gap:.35rem; }
+    .highlight-color{
+      width:1.5rem;
+      height:1.5rem;
+      border-radius:9999px;
+      border:2px solid #cbd5e1;
+    }
+    .highlight-color.yellow{ background:#eab308; }
+    .highlight-color.green{ background:#22c55e; }
+    .highlight-color.pink{ background:#ec4899; }
+    .highlight-color.blue{ background:#3b82f6; }
+    .highlight-color.purple{ background:#9333ea; }
+    .highlight-color.red{ background:#ef4444; }
+
+    /* Passage text */
+    #passageContent{ line-height:1.8; font-size:1.05rem; color:#1e293b; }
+    #passageContent p{ margin:0.8rem 0; text-align:justify; }
+
+    /* Rubric */
+    .sectionRubric{
+      margin:1.5rem;
+      padding:1.25rem;
+      background:#ffffff;
+      border:1px solid #cbd5e1;
+      border-radius:.75rem;
+      box-shadow:0 4px 12px rgba(0,0,0,.05);
+    }
+    .sectionRubric h2{ font-size:1.25rem; color:#d97706; margin-bottom:.5rem; }
+    .sectionRubric p{ margin:0.5rem 0; color:#475569; font-size:0.95rem; }
+
+    /* Question cards */
+    .question{
+      background:#ffffff;
+      padding:1.5rem;
+      margin-bottom:1.5rem;
+      border:1px solid #cbd5e1;
+      border-radius:.75rem;
+      box-shadow:0 2px 8px rgba(0,0,0,.04);
+      transition:all .3s ease;
+    }
+    .question:hover{ box-shadow:0 4px 12px rgba(0,0,0,.08); border-color:#94a3b8; }
+    .question.answered{ border-left:4px solid #10b981; }
+    .question.unanswered{ border-left:4px solid #ef4444; }
+
+    .question-title{
+      font-weight:700;
+      font-size:1rem;
+      color:#1e293b;
+      margin-bottom:0.75rem;
+    }
+
+    /* Options */
+    .options-group{
+      display:flex;
+      flex-direction:column;
+      gap:0.5rem;
+    }
+    .option{
+      display:flex;
+      align-items:center;
+      padding:0.75rem;
+      background:#f8fafc;
+      border:1px solid #cbd5e1;
+      border-radius:.5rem;
+      cursor:pointer;
+      transition:all .2s ease;
+    }
+    .option:hover{
+      background:#f1f5f9;
+      border-color:#94a3b8;
+    }
+    .option input{
+      margin-right:0.75rem;
+      cursor:pointer;
+      accent-color:#0284c7;
+    }
+
+    /* Text Input */
+    .text-input{
+      padding:0.75rem;
+      border:1px solid #cbd5e1;
+      border-radius:.5rem;
+      font-size:0.95rem;
+      width:100%;
+      box-sizing:border-box;
+      transition:all .2s ease;
+    }
+    .text-input:focus{
+      outline:none;
+      border-color:#0284c7;
+      box-shadow:0 0 0 3px rgba(2, 132, 199, 0.1);
+    }
+
+    /* Submit Button */
+    .submit-btn{
+      padding:0.75rem 2rem;
+      background:linear-gradient(135deg, #0284c7, #0369a1);
+      color:#fff;
+      border:none;
+      border-radius:.5rem;
+      font-weight:600;
+      cursor:pointer;
+      transition:all .3s ease;
+      font-size:1rem;
+    }
+    .submit-btn:hover{
+      transform:translateY(-2px);
+      box-shadow:0 4px 12px rgba(2, 132, 199, 0.4);
+    }
+
+    /* Modal */
+    #submissionModal{
+      display:none;
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background:rgba(0,0,0,.5);
+      align-items:center;
+      justify-content:center;
+      z-index:3000;
+    }
+    .modal-content{
+      background:#ffffff;
+      border-radius:1rem;
+      padding:2rem;
+      max-width:700px;
+      max-height:85vh;
+      overflow-y:auto;
+      box-shadow:0 25px 50px rgba(0,0,0,.15);
+    }
+    .modal-content h2{
+      font-size:1.5rem;
+      font-weight:700;
+      margin-bottom:1rem;
+      color:#1e293b;
+    }
+    .score-display{
+      font-size:2.5rem;
+      font-weight:700;
+      color:#0284c7;
+      text-align:center;
+      margin:1rem 0;
+    }
+    .feedback-message{
+      text-align:center;
+      font-size:1rem;
+      color:#475569;
+      margin:1rem 0;
+      line-height:1.6;
+    }
+    #detailedResults{
+      margin-top:1.5rem;
+    }
+    .result-item{
+      padding:1rem;
+      margin-bottom:1rem;
+      border-radius:.5rem;
+      border-left:4px solid;
+      background:#fafafa;
+    }
+    .result-item.correct{
+      background:#ecfdf5;
+      border-left-color:#10b981;
+    }
+    .result-item.incorrect{
+      background:#fef2f2;
+      border-left-color:#ef4444;
+    }
+    .result-item strong{
+      font-weight:700;
+      display:block;
+      margin-bottom:0.5rem;
+      font-size:0.95rem;
+    }
+    .result-detail{
+      font-size:0.9rem;
+      margin:0.5rem 0;
+      line-height:1.5;
+    }
+    .explanation{
+      margin-top:0.75rem;
+      padding:0.75rem;
+      background:#ffffff;
+      border-left:3px solid #0284c7;
+      border-radius:4px;
+      font-size:0.9rem;
+      color:#1e293b;
+      line-height:1.6;
+    }
+    .close-results-btn{
+      margin-top:1.5rem;
+      width:100%;
+      padding:0.75rem;
+      background:#cbd5e1;
+      border:none;
+      border-radius:.5rem;
+      cursor:pointer;
+      font-weight:600;
+      transition:all .2s ease;
+    }
+    .close-results-btn:hover{
+      background:#94a3b8;
+    }
+
+    .info-note{
+      background:#e0f2fe;
+      border:1px solid #0284c7;
+      padding:0.75rem;
+      border-radius:.5rem;
+      margin-bottom:1rem;
+      font-size:0.9rem;
+      color:#0c4a6e;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-wrapper">
+    <!-- Header -->
+    <div class="header">
+      <div class="header__logo">
+        <i class="fas fa-book" style="font-size:1.5rem; color:#0284c7;"></i>
+        <div class="header__title">IELTS Reading - Mark Strizic (Q27-40)</div>
+      </div>
+      <div class="header__timer">
+        <span id="timerDisplay">00:00</span>
+      </div>
+      <div class="header__icons">
+        <a href="https://t.me/ieltswithkhmdv" target="_blank" rel="noopener noreferrer" class="header__telegram">
+          <i class="fab fa-telegram"></i>
+          <span>@ieltswithkhmdv</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Answer Indicators -->
+    <div class="answer-indicators">
+      <span class="indicator-label">Question Status:</span>
+      <div id="answerIndicators" style="display:flex; gap:0.5rem; flex-wrap:wrap;"></div>
+    </div>
+
+    <!-- Test Container -->
+    <div class="test-container">
+      <!-- Passage Panel -->
+      <div class="passage-container">
+        <div class="sectionRubric">
+          <h2>Reading Passage 3</h2>
+          <p><strong>Mark Strizic: A Career of an Australian Photographer</strong></p>
+        </div>
+        <div id="passageContent">
+          <p>Mark Strizic, who passed away in December last year, was the last representative of a remarkable generation of European emigre photographers who settled in Australia after the Second World War. Alongside Wolfgang Sievers and Henry Talbot, Strizic contributed significantly to the visual culture of his adopted country. Yet, unlike many of his contemporaries, whose reputations were largely based on industrial or commercial photography, Strizic developed a career that was unusually complex. Over a span of five decades, he explored multiple photographic styles, experimented with new printing processes, engaged in book design, produced large-scale murals, and participated actively in teaching the next generation of photographers.</p>
+
+          <p>After his arrival in Melbourne from Zagreb in 1950, Strizic initially studied science, but soon turned to photography. From the mid-1950s he began to establish himself, not only through individual works but also through collaborations. One of his most enduring achievements was his partnership with the critic and historian David Saunders, with whom he produced Melbourne: A Portrait in 1960. The book was distinctive for its use of offset printing, a relatively new process at the time, which allowed photographs and text to be integrated seamlessly on the page. Strizic, as both photographer and designer, arranged his images so that one composition flowed into the next, often leaving areas of blank space or floating lines of text to balance the spreads. The result was a visually coherent book, which also carried an ambitious cultural agenda: Saunders' text was printed in Italian and German as well as English, suggesting an international readership. The book's bright and cheerful cover, designed by Leonard French, contributed to its appeal. In 1961 it was awarded Book of the Year, recognition not only of the photographs themselves but of the integrated design of the whole publication.</p>
+
+          <p>Strizic later admitted that the idea for Melbourne: A Portrait had been shaped by his father's earlier work. His father, an architect in Zagreb, had published Light and Shade in 1955, a reflective "city book" in the European style, which contrasted sharply with the more commercial boosterism of contemporary Australian publications. Strizic deliberately sought to emulate this contemplative approach, presenting Melbourne as a modern yet cultured metropolis.</p>
+
+          <p>During the 1960s and 70s, Strizic continued to photograph the rapid transformation of Melbourne. His distinctive technique often involved pointing the camera directly into the sunlight, creating stark contrasts in which buildings and figures were reduced to silhouettes. Many of his images juxtapose old Victorian facades with newly constructed skyscrapers, capturing a city in the midst of radical expansion. Cars, highways and office towers dominate the frame, while human figures are frequently marginalised, squeezed into the bottom corners or overshadowed by the built environment. By the late 1970s, Strizic's vision of Melbourne had grown darker. Using experimental methods, such as printing black-and-white negatives on colour paper or duplicating them onto high-contrast lithographic film, he produced cityscapes that glowed with intense, sometimes psychedelic colours, giving Melbourne an almost hallucinatory quality.</p>
+
+          <p>Collaboration remained central to Strizic's career. In 1967 he worked with Sun Books, a small but ambitious publishing house, on several innovative projects. For Tim Burstall's film 2000 Weeks he created a photo-roman, a paperback-sized publication in which his stills from the film were combined with dialogue. Although the film was produced in a European art-house style and tackled existential themes, it failed at the box office, and Strizic's book met a similar fate. Nevertheless, the project demonstrated his willingness to experiment with new formats.</p>
+
+          <p>A more prestigious venture was Involvement (1968), a limited-edition art book edited by Andrew Grimwade. The concept was to pair Strizic's photographic portraits with paintings by the artist Clifton Pugh. The accompanying text, written by Geoffrey Dutton, sought to place the collaboration in a grand cultural framework. Yet the book was widely regarded as unsatisfactory, largely because of its design. Unlike Melbourne: A Portrait, Strizic did not design the volume himself, and the layout by Les Gray failed to balance the colour plates of Pugh's paintings with the black-and-white photographs. Despite this, Strizic's portraits attracted attention for their originality. He employed experimental methods such as "pushing" his 35mm film to increase contrast and grain, and often shot his sitters against dominant backgrounds or with objects intruding into the foreground. The effect was to highlight their individuality and resistance to their surroundings. His portrait of Sir Charles Moses, head of the ABC, shows him through a haze of cigar smoke, while Barry Humphries appears surrounded by eccentric antiques in his London flat. These images were exhibited in 1968 at the National Gallery of Victoria under the title Some Australian Personalities, marking the institution's first solo exhibition devoted to photography.</p>
+
+          <p>Strizic's collaborative spirit extended into many other areas. He documented the sculptor John Davis and the furniture designer Schulim Krimper for monographs commissioned in the 1980s, but his connection with Krimper went back to 1959. He also worked with avant-garde artists such as Asher Bilu, producing the only surviving photographic record of Bilu's interactive electronic work Sculptron (1967). This task required considerable technical skill, since Strizic had to balance the exposure for glowing cathode-ray tubes with the surrounding sculptural elements. In the field of murals, he developed large-scale photographic works for government buildings and corporate headquarters, sometimes combining his "photochromes" with paintings. A notable example was his collaboration with Stanislav Ostoja-Kotkowski in 1970 on a twelve-metre mural for the Ciba-Geigy building in Preston, which merged infrared photography with Strizic's experimental prints.</p>
+
+          <p>That same year, Strizic worked with the influential architect Robin Boyd on Living in Australia, a book which sought to articulate Boyd's design philosophy. Strizic's photography reinforced Boyd's arguments, presenting domestic architecture through dramatic diagonal compositions and sharp contrasts. The book was recently republished, confirming its continuing relevance.</p>
+
+          <p>In later years, Strizic combined his artistic practice with teaching in Melbourne's new photography departments during the boom of the 1970s. In 1988 he returned to his earliest negatives of Melbourne, staging an exhibition that highlighted his long-standing interest in the city's changing urban landscape. Since then, he has often been remembered as a nostalgic chronicler of "old Melbourne" or "disappearing Melbourne." Yet such a label oversimplifies his contribution. His career was marked by continuous experimentation, by fruitful collaborations with artists, writers and designers, and by a willingness to engage with both traditional and avant-garde practices. In this sense, he occupies a significant though sometimes under-recognised position in the development of Australian visual culture.</p>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="divider" id="divider">
+        <div class="divider-handle"></div>
+      </div>
+
+      <!-- Questions Panel -->
+      <div class="questions-container">
+        <div id="questionsContent">
+          <!-- Section Rubric -->
+          <div class="sectionRubric">
+            <h2>Questions 27-40</h2>
+            <p>Answer all 14 questions based on the passage above.</p>
+          </div>
+
+          <!-- Q27-32: Matching People -->
+          <div style="margin-bottom:2rem;">
+            <div class="info-note">
+              <strong>Questions 27-32: Match Each Statement with the Correct Person (A-F)</strong><br>
+              You may use any letter more than once.
+            </div>
+
+            <div style="background:#f8fafc; padding:1rem; border-radius:.5rem; margin-bottom:1rem; font-size:0.9rem;">
+              <p style="margin:0; font-weight:600; margin-bottom:0.5rem;">List of People:</p>
+              <p style="margin:0.25rem 0;">A - David Saunders</p>
+              <p style="margin:0.25rem 0;">B - Andrew Grimwade</p>
+              <p style="margin:0.25rem 0;">C - Leonard French</p>
+              <p style="margin:0.25rem 0;">D - Strizic's father</p>
+              <p style="margin:0.25rem 0;">E - Stanislav Ostoja-Kotkowski</p>
+              <p style="margin:0.25rem 0;">F - Geoffrey Dutton</p>
+            </div>
+
+            <div class="question">
+              <div class="question-title">27. Strizic worked with him to produce a book about Melbourne.</div>
+              <select name="q27" class="text-input" style="padding:0.75rem; cursor:pointer;">
+                <option value="">-- Select Answer --</option>
+                <option value="A">A - David Saunders</option>
+                <option value="B">B - Andrew Grimwade</option>
+                <option value="C">C - Leonard French</option>
+                <option value="D">D - Strizic's father</option>
+                <option value="E">E - Stanislav Ostoja-Kotkowski</option>
+                <option value="F">F - Geoffrey Dutton</option>
+              </select>
+            </div>
+
+            <div class="question">
+              <div class="question-title">28. He edited the art book Involvement.</div>
+              <select name="q28" class="text-input" style="padding:0.75rem; cursor:pointer;">
+                <option value="">-- Select Answer --</option>
+                <option value="A">A - David Saunders</option>
+                <option value="B">B - Andrew Grimwade</option>
+                <option value="C">C - Leonard French</option>
+                <option value="D">D - Strizic's father</option>
+                <option value="E">E - Stanislav Ostoja-Kotkowski</option>
+                <option value="F">F - Geoffrey Dutton</option>
+              </select>
+            </div>
+
+            <div class="question">
+              <div class="question-title">29. He designed the cover of Melbourne: A Portrait.</div>
+              <select name="q29" class="text-input" style="padding:0.75rem; cursor:pointer;">
+                <option value="">-- Select Answer --</option>
+                <option value="A">A - David Saunders</option>
+                <option value="B">B - Andrew Grimwade</option>
+                <option value="C">C - Leonard French</option>
+                <option value="D">D - Strizic's father</option>
+                <option value="E">E - Stanislav Ostoja-Kotkowski</option>
+                <option value="F">F - Geoffrey Dutton</option>
+              </select>
+            </div>
+
+            <div class="question">
+              <div class="question-title">30. His book on Zagreb inspired Strizic's Melbourne: A Portrait.</div>
+              <select name="q30" class="text-input" style="padding:0.75rem; cursor:pointer;">
+                <option value="">-- Select Answer --</option>
+                <option value="A">A - David Saunders</option>
+                <option value="B">B - Andrew Grimwade</option>
+                <option value="C">C - Leonard French</option>
+                <option value="D">D - Strizic's father</option>
+                <option value="E">E - Stanislav Ostoja-Kotkowski</option>
+                <option value="F">F - Geoffrey Dutton</option>
+              </select>
+            </div>
+
+            <div class="question">
+              <div class="question-title">31. He collaborated with Strizic to combine photochromes with infrared photography.</div>
+              <select name="q31" class="text-input" style="padding:0.75rem; cursor:pointer;">
+                <option value="">-- Select Answer --</option>
+                <option value="A">A - David Saunders</option>
+                <option value="B">B - Andrew Grimwade</option>
+                <option value="C">C - Leonard French</option>
+                <option value="D">D - Strizic's father</option>
+                <option value="E">E - Stanislav Ostoja-Kotkowski</option>
+                <option value="F">F - Geoffrey Dutton</option>
+              </select>
+            </div>
+
+            <div class="question">
+              <div class="question-title">32. He wrote the text for Involvement, which was considered pretentious.</div>
+              <select name="q32" class="text-input" style="padding:0.75rem; cursor:pointer;">
+                <option value="">-- Select Answer --</option>
+                <option value="A">A - David Saunders</option>
+                <option value="B">B - Andrew Grimwade</option>
+                <option value="C">C - Leonard French</option>
+                <option value="D">D - Strizic's father</option>
+                <option value="E">E - Stanislav Ostoja-Kotkowski</option>
+                <option value="F">F - Geoffrey Dutton</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Q33-37: Yes/No/Not Given -->
+          <div style="margin-bottom:2rem;">
+            <div class="info-note">
+              <strong>Questions 33-37: YES, NO, or NOT GIVEN</strong><br>
+              Do the following statements agree with the claims of the writer?
+            </div>
+
+            <div class="question">
+              <div class="question-title">33. 2000 Weeks and its accompanying photo-roman were successful with the public.</div>
+              <div class="options-group">
+                <label class="option">
+                  <input type="radio" name="q33" value="YES"> YES
+                </label>
+                <label class="option">
+                  <input type="radio" name="q33" value="NO"> NO
+                </label>
+                <label class="option">
+                  <input type="radio" name="q33" value="NOT GIVEN"> NOT GIVEN
+                </label>
+              </div>
+            </div>
+
+            <div class="question">
+              <div class="question-title">34. Strizic's portraits in Involvement were exhibited at the National Gallery of Victoria in 1968.</div>
+              <div class="options-group">
+                <label class="option">
+                  <input type="radio" name="q34" value="YES"> YES
+                </label>
+                <label class="option">
+                  <input type="radio" name="q34" value="NO"> NO
+                </label>
+                <label class="option">
+                  <input type="radio" name="q34" value="NOT GIVEN"> NOT GIVEN
+                </label>
+              </div>
+            </div>
+
+            <div class="question">
+              <div class="question-title">35. Strizic was one of the first to document the interactive artwork Sculptron.</div>
+              <div class="options-group">
+                <label class="option">
+                  <input type="radio" name="q35" value="YES"> YES
+                </label>
+                <label class="option">
+                  <input type="radio" name="q35" value="NO"> NO
+                </label>
+                <label class="option">
+                  <input type="radio" name="q35" value="NOT GIVEN"> NOT GIVEN
+                </label>
+              </div>
+            </div>
+
+            <div class="question">
+              <div class="question-title">36. Strizic's photographic murals were produced with the help of advanced digital technology.</div>
+              <div class="options-group">
+                <label class="option">
+                  <input type="radio" name="q36" value="YES"> YES
+                </label>
+                <label class="option">
+                  <input type="radio" name="q36" value="NO"> NO
+                </label>
+                <label class="option">
+                  <input type="radio" name="q36" value="NOT GIVEN"> NOT GIVEN
+                </label>
+              </div>
+            </div>
+
+            <div class="question">
+              <div class="question-title">37. Strizic is best remembered solely as a nostalgic photographer of Melbourne.</div>
+              <div class="options-group">
+                <label class="option">
+                  <input type="radio" name="q37" value="YES"> YES
+                </label>
+                <label class="option">
+                  <input type="radio" name="q37" value="NO"> NO
+                </label>
+                <label class="option">
+                  <input type="radio" name="q37" value="NOT GIVEN"> NOT GIVEN
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Q38-40: Matching Dates -->
+          <div style="margin-bottom:2rem;">
+            <div class="info-note">
+              <strong>Questions 38-40: Match Each Statement with the Correct Date (A-D)</strong>
+            </div>
+
+            <div style="background:#f8fafc; padding:1rem; border-radius:.5rem; margin-bottom:1rem; font-size:0.9rem;">
+              <p style="margin:0; font-weight:600; margin-bottom:0.5rem;">Date Options:</p>
+              <p style="margin:0.25rem 0;">A - 1961 | B - 1968 | C - 1970 | D - 1988</p>
+            </div>
+
+            <div class="question">
+              <div class="question-title">38. Melbourne: A Portrait received Book of the Year award.</div>
+              <select name="q38" class="text-input" style="padding:0.75rem; cursor:pointer;">
+                <option value="">-- Select Answer --</option>
+                <option value="A">A - 1961</option>
+                <option value="B">B - 1968</option>
+                <option value="C">C - 1970</option>
+                <option value="D">D - 1988</option>
+              </select>
+            </div>
+
+            <div class="question">
+              <div class="question-title">39. Strizic collaborated with Robin Boyd on Living in Australia.</div>
+              <select name="q39" class="text-input" style="padding:0.75rem; cursor:pointer;">
+                <option value="">-- Select Answer --</option>
+                <option value="A">A - 1961</option>
+                <option value="B">B - 1968</option>
+                <option value="C">C - 1970</option>
+                <option value="D">D - 1988</option>
+              </select>
+            </div>
+
+            <div class="question">
+              <div class="question-title">40. Strizic returned to his early negatives for an exhibition.</div>
+              <select name="q40" class="text-input" style="padding:0.75rem; cursor:pointer;">
+                <option value="">-- Select Answer --</option>
+                <option value="A">A - 1961</option>
+                <option value="B">B - 1968</option>
+                <option value="C">C - 1970</option>
+                <option value="D">D - 1988</option>
+              </select>
+            </div>
+
+            <!-- Submit Button -->
+            <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 2px solid #cbd5e1;">
+              <button class="submit-btn" id="submitBtn">Submit Answers</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Submission Modal -->
+  <div id="submissionModal">
+    <div class="modal-content">
+      <h2>Results & Explanations</h2>
+      <div class="score-display" id="scoreDisplay">0 / 14</div>
+      <div class="feedback-message" id="feedbackMessage">Loading results...</div>
+      <div id="detailedResults"></div>
+      <button class="close-results-btn" id="closeResultsBtn">Close</button>
+    </div>
+  </div>
+
+  <script>
+    const ANSWER_KEY = {
+      27: { answer: 'A', explanation: 'David Saunders partnered with Strizic to produce Melbourne: A Portrait.' },
+      28: { answer: 'B', explanation: 'Andrew Grimwade edited the art book Involvement.' },
+      29: { answer: 'C', explanation: 'Leonard French designed the bright and cheerful cover of Melbourne: A Portrait.' },
+      30: { answer: 'D', explanation: 'Strizic\'s father published Light and Shade in 1955, which inspired Melbourne: A Portrait.' },
+      31: { answer: 'E', explanation: 'Stanislav Ostoja-Kotkowski collaborated with Strizic on the twelve-metre mural that merged infrared photography.' },
+      32: { answer: 'F', explanation: 'Geoffrey Dutton wrote the accompanying text for Involvement.' },
+      33: { answer: 'NO', explanation: 'The passage states the film and book both "failed at the box office."' },
+      34: { answer: 'YES', explanation: 'These images were exhibited in 1968 at the National Gallery of Victoria.' },
+      35: { answer: 'NOT GIVEN', explanation: 'The passage says it was "the only surviving photographic record" but doesn\'t say if he was first.' },
+      36: { answer: 'NOT GIVEN', explanation: 'The passage does not mention digital technology - it references experimental photographic techniques.' },
+      37: { answer: 'NO', explanation: 'The passage states this label "oversimplifies his contribution" with his many collaborations and experiments.' },
+      38: { answer: 'A', explanation: 'In 1961 Melbourne: A Portrait was awarded Book of the Year.' },
+      39: { answer: 'C', explanation: 'In 1970, Strizic worked with architect Robin Boyd on Living in Australia.' },
+      40: { answer: 'D', explanation: 'In 1988 he returned to his earliest negatives for an exhibition.' }
+    };
+
+    let timeElapsed = 0;
+    let testSubmitted = false;
+
+    // Timer
+    setInterval(() => {
+      if (!testSubmitted) {
+        timeElapsed++;
+        const minutes = String(Math.floor(timeElapsed / 60)).padStart(2, '0');
+        const seconds = String(timeElapsed % 60).padStart(2, '0');
+        document.getElementById('timerDisplay').textContent = `${minutes}:${seconds}`;
+      }
+    }, 1000);
+
+    // Answer Indicators
+    function updateAnswerIndicators(){
+      const container = document.getElementById('answerIndicators');
+      container.innerHTML = '';
+      
+      for (let i = 27; i <= 40; i++) {
+        const answered = isQuestionAnswered(i);
+        const circle = document.createElement('div');
+        circle.className = `answer-circle ${answered ? 'answered' : 'unanswered'}`;
+        circle.textContent = i;
+        circle.title = answered ? 'Answered' : 'Not answered';
+        container.appendChild(circle);
+      }
+    }
+
+    function isQuestionAnswered(q){
+      if (q >= 27 && q <= 32 || q >= 38 && q <= 40) {
+        const select = document.querySelector(`select[name="q${q}"]`);
+        return select && select.value.trim().length > 0;
+      } else {
+        const selected = document.querySelector(`input[name="q${q}"]:checked`);
+        return selected ? true : false;
+      }
+    }
+
+    updateAnswerIndicators();
+    document.querySelectorAll('input, select').forEach(elem => {
+      elem.addEventListener('change', updateAnswerIndicators);
+      elem.addEventListener('input', updateAnswerIndicators);
+    });
+
+    // Get Answers
+    function getAllAnswers(){
+      const answers = {};
+      for (let i = 27; i <= 40; i++){
+        if (i >= 27 && i <= 32 || i >= 38 && i <= 40) {
+          const select = document.querySelector(`select[name="q${i}"]`);
+          answers[i] = select ? select.value.trim().toLowerCase() : '';
+        } else {
+          const selected = document.querySelector(`input[name="q${i}"]:checked`);
+          answers[i] = selected ? selected.value : '';
+        }
+      }
+      return answers;
+    }
+
+    // Check Answer
+    function checkAnswer(questionNum, userAnswer){
+      const correctAnswer = ANSWER_KEY[questionNum].answer;
+      return userAnswer.toLowerCase() === correctAnswer.toLowerCase();
+    }
+
+    // Submit
+    document.getElementById('submitBtn').addEventListener('click', () => {
+      if (testSubmitted) return;
+      testSubmitted = true;
+
+      const answers = getAllAnswers();
+      let correct = 0;
+      let resultsHTML = '';
+
+      for (let i = 27; i <= 40; i++){
+        const isCorrect = checkAnswer(i, answers[i]);
+        if (isCorrect) correct++;
+        
+        const icon = isCorrect ? '✓' : '✗';
+        const resultClass = isCorrect ? 'correct' : 'incorrect';
+        resultsHTML += `<div class="result-item ${resultClass}">
+          <strong>Q${i}: ${icon} ${isCorrect ? 'Correct' : 'Incorrect'}</strong>
+          <div style="margin-top: 8px; font-size: 13px;">
+            <div><strong>Your answer:</strong> ${answers[i] || '(empty)'}</div>
+            <div><strong>Correct answer:</strong> ${ANSWER_KEY[i].answer}</div>
+            <div class="explanation"><strong>📚 Explanation:</strong> ${ANSWER_KEY[i].explanation}</div>
+          </div>
+        </div>`;
+      }
+
+      document.getElementById('scoreDisplay').textContent = `${correct} / 14`;
+      const percentage = Math.round((correct / 14) * 100);
+      document.getElementById('feedbackMessage').textContent = `You got ${percentage}% correct. Time: ${String(Math.floor(timeElapsed / 60)).padStart(2, '0')}:${String(timeElapsed % 60).padStart(2, '0')}`;
+      document.getElementById('detailedResults').innerHTML = resultsHTML;
+      document.getElementById('submissionModal').style.display = 'flex';
+    });
+
+    document.getElementById('closeResultsBtn').addEventListener('click', () => {
+      document.getElementById('submissionModal').style.display = 'none';
+    });
+
+    // Highlighting
+    function setupHighlighting() {
+      const HIGHLIGHT_ROOTS = [document.getElementById('passageContent'), document.getElementById('questionsContent')];
+      const highlightToolbar = document.createElement('div');
+      highlightToolbar.className = 'highlight-toolbar';
+      const colors = ['yellow', 'green', 'pink', 'blue', 'purple', 'red'];
+      colors.forEach(color => {
+        const btn = document.createElement('button');
+        btn.innerHTML = `<div class="highlight-color ${color}"></div>`;
+        btn.addEventListener('click', () => { applyHighlight(color); highlightToolbar.style.display = 'none'; });
+        highlightToolbar.appendChild(btn);
+      });
+      
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'remove';
+      removeBtn.innerHTML = '<i class="fas fa-trash"></i> Remove';
+      removeBtn.addEventListener('click', () => { removeHighlights(); highlightToolbar.style.display = 'none'; });
+      highlightToolbar.appendChild(removeBtn);
+      document.body.appendChild(highlightToolbar);
+
+      HIGHLIGHT_ROOTS.forEach(root => {
+        root.addEventListener('mouseup', () => {
+          const selection = window.getSelection();
+          if (selection.toString().length > 0){
+            const range = selection.getRangeAt(0);
+            const rect = range.getBoundingClientRect();
+            highlightToolbar.style.left = rect.left + rect.width / 2 + 'px';
+            highlightToolbar.style.top = rect.top + 'px';
+            highlightToolbar.style.display = 'flex';
+          } else {
+            highlightToolbar.style.display = 'none';
+          }
+        });
+      });
+
+      function applyHighlight(color){
+        const selection = window.getSelection();
+        if (!selection.rangeCount || selection.isCollapsed) return;
+        const range = selection.getRangeAt(0);
+        const fragment = range.extractContents();
+        const span = document.createElement('span');
+        span.className = `highlight ${color}`;
+        span.appendChild(fragment);
+        range.insertNode(span);
+      }
+
+      function removeHighlights(){
+        const selection = window.getSelection();
+        if (!selection.rangeCount || selection.isCollapsed) return;
+        const spans = Array.from(document.querySelectorAll('span.highlight'));
+        spans.forEach(sp => {
+          while (sp.firstChild) sp.parentNode.insertBefore(sp.firstChild, sp);
+          sp.parentNode.removeChild(sp);
+        });
+      }
+    }
+
+    setupHighlighting();
+
+    // Resizable Divider
+    const divider = document.getElementById('divider');
+    const passagePanel = document.querySelector('.passage-container');
+    const testContainer = document.querySelector('.test-container');
+    let isResizing = false;
+
+    divider.addEventListener('mousedown', () => { isResizing = true; });
+    document.addEventListener('mouseup', () => { isResizing = false; });
+    document.addEventListener('mousemove', (e) => {
+      if (!isResizing) return;
+      const container = testContainer.getBoundingClientRect();
+      const newPassageWidth = e.clientX - container.left;
+      const minWidth = 250;
+      const maxWidth = container.width - 250;
+      if (newPassageWidth > minWidth && newPassageWidth < maxWidth){
+        passagePanel.style.width = newPassageWidth + 'px';
+      }
+    });
+  </script>
+</body>
+</html>

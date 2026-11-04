@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading – Isambard Kingdom Brunel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #e6f3fa;
+            --panel-bg: #e6f3fa;
+            --header-bg: #ffffff;
+            --card-bg: #ffffff;
+            --border: #cccccc;
+            --text: #333333;
+            --subtext: #555555;
+            --accent: #0066cc;
+            --accent-hover: #0055aa;
+            --timer-bg: #d0e7f5;
+            --input-bg: #d0e7f5;
+            --footer-bg: #f5f5f5;
+            --chip-bg: #f0f0f0;
+            --chip-border: #cccccc;
+            --chip-color: #555555;
+            --chip-attempted-bg: #0066cc;
+            --chip-attempted-color: #ffffff;
+            --chip-correct-bg: #28a745;
+            --chip-incorrect-bg: #dc3545;
+            --summary-input-bg: #d0e7f5;
+            --mc-option-bg: #f8f9fa;
+        }
+        body.dark-mode {
+            --bg: #1a1a2e;
+            --panel-bg: #1a1a2e;
+            --header-bg: #16213e;
+            --card-bg: #16213e;
+            --border: #444466;
+            --text: #e0e0e0;
+            --subtext: #aaaaaa;
+            --accent: #4da6ff;
+            --accent-hover: #3395ff;
+            --timer-bg: #0f3460;
+            --input-bg: #0f3460;
+            --footer-bg: #16213e;
+            --chip-bg: #0f3460;
+            --chip-border: #444466;
+            --chip-color: #cccccc;
+            --summary-input-bg: #0f3460;
+            --mc-option-bg: #0f3460;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            overflow: hidden;
+            background-color: var(--bg);
+            color: var(--text);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .test-wrapper { display: flex; flex-direction: column; height: 100vh; }
+        .test-container { display: flex; flex: 1; overflow: hidden; }
+
+        /* ── HEADER ── */
+        .header {
+            background-color: var(--header-bg);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+        .header__logo { display: flex; align-items: center; gap: 10px; }
+        .header__logo h4 { font-weight: bold; margin: 0; color: var(--text); font-size: 0.95rem; }
+        .tg-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            text-decoration: none; color: var(--accent);
+            font-size: 0.85rem; font-weight: bold;
+            background: rgba(0,102,204,0.08);
+            border: 1px solid var(--accent);
+            border-radius: 20px; padding: 3px 10px;
+            transition: background 0.2s;
+        }
+        .tg-link:hover { background: rgba(0,102,204,0.18); }
+        .tg-link svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+        .header__center { display: flex; align-items: center; gap: 8px; }
+        .header__timer {
+            font-size: 1.2rem; font-weight: bold; color: var(--text);
+            background-color: var(--timer-bg);
+            padding: 5px 15px; border-radius: 20px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease; min-width: 80px; text-align: center;
+        }
+        .header__timer.expired { color: #dc3545; border-color: #dc3545; background: #fde8ea; }
+        .timer-btn {
+            background: var(--chip-bg); border: 1px solid var(--border);
+            border-radius: 50%; width: 28px; height: 28px;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            color: var(--subtext); font-size: 0.75rem; transition: background 0.2s;
+        }
+        .timer-btn:hover { background: var(--timer-bg); color: var(--accent); }
+
+        .header__icons { display: flex; gap: 15px; align-items: center; }
+        .header__icon { font-size: 1.2rem; color: var(--subtext); cursor: pointer; transition: color 0.2s; }
+        .header__icon:hover { color: var(--accent); }
+
+        /* ── SECTION RUBRIC ── */
+        .sectionRubric {
+            margin: 0.6em 1em;
+            padding: 0.5em 1em;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.07);
+            flex-shrink: 0;
+        }
+        .sectionRubric h2, .sectionRubric p { margin: 0; color: var(--text); }
+        .sectionRubric h2 { font-size: 1rem; margin-bottom: 0.15em; }
+
+        /* ── PANELS ── */
+        .passage-container {
+            width: 45%; height: 100%; overflow-y: auto;
+            padding: 20px; background-color: var(--panel-bg);
+            position: relative; -webkit-user-select: text; user-select: text;
+        }
+        .questions-container {
+            flex: 1; overflow-y: auto; padding: 20px;
+            background-color: var(--panel-bg);
+            -webkit-user-select: text; user-select: text;
+        }
+        .divider {
+            width: 10px; background: var(--border); cursor: col-resize; position: relative; flex-shrink: 0;
+        }
+        .divider-handle {
+            width: 4px; height: 40px; background: #888; border-radius: 2px;
+            position: absolute; top: 50%; left: 3px; transform: translateY(-50%);
+        }
+
+        /* ── PASSAGE ── */
+        #passageContent h2 { text-align: center; color: var(--text); border-bottom: 2px solid var(--accent); padding-bottom: 8px; }
+        #passageContent p { line-height: 1.7; color: var(--text); text-align: justify; }
+
+        /* ── HIGHLIGHT TOOLBAR ── */
+        .highlight-toolbar {
+            position: fixed; background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            display: none; z-index: 1000; padding: 5px;
+            transform: translate(-50%, -100%); margin-top: -5px;
+        }
+        .highlight-toolbar button {
+            background: none; border: none; width: 24px; height: 24px;
+            cursor: pointer; margin: 0 2px; border-radius: 3px; transition: background-color 0.2s;
+        }
+        .highlight-toolbar button:hover { background: rgba(0,0,0,0.08); }
+        .highlight-toolbar button.remove { color: #ff0000; }
+        .highlight-color { width: 20px; height: 20px; border-radius: 50%; display: inline-block; border: 1px solid #ccc; }
+        .highlight-color.yellow { background-color: #ffff00; }
+        .highlight-color.green  { background-color: #00ff00; }
+        .highlight-color.pink   { background-color: #ff69b4; }
+        .highlight-color.blue   { background-color: #00bfff; }
+        .highlight { position: relative; border-radius: 2px; padding: 0 2px; margin: 0 -2px; }
+        .highlight.yellow { background-color: rgba(255,255,0,0.3); }
+        .highlight.green  { background-color: rgba(0,255,0,0.3); }
+        .highlight.pink   { background-color: rgba(255,105,180,0.3); }
+        .highlight.blue   { background-color: rgba(0,191,255,0.3); }
+
+        /* ── QUESTIONS STYLES ── */
+        .question {
+            margin-bottom: 30px; background: var(--card-bg);
+            padding: 20px; border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.2s;
+        }
+        .question:hover { transform: translateY(-2px); }
+        .question-rubric { margin-bottom: 18px; border-left: 4px solid var(--accent); padding-left: 15px; }
+        .question-rubric h3 { color: var(--accent); margin: 0 0 8px 0; font-size: 1.2rem; }
+        .question-rubric p { color: var(--subtext); margin: 4px 0; font-size: 0.9rem; }
+        .question-number { font-weight: bold; color: var(--accent); margin-right: 10px; background: rgba(0,102,204,0.1); padding: 2px 8px; border-radius: 20px; font-size: 0.85rem; display: inline-block; }
+
+        /* Summary completion inputs */
+        .summary-input {
+            width: 180px; padding: 8px 12px;
+            border: 2px dashed var(--border); border-radius: 8px;
+            margin: 0 6px; font-size: 14px; font-weight: 500;
+            background-color: var(--summary-input-bg); color: var(--text);
+            transition: all 0.2s;
+        }
+        .summary-input:focus { outline: none; border-color: var(--accent); border-style: solid; }
+        .summary-input.correct { border-color: #28a745; background-color: #e9f7ef; border-style: solid; }
+        .summary-input.incorrect { border-color: #dc3545; background-color: #f8d7da; border-style: solid; }
+        .summary-feedback { display: inline-block; margin-left: 8px; font-size: 13px; font-weight: bold; }
+        .summary-feedback.correct { color: #28a745; }
+        .summary-feedback.incorrect { color: #dc3545; }
+
+        /* True/False/Not Given - Beautiful radio/select style */
+        .tf-option {
+            display: inline-flex; gap: 20px; margin-top: 8px; flex-wrap: wrap;
+        }
+        .tf-btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 8px 18px; border-radius: 40px;
+            background: var(--mc-option-bg); border: 1px solid var(--border);
+            cursor: pointer; transition: all 0.2s; font-weight: 500;
+            color: var(--text);
+        }
+        .tf-btn input { display: none; }
+        .tf-btn.selected { background: var(--accent); color: white; border-color: var(--accent); }
+        .tf-btn.correct-highlight { background: #28a745; color: white; border-color: #28a745; }
+        .tf-btn.incorrect-highlight { background: #dc3545; color: white; border-color: #dc3545; }
+        .question-item { margin-bottom: 20px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+        .question-item p { margin: 0 0 10px 0; font-weight: 500; }
+
+        /* Multiple Choice (A B C D) */
+        .mc-options {
+            display: flex; flex-direction: column; gap: 10px; margin-top: 12px;
+        }
+        .mc-option {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 15px; background: var(--mc-option-bg);
+            border-radius: 10px; border: 1px solid var(--border);
+            cursor: pointer; transition: all 0.2s;
+        }
+        .mc-option:hover { background: var(--timer-bg); }
+        .mc-option input { margin: 0; width: 18px; height: 18px; cursor: pointer; accent-color: var(--accent); }
+        .mc-option label { flex: 1; cursor: pointer; color: var(--text); font-weight: normal; }
+        .mc-feedback { margin-left: 8px; font-size: 14px; font-weight: bold; }
+        .mc-feedback.correct { color: #28a745; }
+        .mc-feedback.incorrect { color: #dc3545; }
+
+        /* ── FLOATING NAV ── */
+        .floating-nav {
+            position: fixed; right: 16px; bottom: 70px;
+            display: flex; flex-direction: column; gap: 8px; z-index: 900;
+        }
+        .floating-nav button {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: var(--accent); color: white; border: none;
+            cursor: pointer; font-size: 1.2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+            transition: transform 0.2s, background 0.2s;
+        }
+        .floating-nav button:hover { background: var(--accent-hover); transform: scale(1.05); }
+
+        /* ── FOOTER / CHIPS ── */
+        .footer { background: var(--footer-bg); border-top: 1px solid var(--border); padding: 8px 12px; flex-shrink: 0; }
+        .nav-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px; }
+        .footer__subquestionWrapper { display: flex; flex-wrap: wrap; gap: 6px; }
+        .subQuestion {
+            width: 36px; height: 36px; border-radius: 50%;
+            border: 1px solid var(--chip-border);
+            background: var(--chip-bg); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--chip-color); font-size: 14px; font-weight: bold;
+            transition: all 0.2s ease;
+        }
+        .subQuestion:hover { background: var(--accent); color: white; transform: scale(1.05); }
+        .subQuestion.attempted { background: var(--chip-attempted-bg); color: white; border-color: var(--chip-attempted-bg); }
+        .subQuestion.correct   { background: var(--chip-correct-bg)!important; color: white!important; }
+        .subQuestion.incorrect { background: var(--chip-incorrect-bg)!important; color: white!important; }
+
+        .footer__deliverButton {
+            background: var(--accent); color: white; border: none;
+            padding: 10px 24px; border-radius: 40px; cursor: pointer;
+            font-weight: bold; font-size: 14px; transition: all 0.2s;
+        }
+        .footer__deliverButton:hover { background: var(--accent-hover); transform: scale(1.02); }
+
+        /* MODAL */
+        .submission-modal {
+            display: none; position: fixed; inset: 0;
+            background-color: rgba(0,0,0,0.85);
+            z-index: 2000; justify-content: center; align-items: center;
+        }
+        .submission-content {
+            background-color: var(--card-bg); width: 90%; max-width: 850px;
+            border-radius: 20px; padding: 28px 32px;
+            max-height: 88vh; overflow-y: auto; color: var(--text);
+        }
+        .score-number { font-size: 3.5rem; font-weight: bold; color: var(--accent); }
+        .answer-item {
+            padding: 12px; margin-bottom: 8px; border-radius: 8px;
+            border-left: 4px solid var(--border);
+            background: var(--panel-bg); display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+        }
+        .answer-item.correct { border-left-color: #28a745; background: rgba(40,167,69,0.05); }
+        .answer-item.incorrect { border-left-color: #dc3545; background: rgba(220,53,69,0.05); }
+        .status-icon.ok { color: #28a745; font-weight: bold; }
+        .status-icon.bad { color: #dc3545; font-weight: bold; }
+        .submission-buttons .confirm { background: var(--accent); color: white; border: none; padding: 10px 24px; border-radius: 40px; cursor: pointer; }
+    </style>
+</head>
+<body>
+<div class="test-wrapper">
+    <header class="header">
+        <div class="header__logo"><h4>REAL EXAM PASSAGE</h4><a class="tg-link" href="https://t.me/ieltswithkhmdv" target="_blank"><svg viewBox="0 0 24 24" fill="var(--accent)" width="16" height="16"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.19 13.737l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.958.822z"/></svg>@ieltswithkhmdv</a></div>
+        <div class="header__center"><button class="timer-btn" id="pauseBtn"><i class="fas fa-pause"></i></button><div class="header__timer" id="testTimer">20:00</div><button class="timer-btn" id="resetBtn"><i class="fas fa-redo"></i></button></div>
+        <div class="header__icons"><i class="fas fa-moon header__icon" id="darkModeToggle"></i><i class="fas fa-cog header__icon"></i></div>
+    </header>
+    <div class="sectionRubric"><h2>Passage 1</h2><p>Read the text and answer questions 1–13.</p></div>
+    <div class="test-container">
+        <div class="passage-container" id="passage-container">
+            <div class="highlight-toolbar" id="highlightToolbar"><button class="highlight-color yellow" data-color="yellow"></button><button class="highlight-color green" data-color="green"></button><button class="highlight-color pink" data-color="pink"></button><button class="highlight-color blue" data-color="blue"></button><button class="remove"><i class="fas fa-times"></i></button></div>
+            <div id="passageContent">
+                <h2>Isambard Kingdom Brunel</h2>
+                <p><strong>Isambard Kingdom Brunel (April 9, 1806 – September 15, 1859)</strong> was a British engineer, noted for the creation of the Great Western Railway and a series of famous steamships.</p>
+                <p><strong>The Thames Tunnel</strong><br>The son of noted engineer Sir Marc Isambard Brunel, Isambard K. Brunel was born in Portsmouth, England on April 9, 1806. His father was working there on the block-making machinery of the Portsmouth Block Mills. The young Brunel was sent to France to be educated at the College of Caen in Normandy and the Lycée Henri-Quatre in Paris. He rose to prominence when, aged 20, he was appointed as the resident engineer of the Thames Tunnel, his father's greatest achievement. The first major river tunnel ever built, Isambard spent nearly two years trying to drive the horizontal shaft from one side to the other. Two severe incidents of flooding injured the younger Brunel and ended work on the tunnel for several years, though it was eventually completed.</p>
+                <p><strong>The Great Western Railway</strong><br>In the meantime, Brunel moved on. In 1833 he was appointed engineer of the Great Western Railway, one of the wonders of Victorian Britain. Running from London to Bristol (and a few years later, to Exeter), the Great Western contained a series of impressive achievements—viaducts, stations, and tunnels—that ignited the imagination of the technically minded Britons of the age. Brunel soon became one of the most famous men in Britain on the back of this interest. Brunel made the controversial choice of using broad gauge (7 ft 0.25 in or 2.14 m) for the line. According to many railway historians, this was an advantageous choice, not least because it permitted carriages with a width of 10 ft 6 in, significantly wider than those of the railway's competitors; but nonetheless it eventually had to be changed to bring it in line with standard British railway gauge (4 ft 8.5 in or 1.435 m), the last broad gauge rails being converted to standard gauge in 1892.</p>
+                <p><strong>Brunel's "Atmospheric Caper"</strong><br>Another of Brunel's interesting though ultimately unsuccessful technical innovations was the atmospheric railway... Unfortunately the technology required the use of leather flaps to seal the air pipes, the leather had to be kept supple by the use of tallow, and tallow is attractive to rats; the result was inevitable, and air-powered vacuum service lasted less than a year... The accounts of the SDR for 1848 suggest that the atmospheric traction cost 3s 1d per mile (£0.10/km), compared to 1s 4d (£0.04/km) for conventional steam power.</p>
+                <p><strong>Transatlantic Shipping</strong><br>... The Great Britain followed in 1843, and was the first iron-hulled, propeller-driven ship to cross the Atlantic Ocean. Building on these successes, Brunel turned to a third ship in 1852, even larger than both of its predecessors. The Great Eastern was cutting edge technology for its time... The ship is widely perceived as a white elephant. Though a failure at its original purpose of passenger travel, it eventually found a role as an oceanic telegraph cable-layer.</p>
+                <p><strong>Bridges</strong><br>He also designed the Clifton Suspension Bridge in Bristol, but did not live to see it constructed. His colleagues and admirers... started to raise new funds... Work started in 1862, and was complete by 1864, five years after Brunel's death.</p>
+                <p><strong>Commemorating Brunel</strong><br>Brunel was included in the top 10 of the 100 Greatest Britons poll conducted by the BBC and voted for by the public. In the second round of voting, which concluded on November 24th, 2002, Brunel placed second behind Winston Churchill.</p>
+            </div>
+        </div>
+        <div class="divider" id="divider"><div class="divider-handle"></div></div>
+        <div class="questions-container" id="questions-container">
+            <!-- Q1-5: Notes completion -->
+            <div class="question">
+                <div class="question-rubric"><h3>Questions 1–5</h3><p>Complete the notes. Choose <strong>NO MORE THAN TWO WORDS AND/OR A NUMBER</strong> from the passage.</p></div>
+                <div class="question-content">
+                    <div class="question-item"><p><span class="question-number">1</span> At age 20, became resident engineer of the <input type="text" class="summary-input" id="q1" placeholder="Your answer"></p></div>
+                    <div class="question-item"><p><span class="question-number">2</span> Famously chose <input type="text" class="summary-input" id="q2" placeholder="Your answer"> gauge</p></div>
+                    <div class="question-item"><p><span class="question-number">3</span> later converted to standard gauge in <input type="text" class="summary-input" id="q3" placeholder="Your answer"></p></div>
+                    <div class="question-item"><p><span class="question-number">4</span> Failed partly because <input type="text" class="summary-input" id="q4" placeholder="Your answer"> ate the leather seals</p></div>
+                    <div class="question-item"><p><span class="question-number">5</span> first <input type="text" class="summary-input" id="q5" placeholder="Your answer"> ship to cross the Atlantic</p></div>
+                </div>
+            </div>
+
+            <!-- Q6-10: TRUE/FALSE/NOT GIVEN with beautiful toggle buttons -->
+            <div class="question">
+                <div class="question-rubric"><h3>Questions 6–10</h3><p>Do the following statements agree with the passage? Choose TRUE, FALSE, or NOT GIVEN.</p></div>
+                <div class="question-content" id="tf-section"></div>
+            </div>
+
+            <!-- Q11-13: Multiple Choice -->
+            <div class="question">
+                <div class="question-rubric"><h3>Questions 11–13</h3><p>Choose the correct letter, A, B, C, or D.</p></div>
+                <div class="question-content" id="mc-section"></div>
+            </div>
+        </div>
+    </div>
+    <div class="floating-nav"><button id="scrollUpBtn"><i class="fas fa-chevron-up"></i></button><button id="scrollDownBtn"><i class="fas fa-chevron-down"></i></button></div>
+    <footer class="footer"><nav class="nav-row"><div class="footer__subquestionWrapper" id="chipContainer"></div><button id="deliver-button" class="footer__deliverButton"><i class="fas fa-check"></i> Submit</button></nav></footer>
+</div>
+<div class="submission-modal" id="submissionModal"><div class="submission-content"><h2>Test Results</h2><div class="score-display"><div>Your Score</div><div class="score-number" id="userScore">0</div><div class="score-total">out of 13</div><div class="band-score" id="bandScore">Band: –</div><div class="performance-rating" id="performanceRating"></div></div><div class="time-spent" id="timeSpent"></div><div class="answers-section"><h3>Answer Breakdown</h3><div id="answersList"></div></div><div class="submission-buttons"><button class="confirm" id="closeSubmission">Close &amp; Review</button></div></div></div>
+
+<script>
+// ANSWER KEY
+const ANSWERS = {
+    1: ["thames tunnel"], 2: ["broad"], 3: ["1892"], 4: ["rats"], 5: ["iron-hulled","iron hulled"],
+    6: "FALSE", 7: "FALSE", 8: "FALSE", 9: "FALSE", 10: "FALSE",
+    11: "C", 12: "C", 13: "B"
+};
+function normalise(s){ return s.trim().toLowerCase().replace(/\s+/g,' '); }
+function checkText(user, arr){ let u=normalise(user); return arr.some(a=>normalise(a)===u); }
+
+// Build UI
+const tfStatements = [
+    "Brunel received his entire education in England.",
+    "The broad gauge railway carriages were narrower than those of competing companies.",
+    "The atmospheric railway was more cost-effective than using steam locomotives.",
+    "The Great Eastern was successfully used as a passenger liner.",
+    "Brunel saw the completion of the Clifton Suspension Bridge in his lifetime."
+];
+const tfContainer = document.getElementById('tf-section');
+const tfValues = {};
+for(let i=0; i<tfStatements.length; i++){
+    let qNum = 6+i;
+    let div = document.createElement('div'); div.className = 'question-item';
+    div.innerHTML = `<p><span class="question-number">${qNum}</span> ${tfStatements[i]}</p><div class="tf-option" id="tf-group-${qNum}"></div>`;
+    tfContainer.appendChild(div);
+    let group = div.querySelector(`.tf-option`);
+    ["TRUE","FALSE","NOT GIVEN"].forEach(opt => {
+        let btn = document.createElement('div'); btn.className = 'tf-btn'; btn.setAttribute('data-val', opt);
+        btn.innerHTML = `<input type="radio" name="tf_${qNum}" value="${opt}"><span>${opt}</span>`;
+        btn.onclick = (e) => {
+            let radio = btn.querySelector('input');
+            radio.checked = true;
+            document.querySelectorAll(`#tf-group-${qNum} .tf-btn`).forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            tfValues[qNum] = opt;
+            let chip = chipFor(qNum); if(chip && !chip.classList.contains('correct')&&!chip.classList.contains('incorrect')) chip.classList.add('attempted');
+        };
+        group.appendChild(btn);
+    });
+}
+
+const mcQuestions = [
+    { q:11, text:"What was the primary reason for the failure of the atmospheric railway?", options:["A The pumping stations broke down frequently.","B The vacuum pipes were too narrow for the trains.","C Animals damaged a crucial component of the system.","D It was too slow compared to other transport methods."] },
+    { q:12, text:"The writer describes the Great Eastern as a 'white elephant' to suggest that it was:", options:["A Extremely fast and powerful.","B Very successful in its intended role.","C A costly and largely unsuccessful project.","D The first of its kind ever built."] },
+    { q:13, text:"What can be inferred about Brunel's legacy from the passage?", options:["A His work was only appreciated after his death.","B He is remembered for both his successes and ambitious failures.","C His most important contribution was the design of bridges.","D His family ensured his papers were kept private."] }
+];
+const mcContainer = document.getElementById('mc-section');
+const mcValues = {};
+mcQuestions.forEach(mc => {
+    let div = document.createElement('div'); div.className = 'question-item';
+    div.innerHTML = `<p><span class="question-number">${mc.q}</span> ${mc.text}</p><div class="mc-options" id="mc-group-${mc.q}"></div>`;
+    mcContainer.appendChild(div);
+    let group = div.querySelector(`.mc-options`);
+    mc.options.forEach(opt => {
+        let optDiv = document.createElement('div'); optDiv.className = 'mc-option';
+        let letter = opt.charAt(0);
+        optDiv.innerHTML = `<input type="radio" name="mc_${mc.q}" value="${letter}"><label>${opt}</label>`;
+        optDiv.onclick = () => { let radio = optDiv.querySelector('input'); radio.checked = true; mcValues[mc.q] = letter; let chip = chipFor(mc.q); if(chip && !chip.classList.contains('correct')&&!chip.classList.contains('incorrect')) chip.classList.add('attempted'); };
+        group.appendChild(optDiv);
+    });
+});
+
+// Chips 1-13
+const chipContainer = document.getElementById('chipContainer');
+function chipFor(n){ return document.querySelector(`.subQuestion[data-num="${n}"]`); }
+for(let i=1;i<=13;i++){
+    let btn = document.createElement('button'); btn.className = 'subQuestion'; btn.setAttribute('data-num', i); btn.textContent = i;
+    btn.onclick = () => { let idx = i<=5 ? 0 : (i<=10 ? 1 : 2); document.querySelectorAll('.question')[idx]?.scrollIntoView({behavior:'smooth',block:'start'}); };
+    chipContainer.appendChild(btn);
+}
+for(let i=1;i<=5;i++) document.getElementById(`q${i}`).addEventListener('input',function(){ let chip=chipFor(i); if(chip&&!chip.classList.contains('correct')&&!chip.classList.contains('incorrect')) chip.classList.toggle('attempted',this.value.trim()!==''); });
+for(let i=6;i<=10;i++){ window[`updateChip${i}`]=()=>{ let chip=chipFor(i); if(chip&&!chip.classList.contains('correct')&&!chip.classList.contains('incorrect')) chip.classList.toggle('attempted',!!tfValues[i]); }; }
+for(let i=11;i<=13;i++){ window[`updateChipMC${i}`]=()=>{ let chip=chipFor(i); if(chip&&!chip.classList.contains('correct')&&!chip.classList.contains('incorrect')) chip.classList.toggle('attempted',!!mcValues[i]); }; }
+
+// Timer, Dark, Divider, Highlight (simplified keep original behaviour)
+let totalSeconds=20*60, timerRunning=true, testSubmitted=false;
+const timerEl=document.getElementById('testTimer'), pauseBtn=document.getElementById('pauseBtn'), resetBtn=document.getElementById('resetBtn');
+function fmtTime(s){let m=Math.floor(s/60),sec=s%60; return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;}
+function updateTimer(){if(!timerRunning||testSubmitted) return; if(totalSeconds<=0){timerEl.textContent='00:00';timerEl.classList.add('expired');timerRunning=false;return;}totalSeconds--;timerEl.textContent=fmtTime(totalSeconds);}
+let timerInterval=setInterval(updateTimer,1000);
+pauseBtn.onclick=()=>{if(!testSubmitted){timerRunning=!timerRunning;pauseBtn.innerHTML=timerRunning?'<i class="fas fa-pause"></i>':'<i class="fas fa-play"></i>';}};
+resetBtn.onclick=()=>{if(!testSubmitted){totalSeconds=20*60;timerEl.textContent=fmtTime(totalSeconds);timerEl.classList.remove('expired');timerRunning=true;pauseBtn.innerHTML='<i class="fas fa-pause"></i>';}};
+const darkToggle=document.getElementById('darkModeToggle');
+if(localStorage.getItem('ielts-dark')==='1'){document.body.classList.add('dark-mode');darkToggle.classList.replace('fa-moon','fa-sun');}
+darkToggle.onclick=()=>{const dark=document.body.classList.toggle('dark-mode');darkToggle.classList.toggle('fa-moon',!dark);darkToggle.classList.toggle('fa-sun',dark);localStorage.setItem('ielts-dark',dark?'1':'0');};
+const divider=document.getElementById('divider'),passageContainer=document.getElementById('passage-container');
+let isDragging=false,startX,startPW;
+divider.addEventListener('mousedown',e=>{isDragging=true;startX=e.clientX;startPW=parseInt(getComputedStyle(passageContainer).width,10);document.body.style.cursor='col-resize';document.addEventListener('mousemove',onMove);document.addEventListener('mouseup',onUp);e.preventDefault();});
+function onMove(e){if(!isDragging)return;const cw=document.querySelector('.test-container').offsetWidth;let nw=startPW+e.clientX-startX;if(nw>=cw*0.25&&nw<=cw*0.75)passageContainer.style.width=nw+'px';}
+function onUp(){isDragging=false;document.body.style.cursor='';document.removeEventListener('mousemove',onMove);document.removeEventListener('mouseup',onUp);}
+document.getElementById('scrollUpBtn').onclick=()=>document.getElementById('questions-container').scrollBy({top:-300,behavior:'smooth'});
+document.getElementById('scrollDownBtn').onclick=()=>document.getElementById('questions-container').scrollBy({top:300,behavior:'smooth'});
+// Highlight toolbar (basic)
+const highlightToolbar=document.getElementById('highlightToolbar'); let selectedRange=null;
+function handleTextSelection(){const sel=window.getSelection(),txt=sel.toString().trim();if(txt.length>0&&Array.from(document.querySelectorAll('#passageContent')).some(el=>el.contains(sel.rangeCount?sel.getRangeAt(0).commonAncestorContainer:null))){selectedRange=sel.getRangeAt(0);const rect=selectedRange.getBoundingClientRect();highlightToolbar.style.display='block';highlightToolbar.style.top=`${rect.top+window.scrollY-40}px`;highlightToolbar.style.left=`${rect.left+window.scrollX+rect.width/2}px`;}else highlightToolbar.style.display='none';}
+document.addEventListener('mouseup',handleTextSelection);document.addEventListener('mousedown',e=>{if(!highlightToolbar.contains(e.target))highlightToolbar.style.display='none';});
+document.querySelectorAll('.highlight-color').forEach(btn=>btn.addEventListener('click',()=>{if(selectedRange){const span=document.createElement('span');span.className=`highlight ${btn.dataset.color}`;try{selectedRange.surroundContents(span);}catch(e){}window.getSelection().removeAllRanges();highlightToolbar.style.display='none';}}));
+document.querySelector('.highlight-toolbar .remove').addEventListener('click',()=>{if(selectedRange){const r=selectedRange;const frag=r.extractContents();const dest=document.createDocumentFragment();const flatten=(src,dest)=>{src.childNodes.forEach(node=>{if(node.nodeType===Node.TEXT_NODE)dest.appendChild(document.createTextNode(node.nodeValue));else if(node.nodeType===Node.ELEMENT_NODE&&node.classList.contains('highlight'))flatten(node,dest);else{const clone=node.cloneNode(false);flatten(node,clone);dest.appendChild(clone);}});};flatten(frag,dest);r.insertNode(dest);window.getSelection().removeAllRanges();}highlightToolbar.style.display='none';});
+
+// Submit
+const startTime=new Date(); let resultsShown=false;
+document.getElementById('deliver-button').addEventListener('click',()=>{if(resultsShown){document.getElementById('submissionModal').style.display='flex';return;}if(testSubmitted)return;if(!confirm('Submit test?'))return;clearInterval(timerInterval);timerRunning=false;testSubmitted=true;document.querySelectorAll('input, select').forEach(el=>el.disabled=true);document.getElementById('deliver-button').innerHTML='<i class="fas fa-eye"></i> Show Results';showResults();});
+document.getElementById('closeSubmission').addEventListener('click',()=>{document.getElementById('submissionModal').style.display='none';applyChipColors();applyInlineHighlights();});
+function showResults(){
+    let list=document.getElementById('answersList'); list.innerHTML=''; let score=0;
+    // Q1-5
+    for(let i=1;i<=5;i++){ let user=document.getElementById(`q${i}`).value; let ok=checkText(user,ANSWERS[i]); if(ok)score++; let div=document.createElement('div');div.className=`answer-item ${user.trim()===''?'':ok?'correct':'incorrect'}`;div.innerHTML=`<span class="q-label">Q${i}</span><span class="user-ans">${user.trim()||'—'}</span>${ok?`<span class="correct-ans">✓ ${ANSWERS[i][0]}</span>`:`<span class="wrong-ans">✗ ${ANSWERS[i][0]}</span>`}<span class="status-icon ${ok?'ok':'bad'}">${ok?'✓':'✗'}</span>`;list.appendChild(div);}
+    // Q6-10
+    for(let i=6;i<=10;i++){ let user=tfValues[i]||''; let correct=ANSWERS[i]; let ok=user===correct; if(ok)score++; let div=document.createElement('div');div.className=`answer-item ${user===''?'':ok?'correct':'incorrect'}`;div.innerHTML=`<span class="q-label">Q${i}</span><span class="user-ans">${user||'—'}</span>${ok?`<span class="correct-ans">✓ ${correct}</span>`:`<span class="wrong-ans">✗ ${correct}</span>`}<span class="status-icon ${ok?'ok':'bad'}">${ok?'✓':'✗'}</span>`;list.appendChild(div);}
+    // Q11-13
+    for(let i=11;i<=13;i++){ let user=mcValues[i]||''; let correct=ANSWERS[i]; let ok=user===correct; if(ok)score++; let div=document.createElement('div');div.className=`answer-item ${user===''?'':ok?'correct':'incorrect'}`;div.innerHTML=`<span class="q-label">Q${i}</span><span class="user-ans">${user||'—'}</span>${ok?`<span class="correct-ans">✓ ${correct}</span>`:`<span class="wrong-ans">✗ ${correct}</span>`}<span class="status-icon ${ok?'ok':'bad'}">${ok?'✓':'✗'}</span>`;list.appendChild(div);}
+    document.getElementById('userScore').textContent=score;
+    let band= (score/13)>=0.9?9.0:(score/13)>=0.8?8.0:(score/13)>=0.7?7.0:(score/13)>=0.6?6.0:5.0;
+    document.getElementById('bandScore').textContent=`Band: ${band.toFixed(1)}`;
+    let ratingText=score>=12?'Excellent!':score>=10?'Very Good':score>=8?'Good':'Fair';
+    document.getElementById('performanceRating').textContent=ratingText;
+    let elapsed=Math.round((new Date()-startTime)/1000); let em=Math.floor(elapsed/60), es=elapsed%60;
+    document.getElementById('timeSpent').textContent=`Time spent: ${em}m ${es}s`;
+    document.getElementById('submissionModal').style.display='flex'; resultsShown=true;
+}
+function applyChipColors(){
+    for(let i=1;i<=5;i++){ let inp=document.getElementById(`q${i}`); let ok=checkText(inp.value,ANSWERS[i]); let chip=chipFor(i); if(chip){chip.classList.remove('attempted'); if(inp.value.trim()!=='')chip.classList.add(ok?'correct':'incorrect');}}
+    for(let i=6;i<=10;i++){ let val=tfValues[i]; let ok=val===ANSWERS[i]; let chip=chipFor(i); if(chip){chip.classList.remove('attempted'); if(val)chip.classList.add(ok?'correct':'incorrect');}}
+    for(let i=11;i<=13;i++){ let val=mcValues[i]; let ok=val===ANSWERS[i]; let chip=chipFor(i); if(chip){chip.classList.remove('attempted'); if(val)chip.classList.add(ok?'correct':'incorrect');}}
+}
+function applyInlineHighlights(){
+    for(let i=1;i<=5;i++){ let inp=document.getElementById(`q${i}`); if(inp.value.trim()==='')continue; let ok=checkText(inp.value,ANSWERS[i]); inp.classList.add(ok?'correct':'incorrect'); if(!inp.nextElementSibling?.classList.contains('summary-feedback')){let fb=document.createElement('span');fb.className=`summary-feedback ${ok?'correct':'incorrect'}`;fb.textContent=ok?'✓':`✗ ${ANSWERS[i][0]}`;inp.insertAdjacentElement('afterend',fb);}}
+    for(let i=6;i<=10;i++){ let group=document.getElementById(`tf-group-${i}`); if(!group)continue; let selected=group.querySelector('.tf-btn.selected'); if(selected){ let val=selected.getAttribute('data-val'); let ok=val===ANSWERS[i]; selected.classList.add(ok?'correct-highlight':'incorrect-highlight'); let fb=document.createElement('span');fb.className=`dropdown-feedback ${ok?'correct':'incorrect'}`;fb.textContent=ok?'✓':`✗ ${ANSWERS[i]}`;group.parentNode.appendChild(fb);}}
+    for(let i=11;i<=13;i++){ let selected=document.querySelector(`input[name="mc_${i}"]:checked`); if(selected){ let ok=selected.value===ANSWERS[i]; let parent=selected.closest('.mc-option'); parent.classList.add(ok?'correct-highlight':'incorrect-highlight'); let fb=document.createElement('span');fb.className=`mc-feedback ${ok?'correct':'incorrect'}`;fb.textContent=ok?'✓':`✗ ${ANSWERS[i]}`;parent.appendChild(fb);}}
+}
+</script>
+</body>
+</html>

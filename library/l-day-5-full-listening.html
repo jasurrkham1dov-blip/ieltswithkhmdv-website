@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IELTS Listening Test - Day 5 Complete (Q1-40)</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      color: #1e293b;
+    }
+    .test-wrapper { display:flex; flex-direction:column; height:100vh; }
+    .test-container { display:flex; flex:1; overflow:hidden; }
+
+    /* Header */
+    .header{
+      background:#ffffff;
+      border-bottom:1px solid #cbd5e1;
+      padding:1rem 2rem;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      box-shadow:0 4px 12px rgba(0,0,0,.08);
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .header__logo { display:flex; align-items:center; gap: .75rem; }
+    .header__title { font-size:1.1rem; font-weight:600; color:#1e293b; flex:1; min-width:300px; }
+    .header__timer{
+      font-size:1.25rem;
+      font-weight:600;
+      color:#dc2305;
+      background:#fef3c7;
+      padding:.5rem 1.5rem;
+      border-radius:9999px;
+      border:1px solid #fcd34d;
+      transition:all .3s ease;
+      white-space: nowrap;
+    }
+    .header__icons{ display:flex; gap:1.25rem; align-items:center; }
+    .header__icon{
+      font-size:1.5rem;
+      color:#64748b;
+      cursor:pointer;
+      transition:all .3s ease;
+    }
+    .header__icon:hover { color:#d97706; transform:scale(1.15); }
+    
+    /* Telegram Link */
+    .header__telegram{
+      display:flex;
+      align-items:center;
+      gap:0.5rem;
+      padding:0.5rem 1.2rem;
+      background:linear-gradient(90deg, #0369a1, #0284c7);
+      color:#fff;
+      border-radius:9999px;
+      text-decoration:none;
+      font-weight:600;
+      font-size:0.9rem;
+      transition:all .3s ease;
+      border:1px solid #0c4a6e;
+    }
+    .header__telegram:hover{
+      transform:translateY(-2px);
+      box-shadow:0 4px 12px rgba(2, 132, 199, 0.5);
+    }
+
+    /* Answer Indicators */
+    .answer-indicators{
+      display:flex;
+      gap:0.5rem;
+      flex-wrap:wrap;
+      padding:1rem 2rem;
+      background:#f1f5f9;
+      border-bottom:1px solid #cbd5e1;
+      align-items:center;
+      font-size: 0.8rem;
+    }
+    .indicator-label{
+      font-weight:600;
+      color:#475569;
+      margin-right:0.5rem;
+    }
+    .answer-circle{
+      width:2.2rem;
+      height:2.2rem;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      color:#fff;
+      cursor:default;
+      transition:all .3s ease;
+      border:2px solid #cbd5e1;
+      background:#cbd5e1;
+      color:#64748b;
+      font-size:0.7rem;
+    }
+    .answer-circle.answered{
+      background:#10b981;
+      border-color:#059669;
+      box-shadow:0 0 8px rgba(16, 185, 129, 0.4);
+    }
+    .answer-circle.unanswered{
+      background:#ef4444;
+      border-color:#dc2626;
+      box-shadow:0 0 8px rgba(239, 68, 68, 0.4);
+    }
+
+    /* Main container */
+    .questions-container{
+      flex:1;
+      height:100%;
+      overflow-y:auto;
+      padding:2rem;
+      box-sizing:border-box;
+      background:#fafafa;
+    }
+    .questions-container::-webkit-scrollbar{ width:8px; }
+    .questions-container::-webkit-scrollbar-track{ background:#f1f5f9; }
+    .questions-container::-webkit-scrollbar-thumb{ background:#cbd5e1; border-radius:4px; }
+    .questions-container::-webkit-scrollbar-thumb:hover{ background:#94a3b8; }
+
+    /* Rubric */
+    .sectionRubric{
+      margin-bottom:2rem;
+      padding:1.5rem;
+      background:#ffffff;
+      border:2px solid #0284c7;
+      border-radius:.75rem;
+      box-shadow:0 4px 12px rgba(0,0,0,.05);
+    }
+    .sectionRubric h2{ font-size:1.5rem; color:#0284c7; margin-bottom:.5rem; font-weight:700; }
+    .sectionRubric p{ margin:0.5rem 0; color:#475569; font-size:0.95rem; }
+
+    /* Question cards */
+    .question{
+      background:#ffffff;
+      padding:1.5rem;
+      margin-bottom:1.5rem;
+      border:1px solid #cbd5e1;
+      border-radius:.75rem;
+      box-shadow:0 2px 8px rgba(0,0,0,.04);
+      transition:all .3s ease;
+    }
+    .question:hover{ box-shadow:0 4px 12px rgba(0,0,0,.08); border-color:#94a3b8; }
+    .question.answered{ border-left:4px solid #10b981; }
+    .question.unanswered{ border-left:4px solid #ef4444; }
+
+    .question-title{
+      font-weight:700;
+      font-size:1rem;
+      color:#1e293b;
+      margin-bottom:0.75rem;
+    }
+    .question-text{
+      font-size:0.95rem;
+      color:#475569;
+      margin:0.5rem 0 1rem 0;
+      line-height:1.6;
+    }
+
+    /* Options */
+    .options-group{
+      display:flex;
+      flex-direction:column;
+      gap:0.5rem;
+    }
+    .option{
+      display:flex;
+      align-items:center;
+      padding:0.75rem;
+      background:#f8fafc;
+      border:1px solid #cbd5e1;
+      border-radius:.5rem;
+      cursor:pointer;
+      transition:all .2s ease;
+    }
+    .option:hover{
+      background:#f1f5f9;
+      border-color:#94a3b8;
+    }
+    .option input[type="radio"], .option input[type="checkbox"]{
+      margin-right:0.75rem;
+      cursor:pointer;
+      accent-color:#0284c7;
+    }
+    .option.selected{
+      background:#dbeafe;
+      border-color:#0284c7;
+    }
+
+    /* Text Input */
+    .text-input{
+      padding:0.75rem;
+      border:1px solid #cbd5e1;
+      border-radius:.5rem;
+      font-size:0.95rem;
+      width:100%;
+      max-width:300px;
+      box-sizing:border-box;
+      transition:all .2s ease;
+    }
+    .text-input:focus{
+      outline:none;
+      border-color:#0284c7;
+      box-shadow:0 0 0 3px rgba(2, 132, 199, 0.1);
+    }
+
+    /* Submit and Footer */
+    .footer{
+      display:flex;
+      gap:1rem;
+      padding:1.5rem;
+      background:#ffffff;
+      border-top:1px solid #cbd5e1;
+      justify-content:center;
+    }
+    .submit-btn{
+      padding:0.75rem 2rem;
+      background:linear-gradient(135deg, #0284c7, #0369a1);
+      color:#fff;
+      border:none;
+      border-radius:.5rem;
+      font-weight:600;
+      cursor:pointer;
+      transition:all .3s ease;
+      font-size:1rem;
+    }
+    .submit-btn:hover{
+      transform:translateY(-2px);
+      box-shadow:0 4px 12px rgba(2, 132, 199, 0.4);
+    }
+
+    /* Modal */
+    #submissionModal{
+      display:none;
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background:rgba(0,0,0,.5);
+      align-items:center;
+      justify-content:center;
+      z-index:3000;
+    }
+    .modal-content{
+      background:#ffffff;
+      border-radius:1rem;
+      padding:2rem;
+      max-width:600px;
+      max-height:80vh;
+      overflow-y:auto;
+      box-shadow:0 25px 50px rgba(0,0,0,.15);
+    }
+    .modal-content h2{
+      font-size:1.5rem;
+      font-weight:700;
+      margin-bottom:1rem;
+      color:#1e293b;
+    }
+    .score-display{
+      font-size:3rem;
+      font-weight:700;
+      color:#0284c7;
+      text-align:center;
+      margin:1rem 0;
+    }
+    .feedback-message{
+      text-align:center;
+      font-size:1rem;
+      color:#475569;
+      margin:1rem 0;
+      line-height:1.6;
+    }
+    #detailedResults{
+      margin-top:1.5rem;
+      max-height:300px;
+      overflow-y:auto;
+    }
+    .result-item{
+      padding:1rem;
+      margin-bottom:0.75rem;
+      border-radius:.5rem;
+      border-left:4px solid #cbd5e1;
+    }
+    .result-item.correct{
+      background:#ecfdf5;
+      border-left-color:#10b981;
+      color:#065f46;
+    }
+    .result-item.incorrect{
+      background:#fef2f2;
+      border-left-color:#ef4444;
+      color:#7f1d1d;
+    }
+    .result-item strong{
+      font-weight:700;
+      display:block;
+      margin-bottom:0.5rem;
+    }
+    .detail{
+      font-size:0.9rem;
+      margin:0.25rem 0;
+    }
+    .close-results-btn{
+      margin-top:1.5rem;
+      width:100%;
+      padding:0.75rem;
+      background:#cbd5e1;
+      border:none;
+      border-radius:.5rem;
+      cursor:pointer;
+      font-weight:600;
+      transition:all .2s ease;
+    }
+    .close-results-btn:hover{
+      background:#94a3b8;
+    }
+
+    .info-note{
+      background:#e0f2fe;
+      border:1px solid #0284c7;
+      padding:0.75rem;
+      border-radius:.5rem;
+      margin-bottom:1rem;
+      font-size:0.9rem;
+      color:#0c4a6e;
+    }
+
+    .section-break{
+      margin:2rem 0 1rem 0;
+      padding-top:1.5rem;
+      border-top:3px solid #0284c7;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-wrapper">
+    <!-- Header -->
+    <div class="header">
+      <div class="header__logo">
+        <i class="fas fa-headphones" style="font-size:1.5rem; color:#0284c7;"></i>
+        <div class="header__title">IELTS Listening Test - Day 5 Complete (Q1-40)</div>
+      </div>
+      <div class="header__timer">
+        <span id="timerDisplay">00:00</span>
+      </div>
+      <div class="header__icons">
+        <a href="https://t.me/ieltswithkhmdv" target="_blank" class="header__telegram">
+          <i class="fab fa-telegram"></i>
+          <span>Join Channel</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Answer Indicators -->
+    <div class="answer-indicators">
+      <span class="indicator-label">Question Status:</span>
+      <div id="answerIndicators" style="display:flex; gap:0.5rem; flex-wrap:wrap;"></div>
+    </div>
+
+    <!-- Questions Container -->
+    <div class="questions-container">
+      <div id="questionsContent">
+
+        <!-- SECTION 1 -->
+        <div class="sectionRubric">
+          <h2>Section 1: Bakewell Travel (Q1-10)</h2>
+          <p>Complete the form below. Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.</p>
+        </div>
+
+        <div class="question">
+          <div class="question-title">Bakewell Travel: Customer Booking Request Form</div>
+          <div style="padding:1rem; background:#f8fafc; border-radius:.5rem; margin-bottom:1rem;">
+            <p style="margin:0.5rem 0;"><strong>Name:</strong> Sarah Carter</p>
+            <p style="margin:0.5rem 0;"><strong>Travelling to:</strong> Dubai</p>
+            <p style="margin:0.5rem 0;"><strong>Return Journey:</strong> 25 November</p>
+          </div>
+
+          <div style="margin-bottom:1.5rem;">
+            <label style="display:block; margin-bottom:0.75rem;">
+              <span style="font-weight:600;">1. Contact phone number:</span><br>
+              <input type="text" name="q1" class="text-input" placeholder="Enter answer">
+            </label>
+            <label style="display:block; margin-bottom:0.75rem;">
+              <span style="font-weight:600;">2. Best day to call: __________ morning</span><br>
+              <input type="text" name="q2" class="text-input" placeholder="Enter answer">
+            </label>
+            <label style="display:block; margin-bottom:0.75rem;">
+              <span style="font-weight:600;">3. Number of people travelling:</span><br>
+              <input type="text" name="q3" class="text-input" placeholder="Enter answer">
+            </label>
+            <label style="display:block; margin-bottom:0.75rem;">
+              <span style="font-weight:600;">4. Date of outward journey:</span><br>
+              <input type="text" name="q4" class="text-input" placeholder="Enter answer">
+            </label>
+            <label style="display:block; margin-bottom:0.75rem;">
+              <span style="font-weight:600;">5. Purpose of trip: a __________</span><br>
+              <input type="text" name="q5" class="text-input" placeholder="Enter answer">
+            </label>
+            <label style="display:block; margin-bottom:0.75rem;">
+              <span style="font-weight:600;">6. Special requirements: one passenger can't eat __________</span><br>
+              <input type="text" name="q6" class="text-input" placeholder="Enter answer">
+            </label>
+            <label style="display:block; margin-bottom:0.75rem;">
+              <span style="font-weight:600;">7. Last country visited:</span><br>
+              <input type="text" name="q7" class="text-input" placeholder="Enter answer">
+            </label>
+            <label style="display:block; margin-bottom:0.75rem;">
+              <span style="font-weight:600;">8. Purpose of last foreign trip:</span><br>
+              <input type="text" name="q8" class="text-input" placeholder="Enter answer">
+            </label>
+            <label style="display:block; margin-bottom:0.75rem;">
+              <span style="font-weight:600;">9. Website feedback: too __________</span><br>
+              <input type="text" name="q9" class="text-input" placeholder="Enter answer">
+            </label>
+            <label style="display:block;">
+              <span style="font-weight:600;">10. Email: carter.s@__________.com</span><br>
+              <input type="text" name="q10" class="text-input" placeholder="Enter answer">
+            </label>
+          </div>
+        </div>
+
+        <!-- SECTION 2 -->
+        <div class="sectionRubric section-break">
+          <h2>Section 2: Annual Running Competition (Q11-20)</h2>
+          <p>Questions 11-17: Complete the notes (NO MORE THAN TWO WORDS AND/OR A NUMBER)</p>
+        </div>
+
+        <div class="question">
+          <div class="question-title">Creton Running Sports Club</div>
+          <div style="margin-bottom:1.5rem;">
+            <label style="display:block; margin-bottom:0.75rem;">
+              <span style="font-weight:600;">11. Starting point: at the __________</span><br>
+              <input type="text" name="q11" class="text-input" placeholder="Enter answer">
+            </label>
+            <label style="display:block; margin-bottom:0.75rem;">
+              <span style="font-weight:600;">12. Distance: __________</span><br>
+              <input type="text" name="q12" class="text-input" placeholder="Enter answer">
+            </label>
+            <label style="display:block; margin-bottom:0.75rem;">
+              <span style="font-weight:600;">13. Prize: __________ for the winner</span><br>
+              <input type="text" name="q13" class="text-input" placeholder="Enter answer">
+            </label>
+            <label style="display:block; margin-bottom:0.75rem;">
+              <span style="font-weight:600;">14. Finishing point: at the __________</span><br>
+              <input type="text" name="q14" class="text-input" placeholder="Enter answer">
+            </label>
+            <label style="display:block; margin-bottom:0.75rem;">
+              <span style="font-weight:600;">15. Registration site: at the __________</span><br>
+              <input type="text" name="q15" class="text-input" placeholder="Enter answer">
+            </label>
+            <label style="display:block; margin-bottom:0.75rem;">
+              <span style="font-weight:600;">16. Age limit: people under __________ are not allowed</span><br>
+              <input type="text" name="q16" class="text-input" placeholder="Enter answer">
+            </label>
+            <label style="display:block;">
+              <span style="font-weight:600;">17. Need to bring: a __________ and spare shoes</span><br>
+              <input type="text" name="q17" class="text-input" placeholder="Enter answer">
+            </label>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="question-title">Questions 18-20: Training Advice (Choose THREE letters, A-G)</div>
+          <div class="info-note">Which THREE of the following are given as training advice by the speaker?</div>
+          <div class="options-group">
+            <label class="option">
+              <input type="checkbox" name="q18_20" value="A"> A - be careful of dogs
+            </label>
+            <label class="option">
+              <input type="checkbox" name="q18_20" value="B"> B - compete with a friend
+            </label>
+            <label class="option">
+              <input type="checkbox" name="q18_20" value="C"> C - run under all weather conditions
+            </label>
+            <label class="option">
+              <input type="checkbox" name="q18_20" value="D"> D - warm up before running
+            </label>
+            <label class="option">
+              <input type="checkbox" name="q18_20" value="E"> E - compete in groups
+            </label>
+            <label class="option">
+              <input type="checkbox" name="q18_20" value="F"> F - time yourself
+            </label>
+            <label class="option">
+              <input type="checkbox" name="q18_20" value="G"> G - run on various types of roads and paths
+            </label>
+          </div>
+        </div>
+
+        <!-- SECTION 3 -->
+        <div class="sectionRubric section-break">
+          <h2>Section 3: Selective Course (Q21-30)</h2>
+          <p>Questions 21-26: Choose the correct letter A, B, or C</p>
+        </div>
+
+        <div class="question">
+          <div class="question-title">21. Why should they choose selective course immediately?</div>
+          <div class="options-group">
+            <label class="option">
+              <input type="radio" name="q21" value="A"> A - It's the final day
+            </label>
+            <label class="option">
+              <input type="radio" name="q21" value="B"> B - It will be full very soon
+            </label>
+            <label class="option">
+              <input type="radio" name="q21" value="C"> C - They don't have time later on
+            </label>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="question-title">22. What is the compulsory course for all students?</div>
+          <div class="options-group">
+            <label class="option">
+              <input type="radio" name="q22" value="A"> A - Language course
+            </label>
+            <label class="option">
+              <input type="radio" name="q22" value="B"> B - Business study
+            </label>
+            <label class="option">
+              <input type="radio" name="q22" value="C"> C - Mathematics
+            </label>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="question-title">23. What does Rick think of the course Information Statistics?</div>
+          <div class="options-group">
+            <label class="option">
+              <input type="radio" name="q23" value="A"> A - It's useful
+            </label>
+            <label class="option">
+              <input type="radio" name="q23" value="B"> B - It's convenient to take
+            </label>
+            <label class="option">
+              <input type="radio" name="q23" value="C"> C - It involves a lot of work
+            </label>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="question-title">24. What will they do before choosing the selective courses?</div>
+          <div class="options-group">
+            <label class="option">
+              <input type="radio" name="q24" value="A"> A - consult the students about the teaching quality
+            </label>
+            <label class="option">
+              <input type="radio" name="q24" value="B"> B - look online about the related information
+            </label>
+            <label class="option">
+              <input type="radio" name="q24" value="C"> C - ask their parents for suggestions
+            </label>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="question-title">25. How did they feel about the art design class?</div>
+          <div class="options-group">
+            <label class="option">
+              <input type="radio" name="q25" value="A"> A - surprising
+            </label>
+            <label class="option">
+              <input type="radio" name="q25" value="B"> B - confusing
+            </label>
+            <label class="option">
+              <input type="radio" name="q25" value="C"> C - valuable
+            </label>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="question-title">26. What does Nina want to make sure about selective courses?</div>
+          <div class="options-group">
+            <label class="option">
+              <input type="radio" name="q26" value="A"> A - How they register the course
+            </label>
+            <label class="option">
+              <input type="radio" name="q26" value="B"> B - When the course will take place
+            </label>
+            <label class="option">
+              <input type="radio" name="q26" value="C"> C - amount of work to be done online
+            </label>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="question-title">Questions 27-30: What do they think of each course? (Choose 4 letters, A-F)</div>
+          <div class="info-note">
+            A - became more engaging | B - Professor's note was detailed | C - involved lot of practical work | D - Professors explanation was clear | E - Useful material online | F - Harder than expected
+          </div>
+          <div style="margin:1rem 0;">
+            <label style="display:block; margin-bottom:0.75rem;">
+              <span style="font-weight:600;">27. Metallurgy:</span>
+              <select name="q27" class="text-input" style="max-width:250px; margin-top:0.5rem;">
+                <option value="">-- Select Answer --</option>
+                <option value="A">A - became more engaging</option>
+                <option value="B">B - Professor's note was detailed</option>
+                <option value="C">C - involved lot of practical work</option>
+                <option value="D">D - Professors explanation was clear</option>
+                <option value="E">E - Useful material online</option>
+                <option value="F">F - Harder than expected</option>
+              </select>
+            </label>
+            <label style="display:block; margin-bottom:0.75rem;">
+              <span style="font-weight:600;">28. Fluid mechanics:</span>
+              <select name="q28" class="text-input" style="max-width:250px; margin-top:0.5rem;">
+                <option value="">-- Select Answer --</option>
+                <option value="A">A - became more engaging</option>
+                <option value="B">B - Professor's note was detailed</option>
+                <option value="C">C - involved lot of practical work</option>
+                <option value="D">D - Professors explanation was clear</option>
+                <option value="E">E - Useful material online</option>
+                <option value="F">F - Harder than expected</option>
+              </select>
+            </label>
+            <label style="display:block; margin-bottom:0.75rem;">
+              <span style="font-weight:600;">29. Computing:</span>
+              <select name="q29" class="text-input" style="max-width:250px; margin-top:0.5rem;">
+                <option value="">-- Select Answer --</option>
+                <option value="A">A - became more engaging</option>
+                <option value="B">B - Professor's note was detailed</option>
+                <option value="C">C - involved lot of practical work</option>
+                <option value="D">D - Professors explanation was clear</option>
+                <option value="E">E - Useful material online</option>
+                <option value="F">F - Harder than expected</option>
+              </select>
+            </label>
+            <label style="display:block;">
+              <span style="font-weight:600;">30. Energy economy:</span>
+              <select name="q30" class="text-input" style="max-width:250px; margin-top:0.5rem;">
+                <option value="">-- Select Answer --</option>
+                <option value="A">A - became more engaging</option>
+                <option value="B">B - Professor's note was detailed</option>
+                <option value="C">C - involved lot of practical work</option>
+                <option value="D">D - Professors explanation was clear</option>
+                <option value="E">E - Useful material online</option>
+                <option value="F">F - Harder than expected</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <!-- SECTION 4 -->
+        <div class="sectionRubric section-break">
+          <h2>Section 4: Boar and Red Deer (Q31-40)</h2>
+          <p>Complete the notes below. Write ONE WORD ONLY for each answer.</p>
+        </div>
+
+        <div class="question">
+          <div class="question-title">Boar and Red Deer</div>
+          <div style="margin-bottom:1.5rem;">
+            <p style="font-weight:600; margin-bottom:1rem;">Boar:</p>
+            <label style="display:block; margin-bottom:0.75rem;">
+              <span>31. Boar is not a __________ species</span><br>
+              <input type="text" name="q31" class="text-input" placeholder="Enter one word">
+            </label>
+            <label style="display:block; margin-bottom:0.75rem;">
+              <span>32. Their damage should be controlled on the __________ </span><br>
+              <input type="text" name="q32" class="text-input" placeholder="Enter one word">
+            </label>
+            <label style="display:block; margin-bottom:0.75rem;">
+              <span>33. They also spread __________</span><br>
+              <input type="text" name="q33" class="text-input" placeholder="Enter one word">
+            </label>
+            <label style="display:block; margin-bottom:0.75rem;">
+              <span>34. Law banned use of __________ in killing boars</span><br>
+              <input type="text" name="q34" class="text-input" placeholder="Enter one word">
+            </label>
+            <label style="display:block; margin-bottom:1.5rem;">
+              <span>35. Keep the boars in the __________ away from urban areas</span><br>
+              <input type="text" name="q35" class="text-input" placeholder="Enter one word">
+            </label>
+
+            <p style="font-weight:600; margin-bottom:1rem;">Red Deer:</p>
+            <label style="display:block; margin-bottom:0.75rem;">
+              <span>36. Early 1990s rise due to escape from __________</span><br>
+              <input type="text" name="q36" class="text-input" placeholder="Enter one word">
+            </label>
+            <label style="display:block; margin-bottom:0.75rem;">
+              <span>37. Red deer damage grain and __________</span><br>
+              <input type="text" name="q37" class="text-input" placeholder="Enter one word">
+            </label>
+            <label style="display:block; margin-bottom:0.75rem;">
+              <span>38. In winter deer come to villages for __________</span><br>
+              <input type="text" name="q38" class="text-input" placeholder="Enter one word">
+            </label>
+            <label style="display:block; margin-bottom:0.75rem;">
+              <span>39. Number of deer keep stable for __________</span><br>
+              <input type="text" name="q39" class="text-input" placeholder="Enter one word">
+            </label>
+            <label style="display:block;">
+              <span>40. Deer affect the local __________</span><br>
+              <input type="text" name="q40" class="text-input" placeholder="Enter one word">
+            </label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <button class="submit-btn" id="submitBtn">Submit Answers</button>
+    </div>
+  </div>
+
+  <!-- Submission Modal -->
+  <div id="submissionModal">
+    <div class="modal-content">
+      <h2>Results</h2>
+      <div class="score-display" id="scoreDisplay">0 / 40</div>
+      <div class="feedback-message" id="feedbackMessage">Loading results...</div>
+      <div id="detailedResults"></div>
+      <button class="close-results-btn" id="closeResultsBtn">Close</button>
+    </div>
+  </div>
+
+  <script>
+    /******************************************************************
+     * ANSWER KEY
+     ******************************************************************/
+    const ANSWER_KEY = {
+      1: '07958847222',
+      2: 'Thursday',
+      3: '7',
+      4: '22 November',
+      5: 'wedding',
+      6: 'cheese',
+      7: 'India',
+      8: 'business',
+      9: 'slow',
+      10: 'speedtech',
+      11: 'castle',
+      12: '7',
+      13: 'sports equipment',
+      14: 'station',
+      15: 'town hall',
+      16: '16',
+      17: 'jacket',
+      18_20: ['C', 'D', 'G'],
+      21: 'B',
+      22: 'C',
+      23: 'A',
+      24: 'A',
+      25: 'C',
+      26: 'A',
+      27: 'B',
+      28: 'D',
+      29: 'E',
+      30: 'C',
+      31: 'protected',
+      32: 'environment',
+      33: 'diseases',
+      34: 'poison',
+      35: 'forest',
+      36: 'captivity',
+      37: 'potatoes',
+      38: 'food',
+      39: 'hunting',
+      40: 'crops'
+    };
+
+    let timeElapsed = 0;
+    let testSubmitted = false;
+
+    /******************************************************************
+     * TIMER
+     ******************************************************************/
+    setInterval(() => {
+      if (!testSubmitted) {
+        timeElapsed++;
+        const minutes = String(Math.floor(timeElapsed / 60)).padStart(2, '0');
+        const seconds = String(timeElapsed % 60).padStart(2, '0');
+        document.getElementById('timerDisplay').textContent = `${minutes}:${seconds}`;
+      }
+    }, 1000);
+
+    /******************************************************************
+     * ANSWER INDICATORS
+     ******************************************************************/
+    function updateAnswerIndicators(){
+      const container = document.getElementById('answerIndicators');
+      container.innerHTML = '';
+      
+      for (let i = 1; i <= 40; i++) {
+        const answered = isQuestionAnswered(i);
+        const circle = document.createElement('div');
+        circle.className = `answer-circle ${answered ? 'answered' : 'unanswered'}`;
+        circle.textContent = i;
+        container.appendChild(circle);
+      }
+    }
+
+    function isQuestionAnswered(q){
+      if (q >= 1 && q <= 17) {
+        const input = document.querySelector(`input[name="q${q}"]`);
+        return input && input.value.trim().length > 0;
+      } else if (q >= 18 && q <= 20) {
+        const checkboxes = document.querySelectorAll(`input[name="q18_20"]:checked`);
+        return checkboxes.length > 0;
+      } else if (q >= 21 && q <= 26) {
+        return document.querySelector(`input[name="q${q}"]:checked`) ? true : false;
+      } else if (q >= 27 && q <= 30) {
+        const select = document.querySelector(`select[name="q${q}"]`);
+        return select && select.value.length > 0;
+      } else {
+        const input = document.querySelector(`input[name="q${q}"]`);
+        return input && input.value.trim().length > 0;
+      }
+    }
+
+    document.querySelectorAll('input, select').forEach(elem => {
+      elem.addEventListener('change', updateAnswerIndicators);
+      elem.addEventListener('input', updateAnswerIndicators);
+    });
+
+    updateAnswerIndicators();
+
+    /******************************************************************
+     * SUBMISSION & SCORING
+     ******************************************************************/
+    function getAllAnswers(){
+      const answers = {};
+      
+      // Q1-17: Text inputs
+      for (let i = 1; i <= 17; i++){
+        const input = document.querySelector(`input[name="q${i}"]`);
+        answers[i] = input ? input.value.trim().toLowerCase() : '';
+      }
+      
+      // Q18-20: Checkboxes
+      const checkboxes = document.querySelectorAll(`input[name="q18_20"]:checked`);
+      answers['18_20'] = Array.from(checkboxes).map(cb => cb.value);
+      
+      // Q21-26: Radio buttons
+      for (let i = 21; i <= 26; i++){
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        answers[i] = selected ? selected.value : '';
+      }
+      
+      // Q27-30: Dropdowns
+      for (let i = 27; i <= 30; i++){
+        const select = document.querySelector(`select[name="q${i}"]`);
+        answers[i] = select ? select.value : '';
+      }
+      
+      // Q31-40: Text inputs
+      for (let i = 31; i <= 40; i++){
+        const input = document.querySelector(`input[name="q${i}"]`);
+        answers[i] = input ? input.value.trim().toLowerCase() : '';
+      }
+      
+      return answers;
+    }
+
+    function checkAnswer(questionNum, userAnswer){
+      const correctAnswer = ANSWER_KEY[questionNum];
+      if (!correctAnswer) return false;
+      
+      if (questionNum === '18_20') {
+        if (!Array.isArray(userAnswer)) return false;
+        if (userAnswer.length !== 3) return false;
+        return userAnswer.every(v => correctAnswer.includes(v)) && correctAnswer.every(v => userAnswer.includes(v));
+      }
+      
+      return userAnswer.toUpperCase().trim() === correctAnswer.toUpperCase().trim();
+    }
+
+    function submitAnswers(){
+      if (testSubmitted) return;
+      testSubmitted = true;
+
+      const answers = getAllAnswers();
+      let correct = 0;
+      const results = {};
+
+      // Score Q1-17, 21-26, 27-30, 31-40
+      for (let i = 1; i <= 40; i++){
+        if (i >= 18 && i <= 20) continue; // Handle separately
+        
+        let isCorrect = false;
+        if (i >= 1 && i <= 17) {
+          isCorrect = checkAnswer(i, answers[i]);
+        } else if (i >= 21 && i <= 26) {
+          isCorrect = checkAnswer(i, answers[i]);
+        } else if (i >= 27 && i <= 30) {
+          isCorrect = checkAnswer(i, answers[i]);
+        } else if (i >= 31 && i <= 40) {
+          isCorrect = checkAnswer(i, answers[i]);
+        }
+        
+        if (isCorrect) correct++;
+        results[i] = { answer: answers[i], isCorrect };
+      }
+      
+      // Score Q18-20 (special handling for checkboxes)
+      const q18_20_correct = checkAnswer('18_20', answers['18_20']);
+      if (q18_20_correct) {
+        correct += 3; // Count as 3 questions (Q18, Q19, Q20)
+      }
+      results['18_20'] = { answer: answers['18_20'], isCorrect: q18_20_correct };
+
+      showResults(correct, results);
+    }
+
+    function showResults(correct, results){
+      const submissionModal = document.getElementById('submissionModal');
+      const scoreDisplay = document.getElementById('scoreDisplay');
+      const feedbackMessage = document.getElementById('feedbackMessage');
+      const detailedResults = document.getElementById('detailedResults');
+
+      const totalQuestions = 40;
+      scoreDisplay.textContent = `${correct} / ${totalQuestions}`;
+      const percentage = Math.round((correct / totalQuestions) * 100);
+      feedbackMessage.textContent = `You got ${percentage}% correct. Time elapsed: ${String(Math.floor(timeElapsed / 60)).padStart(2, '0')}:${String(timeElapsed % 60).padStart(2, '0')}`;
+
+      let resultsHTML = '';
+      
+      // Display Q1-17
+      for (let i = 1; i <= 17; i++){
+        const result = results[i];
+        const correctAnswer = ANSWER_KEY[i];
+        const isCorrect = result.isCorrect;
+        const icon = isCorrect ? '✓' : '✗';
+        const resultClass = isCorrect ? 'correct' : 'incorrect';
+        
+        resultsHTML += `<div class="result-item ${resultClass}">
+          <strong>Q${i}: ${icon}</strong>
+          <div class="detail"><strong>Your answer:</strong> ${result.answer || '(empty)'}</div>
+          <div class="detail"><strong>Correct answer:</strong> ${correctAnswer}</div>
+        </div>`;
+      }
+      
+      // Display Q18-20 (checkboxes)
+      if (results['18_20']) {
+        const result = results['18_20'];
+        const correctAnswer = ANSWER_KEY['18_20'].join(', ');
+        const isCorrect = result.isCorrect;
+        const icon = isCorrect ? '✓' : '✗';
+        const resultClass = isCorrect ? 'correct' : 'incorrect';
+        
+        resultsHTML += `<div class="result-item ${resultClass}">
+          <strong>Q18-20: ${icon}</strong>
+          <div class="detail"><strong>Your answer:</strong> ${result.answer.length > 0 ? result.answer.join(', ') : '(empty)'}</div>
+          <div class="detail"><strong>Correct answer:</strong> ${correctAnswer}</div>
+        </div>`;
+      }
+      
+      // Display Q21-30
+      for (let i = 21; i <= 30; i++){
+        const result = results[i];
+        const correctAnswer = ANSWER_KEY[i];
+        const isCorrect = result.isCorrect;
+        const icon = isCorrect ? '✓' : '✗';
+        const resultClass = isCorrect ? 'correct' : 'incorrect';
+        
+        resultsHTML += `<div class="result-item ${resultClass}">
+          <strong>Q${i}: ${icon}</strong>
+          <div class="detail"><strong>Your answer:</strong> ${result.answer || '(empty)'}</div>
+          <div class="detail"><strong>Correct answer:</strong> ${correctAnswer}</div>
+        </div>`;
+      }
+      
+      // Display Q31-40
+      for (let i = 31; i <= 40; i++){
+        const result = results[i];
+        const correctAnswer = ANSWER_KEY[i];
+        const isCorrect = result.isCorrect;
+        const icon = isCorrect ? '✓' : '✗';
+        const resultClass = isCorrect ? 'correct' : 'incorrect';
+        
+        resultsHTML += `<div class="result-item ${resultClass}">
+          <strong>Q${i}: ${icon}</strong>
+          <div class="detail"><strong>Your answer:</strong> ${result.answer || '(empty)'}</div>
+          <div class="detail"><strong>Correct answer:</strong> ${correctAnswer}</div>
+        </div>`;
+      }
+      
+      detailedResults.innerHTML = resultsHTML;
+      submissionModal.style.display = 'flex';
+    }
+
+    document.getElementById('submitBtn').addEventListener('click', submitAnswers);
+    document.getElementById('closeResultsBtn').addEventListener('click', () => {
+      document.getElementById('submissionModal').style.display = 'none';
+    });
+  </script>
+</body>
+</html>

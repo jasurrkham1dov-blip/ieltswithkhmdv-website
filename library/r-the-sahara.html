@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IELTS Reading Test – The Sahara (Q1–13)</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      overflow: hidden;
+      color: #1e293b;
+    }
+    .test-wrapper { display:flex; flex-direction:column; height:100vh; }
+    .test-container { display:flex; flex:1; overflow:hidden; }
+
+    /* Header */
+    .header{
+      background:#ffffff; border-bottom:1px solid #cbd5e1;
+      padding:1rem 2rem; display:flex;
+      justify-content:space-between; align-items:center;
+      box-shadow:0 4px 12px rgba(0,0,0,.08);
+      gap:1rem; flex-wrap:wrap;
+    }
+    .header__logo { display:flex; align-items:center; gap:.75rem; }
+    .header__title { font-size:1.1rem; font-weight:600; color:#1e293b; flex:1; min-width:300px; }
+    .header__timer{
+      font-size:1.25rem; font-weight:600; color:#dc2305;
+      background:#fef3c7; padding:.5rem 1.5rem;
+      border-radius:9999px; border:1px solid #fcd34d;
+      transition:all .3s ease; white-space:nowrap;
+    }
+    .header__icons { display:flex; gap:1.25rem; align-items:center; }
+    .header__icon{
+      font-size:1.5rem; color:#64748b; cursor:pointer; transition:all .3s ease;
+    }
+    .header__icon:hover { color:#d97706; transform:scale(1.15); }
+    .header__telegram{
+      display:flex; align-items:center; gap:0.5rem;
+      padding:0.5rem 1.2rem;
+      background:linear-gradient(90deg,#0369a1,#0284c7);
+      color:#fff; border-radius:9999px; text-decoration:none;
+      font-weight:600; font-size:0.9rem; transition:all .3s ease;
+      border:1px solid #0c4a6e;
+    }
+    .header__telegram:hover{ transform:translateY(-2px); box-shadow:0 4px 12px rgba(2,132,199,0.5); }
+
+    /* Answer Indicators */
+    .answer-indicators{
+      display:flex; gap:0.5rem; flex-wrap:wrap;
+      padding:1rem 2rem; background:#f1f5f9;
+      border-bottom:1px solid #cbd5e1; align-items:center; font-size:0.8rem;
+    }
+    .indicator-label { font-weight:600; color:#475569; margin-right:0.5rem; }
+    .answer-circle{
+      width:2.2rem; height:2.2rem; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-weight:700; cursor:default; transition:all .3s ease;
+      border:2px solid #cbd5e1; background:#cbd5e1; color:#64748b; font-size:0.7rem;
+    }
+    .answer-circle.answered{ background:#10b981; border-color:#059669; color:#fff; box-shadow:0 0 8px rgba(16,185,129,0.4); }
+    .answer-circle.unanswered{ background:#ef4444; border-color:#dc2626; color:#fff; box-shadow:0 0 8px rgba(239,68,68,0.4); }
+
+    /* Rubric */
+    .sectionRubric{
+      margin:1.5rem; padding:1.25rem; background:#ffffff;
+      border:1px solid #cbd5e1; border-radius:.75rem;
+      box-shadow:0 4px 12px rgba(0,0,0,.05);
+    }
+    .sectionRubric h2 { font-size:1.25rem; color:#d97706; margin-bottom:.5rem; }
+    .sectionRubric p { margin:0.5rem 0; color:#475569; font-size:0.95rem; }
+
+    /* Panels */
+    .passage-container{
+      width:45%; height:100%; overflow-y:auto;
+      padding:1.5rem; box-sizing:border-box;
+      background:#fafafa; border-right:1px solid #cbd5e1;
+      position:relative; user-select:text; -webkit-user-select:text;
+    }
+    .questions-container{
+      flex:1; height:100%; overflow-y:auto;
+      padding:1.5rem; box-sizing:border-box;
+      background:#fafafa; position:relative;
+      user-select:text; -webkit-user-select:text;
+    }
+    .passage-container::-webkit-scrollbar,
+    .questions-container::-webkit-scrollbar { width:8px; }
+    .passage-container::-webkit-scrollbar-track,
+    .questions-container::-webkit-scrollbar-track { background:#f1f5f9; }
+    .passage-container::-webkit-scrollbar-thumb,
+    .questions-container::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:4px; }
+    .passage-container::-webkit-scrollbar-thumb:hover,
+    .questions-container::-webkit-scrollbar-thumb:hover { background:#94a3b8; }
+
+    /* Divider */
+    .divider { width:14px; background:#cbd5e1; cursor:col-resize; position:relative; }
+    .divider-handle{
+      width:6px; height:60px; background:#94a3b8; border-radius:4px;
+      position:absolute; top:50%; left:4px; transform:translateY(-50%);
+    }
+
+    /* Highlight */
+    .highlight { border-radius:.25rem; padding:0 .15rem; }
+    .highlight.yellow { background:rgba(234,179,8,0.6); }
+    .highlight.green  { background:rgba(34,197,94,0.6); }
+    .highlight.pink   { background:rgba(236,72,153,0.6); }
+    .highlight.blue   { background:rgba(59,130,246,0.6); }
+    .highlight.purple { background:rgba(147,51,234,0.6); }
+    .highlight.red    { background:rgba(239,68,68,0.6); }
+
+    .highlight-toolbar{
+      position:fixed; background:#ffffff;
+      border:1px solid #cbd5e1; border-radius:.5rem;
+      box-shadow:0 8px 16px rgba(0,0,0,.15);
+      display:none; z-index:2000; padding:.5rem;
+      transform:translate(-50%,-100%); margin-top:-.5rem;
+      gap:.35rem; align-items:center; flex-direction:row;
+    }
+    .highlight-toolbar button{
+      background:none; border:none; width:2rem; height:2rem;
+      cursor:pointer; border-radius:.25rem; transition:all .2s ease;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .highlight-toolbar button:hover { background:#f1f5f9; transform:scale(1.08); }
+    .highlight-toolbar button.remove { color:#ef4444; width:auto; padding:0 .5rem; gap:.35rem; }
+    .highlight-color { width:1.5rem; height:1.5rem; border-radius:9999px; border:2px solid #cbd5e1; }
+    .highlight-color.yellow { background:#eab308; }
+    .highlight-color.green  { background:#22c55e; }
+    .highlight-color.pink   { background:#ec4899; }
+    .highlight-color.blue   { background:#3b82f6; }
+    .highlight-color.purple { background:#9333ea; }
+    .highlight-color.red    { background:#ef4444; }
+
+    /* Passage */
+    #passageContent { line-height:1.8; font-size:1.05rem; color:#1e293b; }
+    #passageContent h2 { margin:1rem 0 0.5rem; line-height:1.2; color:#d97706; font-size:1.1rem; }
+    #passageContent p { margin:0.8rem 0; text-align:justify; }
+    .para-label { font-weight:700; color:#d97706; }
+
+    /* Question cards */
+    .questionCard{
+      background:#ffffff; border:1px solid #cbd5e1;
+      border-radius:.75rem; padding:1.25rem; margin-bottom:1.25rem;
+      box-shadow:0 2px 8px rgba(0,0,0,.05); transition:all .3s ease;
+    }
+    .questionCard:hover { box-shadow:0 4px 12px rgba(0,0,0,.08); }
+    .questionCard h3 { font-size:1.1rem; color:#d97706; margin-bottom:.75rem; font-weight:600; }
+    .questionCard p { margin:.4rem 0 .6rem; color:#334155; }
+
+    /* Heading match — roman numeral buttons */
+    .heading-options { display:flex; gap:0.4rem; flex-wrap:wrap; margin-top:0.5rem; }
+    .heading-btn{
+      padding:0.4rem 0.85rem; border:2px solid #cbd5e1; border-radius:9999px;
+      font-size:0.85rem; font-weight:700; cursor:pointer; background:#fff;
+      transition:all .2s ease; color:#475569;
+    }
+    .heading-btn:hover { border-color:#d97706; color:#d97706; }
+    .heading-btn.selected { background:#d97706; border-color:#d97706; color:#fff; }
+
+    /* Headings legend box */
+    .headings-legend{
+      margin:0 1.5rem 0; padding:1rem 1.25rem;
+      background:#fffbeb; border:1px solid #fcd34d;
+      border-radius:.75rem; font-size:0.9rem;
+    }
+    .headings-legend h4 { font-weight:700; color:#d97706; margin-bottom:0.5rem; font-size:0.95rem; }
+    .headings-legend ol { margin:0; padding-left:1.4rem; }
+    .headings-legend li { margin:0.3rem 0; color:#334155; }
+    .headings-legend .roman { font-weight:700; color:#d97706; min-width:2rem; display:inline-block; }
+
+    /* True/False/NG */
+    .tfng-options { display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.5rem; }
+    .tfng-btn{
+      padding:0.45rem 1.1rem; border:2px solid #cbd5e1; border-radius:9999px;
+      font-size:0.85rem; font-weight:600; cursor:pointer; background:#fff;
+      transition:all .2s ease; color:#475569;
+    }
+    .tfng-btn:hover { border-color:#d97706; color:#d97706; }
+    .tfng-btn.selected-true  { background:#d1fae5; border-color:#10b981; color:#065f46; }
+    .tfng-btn.selected-false { background:#fee2e2; border-color:#ef4444; color:#991b1b; }
+    .tfng-btn.selected-ng    { background:#e0e7ff; border-color:#6366f1; color:#3730a3; }
+
+    /* Submit */
+    .submit-container { padding:2rem 1.5rem 3rem; text-align:center; }
+    #submitBtn{
+      background:linear-gradient(135deg,#d97706,#b45309);
+      color:#fff; padding:1rem 3rem; border:none; border-radius:9999px;
+      font-size:1.1rem; font-weight:600; cursor:pointer; transition:all .3s ease;
+      box-shadow:0 4px 12px rgba(217,119,6,.3);
+    }
+    #submitBtn:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(217,119,6,.4); }
+
+    /* Modal */
+    .modal{
+      display:none; position:fixed; z-index:3000;
+      left:0; top:0; width:100%; height:100%;
+      background:rgba(0,0,0,.6); align-items:center;
+      justify-content:center; backdrop-filter:blur(4px);
+    }
+    .modal-content{
+      background:#ffffff; border-radius:1rem; padding:2rem;
+      max-width:620px; width:90%; max-height:80vh; overflow-y:auto;
+      box-shadow:0 20px 60px rgba(0,0,0,.3);
+    }
+    .modal-content h2 { color:#d97706; margin-bottom:1rem; font-size:1.75rem; }
+    #scoreDisplay { font-size:3rem; font-weight:700; color:#10b981; text-align:center; margin:1rem 0; }
+    #feedbackMessage { text-align:center; font-size:1.1rem; color:#475569; margin-bottom:1.5rem; }
+    .result-item { padding:1rem; margin:.75rem 0; border-radius:.5rem; border:1px solid #e2e8f0; }
+    .result-item.correct   { background:#d1fae5; border-color:#10b981; }
+    .result-item.incorrect { background:#fee2e2; border-color:#ef4444; }
+    .result-item .detail { margin:.35rem 0; font-size:.95rem; }
+    #closeResultsBtn{
+      background:#d97706; color:#fff; padding:.75rem 2rem;
+      border:none; border-radius:9999px; font-weight:600;
+      cursor:pointer; margin-top:1rem; width:100%; transition:all .3s ease;
+    }
+    #closeResultsBtn:hover { background:#b45309; }
+
+    /* High contrast */
+    body.high-contrast { background:#000; color:#fff; }
+    body.high-contrast .passage-container,
+    body.high-contrast .questions-container { background:#1a1a1a; color:#fff; }
+    body.high-contrast .questionCard,
+    body.high-contrast .sectionRubric { background:#2a2a2a; border-color:#444; color:#fff; }
+    body.high-contrast #passageContent { color:#fff; }
+    body.high-contrast .heading-btn,
+    body.high-contrast .tfng-btn { background:#2a2a2a; color:#fff; }
+    body.high-contrast .headings-legend { background:#2a2a2a; border-color:#444; }
+  </style>
+</head>
+<body>
+<div class="test-wrapper">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header__logo">
+      <span style="font-size:2rem;">🏜️</span>
+      <span class="header__title">IELTS Reading Test — The Sahara (Questions 1–13)</span>
+    </div>
+    <div class="header__timer" id="timer">00:00</div>
+    <div class="header__icons">
+      <i class="fas fa-adjust header__icon" id="contrastToggle" title="Toggle High Contrast"></i>
+      <i class="fas fa-text-height header__icon" id="textSizeToggle" title="Change Text Size"></i>
+    </div>
+    <a href="https://t.me/ieltswithkhmdv" target="_blank" class="header__telegram">
+      <i class="fab fa-telegram"></i>
+      <span>@ieltswithkhmdv</span>
+    </a>
+  </div>
+
+  <!-- Progress Indicators -->
+  <div class="answer-indicators">
+    <span class="indicator-label">Your Progress:</span>
+    <div class="answer-circle" data-question="1">1</div>
+    <div class="answer-circle" data-question="2">2</div>
+    <div class="answer-circle" data-question="3">3</div>
+    <div class="answer-circle" data-question="4">4</div>
+    <div class="answer-circle" data-question="5">5</div>
+    <div class="answer-circle" data-question="6">6</div>
+    <div class="answer-circle" data-question="7">7</div>
+    <div class="answer-circle" data-question="8">8</div>
+    <div class="answer-circle" data-question="9">9</div>
+    <div class="answer-circle" data-question="10">10</div>
+    <div class="answer-circle" data-question="11">11</div>
+    <div class="answer-circle" data-question="12">12</div>
+    <div class="answer-circle" data-question="13">13</div>
+  </div>
+
+  <!-- Main -->
+  <div class="test-container">
+
+    <!-- Passage -->
+    <div class="passage-container">
+      <div id="passageContent">
+        <h2>The Sahara</h2>
+        <p style="font-style:italic;color:#64748b;">Reading Passage 1 — Questions 1–13</p>
+
+        <p><span class="para-label">A.</span> The Sahara is the largest hot desert in the world, and the third largest desert behind Antarctica and the Arctic, which are both cold deserts. The Sahara is one of the harshest environments on Earth, covering 3.6 million square miles (9.4 million square kilometers), nearly a third of the African continent, about the size of the United States (including Alaska and Hawaii). The Sahara is bordered by the Atlantic Ocean on the west, the Red Sea on the east, the Mediterranean Sea on the north and the Sahel Savannah on the south. The enormous desert spans 11 countries: Algeria, Chad, Egypt, Libya, Mali, Mauritania, Morocco, Niger, Western Sahara, Sudan and Tunisia.</p>
+
+        <p><span class="para-label">B.</span> The Sahara desert has a variety of terrains, but is most famous for the sand dune fields that are often depicted in movies. The dunes can reach almost 600 feet (183 meters) high but they cover only about 15 percent of the entire desert. Other topographical features include mountains, plateaus, sand- and gravel-covered plains, salt flats, basins and depressions. Mount Koussi, an extinct volcano in Chad, is the highest point in the Sahara at 11,204 feet (3,415 m), and the Qattara Depression in Egypt is the Saraha's deepest point, at 436 feet (133 m) below sea level.</p>
+
+        <p><span class="para-label">C.</span> Water is scarce across the entire region, yet the Sahara contains two permanent rivers (the Nile and the Niger), at least 20 seasonal lakes and huge aquifers, which are the primary sources of water in the more than 90 major desert oases. Water management authorities once feared the aquifers in the Sahara would soon dry up due to overuse, but a study published in the journal Geophysical Research Letters in 2013, discovered that the "fossil" (nonrenewable) aquifers were still being fed via rain and runoff.</p>
+
+        <p><span class="para-label">D.</span> Despite the harsh, arid conditions of the desert, several plants and animals call the region home. There are approximately 500 species of plants, 70 known mammalian species, 90 avian species and 100 reptilian species that live in the Sahara, plus several species of spiders, scorpions and other small arthropods, according to World Wildlife Fund. Camels are one of the most iconic animals of the Sahara. The large mammals are native to North America and eventually made their way across the Bering Isthmus between 3 and 5 million years ago, according to a study in the Research Journal of Agriculture and Environmental Management in 2015. Camels were domesticated about 3,000 years ago on the Southeast Arabian Peninsula, to be used for various purposes, one of which is transportation in the desert, according to the University of Veterinary Medicine, Vienna. Plant species in the Sahara have adapted to the arid conditions, with roots that reach deep underground to find buried water sources and leaves that are shaped into spines that minimize moisture loss. The most arid parts of the desert are completely void of plant life, but oasis areas, such as the Nile Valley, support a large variety of plants.</p>
+
+        <p><span class="para-label">E.</span> For the past 2,000 years or so, the climate of the Sahara has been fairly stable. The northeastern winds dry out the air over the desert and drive hot winds toward the equator. These winds can reach exceptional speeds and cause severe dust storms that can drop local visibility to zero. Dust from the Sahara travels on trade winds all the way to the opposite side of the globe. Precipitation in the Sahara ranges from zero to about 3 inches of rain per year, with some locations not seeing rain for several years at a time. Occasionally, snow falls at higher elevations. Daytime summer temperatures are often over 100 degrees Fahrenheit (38 degrees Celsius) and can drop to near-freezing temperatures at nighttime.</p>
+
+        <p><span class="para-label">F.</span> The Sahara alternates from being a dry, inhospitable desert to a lush, green oasis about every 20,000 years, according to a study published in the journal Science Advances in 2019. The study's authors examined marine sediments containing dust deposits from the Sahara from the past 240,000 years. The team found that the cycle between a dry and a green Sahara corresponded to the slight changes in the tilt of Earth's axis, which also drives monsoon activity. When the Earth's axis tilted the Northern Hemisphere just a single degree closer to the sun (about 24.5 degrees instead of today's 23.5 degrees), it received more sunlight, which increased the monsoon rains and therefore, supported a lush green landscape in the Sahara.</p>
+
+        <p><span class="para-label">G.</span> The area of the Sahara desert has grown nearly 10 percent since 1920, according to a 2018 study published in the Journal of Climate. While all deserts, including the Sahara, increase in area during the dry season and decrease during the wet season, human-caused climate change in conjunction with natural climate cycles, are causing the Sahara desert to grow more and shrink less. The study's authors estimated that approximately a third of the desert's expansion was due to human-made climate change.</p>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="divider" id="divider"><div class="divider-handle"></div></div>
+
+    <!-- Questions -->
+    <div class="questions-container">
+      <div id="questionsContent">
+
+        <!-- Q1–7: Heading Matching -->
+        <div class="sectionRubric">
+          <h2>Questions 1–7</h2>
+          <p>Reading Passage 1 has seven paragraphs, <strong>A–G</strong>.</p>
+          <p>Choose the correct heading for each paragraph from the list of headings below.</p>
+          <p>Write the correct number, <strong>i–x</strong>, in boxes 1–7 on your answer sheet.</p>
+        </div>
+
+        <div class="headings-legend">
+          <h4>List of Headings</h4>
+          <ol type="i">
+            <li><span class="roman">i.</span> Impacts of the increase in deserts' size</li>
+            <li><span class="roman">ii.</span> Extreme weather affecting local residents many times a year</li>
+            <li><span class="roman">iii.</span> How to deal with the lack of water</li>
+            <li><span class="roman">iv.</span> How human beings interfere with a natural process</li>
+            <li><span class="roman">v.</span> No worries about the insufficiency of water</li>
+            <li><span class="roman">vi.</span> Fauna and flora</li>
+            <li><span class="roman">vii.</span> Size and geographical position</li>
+            <li><span class="roman">viii.</span> A variety of weather patterns in the Sahara</li>
+            <li><span class="roman">ix.</span> Effects of changes in the position of the planet</li>
+            <li><span class="roman">x.</span> A range of geographical features in the Sahara</li>
+          </ol>
+        </div>
+        <br>
+
+        <!-- Q1 -->
+        <div class="questionCard">
+          <h3>Question 1 — Paragraph A</h3>
+          <div class="heading-options">
+            <button class="heading-btn" data-q="1" data-val="i">i</button>
+            <button class="heading-btn" data-q="1" data-val="ii">ii</button>
+            <button class="heading-btn" data-q="1" data-val="iii">iii</button>
+            <button class="heading-btn" data-q="1" data-val="iv">iv</button>
+            <button class="heading-btn" data-q="1" data-val="v">v</button>
+            <button class="heading-btn" data-q="1" data-val="vi">vi</button>
+            <button class="heading-btn" data-q="1" data-val="vii">vii</button>
+            <button class="heading-btn" data-q="1" data-val="viii">viii</button>
+            <button class="heading-btn" data-q="1" data-val="ix">ix</button>
+            <button class="heading-btn" data-q="1" data-val="x">x</button>
+          </div>
+          <input type="hidden" name="q1" value="">
+        </div>
+
+        <!-- Q2 -->
+        <div class="questionCard">
+          <h3>Question 2 — Paragraph B</h3>
+          <div class="heading-options">
+            <button class="heading-btn" data-q="2" data-val="i">i</button>
+            <button class="heading-btn" data-q="2" data-val="ii">ii</button>
+            <button class="heading-btn" data-q="2" data-val="iii">iii</button>
+            <button class="heading-btn" data-q="2" data-val="iv">iv</button>
+            <button class="heading-btn" data-q="2" data-val="v">v</button>
+            <button class="heading-btn" data-q="2" data-val="vi">vi</button>
+            <button class="heading-btn" data-q="2" data-val="vii">vii</button>
+            <button class="heading-btn" data-q="2" data-val="viii">viii</button>
+            <button class="heading-btn" data-q="2" data-val="ix">ix</button>
+            <button class="heading-btn" data-q="2" data-val="x">x</button>
+          </div>
+          <input type="hidden" name="q2" value="">
+        </div>
+
+        <!-- Q3 -->
+        <div class="questionCard">
+          <h3>Question 3 — Paragraph C</h3>
+          <div class="heading-options">
+            <button class="heading-btn" data-q="3" data-val="i">i</button>
+            <button class="heading-btn" data-q="3" data-val="ii">ii</button>
+            <button class="heading-btn" data-q="3" data-val="iii">iii</button>
+            <button class="heading-btn" data-q="3" data-val="iv">iv</button>
+            <button class="heading-btn" data-q="3" data-val="v">v</button>
+            <button class="heading-btn" data-q="3" data-val="vi">vi</button>
+            <button class="heading-btn" data-q="3" data-val="vii">vii</button>
+            <button class="heading-btn" data-q="3" data-val="viii">viii</button>
+            <button class="heading-btn" data-q="3" data-val="ix">ix</button>
+            <button class="heading-btn" data-q="3" data-val="x">x</button>
+          </div>
+          <input type="hidden" name="q3" value="">
+        </div>
+
+        <!-- Q4 -->
+        <div class="questionCard">
+          <h3>Question 4 — Paragraph D</h3>
+          <div class="heading-options">
+            <button class="heading-btn" data-q="4" data-val="i">i</button>
+            <button class="heading-btn" data-q="4" data-val="ii">ii</button>
+            <button class="heading-btn" data-q="4" data-val="iii">iii</button>
+            <button class="heading-btn" data-q="4" data-val="iv">iv</button>
+            <button class="heading-btn" data-q="4" data-val="v">v</button>
+            <button class="heading-btn" data-q="4" data-val="vi">vi</button>
+            <button class="heading-btn" data-q="4" data-val="vii">vii</button>
+            <button class="heading-btn" data-q="4" data-val="viii">viii</button>
+            <button class="heading-btn" data-q="4" data-val="ix">ix</button>
+            <button class="heading-btn" data-q="4" data-val="x">x</button>
+          </div>
+          <input type="hidden" name="q4" value="">
+        </div>
+
+        <!-- Q5 -->
+        <div class="questionCard">
+          <h3>Question 5 — Paragraph E</h3>
+          <div class="heading-options">
+            <button class="heading-btn" data-q="5" data-val="i">i</button>
+            <button class="heading-btn" data-q="5" data-val="ii">ii</button>
+            <button class="heading-btn" data-q="5" data-val="iii">iii</button>
+            <button class="heading-btn" data-q="5" data-val="iv">iv</button>
+            <button class="heading-btn" data-q="5" data-val="v">v</button>
+            <button class="heading-btn" data-q="5" data-val="vi">vi</button>
+            <button class="heading-btn" data-q="5" data-val="vii">vii</button>
+            <button class="heading-btn" data-q="5" data-val="viii">viii</button>
+            <button class="heading-btn" data-q="5" data-val="ix">ix</button>
+            <button class="heading-btn" data-q="5" data-val="x">x</button>
+          </div>
+          <input type="hidden" name="q5" value="">
+        </div>
+
+        <!-- Q6 -->
+        <div class="questionCard">
+          <h3>Question 6 — Paragraph F</h3>
+          <div class="heading-options">
+            <button class="heading-btn" data-q="6" data-val="i">i</button>
+            <button class="heading-btn" data-q="6" data-val="ii">ii</button>
+            <button class="heading-btn" data-q="6" data-val="iii">iii</button>
+            <button class="heading-btn" data-q="6" data-val="iv">iv</button>
+            <button class="heading-btn" data-q="6" data-val="v">v</button>
+            <button class="heading-btn" data-q="6" data-val="vi">vi</button>
+            <button class="heading-btn" data-q="6" data-val="vii">vii</button>
+            <button class="heading-btn" data-q="6" data-val="viii">viii</button>
+            <button class="heading-btn" data-q="6" data-val="ix">ix</button>
+            <button class="heading-btn" data-q="6" data-val="x">x</button>
+          </div>
+          <input type="hidden" name="q6" value="">
+        </div>
+
+        <!-- Q7 -->
+        <div class="questionCard">
+          <h3>Question 7 — Paragraph G</h3>
+          <div class="heading-options">
+            <button class="heading-btn" data-q="7" data-val="i">i</button>
+            <button class="heading-btn" data-q="7" data-val="ii">ii</button>
+            <button class="heading-btn" data-q="7" data-val="iii">iii</button>
+            <button class="heading-btn" data-q="7" data-val="iv">iv</button>
+            <button class="heading-btn" data-q="7" data-val="v">v</button>
+            <button class="heading-btn" data-q="7" data-val="vi">vi</button>
+            <button class="heading-btn" data-q="7" data-val="vii">vii</button>
+            <button class="heading-btn" data-q="7" data-val="viii">viii</button>
+            <button class="heading-btn" data-q="7" data-val="ix">ix</button>
+            <button class="heading-btn" data-q="7" data-val="x">x</button>
+          </div>
+          <input type="hidden" name="q7" value="">
+        </div>
+
+        <!-- Q8–13: True / False / Not Given -->
+        <div class="sectionRubric">
+          <h2>Questions 8–13</h2>
+          <p>Do the following statements agree with the information given in <strong>Reading Passage 1</strong>?</p>
+          <p>In boxes 8–13 on your answer sheet, write:</p>
+          <p><strong>TRUE</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the statement agrees with the information</p>
+          <p><strong>FALSE</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the statement contradicts the information</p>
+          <p><strong>NOT GIVEN</strong> &nbsp; if there is no information on this</p>
+        </div>
+
+        <!-- Q8 -->
+        <div class="questionCard">
+          <h3>Question 8</h3>
+          <p>The Sahara is larger than any other hot deserts across the globe.</p>
+          <div class="tfng-options">
+            <button class="tfng-btn" data-q="8" data-val="TRUE">TRUE</button>
+            <button class="tfng-btn" data-q="8" data-val="FALSE">FALSE</button>
+            <button class="tfng-btn" data-q="8" data-val="NOT GIVEN">NOT GIVEN</button>
+          </div>
+          <input type="hidden" name="q8" value="">
+        </div>
+
+        <!-- Q9 -->
+        <div class="questionCard">
+          <h3>Question 9</h3>
+          <p>Despite the scarcity of water in the Sahara, there are rivers and lakes that are filled with water all year round.</p>
+          <div class="tfng-options">
+            <button class="tfng-btn" data-q="9" data-val="TRUE">TRUE</button>
+            <button class="tfng-btn" data-q="9" data-val="FALSE">FALSE</button>
+            <button class="tfng-btn" data-q="9" data-val="NOT GIVEN">NOT GIVEN</button>
+          </div>
+          <input type="hidden" name="q9" value="">
+        </div>
+
+        <!-- Q10 -->
+        <div class="questionCard">
+          <h3>Question 10</h3>
+          <p>Spiders, scorpions and some arthropods in the Sahara are smaller than those in other places.</p>
+          <div class="tfng-options">
+            <button class="tfng-btn" data-q="10" data-val="TRUE">TRUE</button>
+            <button class="tfng-btn" data-q="10" data-val="FALSE">FALSE</button>
+            <button class="tfng-btn" data-q="10" data-val="NOT GIVEN">NOT GIVEN</button>
+          </div>
+          <input type="hidden" name="q10" value="">
+        </div>
+
+        <!-- Q11 -->
+        <div class="questionCard">
+          <h3>Question 11</h3>
+          <p>Ancient Arabian people are believed to have recently used camels for transportation.</p>
+          <div class="tfng-options">
+            <button class="tfng-btn" data-q="11" data-val="TRUE">TRUE</button>
+            <button class="tfng-btn" data-q="11" data-val="FALSE">FALSE</button>
+            <button class="tfng-btn" data-q="11" data-val="NOT GIVEN">NOT GIVEN</button>
+          </div>
+          <input type="hidden" name="q11" value="">
+        </div>
+
+        <!-- Q12 -->
+        <div class="questionCard">
+          <h3>Question 12</h3>
+          <p>Dust storms in the Sahara are so severe that people nearby can hardly see anything.</p>
+          <div class="tfng-options">
+            <button class="tfng-btn" data-q="12" data-val="TRUE">TRUE</button>
+            <button class="tfng-btn" data-q="12" data-val="FALSE">FALSE</button>
+            <button class="tfng-btn" data-q="12" data-val="NOT GIVEN">NOT GIVEN</button>
+          </div>
+          <input type="hidden" name="q12" value="">
+        </div>
+
+        <!-- Q13 -->
+        <div class="questionCard">
+          <h3>Question 13</h3>
+          <p>The earth is unlikely to tilt closer to the Sun in many thousand years to come.</p>
+          <div class="tfng-options">
+            <button class="tfng-btn" data-q="13" data-val="TRUE">TRUE</button>
+            <button class="tfng-btn" data-q="13" data-val="FALSE">FALSE</button>
+            <button class="tfng-btn" data-q="13" data-val="NOT GIVEN">NOT GIVEN</button>
+          </div>
+          <input type="hidden" name="q13" value="">
+        </div>
+
+        <div class="submit-container">
+          <button id="submitBtn">Submit Test</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Highlight Toolbar -->
+<div class="highlight-toolbar" id="highlightToolbar">
+  <button data-color="yellow"><span class="highlight-color yellow"></span></button>
+  <button data-color="green"><span class="highlight-color green"></span></button>
+  <button data-color="pink"><span class="highlight-color pink"></span></button>
+  <button data-color="blue"><span class="highlight-color blue"></span></button>
+  <button data-color="purple"><span class="highlight-color purple"></span></button>
+  <button data-color="red"><span class="highlight-color red"></span></button>
+  <button class="remove" id="removeHighlight">
+    <i class="fas fa-times"></i>
+    <span style="font-size:0.85rem;">Remove</span>
+  </button>
+</div>
+
+<!-- Results Modal -->
+<div class="modal" id="submissionModal">
+  <div class="modal-content">
+    <h2>🏜️ Test Results</h2>
+    <div id="scoreDisplay">0 / 13</div>
+    <div id="feedbackMessage"></div>
+    <div id="detailedResults"></div>
+    <button id="closeResultsBtn">Close</button>
+  </div>
+</div>
+
+<script>
+  /*** ANSWER KEY ***/
+  const ANSWER_KEY = {
+    1: 'vii', 2: 'x',  3: 'v',   4: 'vi',
+    5: 'viii', 6: 'ix', 7: 'iv',
+    8: 'TRUE', 9: 'FALSE', 10: 'NOT GIVEN',
+    11: 'FALSE', 12: 'TRUE', 13: 'NOT GIVEN'
+  };
+
+  const ALTERNATES = {};
+  const Q_NUMS = [1,2,3,4,5,6,7,8,9,10,11,12,13];
+  const TOTAL = Q_NUMS.length;
+
+  /*** TIMER ***/
+  let timeElapsed = 0, testSubmitted = false;
+  setInterval(() => {
+    if (!testSubmitted) {
+      timeElapsed++;
+      const m = Math.floor(timeElapsed / 60), s = timeElapsed % 60;
+      document.getElementById('timer').textContent =
+        `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    }
+  }, 1000);
+
+  /*** HEADING BUTTONS ***/
+  document.querySelectorAll('.heading-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const q = btn.dataset.q;
+      document.querySelectorAll(`.heading-btn[data-q="${q}"]`).forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      document.querySelector(`input[name="q${q}"]`).value = btn.dataset.val;
+      updateIndicators();
+    });
+  });
+
+  /*** TRUE/FALSE/NOT GIVEN BUTTONS ***/
+  document.querySelectorAll('.tfng-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const q = btn.dataset.q;
+      const val = btn.dataset.val;
+      document.querySelectorAll(`.tfng-btn[data-q="${q}"]`).forEach(b => {
+        b.classList.remove('selected-true','selected-false','selected-ng');
+      });
+      if (val === 'TRUE') btn.classList.add('selected-true');
+      else if (val === 'FALSE') btn.classList.add('selected-false');
+      else btn.classList.add('selected-ng');
+      document.querySelector(`input[name="q${q}"]`).value = val;
+      updateIndicators();
+    });
+  });
+
+  /*** INPUT HELPERS ***/
+  function getVal(i) {
+    const el = document.querySelector(`input[name="q${i}"]`);
+    return el ? el.value.trim() : '';
+  }
+
+  /*** PROGRESS INDICATORS ***/
+  function updateIndicators() {
+    Q_NUMS.forEach(i => {
+      const circle = document.querySelector(`.answer-circle[data-question="${i}"]`);
+      if (!circle) return;
+      const answered = getVal(i) !== '';
+      circle.classList.toggle('answered', answered);
+      circle.classList.toggle('unanswered', !answered);
+    });
+  }
+
+  /*** CHECK ANSWER ***/
+  function checkAnswer(i) {
+    const user = getVal(i).toLowerCase().trim();
+    const correct = String(ANSWER_KEY[i]).toLowerCase().trim();
+    if (user === correct) return true;
+    if (ALTERNATES[i]) return ALTERNATES[i].some(a => a.toLowerCase() === user);
+    return false;
+  }
+
+  /*** SUBMIT ***/
+  function submitAnswers() {
+    if (testSubmitted) return;
+    testSubmitted = true;
+    let correct = 0;
+    const results = {};
+
+    Q_NUMS.forEach(i => {
+      const isCorrect = checkAnswer(i);
+      if (isCorrect) correct++;
+      results[i] = { answer: getVal(i), isCorrect };
+    });
+
+    document.getElementById('scoreDisplay').textContent = `${correct} / ${TOTAL}`;
+    const pct = Math.round((correct / TOTAL) * 100);
+    const elapsed = `${String(Math.floor(timeElapsed/60)).padStart(2,'0')}:${String(timeElapsed%60).padStart(2,'0')}`;
+    document.getElementById('feedbackMessage').textContent =
+      `You got ${pct}% correct. Time elapsed: ${elapsed}`;
+
+    let html = '';
+    Q_NUMS.forEach(i => {
+      const r = results[i];
+      html += `<div class="result-item ${r.isCorrect ? 'correct' : 'incorrect'}">
+        <strong>Q${i}: ${r.isCorrect ? '✓' : '✗'}</strong>
+        <div class="detail"><strong>Your answer:</strong> ${r.answer || '(empty)'}</div>
+        <div class="detail"><strong>Correct answer:</strong> ${ANSWER_KEY[i]}</div>
+      </div>`;
+    });
+    document.getElementById('detailedResults').innerHTML = html;
+    document.getElementById('submissionModal').style.display = 'flex';
+  }
+
+  document.getElementById('submitBtn').addEventListener('click', submitAnswers);
+  document.getElementById('closeResultsBtn').addEventListener('click', () => {
+    document.getElementById('submissionModal').style.display = 'none';
+  });
+
+  /*** DIVIDER RESIZE ***/
+  const divider = document.getElementById('divider');
+  const passagePanel = document.querySelector('.passage-container');
+  const testContainer = document.querySelector('.test-container');
+  let isResizing = false;
+  divider.addEventListener('mousedown', () => { isResizing = true; });
+  document.addEventListener('mouseup', () => { isResizing = false; });
+  document.addEventListener('mousemove', e => {
+    if (!isResizing) return;
+    const box = testContainer.getBoundingClientRect();
+    const w = e.clientX - box.left;
+    if (w > 250 && w < box.width - 250) passagePanel.style.width = w + 'px';
+  });
+
+  /*** CONTRAST & TEXT SIZE ***/
+  document.getElementById('contrastToggle').addEventListener('click', () => {
+    document.body.classList.toggle('high-contrast');
+  });
+  let textSizeIndex = 0;
+  const textSizes = ['1.05rem','1.2rem','1.35rem'];
+  document.getElementById('textSizeToggle').addEventListener('click', () => {
+    textSizeIndex = (textSizeIndex + 1) % textSizes.length;
+    document.getElementById('passageContent').style.fontSize = textSizes[textSizeIndex];
+    document.getElementById('questionsContent').style.fontSize = textSizes[textSizeIndex];
+  });
+
+  /*** HIGHLIGHTING ***/
+  const ROOTS = [
+    document.getElementById('passageContent'),
+    document.getElementById('questionsContent')
+  ];
+  const toolbar = document.getElementById('highlightToolbar');
+
+  document.addEventListener('mouseup', e => {
+    const sel = window.getSelection();
+    if (!sel.rangeCount || sel.isCollapsed) { toolbar.style.display='none'; return; }
+    const range = sel.getRangeAt(0);
+    if (!ROOTS.some(r => r.contains(range.commonAncestorContainer))) { toolbar.style.display='none'; return; }
+    const rect = range.getBoundingClientRect();
+    toolbar.style.left = rect.left + rect.width/2 + 'px';
+    toolbar.style.top  = rect.top + window.scrollY + 'px';
+    toolbar.style.display = 'flex';
+  });
+
+  toolbar.querySelectorAll('button[data-color]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      applyHighlight(btn.getAttribute('data-color'));
+      toolbar.style.display = 'none';
+      window.getSelection().removeAllRanges();
+    });
+  });
+
+  document.getElementById('removeHighlight').addEventListener('click', () => {
+    removeHighlights();
+    toolbar.style.display = 'none';
+    window.getSelection().removeAllRanges();
+  });
+
+  function applyHighlight(color) {
+    const sel = window.getSelection();
+    if (!sel.rangeCount || sel.isCollapsed) return;
+    const range = sel.getRangeAt(0);
+    const root = ROOTS.find(r => r.contains(range.commonAncestorContainer)) || ROOTS[0];
+    getTextNodes(root, range).forEach(node => {
+      const {s,e} = getOffsets(node, range);
+      if (s===e) return;
+      const chosen = splitNode(node,s,e);
+      const span = document.createElement('span');
+      span.className = `highlight ${color}`;
+      chosen.parentNode.insertBefore(span, chosen);
+      span.appendChild(chosen);
+      mergeAdjacent(span);
+    });
+  }
+
+  function removeHighlights() {
+    const sel = window.getSelection();
+    if (!sel.rangeCount || sel.isCollapsed) return;
+    const range = sel.getRangeAt(0);
+    const root = ROOTS.find(r => r.contains(range.commonAncestorContainer)) || ROOTS[0];
+    Array.from(root.querySelectorAll('span.highlight')).forEach(sp => {
+      if (intersects(range,sp)) unwrap(sp);
+    });
+  }
+
+  function unwrap(span) {
+    const p = span.parentNode;
+    while (span.firstChild) p.insertBefore(span.firstChild, span);
+    p.removeChild(span); p.normalize();
+  }
+
+  function mergeAdjacent(span) {
+    const prev = span.previousSibling;
+    if (prev && prev.nodeType===1 && prev.className===span.className) {
+      while (span.firstChild) prev.appendChild(span.firstChild);
+      span.remove(); span = prev;
+    }
+    const next = span.nextSibling;
+    if (next && next.nodeType===1 && next.className===span.className) {
+      while (next.firstChild) span.appendChild(next.firstChild);
+      next.remove();
+    }
+  }
+
+  function getTextNodes(root, range) {
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: node => {
+        if (!node.nodeValue?.trim()) return NodeFilter.FILTER_REJECT;
+        const p = node.parentElement;
+        if (p?.closest?.('script,style,input,select,textarea,button')) return NodeFilter.FILTER_REJECT;
+        return intersects(range,node) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      }
+    });
+    const nodes=[]; let n;
+    while (n=walker.nextNode()) nodes.push(n);
+    return nodes;
+  }
+
+  function intersects(range, node) {
+    const nr = document.createRange();
+    try { nr.selectNodeContents(node); } catch { return false; }
+    return range.compareBoundaryPoints(Range.END_TO_START,nr)<0 &&
+           range.compareBoundaryPoints(Range.START_TO_END,nr)>0;
+  }
+
+  function getOffsets(node, range) {
+    const len = node.nodeValue.length;
+    let s=0, e=len;
+    if (range.startContainer===node) s=range.startOffset;
+    else { const r=document.createRange(); r.selectNodeContents(node); if(range.compareBoundaryPoints(Range.START_TO_END,r)>=0) s=e; }
+    if (range.endContainer===node) e=range.endOffset;
+    else { const r=document.createRange(); r.selectNodeContents(node); if(range.compareBoundaryPoints(Range.END_TO_START,r)<=0) e=s; }
+    s=Math.max(0,Math.min(s,len)); e=Math.max(0,Math.min(e,len));
+    if(e<s) e=s;
+    return {s,e};
+  }
+
+  function splitNode(node,s,e) {
+    if (e<node.nodeValue.length) node.splitText(e);
+    if (s>0) node=node.splitText(s);
+    return node;
+  }
+</script>
+</body>
+</html>

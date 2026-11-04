@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Listening Practice - Part 4 | Fly Glow Worms</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --border-color: #e0e0e0;
+    --primary-color: #1e6de6;
+    --secondary-bg: #f8f9fa;
+    --correct-color: #28a745;
+    --incorrect-color: #dc3545;
+    --highlight-color: #ffe066;
+    --highlight-text-color: #333333;
+    --telegram-color: #1e6de6;
+    --font-size: 16px;
+    --input-bg: #ffffff;
+    --input-text: #000000;
+}
+
+[data-theme="dark"] {
+    --bg-color: #1a1a1a;
+    --text-color: #f0f0f0;
+    --border-color: #444444;
+    --primary-color: #4a90e2;
+    --secondary-bg: #2d2d2d;
+    --correct-color: #2ecc71;
+    --incorrect-color: #e74c3c;
+    --highlight-color: #ffd700;
+    --highlight-text-color: #000000;
+    --telegram-color: #4a90e2;
+    --input-bg: #2d2d2d;
+    --input-text: #ffffff;
+}
+
+.font-small  { --font-size: 14px; }
+.font-medium { --font-size: 16px; }
+.font-large  { --font-size: 18px; }
+.font-xlarge { --font-size: 20px; }
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.4;
+    font-size: var(--font-size);
+    padding-bottom: 90px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Page watermark */
+
+/* === HIGHLIGHT STYLES === */
+.highlight {
+    background-color: var(--highlight-color);
+    color: var(--highlight-text-color) !important;
+    font-weight: 600;
+    padding: 1px 3px;
+    border-radius: 2px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+[data-theme="dark"] .highlight {
+    background-color: var(--highlight-color);
+    color: #000000 !important;
+    text-shadow: none;
+}
+
+.comment-highlight {
+    background-color: #90EE90;
+    position: relative;
+    cursor: help;
+    color: #000000 !important;
+}
+
+[data-theme="dark"] .comment-highlight {
+    background-color: #006400;
+    color: #ffffff !important;
+}
+
+.comment-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    white-space: nowrap;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.comment-highlight:hover .comment-tooltip {
+    opacity: 1;
+}
+
+/* === AUTO-POPUP SELECTION TOOLBAR (appears right where you mark words) === */
+.selection-toolbar {
+    position: absolute;
+    display: none;
+    align-items: center;
+    gap: 2px;
+    background: #2b2b2b;
+    border-radius: 8px;
+    padding: 4px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    z-index: 3000;
+    white-space: nowrap;
+}
+
+.selection-toolbar.show {
+    display: flex;
+    animation: popIn 0.12s ease-out;
+}
+
+@keyframes popIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.selection-toolbar button {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 7px 11px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.15s;
+}
+
+.selection-toolbar button:hover {
+    background: #454545;
+}
+
+.selection-toolbar .divider {
+    width: 1px;
+    height: 20px;
+    background: #555;
+    margin: 0 2px;
+}
+
+.selection-toolbar .swatch {
+    width: 13px;
+    height: 13px;
+    border-radius: 3px;
+    background: var(--highlight-color);
+    display: inline-block;
+}
+
+.header {
+    background-color: var(--bg-color);
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    height: 60px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.ielts-logo {
+    height: 55px;
+    width: auto;
+    display: block;
+}
+
+.telegram-link {
+    color: var(--telegram-color) !important;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+    background: none !important;
+    border: none !important;
+    line-height: 1;
+    transition: opacity 0.2s;
+}
+
+.telegram-link:hover { opacity: 0.8; }
+
+.header-icons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.font-size-container { position: relative; }
+
+.font-size-btn, .dark-mode-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.font-size-btn:hover, .dark-mode-btn:hover {
+    background-color: var(--secondary-bg);
+}
+
+.font-size-options {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 8px 0;
+    min-width: 120px;
+    display: none;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.font-size-options.show { display: block; }
+
+.font-size-options div {
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 14px;
+}
+
+.font-size-options div:hover { background-color: var(--secondary-bg); }
+
+.sun-icon, .moon-icon {
+    position: absolute;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.sun-icon { opacity: 1; transform: scale(1); }
+.moon-icon { opacity: 0; transform: scale(0.5); }
+[data-theme="dark"] .sun-icon { opacity: 0; transform: scale(0.5); }
+[data-theme="dark"] .moon-icon { opacity: 1; transform: scale(1); }
+
+.main-container {
+    margin-top: 60px;
+    display: flex;
+    background: var(--bg-color);
+    padding-bottom: 100px;
+    transition: background-color 0.3s;
+}
+
+.main-container.results-mode { display: flex; flex-direction: row; }
+
+.left-panel {
+    width: 100%;
+    padding: 20px;
+    transition: width 0.4s ease;
+}
+
+.main-container.results-mode .left-panel {
+    width: 65%;
+    overflow-y: auto;
+    height: calc(100vh - 145px);
+}
+
+.right-panel {
+    display: none;
+    width: 35%;
+    padding: 20px;
+    position: relative;
+    border-left: 1px solid var(--border-color);
+    overflow-y: auto;
+    height: calc(100vh - 145px);
+}
+
+.main-container.results-mode .right-panel {
+    display: block;
+}
+
+#transcription-container h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#transcription-text {
+    white-space: pre-wrap;
+    font-family: inherit;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.section-title { font-weight: bold; margin-bottom: 15px; font-size: 18px; }
+
+.questions-container { width: 80%; }
+.main-container.results-mode .questions-container { width: 100%; }
+
+.centered-title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.part-header {
+    background-color: var(--secondary-bg);
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+}
+
+.part-header p { margin: 0; }
+
+.question { margin-bottom: 40px; }
+.question-prompt { margin-bottom: 20px; }
+
+/* Form box (like the printed exam box) */
+.form-box {
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 25px 30px;
+    background-color: var(--bg-color);
+}
+
+.form-box .sub-heading {
+    font-weight: bold;
+    margin: 25px 0 12px 0;
+}
+
+.form-box ul {
+    list-style-type: disc;
+    padding-left: 25px;
+    margin-bottom: 15px;
+}
+
+.form-box ul li {
+    margin-bottom: 16px;
+    line-height: 2.0;
+}
+
+.form-box p {
+    margin-bottom: 12px;
+    line-height: 2.0;
+}
+
+/* Answer Input Styles */
+.answer-input {
+    border: 1px solid #9aa3ad;
+    border-radius: 4px;
+    background-color: var(--input-bg);
+    color: var(--input-text);
+    padding: 4px 8px;
+    font-size: 16px;
+    text-align: left;
+    margin: 0 4px;
+    width: 150px;
+    max-width: 170px;
+    min-width: 120px;
+    height: 30px;
+    line-height: 1.2;
+    vertical-align: middle;
+    font-weight: 600;
+    position: relative;
+    z-index: 10;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+[data-theme="dark"] .answer-input {
+    background-color: var(--input-bg);
+    color: #ffffff !important;
+    border-color: #666;
+}
+
+.answer-input::placeholder {
+    color: #999;
+    font-weight: bold;
+    text-align: center;
+}
+
+[data-theme="dark"] .answer-input::placeholder { color: #8a8a8a; }
+
+.answer-input:focus {
+    outline: none;
+    border-color: #2c6bed;
+    border-width: 2px;
+}
+
+.answer-input.correct {
+    border-color: var(--correct-color);
+    background-color: #e9f7ef;
+    color: #14532d !important;
+}
+
+.answer-input.incorrect {
+    border-color: var(--incorrect-color);
+    background-color: #f8d7da;
+    color: #721c24 !important;
+}
+
+[data-theme="dark"] .answer-input.correct {
+    background-color: #14532d;
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] .answer-input.incorrect {
+    background-color: #5c1f26;
+    color: #ffffff !important;
+}
+
+.correct-inline {
+    color: var(--correct-color);
+    font-weight: 700;
+    margin-left: 8px;
+    display: inline-block;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.correct-inline::before { content: "→ "; font-weight: 700; }
+
+/* Navigation Arrows */
+.nav-arrows {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    display: flex;
+    gap: 5px;
+    z-index: 101;
+}
+
+.nav-arrow {
+    width: 50px;
+    height: 50px;
+    background: var(--text-color);
+    color: var(--bg-color);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.nav-arrow:hover { opacity: 0.85; }
+.nav-arrow:disabled { background: #ccc; cursor: not-allowed; }
+
+/* Bottom Navigation */
+.nav-row {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--bg-color);
+    border-top: 1px solid var(--border-color);
+    padding: 0;
+    display: flex;
+    align-items: center;
+    height: 80px;
+    z-index: 100;
+    transition: background-color 0.3s, border-color 0.3s;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+}
+
+.footer__questionWrapper__1tZ46 {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    margin-right: 20px;
+    flex-shrink: 0;
+}
+
+.footer__questionNo__3WNct {
+    background: none;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.section-prefix { font-size: 16px; }
+.sectionNr { font-size: 16px; font-weight: bold; }
+
+.attemptedCount {
+    font-size: 14px;
+    color: #888;
+    margin-left: 5px;
+    font-weight: 400;
+}
+
+.footer__subquestionWrapper__9GgoP {
+    display: flex;
+    gap: 2px;
+    margin-left: 10px;
+}
+
+.subQuestion {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    border-radius: 2px;
+}
+
+.subQuestion.answered {
+    background-color: var(--secondary-bg);
+    border-color: var(--border-color);
+}
+
+.subQuestion.correct {
+    background-color: var(--correct-color);
+    color: white;
+    border-color: var(--correct-color);
+}
+
+.subQuestion.incorrect {
+    background-color: var(--incorrect-color);
+    color: white;
+    border-color: var(--incorrect-color);
+}
+
+.subQuestion:hover { border-color: #999; }
+
+.subQuestion.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.footer__deliverButton__3FM07 {
+    margin-left: auto;
+    margin-right: 20px;
+    background-color: var(--secondary-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 12px 20px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s, border-color 0.2s;
+    min-width: 170px;
+    justify-content: center;
+}
+
+.footer__deliverButton__3FM07:hover { background-color: #e0e0e0; border-color: #bbb; }
+
+.footer__deliverButton__3FM07.success {
+    background-color: var(--correct-color);
+    color: #fff;
+    border-color: var(--correct-color);
+}
+
+.footer__deliverButton__3FM07.success:hover { background-color: #218838; }
+
+.hidden { display: none; }
+
+/* Result Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-content {
+    background: var(--bg-color);
+    padding: 25px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.modal-header h2 { font-size: 24px; color: var(--text-color); }
+
+.modal-close-btn {
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: #888;
+    line-height: 1;
+}
+
+.modal-close-btn:hover { color: var(--text-color); }
+
+#score-summary { font-size: 18px; font-weight: bold; margin-bottom: 20px; }
+
+#result-details table { width: 100%; border-collapse: collapse; font-size: 14px; }
+
+#result-details th, #result-details td {
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+#result-details th { background-color: var(--secondary-bg); font-weight: 600; }
+#result-details td:nth-child(1) { font-weight: bold; text-align: center; }
+
+.result-correct { color: var(--correct-color); font-weight: bold; }
+.result-incorrect { color: var(--incorrect-color); font-weight: bold; }
+
+.sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+@keyframes flash {
+    0% { background-color: rgba(30,109,230,0.12); }
+    100% { background-color: transparent; }
+}
+
+.question.flash { animation: flash 1s ease-out; }
+
+@media (max-width: 1024px) {
+    .main-container { flex-direction: column; }
+    .right-panel, .main-container.results-mode .right-panel {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-left: none;
+        border-top: 1px solid var(--border-color);
+    }
+    .right-panel { display: none; }
+    .left-panel, .main-container.results-mode .left-panel {
+        width: 100%;
+        padding: 20px 10px;
+        height: auto;
+    }
+    .questions-container, .main-container.results-mode .questions-container { width: 100%; }
+    .form-box { padding: 15px; }
+    .answer-input { width: 110px; min-width: 100px; font-size: 15px; }
+}
+
+@media (max-width: 480px) {
+    .answer-input { width: 95px; min-width: 90px; font-size: 14px; }
+    .form-box ul { padding-left: 18px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+    <div class="header-left">
+</div>
+
+    <div class="header-icons">
+        <a href="https://t.me/ieltswithkhmdv" target="_blank" class="telegram-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-.38.24-1.07.7-.96.66-1.89 1.28-1.89 1.28s-.17.11-.49.03c-.32-.08-.72-.26-1.16-.47-.54-.26-1.17-.53-1.17-.53s-.87-.55.62-1.14c.32-.13 1.96-.84 2.99-1.2 1.05-.37 2.86-1.01 2.86-1.01s1.02-.4 1.02 0z" fill="currentColor"/>
+            </svg>
+            <span>@ieltswithkhmdv</span>
+        </a>
+    <div class="font-size-container">
+            <button class="font-size-btn" id="font-size-toggle" title="Adjust Font Size">A</button>
+            <div id="font-size-options" class="font-size-options">
+                <div data-size="small">Small</div>
+                <div data-size="medium">Medium</div>
+                <div data-size="large">Large</div>
+                <div data-size="xlarge">Extra Large</div>
+            </div>
+        </div>
+
+        <button class="dark-mode-btn" id="dark-mode-toggle" title="Toggle Dark Mode">
+            <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+    </div>
+</div>
+
+<div class="main-container">
+    <!-- Left Panel -->
+    <div class="left-panel">
+        <div id="part-4" class="question-part">
+            <div class="part-header">
+                <p><strong>Part 4</strong></p>
+                <p>Listen and answer questions 31-40.</p>
+            </div>
+
+            <div class="questions-container">
+                <div class="question">
+                    <div class="question-prompt">
+                        <p><strong>Questions 31-40</strong></p>
+                        <p>Complete the form below.</p>
+                        <p>Write <strong>ONE WORD ONLY</strong> for each answer.</p>
+                    </div>
+
+                    <div class="form-box">
+                        <p class="centered-title"><strong>Fly Glow Worms</strong></p>
+
+                        <ul>
+                            <li>Only fly worm larva can <strong>31</strong> <input type="text" id="q31" class="answer-input" placeholder="31" autocomplete="off">.</li>
+                            <li>Adult glow worms can't feed, so they can live only for 14 days or so.</li>
+                        </ul>
+
+                        <p>Fly worms see the light as <strong>32</strong> <input type="text" id="q32" class="answer-input" placeholder="32" autocomplete="off">.</p>
+                        <p>It appears to be a warning signal to predators.</p>
+
+                        <ul>
+                            <li>Adult fly worms often remain in the same area, building a <strong>33</strong> <input type="text" id="q33" class="answer-input" placeholder="33" autocomplete="off"> of glowworms.</li>
+                            <li>Larva glows brighter when they are <strong>34</strong> <input type="text" id="q34" class="answer-input" placeholder="34" autocomplete="off">.</li>
+                        </ul>
+
+                        <p class="sub-heading">Other Fly Glowworms</p>
+
+                        <p>Many fireflies are active in the day.</p>
+                        <p>Many fireflies do not produce light.</p>
+
+                        <ul>
+                            <li>Many fireflies are active in the <strong>35</strong> <input type="text" id="q35" class="answer-input" placeholder="35" autocomplete="off">.</li>
+                            <li>Many fireflies do not produce light.</li>
+                        </ul>
+
+                        <p>'Arachno' refers to the way glowworms catch flying insects like <strong>36</strong> <input type="text" id="q36" class="answer-input" placeholder="36" autocomplete="off">.</p>
+
+                        <ul>
+                            <li>Cause accident of building <strong>37</strong> <input type="text" id="q37" class="answer-input" placeholder="37" autocomplete="off">.</li>
+                            <li>The research provides <strong>38</strong> <input type="text" id="q38" class="answer-input" placeholder="38" autocomplete="off"> information.</li>
+                        </ul>
+
+                        <p>Bio-chemical studies into how the glowworm produces light, and a source of information to aid future ecological and evolutionary studies of the glowworm.</p>
+
+                        <ul>
+                            <li>Major threat to glowworms: <strong>39</strong> <input type="text" id="q39" class="answer-input" placeholder="39" autocomplete="off">.</li>
+                            <li>Further research should focus on the <strong>40</strong> <input type="text" id="q40" class="answer-input" placeholder="40" autocomplete="off"> information of glowworms.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Panel -->
+    <div class="right-panel">
+        <div id="transcription-container">
+            <h2>Transcription</h2>
+            <div id="transcription-text"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Hidden Transcription Data -->
+<div id="transcription-data" style="display:none;">
+    <div data-part="4">
+        <strong>SECTION 4</strong><br><br>
+
+        Questions 31-40<br><br>
+
+        Today we are going to dive into the fascinating world of a special kind of firefly. These glow worms are particularly interesting because of their unique way of living and surviving. One of the intriguing aspects of these glow-worms is that only fly worm larvae can <span class="highlight">eat</span>. Once they become adults, they can no longer feed, which is why they have such a short lifespan, just about 14 days.<br><br>
+
+        The light produced by these larvae is seen as <span class="highlight">warnings</span> by other creatures, particularly the predators. This makes their survival even more interesting.<br><br>
+
+        Adults, also known as fly worms, tend to stay in the same area and build <span class="highlight">colonies</span> of glow worms. This can provide us with insights into their social behaviour as well. When the larvae are <span class="highlight">hungry</span>, they tend to glow brighter, and that differentiates them from other glow worms around them.<br><br>
+
+        Interestingly, many fireflies show a lot of activity during the <span class="highlight">day</span>, although this might be contrary to popular belief. It highlights their varied behaviour patterns.<br><br>
+
+        Speaking of behaviour, the term 'arachno' refers to how glow-worms catch flying insects, similar to how <span class="highlight">spiders</span> do.<br><br>
+
+        The research conducted on these glow-worms has provided us with <span class="highlight">genetic</span> information. This includes biochemical studies on how the glowworm produces light, and crucial data aiding future ecological and evolutionary studies of these fascinating creatures.<br><br>
+
+        One of the major threats to these glow worms is <span class="highlight">disease</span>. This can help us in taking measures to preserve their populations. Furthermore, any continued research should focus on the <span class="highlight">migrate</span> information of glow-worms to better understand their life cycle and migratory patterns.
+    </div>
+</div>
+
+<!-- Hidden Answer Key -->
+<div id="answer-key" style="display:none;">
+    <h3>Correct Answers:</h3>
+    <p>31. eat<br>32. warnings<br>33. colonies<br>34. hungry<br>35. day<br>36. spider<br>37. behavior<br>38. genetic<br>39. disease<br>40. migrate</p>
+</div>
+
+<!-- Navigation Arrows -->
+<div class="nav-arrows">
+    <button class="nav-arrow" onclick="previousQuestion()" id="prevBtn">‹</button>
+    <button class="nav-arrow" onclick="nextQuestion()" id="nextBtn">›</button>
+</div>
+
+<!-- Bottom Navigation -->
+<nav class="nav-row perScorableItem" aria-label="Questions">
+    <div class="footer__questionWrapper__1tZ46 selected multiple" role="tablist">
+        <button role="tab" class="footer__questionNo__3WNct">
+            <span>
+                <span aria-hidden="true" class="section-prefix">Part </span>
+                <span class="sectionNr" aria-hidden="true">4</span>
+                <span class="attemptedCount" aria-hidden="true">0 of 10</span>
+            </span>
+        </button>
+        <div class="footer__subquestionWrapper__9GgoP">
+            <button class="subQuestion scorable-item" onclick="goToQuestion(31)"><span class="sr-only">Question 31</span><span aria-hidden="true">31</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(32)"><span class="sr-only">Question 32</span><span aria-hidden="true">32</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(33)"><span class="sr-only">Question 33</span><span aria-hidden="true">33</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(34)"><span class="sr-only">Question 34</span><span aria-hidden="true">34</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(35)"><span class="sr-only">Question 35</span><span aria-hidden="true">35</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(36)"><span class="sr-only">Question 36</span><span aria-hidden="true">36</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(37)"><span class="sr-only">Question 37</span><span aria-hidden="true">37</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(38)"><span class="sr-only">Question 38</span><span aria-hidden="true">38</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(39)"><span class="sr-only">Question 39</span><span aria-hidden="true">39</span></button>
+            <button class="subQuestion scorable-item" onclick="goToQuestion(40)"><span class="sr-only">Question 40</span><span aria-hidden="true">40</span></button>
+        </div>
+    </div>
+
+    <button id="deliver-button" aria-label="Review your answers" class="footer__deliverButton__3FM07">
+        <span>Check Answers</span>
+    </button>
+</nav>
+
+<!-- Auto-popup selection toolbar -->
+<div id="selection-toolbar" class="selection-toolbar">
+    <button type="button" id="btn-highlight" title="Highlight"><span class="swatch"></span> Highlight</button>
+    <div class="divider"></div>
+    <button type="button" id="btn-comment" title="Add note">Note</button>
+    <div class="divider"></div>
+    <button type="button" id="btn-clear" title="Clear this highlight">Clear</button>
+    <div class="divider"></div>
+    <button type="button" id="btn-clear-all" title="Clear all highlights">Clear All</button>
+</div>
+
+<!-- Result Modal -->
+<div id="result-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Your Results</h2>
+            <button id="modal-close-button" class="modal-close-btn">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p id="score-summary"></p>
+            <div id="result-details"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentQuestion = 31;
+let selectedRange = null;
+let contextElement = null;
+
+const body = document.body;
+const darkModeToggle = document.getElementById('dark-mode-toggle');
+const fontSizeToggle = document.getElementById('font-size-toggle');
+const fontSizeOptions = document.getElementById('font-size-options');
+const toolbar = document.getElementById('selection-toolbar');
+
+/* Answer Key — case-insensitive, alternates allowed */
+const correctAnswers = {
+    q31: ['eat'],
+    q32: ['warnings', 'warning'],
+    q33: ['colonies', 'colony'],
+    q34: ['hungry'],
+    q35: ['day'],
+    q36: ['spider', 'spiders'],
+    q37: ['behavior', 'behaviour'],
+    q38: ['genetic', 'genetics'],
+    q39: ['disease', 'diseases'],
+    q40: ['migrate', 'migration']
+};
+
+/* ---------- Theme & font ---------- */
+function initDarkMode() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    body.setAttribute('data-theme', savedTheme);
+}
+
+function toggleDarkMode() {
+    const isDark = body.getAttribute('data-theme') === 'dark';
+    body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    localStorage.setItem('theme', isDark ? 'light' : 'dark');
+}
+
+function changeFontSize(size) {
+    body.classList.remove('font-small', 'font-medium', 'font-large', 'font-xlarge');
+    body.classList.add('font-' + size);
+    localStorage.setItem('fontSize', size);
+    fontSizeOptions.classList.remove('show');
+}
+
+function initFontSize() {
+    changeFontSize(localStorage.getItem('fontSize') || 'medium');
+}
+
+/* ---------- Navigation ---------- */
+function goToQuestion(questionNumber) {
+    if (questionNumber < 31 || questionNumber > 40) return;
+    currentQuestion = questionNumber;
+
+    document.querySelectorAll('.subQuestion').forEach(btn => btn.classList.remove('active'));
+    const questionBtn = document.querySelector('.subQuestion[onclick="goToQuestion(' + questionNumber + ')"]');
+    if (questionBtn) questionBtn.classList.add('active');
+
+    const el = document.getElementById('q' + questionNumber);
+    if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (!el.disabled) el.focus({ preventScroll: true });
+    }
+    updateNavigation();
+}
+
+function nextQuestion() { if (currentQuestion < 40) goToQuestion(currentQuestion + 1); }
+function previousQuestion() { if (currentQuestion > 31) goToQuestion(currentQuestion - 1); }
+
+function updateNavigation() {
+    document.getElementById('prevBtn').disabled = currentQuestion === 31;
+    document.getElementById('nextBtn').disabled = currentQuestion === 40;
+    updateAttemptedCount();
+}
+
+function updateAnsweredIndicators() {
+    for (let qNum = 31; qNum <= 40; qNum++) {
+        const btn = document.querySelector('.subQuestion[onclick="goToQuestion(' + qNum + ')"]');
+        if (!btn) continue;
+        if (btn.classList.contains('correct') || btn.classList.contains('incorrect')) continue;
+
+        const input = document.getElementById('q' + qNum);
+        if (input && input.value.trim() !== '') {
+            btn.classList.add('answered');
+        } else {
+            btn.classList.remove('answered');
+        }
+    }
+    updateAttemptedCount();
+}
+
+function updateAttemptedCount() {
+    let answered = 0;
+    for (let qNum = 31; qNum <= 40; qNum++) {
+        const input = document.getElementById('q' + qNum);
+        if (input && input.value.trim() !== '') answered++;
+    }
+    const countDisplay = document.querySelector('.attemptedCount');
+    if (countDisplay) countDisplay.textContent = answered + ' of 10';
+}
+
+/* ---------- Highlighting: auto-popup toolbar on selection ---------- */
+function saveSelection() {
+    const sel = window.getSelection();
+    if (sel && sel.rangeCount > 0 && !sel.isCollapsed) {
+        selectedRange = sel.getRangeAt(0).cloneRange();
+        return true;
+    }
+    return false;
+}
+
+function isInsideContent(range) {
+    if (!range) return false;
+    const container = range.commonAncestorContainer;
+    const node = container.nodeType === 1 ? container : container.parentNode;
+    return !!(node && node.closest('.left-panel, .right-panel'));
+}
+
+function showToolbarForSelection() {
+    const sel = window.getSelection();
+    if (!sel || sel.rangeCount === 0 || sel.isCollapsed || sel.toString().trim() === '') {
+        hideToolbar();
+        return;
+    }
+
+    const range = sel.getRangeAt(0);
+    if (!isInsideContent(range)) { hideToolbar(); return; }
+
+    selectedRange = range.cloneRange();
+
+    // Is the selection inside an existing highlight? (enables Clear)
+    const anchorNode = range.startContainer.nodeType === 1 ? range.startContainer : range.startContainer.parentNode;
+    contextElement = anchorNode.closest ? anchorNode.closest('.highlight, .comment-highlight') : null;
+    document.getElementById('btn-clear').style.display = contextElement ? 'flex' : 'none';
+
+    const rect = range.getBoundingClientRect();
+    toolbar.classList.add('show');
+
+    const tbWidth = toolbar.offsetWidth;
+    const tbHeight = toolbar.offsetHeight;
+
+    let left = window.scrollX + rect.left + (rect.width / 2) - (tbWidth / 2);
+    let top = window.scrollY + rect.top - tbHeight - 10;
+
+    // Keep on-screen
+    left = Math.max(window.scrollX + 8, Math.min(left, window.scrollX + document.documentElement.clientWidth - tbWidth - 8));
+    if (rect.top - tbHeight - 10 < 65) {
+        top = window.scrollY + rect.bottom + 10; // flip below if it would hit the header
+    }
+
+    toolbar.style.left = left + 'px';
+    toolbar.style.top = top + 'px';
+}
+
+function hideToolbar() {
+    toolbar.classList.remove('show');
+}
+
+function highlightText() {
+    if (!selectedRange || selectedRange.collapsed) { hideToolbar(); return; }
+
+    try {
+        const startContainer = selectedRange.startContainer;
+        const endContainer = selectedRange.endContainer;
+
+        if (startContainer === endContainer && startContainer.nodeType === Node.TEXT_NODE) {
+            const span = document.createElement('span');
+            span.className = 'highlight';
+            selectedRange.surroundContents(span);
+        } else {
+            const fragment = selectedRange.extractContents();
+            const walker = document.createTreeWalker(fragment, NodeFilter.SHOW_TEXT, {
+                acceptNode: function (node) {
+                    return node.textContent.trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+                }
+            }, false);
+
+            const textNodes = [];
+            let node;
+            while ((node = walker.nextNode())) textNodes.push(node);
+
+            textNodes.forEach(textNode => {
+                const span = document.createElement('span');
+                span.className = 'highlight';
+                const parent = textNode.parentNode;
+                if (parent) {
+                    parent.insertBefore(span, textNode);
+                    span.appendChild(textNode);
+                }
+            });
+
+            selectedRange.insertNode(fragment);
+        }
+    } catch (err) {
+        console.warn('Highlighting failed:', err);
+    }
+
+    window.getSelection().removeAllRanges();
+    selectedRange = null;
+    hideToolbar();
+}
+
+function addComment() {
+    const commentText = prompt('Enter your note:');
+    if (!commentText || !selectedRange || selectedRange.collapsed) { hideToolbar(); return; }
+
+    try {
+        const span = document.createElement('span');
+        span.className = 'comment-highlight';
+        const tooltip = document.createElement('span');
+        tooltip.className = 'comment-tooltip';
+        tooltip.textContent = commentText;
+        span.appendChild(tooltip);
+        selectedRange.surroundContents(span);
+    } catch (err) {
+        console.warn('Complex selection — cannot add note here.');
+    }
+
+    window.getSelection().removeAllRanges();
+    selectedRange = null;
+    hideToolbar();
+}
+
+function clearHighlight() {
+    if (!contextElement) { hideToolbar(); return; }
+    const parent = contextElement.parentNode;
+    while (contextElement.firstChild) {
+        if (contextElement.firstChild.nodeType === 1 && contextElement.firstChild.classList.contains('comment-tooltip')) {
+            contextElement.removeChild(contextElement.firstChild);
+        } else {
+            parent.insertBefore(contextElement.firstChild, contextElement);
+        }
+    }
+    parent.removeChild(contextElement);
+    parent.normalize();
+    contextElement = null;
+    window.getSelection().removeAllRanges();
+    hideToolbar();
+}
+
+function clearAllHighlights() {
+    document.querySelectorAll('.highlight, .comment-highlight').forEach(element => {
+        const parent = element.parentNode;
+        const fragment = document.createDocumentFragment();
+        while (element.firstChild) {
+            if (element.firstChild.nodeType === 1 && element.firstChild.classList.contains('comment-tooltip')) {
+                element.removeChild(element.firstChild);
+            } else {
+                fragment.appendChild(element.firstChild);
+            }
+        }
+        parent.replaceChild(fragment, element);
+        parent.normalize();
+    });
+    window.getSelection().removeAllRanges();
+    hideToolbar();
+}
+
+/* ---------- Checking answers ---------- */
+function checkAnswers() {
+    let score = 0;
+    const resultsData = [];
+
+    document.querySelectorAll('.correct-inline').forEach(el => el.remove());
+
+    for (let qNum = 31; qNum <= 40; qNum++) {
+        const key = 'q' + qNum;
+        const input = document.getElementById(key);
+        const accepted = correctAnswers[key];
+        const userAnswer = input.value.trim();
+
+        const isCorrect = accepted.some(ans => ans.toLowerCase() === userAnswer.toLowerCase()) && userAnswer !== '';
+
+        input.classList.remove('correct', 'incorrect');
+        input.classList.add(isCorrect ? 'correct' : 'incorrect');
+
+        if (!isCorrect) {
+            const span = document.createElement('span');
+            span.className = 'correct-inline';
+            span.textContent = accepted[0];
+            input.insertAdjacentElement('afterend', span);
+        } else {
+            score++;
+        }
+
+        const btn = document.querySelector('.subQuestion[onclick="goToQuestion(' + qNum + ')"]');
+        if (btn) {
+            btn.classList.remove('answered');
+            btn.classList.add(isCorrect ? 'correct' : 'incorrect');
+        }
+
+        resultsData.push({
+            question: qNum,
+            userAnswer: userAnswer || 'No Answer',
+            correctAnswer: accepted.join(' / '),
+            isCorrect: isCorrect
+        });
+    }
+
+    // Lock inputs
+    document.querySelectorAll('.answer-input').forEach(input => { input.disabled = true; });
+
+    // Show transcript panel
+    document.querySelector('.main-container').classList.add('results-mode');
+    const src = document.querySelector('#transcription-data [data-part="4"]');
+    const target = document.getElementById('transcription-text');
+    if (src && target) target.innerHTML = src.innerHTML;
+
+    // Modal
+    const modal = document.getElementById('result-modal');
+    document.getElementById('score-summary').textContent = 'You scored ' + score + ' out of 10.';
+
+    let tableHTML = '<table><thead><tr><th>Question</th><th>Your Answer</th><th>Correct Answer</th><th>Result</th></tr></thead><tbody>';
+    resultsData.forEach(res => {
+        tableHTML += '<tr><td>' + res.question + '</td><td>' + res.userAnswer + '</td><td>' + res.correctAnswer + '</td>' +
+            '<td class="' + (res.isCorrect ? 'result-correct' : 'result-incorrect') + '">' +
+            (res.isCorrect ? '✔ Correct' : '✖ Incorrect') + '</td></tr>';
+    });
+    tableHTML += '</tbody></table>';
+    document.getElementById('result-details').innerHTML = tableHTML;
+
+    const deliverButton = document.getElementById('deliver-button');
+    deliverButton.classList.add('success');
+    deliverButton.innerHTML = '<span>My Results</span>';
+
+    const myResultsBtn = deliverButton.cloneNode(true);
+    deliverButton.parentNode.replaceChild(myResultsBtn, deliverButton);
+    myResultsBtn.addEventListener('click', () => { modal.style.display = 'flex'; });
+
+    modal.style.display = 'flex';
+}
+
+/* ---------- Init ---------- */
+document.addEventListener('DOMContentLoaded', function () {
+    initDarkMode();
+    initFontSize();
+    goToQuestion(31);
+
+    darkModeToggle.addEventListener('click', toggleDarkMode);
+
+    fontSizeToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        fontSizeOptions.classList.toggle('show');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.font-size-container')) fontSizeOptions.classList.remove('show');
+    });
+
+    document.querySelectorAll('.font-size-options div').forEach(option => {
+        option.addEventListener('click', () => changeFontSize(option.getAttribute('data-size')));
+    });
+
+    document.getElementById('deliver-button').addEventListener('click', checkAnswers);
+
+    document.getElementById('modal-close-button').addEventListener('click', () => {
+        document.getElementById('result-modal').style.display = 'none';
+    });
+
+    document.querySelectorAll('.answer-input').forEach(input => {
+        input.addEventListener('input', updateAnsweredIndicators);
+        input.addEventListener('focus', () => {
+            const num = parseInt(input.id.replace('q', ''), 10);
+            currentQuestion = num;
+            document.querySelectorAll('.subQuestion').forEach(b => b.classList.remove('active'));
+            const btn = document.querySelector('.subQuestion[onclick="goToQuestion(' + num + ')"]');
+            if (btn) btn.classList.add('active');
+            updateNavigation();
+        });
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') { e.preventDefault(); nextQuestion(); }
+        });
+    });
+
+    /* Toolbar buttons */
+    document.getElementById('btn-highlight').addEventListener('mousedown', e => e.preventDefault());
+    document.getElementById('btn-comment').addEventListener('mousedown', e => e.preventDefault());
+    document.getElementById('btn-clear').addEventListener('mousedown', e => e.preventDefault());
+    document.getElementById('btn-clear-all').addEventListener('mousedown', e => e.preventDefault());
+
+    document.getElementById('btn-highlight').addEventListener('click', highlightText);
+    document.getElementById('btn-comment').addEventListener('click', addComment);
+    document.getElementById('btn-clear').addEventListener('click', clearHighlight);
+    document.getElementById('btn-clear-all').addEventListener('click', clearAllHighlights);
+
+    /* Auto-popup: as soon as a selection is finished, show the menu at the selection */
+    document.addEventListener('mouseup', (e) => {
+        if (e.target.closest('#selection-toolbar')) return;
+        setTimeout(showToolbarForSelection, 10);
+    });
+
+    document.addEventListener('touchend', (e) => {
+        if (e.target.closest('#selection-toolbar')) return;
+        setTimeout(showToolbarForSelection, 60);
+    });
+
+    document.addEventListener('selectionchange', () => {
+        const sel = window.getSelection();
+        if (!sel || sel.isCollapsed || sel.toString().trim() === '') {
+            hideToolbar();
+        } else {
+            saveSelection();
+        }
+    });
+
+    document.addEventListener('mousedown', (e) => {
+        if (!e.target.closest('#selection-toolbar')) hideToolbar();
+    });
+
+    document.addEventListener('scroll', () => {
+        if (toolbar.classList.contains('show')) showToolbarForSelection();
+    }, true);
+
+    // Disable the browser's right-click menu inside content so the popup stays the only tool
+    document.querySelector('.main-container').addEventListener('contextmenu', (e) => {
+        if (window.getSelection().toString().trim() !== '') {
+            e.preventDefault();
+            showToolbarForSelection();
+        }
+    });
+
+    updateAnsweredIndicators();
+});
+</script>
+</body>
+</html>

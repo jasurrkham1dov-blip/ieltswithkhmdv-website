@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading - What is social history? | @ieltswithkhmdv</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;}
+        body{background:#f5f5f5;color:#333;line-height:1.6;overflow:hidden;}
+        .loading-screen,.start-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#f9fafb;position:fixed;top:0;left:0;width:100%;z-index:9999;flex-direction:column;}
+        .spinner{border:5px solid #f3f3f3;border-top:5px solid #2563eb;border-radius:50%;width:50px;height:50px;animation:spin 1s linear infinite;margin-bottom:20px;}
+        @keyframes spin{to{transform:rotate(360deg);}}
+        .start-title{font-size:2rem;font-weight:bold;color:#1e40af;margin-bottom:20px;}
+        .start-button{padding:14px 40px;background:#2563eb;color:white;border:none;border-radius:8px;font-size:1.1rem;cursor:pointer;transition:.3s;}
+        .start-button:hover{background:#1d4ed8;}
+        .hidden{display:none!important;}
+
+        .container{display:flex;flex-direction:column;height:100vh;width:100vw;background:white;}
+        header{background:white;padding:10px 20px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 10px rgba(0,0,0,.1);z-index:100;border-bottom:1px solid #e2e8f0;}
+        .logo-area{background:#2563eb;color:white;padding:10px 20px;border-radius:30px;text-decoration:none;font-weight:bold;display:flex;align-items:center;gap:8px;box-shadow:0 4px 10px rgba(37,99,235,.3);}
+        .logo-area:hover{background:#1d4ed8;transform:translateY(-2px);}
+        .passage-info{font-weight:600;color:#1e293b;}
+        .timer{background:#fee2e2;color:#991b1b;padding:8px 16px;border-radius:8px;font-weight:bold;border:1px solid #fecaca;}
+
+        .progress-container{padding:10px 20px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+        .progress-items{display:flex;gap:8px;flex-wrap:wrap;}
+        .progress-item{width:40px;height:40px;border-radius:50%;background:#e2e8f0;display:flex;align-items:center;justify-content:center;font-weight:bold;cursor:pointer;transition:.3s;}
+        .progress-item.current{background:#3b82f6;color:white;transform:scale(1.15);}
+        .progress-item.answered{background:#86efac;color:#166534;}
+
+        .main-content{display:flex;flex:1;overflow:hidden;position:relative;}
+        .passage-container{flex:1;background:#fafafa;overflow-y:auto;padding:25px;transition:flex 0.3s;}
+        .questions-container{width:42%;background:white;border-left:1px solid #e2e8f0;overflow-y:auto;padding:25px;transition:width 0.3s;}
+        .resizer{width:10px;background:#cbd5e0;cursor:col-resize;position:relative;transition:.3s;z-index:10;}
+        .resizer:hover{background:#94a3b8;}
+        .resizer::after{content:'';position:absolute;top:0;left:50%;width:2px;height:100%;background:#2563eb;transform:translateX(-50%);}
+
+        .passage h2{font-size:1.6rem;color:#1e293b;margin-bottom:20px;text-align:center;}
+        .passage-content p{margin:18px 0;text-align:justify;}
+
+        .question-group{background:#f8fafc;padding:20px;border-radius:12px;margin-bottom:25px;border:1px solid #e2e8f0;}
+        .section-title{font-size:1.3rem;font-weight:bold;color:#1e293b;margin-bottom:15px;padding-bottom:8px;border-bottom:2px solid #3b82f6;}
+
+        .summary-text{line-height:2;margin-bottom:20px;}
+        .summary-input{padding:8px;border:1px solid #ccc;border-radius:6px;font-size:1rem;width:100px;}
+
+        .ynng-btns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:15px 0;}
+        .ynng-btn{padding:12px;background:#e2e8f0;border:none;border-radius:8px;cursor:pointer;font-weight:bold;transition:.3s;}
+        .ynng-btn.selected{background:#2563eb;color:white;}
+
+        .mcq-options{margin:15px 0;}
+        .mcq-option{padding:12px;margin:8px 0;background:#e2e8f0;border:none;border-radius:8px;cursor:pointer;font-weight:bold;transition:.3s;width:100%;text-align:left;}
+        .mcq-option.selected{background:#2563eb;color:white;}
+
+        .btn-submit{background:#16a34a;color:white;padding:14px 40px;border:none;border-radius:8px;font-size:1.1rem;cursor:pointer;margin:30px auto;display:block;}
+
+        .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:1000;align-items:center;justify-content:center;}
+        .modal-content{background:white;padding:30px;border-radius:16px;max-width:600px;width:90%;max-height:90vh;overflow-y:auto;text-align:center;}
+        .score-display{font-size:3rem;font-weight:bold;color:#16a34a;margin:20px 0;}
+        .answer-item{padding:15px;margin:10px 0;background:#f8fafc;border-radius:8px;border-left:5px solid #e2e8f0;text-align:left;}
+        .answer-item.correct{border-left-color:#16a34a;background:#f0fdf4;}
+        .answer-item.incorrect{border-left-color:#dc2626;background:#fef2f2;}
+
+        .highlight{background-color:yellow;cursor:pointer;}
+    </style>
+</head>
+<body>
+
+    <div class="loading-screen" id="loadingScreen">
+        <div><div class="spinner"></div><h2>Loading...</h2></div>
+    </div>
+    <div class="start-screen hidden" id="startScreen">
+        <div>
+            <h1 class="start-title">IELTS Reading Practice</h1>
+            <p style="font-size:1.3rem;color:#444;margin-bottom:30px;">What is social history?</p>
+            <button class="start-button" onclick="startTest()">Start Test</button>
+        </div>
+    </div>
+
+    <div class="container hidden" id="testContainer">
+        <header>
+            <a href="https://t.me/ieltswithkhmdv" target="_blank" class="logo-area">
+                <i class="fab fa-telegram-plane"></i> @ieltswithkhmdv
+            </a>
+            <div class="passage-info">Passage</div>
+            <div class="timer" id="timer">20:00</div>
+        </header>
+
+        <div class="progress-container">
+            <div class="progress-items">
+                <div class="progress-item current" data-question="27">27</div>
+                <div class="progress-item" data-question="28">28</div>
+                <div class="progress-item" data-question="29">29</div>
+                <div class="progress-item" data-question="30">30</div>
+                <div class="progress-item" data-question="31">31</div>
+                <div class="progress-item" data-question="32">32</div>
+                <div class="progress-item" data-question="33">33</div>
+                <div class="progress-item" data-question="34">34</div>
+                <div class="progress-item" data-question="35">35</div>
+                <div class="progress-item" data-question="36">36</div>
+                <div class="progress-item" data-question="37">37</div>
+                <div class="progress-item" data-question="38">38</div>
+                <div class="progress-item" data-question="39">39</div>
+                <div class="progress-item" data-question="40">40</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="passage-container" id="passage">
+                <div class="passage">
+                    <h2>What is social history?</h2>
+                    <div class="passage-content" id="passageText">
+                        <p>Ever since its elevation to the status of an academic discipline, history has been very largely concerned with problems of its own making. These may be gaps which the young researcher is advised by supervisors to fill; or established views which he or she is encouraged to challenge. In either case, the need for the researcher to provide new insights in order to gain professional advancement often counts for more than the intrinsic interest of the topic.</p>
+                        <p>Social history is quite different. It touches on, and arguably helps to focus, major issues of public debate. It mobilizes popular enthusiasm and engages popular passions. It prides itself on being concerned with everyday things rather than sensational events and is directed against the ‘Great Man’ theories that originally characterized history, and the tedious focus on bureaucratic issues that subsequently dominated the 1920s and 30s. This is also reflected in the way it is taught, through the adoption of multi-disciplinary perspectives rather than a narrow historical interpretation.</p>
+                        <p>Social history emerged, both as a popular enthusiasm and as a scholarly practice, from the cultural revolution of the 1960s in North America and Europe, and reproduces its leading inspirations. The spirit of social history was pre-eminently a modernising one, as reflected in its choice of subject matter. Whereas traditional history had focused on the 12th to 17th centuries, social history was apt to make its historical homeland in the 19th century. Latterly, it has even begun to extend its inquiry up to contemporary events and movements.</p>
+                        <p>The subject matter favoured by the new social history, with its move away from the aristocracy and the establishment, corresponds to other cultural manifestations of the 1960s, such as New Wave British cinema, with its working-class protagonists, or ‘Pop art’, with its use of everyday artefacts. Similarly, the anti-institutional bias of the new social history – the renewed determination to write the history of ‘ordinary’ people as against that of statecraft – could be said to echo a much more widespread collapse of social deference, and a questioning of authority figures of all kinds.</p>
+                        <p>Another major 1960s influence on the new social history – very different in its origins and effects – was the ‘nostalgia industry’, which focused on the sale of memorabilia and artefacts from recent history. This emerged as a kind of negative counterpart to the otherwise dominant modernisation of the decade and reflected a disenchantment, no less apparent on the Left of the political spectrum than on the Right, with post-war social change.</p>
+                        <p>Industrial archaeology, an invention of the 1960s, elevated disused factories and mills to the status of national monuments. Following in the same track, property restorers turned houses built for 19th-century factory workers—once emblems of poverty, overcrowding, and ill-health—into picturesque residences. In another sphere, one could point to the proliferation of folk clubs and the discovery of industrial folk songs, prefiguring one of the major themes of the new social history - the dignity of labour.</p>
+                        <p>So far as historical work was concerned, by the 1970s, the sense of disenchantment had crystallized into an idealized view of the past, fostering a nostalgic regard for disappearing communities. The restoration of vanished components of ‘the world we have lost’ became a major impetus in historical writing and research. The dignity of ordinary people could be said to be the unifying theme of this line of historical inquiry and retrieval— A celebration of everyday life, even, perhaps especially, when it involved hardship and suffering.</p>
+                        <p>Despite the novelty of its subject matter, social history reproduces many of the characteristic biases of its predecessors. Social historians are good at amassing details on household artefacts, budgets, daily purchases, but at times the evidence is assumed to speak for itself, and the simple reproduction of fact masquerades as explanation. The facts accumulated may leave no conceptual space for the great absences, for the many areas where the documentary record is silent.</p>
+                        <p>The indulgence which social historians extend towards their subjects, and the desire to establish ‘empathy’—seeing the past in terms of its own values rather than those of today—can also serve to flatter our self-esteem, making history a field in which, at no great cost to ourselves, we can demonstrate our enlarged sympathies and benevolence. Recognising our kinship to people in the past, and tracing, or discovering, their likeness to ourselves, we are flattered in the belief that underneath we are all lovable; eccentric perhaps and even absurd, but large-hearted, generous and frank. This sense of integration with the past can thus serve as a comfortable alternative to critical awareness and self-questioning, allowing us to dignify the present by illegitimate association with the past.</p>
+                        <p>Social history, if it is to fulfil its subversive potential, needs to be a great deal more disturbing. If it is to celebrate a common humanity, and to bring past and present closer together, far more weight needs to be given to the effects of insecurities and emergencies—the fears that shadow the growing up of children, the oppositions we encounter during our lives—experiences which may be hard for an individual to categorise but which nevertheless have a significance which goes beyond that individual.</p>
+                        <p>Perhaps too we might recognise that there is a profound condescension in the notion of ‘ordinary people’—that unified totality in which social historians are apt to deal. Implicitly it is a category from which we tend to exclude ourselves, although in fact we are exceptional only by our privilege of hindsight. ‘There are ... no masses,’ Raymond Williams wrote, ‘only ways of seeing people as masses.’ It is perhaps time for historians to scrutinise the term ‘ordinary people’ in the same way.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="resizer" id="resizer"></div>
+
+            <div class="questions-container" id="questions">
+                <!-- Questions 27-31: Summary Completion with list -->
+                <div class="question-group">
+                    <div class="section-title">Questions 27–31</div>
+                    <p>Complete the summary using the list of words, <strong>A–H</strong>, below.</p>
+
+                    <p class="summary-text">
+                        How is social history different from historical study?<br>
+                        Since it became an academic discipline, historical study has been too concerned with a search for 27 ______ by researchers who want to develop their careers. Social history, however, is more closely related to the 28 ______ of the public. It avoids history’s traditional focus on 29 ______, and its later concentration on 30 ______, and it is also different from traditional history in its teaching 31 ______, which is derived from different academic subjects.
+                    </p>
+
+                    <p style="margin:10px 0;font-weight:bold;">
+                        A methodology B needs C originality D important people E accuracy F interests and feelings G explanation H organisational matters
+                    </p>
+
+                    <div style="margin:20px 0;">
+                        <strong>27</strong> <input type="text" class="summary-input" id="q27" placeholder="27"><br>
+                        <strong>28</strong> <input type="text" class="summary-input" id="q28" placeholder="28"><br>
+                        <strong>29</strong> <input type="text" class="summary-input" id="q29" placeholder="29"><br>
+                        <strong>30</strong> <input type="text" class="summary-input" id="q30" placeholder="30"><br>
+                        <strong>31</strong> <input type="text" class="summary-input" id="q31" placeholder="31">
+                    </div>
+
+                    <div style="margin:20px 0;line-height:2;">
+                        <div><strong>27</strong> <span id="ans27">-</span></div>
+                        <div><strong>28</strong> <span id="ans28">-</span></div>
+                        <div><strong>29</strong> <span id="ans29">-</span></div>
+                        <div><strong>30</strong> <span id="ans30">-</span></div>
+                        <div><strong>31</strong> <span id="ans31">-</span></div>
+                    </div>
+                </div>
+
+                <!-- Questions 32-35: Yes/No/Not Given -->
+                <div class="question-group">
+                    <div class="section-title">Questions 32–35</div>
+                    <p>Do the following statements agree with the claims of the writer?</p>
+
+                    <div style="margin:20px 0;">
+                        <strong>32</strong> The rise of social history led to the cultural revolution of the 1960s.<br>
+                        <div class="ynng-btns">
+                            <button class="ynng-btn" data-q="32" data-val="YES">YES</button>
+                            <button class="ynng-btn" data-q="32" data-val="NO">NO</button>
+                            <button class="ynng-btn" data-q="32" data-val="NOT GIVEN">NOT GIVEN</button>
+                        </div>
+                        <div>Answer: <strong id="ans32">-</strong></div>
+                    </div>
+
+                    <div style="margin:20px 0;">
+                        <strong>33</strong> Social historians tend to study a later period of history than traditional historians did.<br>
+                        <div class="ynng-btns">
+                            <button class="ynng-btn" data-q="33" data-val="YES">YES</button>
+                            <button class="ynng-btn" data-q="33" data-val="NO">NO</button>
+                            <button class="ynng-btn" data-q="33" data-val="NOT GIVEN">NOT GIVEN</button>
+                        </div>
+                        <div>Answer: <strong id="ans33">-</strong></div>
+                    </div>
+
+                    <div style="margin:20px 0;">
+                        <strong>34</strong> British cinema in the 1960s lacked any working-class characters.<br>
+                        <div class="ynng-btns">
+                            <button class="ynng-btn" data-q="34" data-val="YES">YES</button>
+                            <button class="ynng-btn" data-q="34" data-val="NO">NO</button>
+                            <button class="ynng-btn" data-q="34" data-val="NOT GIVEN">NOT GIVEN</button>
+                        </div>
+                        <div>Answer: <strong id="ans34">-</strong></div>
+                    </div>
+
+                    <div style="margin:20px 0;">
+                        <strong>35</strong> The loss of respect for authority in the 1960s was a leading cause of social problems.<br>
+                        <div class="ynng-btns">
+                            <button class="ynng-btn" data-q="35" data-val="YES">YES</button>
+                            <button class="ynng-btn" data-q="35" data-val="NO">NO</button>
+                            <button class="ynng-btn" data-q="35" data-val="NOT GIVEN">NOT GIVEN</button>
+                        </div>
+                        <div>Answer: <strong id="ans35">-</strong></div>
+                    </div>
+                </div>
+
+                <!-- Questions 36-40: Multiple Choice -->
+                <div class="question-group">
+                    <div class="section-title">Questions 36–40</div>
+                    <p>Choose the correct letter <strong>A, B, C or D</strong>.</p>
+
+                    <div style="margin:20px 0;">
+                        <strong>36</strong> What point is made about the ‘nostalgia industry’?<br>
+                        <div class="mcq-options">
+                            <button class="mcq-option" data-q="36" data-val="A">A Its products were not always genuine historical items.</button>
+                            <button class="mcq-option" data-q="36" data-val="B">B It led to the abandonment of modernisation.</button>
+                            <button class="mcq-option" data-q="36" data-val="C">C Its origins were political rather than industrial.</button>
+                            <button class="mcq-option" data-q="36" data-val="D">D It opposed the dominant trend of the time.</button>
+                        </div>
+                        <div>Answer: <strong id="ans36">-</strong></div>
+                    </div>
+
+                    <div style="margin:20px 0;">
+                        <strong>37</strong> In the sixth paragraph, the writer makes the point that in the 1960s<br>
+                        <div class="mcq-options">
+                            <button class="mcq-option" data-q="37" data-val="A">A construction workers gained greater status.</button>
+                            <button class="mcq-option" data-q="37" data-val="B">B there was a new interest in traditional industrial buildings.</button>
+                            <button class="mcq-option" data-q="37" data-val="C">C architects applied industrial techniques to home design.</button>
+                            <button class="mcq-option" data-q="37" data-val="D">D many older homes were unsuitable as places of residence.</button>
+                        </div>
+                        <div>Answer: <strong id="ans37">-</strong></div>
+                    </div>
+
+                    <div style="margin:20px 0;">
+                        <strong>38</strong> By the 1970s, historians had come to believe that<br>
+                        <div class="mcq-options">
+                            <button class="mcq-option" data-q="38" data-val="A">A researchers should focus on the immediate past.</button>
+                            <button class="mcq-option" data-q="38" data-val="B">B modern life is not necessarily an improvement on the past.</button>
+                            <button class="mcq-option" data-q="38" data-val="C">C they should not overemphasise the difficulties of life in the past.</button>
+                            <button class="mcq-option" data-q="38" data-val="D">D there was a need for more ‘ordinary’ people to do research into the past.</button>
+                        </div>
+                        <div>Answer: <strong id="ans38">-</strong></div>
+                    </div>
+
+                    <div style="margin:20px 0;">
+                        <strong>39</strong> One problem related to the use of detail by social historians is that<br>
+                        <div class="mcq-options">
+                            <button class="mcq-option" data-q="39" data-val="A">A the wrong types of facts are collected.</button>
+                            <button class="mcq-option" data-q="39" data-val="B">B some information may be hard to categorise.</button>
+                            <button class="mcq-option" data-q="39" data-val="C">C more important issues may be ignored.</button>
+                            <button class="mcq-option" data-q="39" data-val="D">D some of the data may be incorrect.</button>
+                        </div>
+                        <div>Answer: <strong id="ans39">-</strong></div>
+                    </div>
+
+                    <div style="margin:20px 0;">
+                        <strong>40</strong> The writer recommends that to be effective, social history must<br>
+                        <div class="mcq-options">
+                            <button class="mcq-option" data-q="40" data-val="A">A explore the negative emotions that are part of daily life.</button>
+                            <button class="mcq-option" data-q="40" data-val="B">B build on what has already been established by historians.</button>
+                            <button class="mcq-option" data-q="40" data-val="C">C try to provide an objective view of the recent past.</button>
+                            <button class="mcq-option" data-q="40" data-val="D">D offer solutions to the pressing problems of our day.</button>
+                        </div>
+                        <div>Answer: <strong id="ans40">-</strong></div>
+                    </div>
+                </div>
+
+                <button class="btn-submit" id="submit-btn">Submit Answers</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="resultsModal">
+        <div class="modal-content">
+            <h2>Test Complete!</h2>
+            <div class="score-display" id="scoreDisplay">0/14</div>
+            <div id="reviewAnswers"></div>
+            <button class="btn-submit" style="margin-top:20px;" onclick="document.getElementById('resultsModal').style.display='none'">Close</button>
+        </div>
+    </div>
+
+    <script>
+        let timeLeft = 1200;
+        const timerInterval = setInterval(() => {
+            let m = String(Math.floor(timeLeft/60)).padStart(2,'0');
+            let s = String(timeLeft%60).padStart(2,'0');
+            document.getElementById('timer').textContent = `${m}:${s}`;
+            if (--timeLeft < 0) { clearInterval(timerInterval); submitAnswers(); }
+        }, 1000);
+
+        const correctAnswers = {
+            27:"C", 28:"F", 29:"D", 30:"H", 31:"A",
+            32:"NO", 33:"YES", 34:"NO", 35:"NOT GIVEN",
+            36:"D", 37:"B", 38:"B", 39:"C", 40:"A"
+        };
+
+        // Summary inputs
+        document.querySelectorAll('.summary-input').forEach(input => {
+            input.addEventListener('input', function() {
+                const q = this.id.slice(1);
+                const val = this.value.trim().toUpperCase();
+                document.getElementById('ans'+q).textContent = val || '-';
+                markAnswered(q);
+            });
+        });
+
+        // YNNG buttons
+        document.querySelectorAll('.ynng-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const q = this.getAttribute('data-q');
+                document.querySelectorAll(`.ynng-btn[data-q="${q}"]`).forEach(b => b.classList.remove('selected'));
+                this.classList.add('selected');
+                document.getElementById('ans'+q).textContent = this.getAttribute('data-val');
+                markAnswered(q);
+            });
+        });
+
+        // MCQ
+        document.querySelectorAll('.mcq-option').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const q = this.getAttribute('data-q');
+                document.querySelectorAll(`.mcq-option[data-q="${q}"]`).forEach(b => b.classList.remove('selected'));
+                this.classList.add('selected');
+                document.getElementById('ans'+q).textContent = this.getAttribute('data-val');
+                markAnswered(q);
+            });
+        });
+
+        function markAnswered(q) {
+            const item = document.querySelector(`.progress-item[data-question="${q}"]`);
+            if (item) item.classList.add('answered');
+        }
+
+        function submitAnswers() {
+            clearInterval(timerInterval);
+            let score = 0;
+            let review = '';
+
+            for (let i=27; i<=40; i++) {
+                let userAns = document.getElementById('ans'+i)?.textContent || '-';
+                const correct = correctAnswers[i];
+                let isCorrect = userAns.toUpperCase().trim() === correct.toUpperCase();
+
+                if (isCorrect) score++;
+                review += `<div class="answer-item ${isCorrect?'correct':'incorrect'}">
+                    <strong>Q${i}</strong>: Your answer <strong>${userAns}</strong> → Correct: <strong>${correct}</strong>
+                </div>`;
+            }
+
+            document.getElementById('scoreDisplay').textContent = score + '/14';
+            document.getElementById('reviewAnswers').innerHTML = review;
+            document.getElementById('resultsModal').style.display = 'flex';
+        }
+
+        document.getElementById('submit-btn').addEventListener('click', submitAnswers);
+
+        function startTest() {
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('testContainer').classList.remove('hidden');
+        }
+
+        setTimeout(() => {
+            document.getElementById('loadingScreen').classList.add('hidden');
+            document.getElementById('startScreen').classList.remove('hidden');
+        }, 2000);
+
+        // Resizable divider
+        const resizer = document.getElementById('resizer');
+        const leftSide = resizer.previousElementSibling;
+        const rightSide = resizer.nextElementSibling;
+        let isResizing = false;
+
+        resizer.addEventListener('mousedown', (e) => {
+            isResizing = true;
+            document.body.style.cursor = 'col-resize';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isResizing) return;
+            const containerRect = document.querySelector('.main-content').getBoundingClientRect();
+            const x = e.clientX - containerRect.left;
+            const totalWidth = containerRect.width;
+            const leftWidth = (x / totalWidth) * 100;
+            leftSide.style.flex = `0 0 ${leftWidth}%`;
+            rightSide.style.width = `${100 - leftWidth}%`;
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isResizing) {
+                isResizing = false;
+                document.body.style.cursor = 'default';
+            }
+        });
+
+        // Highlight function
+        function makeTextHighlightable(element) {
+            element.addEventListener('mouseup', function(e) {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON') return;
+                
+                const selection = window.getSelection();
+                const selectedText = selection.toString().trim();
+                
+                if (selectedText.length > 0 && selectedText.length < 500) {
+                    try {
+                        const range = selection.getRangeAt(0);
+                        if (!element.contains(range.commonAncestorContainer)) return;
+                        
+                        const span = document.createElement('span');
+                        span.className = 'highlight';
+                        
+                        range.surroundContents(span);
+                        
+                        span.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            const parent = this.parentNode;
+                            while (this.firstChild) parent.insertBefore(this.firstChild, this);
+                            parent.removeChild(this);
+                            parent.normalize();
+                        });
+                        
+                        selection.removeAllRanges();
+                    } catch(e) { }
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const passageText = document.getElementById('passageText');
+            makeTextHighlightable(passageText);
+        });
+    </script>
+</body>
+</html>

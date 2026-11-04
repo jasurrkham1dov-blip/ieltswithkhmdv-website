@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading – Rights for apes</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background-color: #ffffff; line-height: 1.4; font-size: 16px; }
+        .header { background-color: #ffffff; padding: 12px 20px; border-bottom: 1px solid #e0e0e0; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 60px; }
+        .telegram-link { color: #0088cc; text-decoration: none; font-weight: 700; font-size: 16px; display: flex; align-items: center; gap: 8px; padding: 6px 12px; border: 2px solid #3e3e3e; border-radius: 9999px; background-color: #ffffff; line-height: 1; }
+        .telegram-link:hover { text-decoration: underline; }
+        .telegram-link::before { content: ''; display: inline-block; width: 20px; height: 20px; background-color: currentColor; -webkit-mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.78 18.65l.28-4.23l7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3L3.64 12c-.88-.25-.89-1.37.2-1.64l16.56-6.4c.75-.29 1.4.22 1.2.94l-2.67 12.61c-.22.95-1.13 1.18-1.78.73l-4.5-3.32l-2.23 2.15c-.47.44-1.29.21-1.48-.37z"/></svg>'); mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.78 18.65l.28-4.23l7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3L3.64 12c-.88-.25-.89-1.37.2-1.64l16.56-6.4c.75-.29 1.4.22 1.2.94l-2.67 12.61c-.22.95-1.13 1.18-1.78.73l-4.5-3.32l-2.23 2.15c-.47.44-1.29.21-1.48-.37z"/></svg>'); background-size: contain; background-repeat: no-repeat; }
+        .dark-mode-toggle { background: none; border: 2px solid #3e3e3e; border-radius: 9999px; padding: 6px 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; margin-left: 10px; transition: all 0.3s ease; background-color: #ffffff; }
+        .dark-mode-toggle:hover { background-color: #f0f0f0; transform: scale(1.05); }
+        .dark-mode-toggle svg { width: 20px; height: 20px; }
+        body.dark-mode { background-color: #1a1a1a; color: #e0e0e0; }
+        body.dark-mode .header { background-color: #2d2d2d; border-bottom-color: #404040; }
+        body.dark-mode .dark-mode-toggle { background-color: #2d2d2d; border-color: #4a90e2; }
+        body.dark-mode .dark-mode-toggle:hover { background-color: #404040; }
+        body.dark-mode .sun-icon { display: none; }
+        body.dark-mode .moon-icon { display: block !important; }
+        body:not(.dark-mode) .sun-icon { display: block; }
+        body:not(.dark-mode) .moon-icon { display: none; }
+        body.dark-mode .telegram-link { background-color: #2d2d2d; border-color: #4a90e2; color: #4db8f5; }
+        body.dark-mode .timer-container { color: #e0e0e0; }
+        body.dark-mode .timer-controls button { background-color: #404040; border-color: #555; }
+        body.dark-mode .timer-controls button svg { fill: #e0e0e0; }
+        body.dark-mode .main-container { background-color: #1a1a1a; }
+        body.dark-mode .part-header { background-color: #2d2d2d; border-color: #404040; color: #e0e0e0; }
+        body.dark-mode .questions-panel { border-left-color: #404040; background-color: #1a1a1a; }
+        body.dark-mode .passage-panel { background-color: #1a1a1a; color: #e0e0e0; }
+        body.dark-mode .reading-passage h4 { color: #e0e0e0; }
+        body.dark-mode .reading-passage p { color: #d0d0d0; }
+        body.dark-mode .reading-passage .subtitle { color: #d0d0d0; }
+        body.dark-mode .para-letter { color: #e0e0e0; }
+        body.dark-mode .tf-option { background-color: #2d2d2d; color: #e0e0e0; border: 1px solid #404040; }
+        body.dark-mode .tf-option:hover { background-color: #404040; }
+        body.dark-mode .resizer { background-color: #2d2d2d; }
+        body.dark-mode .nav-row { background-color: #2d2d2d; border-top: 1px solid #404040; }
+        body.dark-mode .subQuestion { background-color: #2d2d2d; border-color: #404040; color: #e0e0e0; }
+        body.dark-mode .subQuestion:hover { background-color: #404040; }
+        body.dark-mode .subQuestion.active { background-color: #4a90e2; color: white; }
+        body.dark-mode .subQuestion.answered { background-color: #404040; }
+        body.dark-mode .footer__deliverButton___3FM07 { background-color: #2d2d2d; border-color: #404040; color: #e0e0e0; }
+        body.dark-mode .footer__deliverButton___3FM07:hover { background-color: #404040; }
+        body.dark-mode .attemptedCount { color: #999; }
+        body.dark-mode .footer__questionNo___3WNct { color: #e0e0e0; }
+        body.dark-mode .notes-box { background-color: #2a2a2a; border-color: #555; color: #d0d0d0; }
+        body.dark-mode .notes-title { color: #e0e0e0; }
+        body.dark-mode .people-box { background-color: #2a2a2a; border-color: #555; color: #e0e0e0; }
+        body.dark-mode .people-box-title { background: #333; color: #ccc; border-color: #555; }
+        body.dark-mode .text-input, body.dark-mode .word-select { background-color: #2d2d2d; border-color: #555; color: #e0e0e0; }
+        body.dark-mode .mcq-stem { color: #e0e0e0; }
+        .highlight { background-color: #872657 !important; color: #ffffff !important; padding: 2px; border-radius: 2px; }
+        .main-container { margin-top: 60px; display: flex; flex-direction: column; background: #ffffff; height: calc(100vh - 60px); position: relative; }
+        .panels-container { display: flex; flex: 1; overflow: hidden; }
+        .passage-panel { flex: 1; padding: 20px 20px 100px; overflow-y: auto; min-width: 200px; }
+        .questions-panel { flex: 1; padding: 20px 20px 100px; overflow-y: auto; min-width: 200px; border-left: 1px solid #e0e0e0; }
+        .resizer { width: 10px; cursor: col-resize; background-color: #f0f0f0; background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="30" viewBox="0 0 10 30"><path d="M4 11h2v2H4zM4 15h2v2H4zM4 19h2v2H4z" fill="%23888"/></svg>'); background-repeat: no-repeat; background-position: center; flex-shrink: 0; flex-grow: 0; }
+        .reading-passage h4 { font-size: 20px; font-weight: bold; margin-bottom: 6px; text-align: center; }
+        .reading-passage .subtitle { text-align: center; font-weight: bold; margin-bottom: 20px; font-size: 15px; line-height: 1.5; }
+        .reading-passage p { margin-bottom: 1.2em; }
+        .para { display: flex; gap: 12px; margin-bottom: 1.2em; }
+        .para-letter { font-weight: bold; font-size: 17px; flex-shrink: 0; width: 18px; }
+        .para p { margin-bottom: 0; }
+        .part-header { background-color: #f1f2ec; padding: 15px 20px; border: 1px solid #e0e0e0; margin: 10px 20px; border-radius: 5px; }
+        .part-header p { margin: 0; }
+        .part-header p:first-child { margin-bottom: 5px; }
+        .question { margin-bottom: 40px; }
+        .question p { margin-bottom: 10px; }
+        .question-prompt { margin-bottom: 20px; }
+        .tf-question { margin-bottom: 24px; }
+        .tf-question-line { display: flex; align-items: flex-start; margin-bottom: 10px; }
+        .tf-question-number { border: 2px solid #ccc; padding: 2px 8px; margin-right: 10px; border-radius: 3px; font-weight: bold; display: inline-block; flex-shrink: 0; margin-top: 2px; }
+        .tf-question-text { line-height: 1.5; }
+        .tf-options { padding-left: 5px; display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+        .tf-option { display: flex; align-items: center; padding: 8px 14px; background-color: #fff; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; transition: background-color 0.2s; font-size: 15px; }
+        .tf-option:hover { background-color: #f1f7ff; border-color: #c6dcfb; }
+        .tf-option:has(input:checked) { background-color: #cfe3f9; border-color: #7db3f5; }
+        .tf-option.correct { background-color: #d4edda !important; border-color: #28a745 !important; }
+        .tf-option.incorrect { background-color: #f8d7da !important; border-color: #dc3545 !important; }
+        .tf-option.correct-answer-highlight { background-color: #d4edda !important; border-color: #28a745 !important; }
+        .tf-option input[type="radio"] { margin-right: 8px; transform: scale(1.2); accent-color: #4a90e2; flex-shrink: 0; }
+        .mcq-options { flex-direction: column; gap: 8px; }
+        .mcq-options .tf-option { width: 100%; align-items: flex-start; line-height: 1.5; }
+        .mcq-options .tf-option input[type="radio"] { margin-top: 3px; }
+        .mcq-letter { font-weight: bold; margin-right: 8px; flex-shrink: 0; }
+        .people-box { background: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 6px; margin: 0 0 22px; overflow: hidden; max-width: 340px; }
+        .people-box-title { background: #eef0e8; border-bottom: 1px solid #e0e0e0; padding: 10px 16px; font-weight: bold; font-size: 15px; text-align: center; color: #444; }
+        .people-box ul { list-style: none; padding: 12px 16px; }
+        .people-box li { padding: 4px 0; font-size: 15px; }
+        .people-box li strong { display: inline-block; width: 22px; }
+        .notes-box { background: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 6px; padding: 0; margin-bottom: 10px; font-size: 15px; overflow: hidden; }
+        .notes-title { text-align: center; font-weight: bold; font-size: 16px; padding: 12px 16px 0; }
+        .notes-section-body { padding: 12px 16px; line-height: 2.4; }
+        .ni { margin-bottom: 8px; display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px; }
+        .text-input { border: 1px solid #bfbfbf; border-radius: 4px; background-color: #fff; padding: 2px 8px; font-size: 15px; font-weight: 700; height: 32px; min-width: 130px; cursor: text; vertical-align: middle; margin: 0 3px; }
+        .text-input:focus { border-color: #3581d8; border-width: 2px; outline: none; }
+        .text-input.correct { border-color: #28a745; background-color: #e9f7ef; }
+        .text-input.incorrect { border-color: #dc3545; background-color: #f8d7da; }
+        .word-select { border: 1px solid #bfbfbf; border-radius: 4px; background-color: #fff; padding: 2px 8px; font-size: 15px; font-weight: 700; height: 32px; min-width: 150px; cursor: pointer; vertical-align: middle; margin: 0 3px; font-family: Arial, sans-serif; }
+        .word-select:focus { border-color: #3581d8; border-width: 2px; outline: none; }
+        .word-select.correct { border-color: #28a745; background-color: #e9f7ef; }
+        .word-select.incorrect { border-color: #dc3545; background-color: #f8d7da; }
+        .q-label { border: 2px solid #ccc; padding: 1px 7px; border-radius: 3px; font-weight: bold; display: inline-block; margin-right: 2px; font-size: 14px; flex-shrink: 0; }
+        .mcq-stem { font-weight: bold; line-height: 1.5; }
+        .timer-container { display: flex; color: #333; font-size: 16px; font-weight: 500; align-items: center; }
+        .timer-controls { display: flex; align-items: center; gap: 8px; margin-left: 15px; }
+        .timer-controls button { background: #f0f0f0; border: 1px solid #ccc; border-radius: 50%; padding: 0; cursor: pointer; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s; }
+        .timer-controls button:hover { background: #e0e0e0; }
+        .timer-controls button svg { width: 20px; height: 20px; fill: #333; }
+        .nav-row { position: fixed; bottom: 0; left: 0; right: 0; background: #ffffff; display: flex; align-items: center; height: 80px; z-index: 100; border-top: 1px solid #e0e0e0; }
+        .footer__questionWrapper___1tZ46 { display: flex; align-items: center; margin-right: 20px; }
+        .footer__questionNo___3WNct { background: none; border: none; padding: 10px 15px; font-size: 16px; font-weight: 600; color: #333; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: background-color 0.2s; }
+        .footer__questionNo___3WNct:hover { background-color: #f8f9fa; }
+        .attemptedCount { font-size: 14px; color: #666; margin-left: 5px; font-weight: 400; }
+        @media (max-width: 768px) { .attemptedCount { display: none; } }
+        .footer__questionWrapper___1tZ46.selected .attemptedCount { display: none; }
+        .footer__subquestionWrapper___9GgoP { display: none; gap: 2px; margin-left: 10px; }
+        .footer__questionWrapper___1tZ46.selected .footer__subquestionWrapper___9GgoP { display: flex; flex-wrap: wrap; }
+        .subQuestion { width: 32px; height: 32px; border: 1px solid #ccc; background: white; color: #333; font-size: 13px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; border-radius: 2px; }
+        .subQuestion.answered { background-color: #e9ecef; border-color: #ddd; }
+        .subQuestion.correct { background-color: #28a745; color: white; border-color: #28a745; }
+        .subQuestion.incorrect { background-color: #dc3545; color: white; border-color: #dc3545; }
+        .subQuestion:hover { background-color: #f0f0f0; border-color: #999; }
+        .subQuestion.active { background-color: #4a90e2; color: white; border-color: #4a90e2; }
+        .footer__deliverButton___3FM07 { margin-left: auto; margin-right: 20px; background-color: #f3f4f6; color: #111827; border: 1px solid #d1d5db; padding: 10px 16px; font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; transition: transform 0.08s ease, background-color 0.2s ease; min-width: 160px; justify-content: center; }
+        .footer__deliverButton___3FM07:hover { background-color: #ebedf0; }
+        .footer__deliverButton___3FM07:active { transform: translateY(1px); }
+        .sectionNr { font-size: 16px; font-weight: bold; }
+        .section-prefix { font-size: 16px; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(17,24,39,0.6); backdrop-filter: blur(3px); z-index: 2000; display: flex; justify-content: center; align-items: center; }
+        .modal-overlay.hidden { display: none; }
+        .modal-content { background: #ffffff; padding: 24px; border-radius: 14px; width: 92%; max-width: 780px; max-height: 86vh; display: flex; flex-direction: column; position: relative; border: 1px solid #e5e7eb; box-shadow: 0 20px 60px rgba(0,0,0,0.25); }
+        .modal-close-btn { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 28px; cursor: pointer; color: #666; }
+        .modal-content h2 { text-align: center; margin-bottom: 18px; color: #111827; }
+        .results-summary { display: flex; gap: 12px; justify-content: center; margin-bottom: 16px; text-align: center; border-bottom: 1px solid #eef2f7; padding-bottom: 12px; }
+        .results-summary p { margin: 0; font-size: 14px; color: #374151; }
+        .results-summary p span { display: inline-block; padding: 4px 10px; margin-left: 6px; border-radius: 999px; background: #f3f4f6; font-weight: 700; color: #111827; }
+        .results-details-container { overflow-y: auto; padding-right: 10px; border-radius: 8px; }
+        .result-row { display: grid; grid-template-columns: 56px 1fr 1fr 120px; gap: 12px; padding: 10px 8px; border-bottom: 1px solid #eef2f7; font-size: 15px; align-items: center; }
+        .result-row.correct { background-color: #f3faf5; }
+        .result-row.incorrect { background-color: #fff5f5; }
+        .result-row .q-num { font-weight: 700; color: #111827; background: #fff; border: 1px solid #d1d5db; border-radius: 8px; min-width: 42px; padding: 0 6px; height: 30px; display: inline-flex; align-items: center; justify-content: center; }
+        .result-row .user-ans { color: #374151; background: #f9fafb; border: 1px solid #e5e7eb; padding: 4px 8px; border-radius: 6px; }
+        .result-row .correct-ans { color: #065f46; font-weight: 600; background: #ecfdf5; border: 1px solid #a7f3d0; padding: 4px 8px; border-radius: 6px; }
+        .status-badge { justify-self: end; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; border: 1px solid transparent; }
+        .status-badge.ok { background: #ecfdf5; color: #065f46; border-color: #a7f3d0; }
+        .status-badge.bad { background: #fff5f5; color: #7f1d1d; border-color: #f5c6cb; }
+        .nav-arrows { position: fixed; bottom: 100px; right: 20px; display: flex; gap: 6px; z-index: 101; }
+        .nav-arrow { width: 48px; height: 48px; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700; color: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.25); transition: transform 0.1s ease; }
+        .nav-arrow.prev { background-color: #4b5563; }
+        .nav-arrow.next { background-color: #000000; }
+        .nav-arrow:hover { transform: translateY(-1px); }
+        .hidden { display: none !important; }
+        .submit-btn-wrap { margin: 40px 0 20px; text-align: center; }
+        .submit-btn-main { background-color: #1a1a2e; color: #fff; border: none; padding: 14px 40px; border-radius: 8px; font-size: 17px; font-weight: 700; cursor: pointer; transition: background-color 0.2s; }
+        .submit-btn-main:hover { background-color: #16213e; }
+    </style>
+</head>
+<body>
+
+<div id="highlight-toolbar" style="display:none;position:absolute;background:white;border:1px solid #ccc;padding:5px;border-radius:4px;box-shadow:0 2px 5px rgba(0,0,0,0.2);z-index:1000;">
+    <button id="highlight-yellow-btn" style="background:#872657;color:#fff;border:none;padding:5px 10px;cursor:pointer;border-radius:3px;">Highlight</button>
+</div>
+<div id="remove-highlight-toolbar" style="display:none;position:absolute;background:white;border:1px solid #ccc;padding:5px;border-radius:4px;box-shadow:0 2px 5px rgba(0,0,0,0.2);z-index:1000;">
+    <button id="remove-highlight-btn" style="background:#ff4444;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:3px;">Remove Highlight</button>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="timer-container">
+        <span class="timer-display">20:00</span>
+        <div class="timer-controls">
+            <button id="timer-toggle-btn" title="Pause/Resume"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M8 5v14l11-7L8 5z"/></svg></button>
+            <button id="timer-reset-btn" title="Reset"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg></button>
+        </div>
+    </div>
+    <button id="dark-mode-toggle" class="dark-mode-toggle" title="Toggle Dark Mode">
+        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/></svg>
+        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor" style="display:none;"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>
+    </button>
+    <a href="https://t.me/ieltswithkhmdv" target="_blank" class="telegram-link">@ieltswithkhmdv</a>
+</div>
+
+<div class="main-container">
+    <div><div class="part-header"><p><strong>Reading Passage 3</strong></p><p>You should spend about 20 minutes on Questions 27–40, which are based on Reading Passage 3 below.</p></div></div>
+    <div class="panels-container">
+
+        <!-- PASSAGE -->
+        <div class="passage-panel" id="passage-panel">
+            <div class="reading-passage">
+                <h4>Rights for apes</h4>
+                <p class="subtitle">Humans have rights, other animals don't – no matter how human-like they are. Kate Douglas investigates the controversial campaign to get that changed</p>
+
+                <p>A growing number of people across the world are attempting to persuade governments to grant great apes rudimentary 'human rights'. They argue that great apes are enough like us to deserve special treatment over other animals. The campaign has gathered momentum over the past few years and is stirring up a good deal of controversy. Various religious groups and the human rights charity Amnesty International point out that we have a long way to go to secure rights for humans before we start thinking about animals. Other critics argue that the proposal is not radical enough and should be extended to other intelligent social animals such as elephants and dolphins, and potentially to all animals.</p>
+
+                <p>The Great Ape Project (GAP) is an international organisation that has been lobbying for legal rights for apes since 1993. The project has had some degree of success. New Zealand considered the possibility of extending human rights to great apes in 1999 as part of its new animal welfare bill. In the end, the bill did not go as far as granting apes individual legal rights, but did give them special status. Testing or teaching involving apes now requires government approval and must demonstrate that any likely benefits are not outweighed by harm to the individual animal. In effect that means no biomedical testing, only studies that increase our understanding of these species. The practice of using apes in biomedical research has also effectively ended in Europe now. So with all this legal protection in place, what's the big deal about individual rights? GAP campaigners say that these regulations don't go far enough and they still allow people who own great apes to lawfully neglect their needs.</p>
+
+                <p>Michele Stumpe, a lawyer based in the US, points out that without rights, animals are mere property and their owners have no obligation to consider their best interests. Legally, however, only 'persons' can have 'rights', which is why the law needs to be changed to recognise the 'personhood' of apes.</p>
+
+                <p>Stumpe says that one reason for the resistance is the use of terms like 'rights' and personhood'. It seems like a radical idea and that scares people, but when we talk about rights, it really just means protection in layman's terms, she says. For the philosopher Peter Singer (Princeton University), the opposition runs deeper than just semantics. He says the great apes are 'the victims of arbitrary discrimination', or what he calls 'speciesism'. He makes an argument on moral grounds for extending human rights to all beings that show intelligence and awareness – including some level of self-awareness – and have emotional and social needs. That means going beyond the boundaries of our own species – and therein lies the problem. 'It's that gulf between humans and animals that people want to maintain,' he says. Others take a similar view. It requires a radical shift in people's ideas about themselves, according to Ian Redmond, chief consultant for the UN Great Apes Survival Project.</p>
+
+                <p>Gary Francione, a leading animal-rights lawyer from Rutgers University in Newark, New Jersey, and a member of the original GAP group, calls it 'spiritual superiority'. 'We just think we're special because we're human.'</p>
+
+                <p>Those less sympathetic to the animal rights agenda see things rather differently. Some argue that beyond the species barrier lies a slippery slope. 'Mice share around 90 per cent of our DNA: should they get 90 per cent of human rights?' asks geneticist Steve Jones from University College, London. He is concerned that giving rights to great apes would be the beginning of the end of all research with animals. Singer accepts that there is a question about where you draw the line, but sees no reason for that to stop society from taking the first step. 'The strongest and clearest case is with great apes, but we're open to arguments that it could be extended to other mammals,' he says.</p>
+
+                <p>Some take it even further. Francione no longer supports the idea of extending rights to great apes on the basis that their minds are like ours. Instead, he argues that all sentient beings should have just one right: the right not to be treated as the property of humans. He believes his approach has the advantage of simplicity, because sentience – the ability to feel pain or distress – is an objective quality, and because it would bring an end to captive animals altogether. It would make it illegal to breed any animals, including agricultural animals and even pets, his idea highlights a logical inconsistency at the heart of the GAP agenda: it seeks to give legal rights to animals but does not give them the right to be free. Francione's approach is certainly several steps too far for many people.</p>
+
+                <p>It is not clear what GAP's proposals mean for wild apes, and even some of the animals' most outspoken defenders are not convinced that giving them human rights is the best way to protect them. Primatologist Frans de Waal, from the Yerkes Regional Primate Research Center in Atlanta, US, says 'The concept of rights applies only to those capable of carrying responsibilities within our society.' He believes the emphasis should be on the obligations humans have towards other animals, both for their care and for their conservation.</p>
+
+                <p>Redmond, on the other hand, suggests that applying GAP principles to wild populations might lead to increased penalties for killing apes or even give them land rights, though he admits the latter is unlikely. At the very least, an increased regard for the well-being of apes among people in western countries would lead to a decreased demand for animals being kidnapped from the wild and then exported to zoos, wildlife parks or private collectors.</p>
+            </div>
+        </div>
+
+        <!-- RESIZER -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- QUESTIONS -->
+        <div class="questions-panel" id="questions-panel">
+            <div class="questions-container">
+
+                <!-- Q27–31: summary completion with word bank -->
+                <div class="question" id="question-container-27">
+                    <div class="question-prompt">
+                        <p><strong>Questions 27–31</strong></p>
+                        <p>Complete the summary using the list of words, <strong>A–J</strong>, below.</p>
+                    </div>
+
+                    <div class="people-box">
+                        <div class="people-box-title">List of Words</div>
+                        <ul>
+                            <li><strong>A</strong> experience</li>
+                            <li><strong>B</strong> well-being</li>
+                            <li><strong>C</strong> knowledge</li>
+                            <li><strong>D</strong> regulations</li>
+                            <li><strong>E</strong> charities</li>
+                            <li><strong>F</strong> research</li>
+                            <li><strong>G</strong> dolphins</li>
+                            <li><strong>H</strong> needs</li>
+                            <li><strong>J</strong> species</li>
+                        </ul>
+                    </div>
+
+                    <div class="notes-box">
+                        <div class="notes-section-body">
+                            <div class="ni" id="ni-q27">
+                                <span>Some people believe that the campaign to grant human rights to the great apes does not go far enough. They want it to include other</span>
+                                <span class="q-label">27</span>
+                                <select id="q27" class="word-select" onchange="triggerAnswerCheck()">
+                                    <option value="">Select</option>
+                                    <option value="A">A – experience</option>
+                                    <option value="B">B – well-being</option>
+                                    <option value="C">C – knowledge</option>
+                                    <option value="D">D – regulations</option>
+                                    <option value="E">E – charities</option>
+                                    <option value="F">F – research</option>
+                                    <option value="G">G – dolphins</option>
+                                    <option value="H">H – needs</option>
+                                    <option value="J">J – species</option>
+                                </select>
+                                <span>that are judged to demonstrate understanding. One country introduced</span>
+                                <span class="q-label">28</span>
+                                <select id="q28" class="word-select" onchange="triggerAnswerCheck()">
+                                    <option value="">Select</option>
+                                    <option value="A">A – experience</option>
+                                    <option value="B">B – well-being</option>
+                                    <option value="C">C – knowledge</option>
+                                    <option value="D">D – regulations</option>
+                                    <option value="E">E – charities</option>
+                                    <option value="F">F – research</option>
+                                    <option value="G">G – dolphins</option>
+                                    <option value="H">H – needs</option>
+                                    <option value="J">J – species</option>
+                                </select>
+                                <span>which went some way to protecting the apes. As a result, anyone who is interested in using apes for</span>
+                                <span class="q-label">29</span>
+                                <select id="q29" class="word-select" onchange="triggerAnswerCheck()">
+                                    <option value="">Select</option>
+                                    <option value="A">A – experience</option>
+                                    <option value="B">B – well-being</option>
+                                    <option value="C">C – knowledge</option>
+                                    <option value="D">D – regulations</option>
+                                    <option value="E">E – charities</option>
+                                    <option value="F">F – research</option>
+                                    <option value="G">G – dolphins</option>
+                                    <option value="H">H – needs</option>
+                                    <option value="J">J – species</option>
+                                </select>
+                                <span>must first obtain the official go-ahead from the state. They will have to prove that any advances gained do not come at the expense of the animal's</span>
+                                <span class="q-label">30</span>
+                                <select id="q30" class="word-select" onchange="triggerAnswerCheck()">
+                                    <option value="">Select</option>
+                                    <option value="A">A – experience</option>
+                                    <option value="B">B – well-being</option>
+                                    <option value="C">C – knowledge</option>
+                                    <option value="D">D – regulations</option>
+                                    <option value="E">E – charities</option>
+                                    <option value="F">F – research</option>
+                                    <option value="G">G – dolphins</option>
+                                    <option value="H">H – needs</option>
+                                    <option value="J">J – species</option>
+                                </select>
+                                <span>So researchers can now only work on projects that may lead to the acquisition of further</span>
+                                <span class="q-label">31</span>
+                                <select id="q31" class="word-select" onchange="triggerAnswerCheck()">
+                                    <option value="">Select</option>
+                                    <option value="A">A – experience</option>
+                                    <option value="B">B – well-being</option>
+                                    <option value="C">C – knowledge</option>
+                                    <option value="D">D – regulations</option>
+                                    <option value="E">E – charities</option>
+                                    <option value="F">F – research</option>
+                                    <option value="G">G – dolphins</option>
+                                    <option value="H">H – needs</option>
+                                    <option value="J">J – species</option>
+                                </select>
+                                <span>about the way apes function and interact.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q32–36: multiple choice -->
+                <div class="question" id="question-container-32">
+                    <div class="question-prompt">
+                        <p><strong>Questions 32–36</strong></p>
+                        <p>Choose the correct answer.</p>
+                    </div>
+
+                    <div class="tf-question" id="tf-q32">
+                        <div class="tf-question-line"><span class="tf-question-number">32</span><span class="tf-question-text mcq-stem">Why does Stumpe refer to 'layman's terms'?</span></div>
+                        <div class="tf-options mcq-options">
+                            <label class="tf-option"><input type="radio" name="q32" value="A" onchange="triggerAnswerCheck()"><span class="mcq-letter">A</span><span>To show that many people hold extreme views about animals.</span></label>
+                            <label class="tf-option"><input type="radio" name="q32" value="B" onchange="triggerAnswerCheck()"><span class="mcq-letter">B</span><span>To suggest that campaigners are reluctant to criticise the law.</span></label>
+                            <label class="tf-option"><input type="radio" name="q32" value="C" onchange="triggerAnswerCheck()"><span class="mcq-letter">C</span><span>To suggest that such inflated terminology is unnecessary.</span></label>
+                            <label class="tf-option"><input type="radio" name="q32" value="D" onchange="triggerAnswerCheck()"><span class="mcq-letter">D</span><span>To argue that most people are not interested in protecting animals.</span></label>
+                        </div>
+                    </div>
+
+                    <div class="tf-question" id="tf-q33">
+                        <div class="tf-question-line"><span class="tf-question-number">33</span><span class="tf-question-text mcq-stem">According to Singer, what is the root of the problem?</span></div>
+                        <div class="tf-options mcq-options">
+                            <label class="tf-option"><input type="radio" name="q33" value="A" onchange="triggerAnswerCheck()"><span class="mcq-letter">A</span><span>Levels of intelligence and awareness differ between species.</span></label>
+                            <label class="tf-option"><input type="radio" name="q33" value="B" onchange="triggerAnswerCheck()"><span class="mcq-letter">B</span><span>People disagree on how intelligent animals like apes are.</span></label>
+                            <label class="tf-option"><input type="radio" name="q33" value="C" onchange="triggerAnswerCheck()"><span class="mcq-letter">C</span><span>Moral principles are not easy for everyone to understand.</span></label>
+                            <label class="tf-option"><input type="radio" name="q33" value="D" onchange="triggerAnswerCheck()"><span class="mcq-letter">D</span><span>Human beings want to see themselves as separate from animals.</span></label>
+                        </div>
+                    </div>
+
+                    <div class="tf-question" id="tf-q34">
+                        <div class="tf-question-line"><span class="tf-question-number">34</span><span class="tf-question-text mcq-stem">If Francione's current idea was implemented,</span></div>
+                        <div class="tf-options mcq-options">
+                            <label class="tf-option"><input type="radio" name="q34" value="A" onchange="triggerAnswerCheck()"><span class="mcq-letter">A</span><span>sentient animals could not be kept in cages.</span></label>
+                            <label class="tf-option"><input type="radio" name="q34" value="B" onchange="triggerAnswerCheck()"><span class="mcq-letter">B</span><span>any form of large-scale agriculture would cease to exist.</span></label>
+                            <label class="tf-option"><input type="radio" name="q34" value="C" onchange="triggerAnswerCheck()"><span class="mcq-letter">C</span><span>great apes would be granted all the same rights as humans.</span></label>
+                            <label class="tf-option"><input type="radio" name="q34" value="D" onchange="triggerAnswerCheck()"><span class="mcq-letter">D</span><span>people could no longer offer shelter to an animal.</span></label>
+                        </div>
+                    </div>
+
+                    <div class="tf-question" id="tf-q35">
+                        <div class="tf-question-line"><span class="tf-question-number">35</span><span class="tf-question-text mcq-stem">What is the writer's attitude to Francione's theory?</span></div>
+                        <div class="tf-options mcq-options">
+                            <label class="tf-option"><input type="radio" name="q35" value="A" onchange="triggerAnswerCheck()"><span class="mcq-letter">A</span><span>She is suspicious of the reasoning behind it.</span></label>
+                            <label class="tf-option"><input type="radio" name="q35" value="B" onchange="triggerAnswerCheck()"><span class="mcq-letter">B</span><span>She is doubtful of its chances of being generally accepted.</span></label>
+                            <label class="tf-option"><input type="radio" name="q35" value="C" onchange="triggerAnswerCheck()"><span class="mcq-letter">C</span><span>She is reassured by the impartial way it is expressed.</span></label>
+                            <label class="tf-option"><input type="radio" name="q35" value="D" onchange="triggerAnswerCheck()"><span class="mcq-letter">D</span><span>She is pleased by its logical development.</span></label>
+                        </div>
+                    </div>
+
+                    <div class="tf-question" id="tf-q36">
+                        <div class="tf-question-line"><span class="tf-question-number">36</span><span class="tf-question-text mcq-stem">How does de Waal change the perspective of the animal rights discussion?</span></div>
+                        <div class="tf-options mcq-options">
+                            <label class="tf-option"><input type="radio" name="q36" value="A" onchange="triggerAnswerCheck()"><span class="mcq-letter">A</span><span>He recommends focusing on the way people look after animals.</span></label>
+                            <label class="tf-option"><input type="radio" name="q36" value="B" onchange="triggerAnswerCheck()"><span class="mcq-letter">B</span><span>He would give rights only to those animals with a moral sense.</span></label>
+                            <label class="tf-option"><input type="radio" name="q36" value="C" onchange="triggerAnswerCheck()"><span class="mcq-letter">C</span><span>He says that society should learn to be responsible for all of humanity.</span></label>
+                            <label class="tf-option"><input type="radio" name="q36" value="D" onchange="triggerAnswerCheck()"><span class="mcq-letter">D</span><span>He thinks that conservation of endangered species should come first.</span></label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q37–40: YES / NO / NOT GIVEN -->
+                <div class="question" id="question-container-37">
+                    <div class="question-prompt">
+                        <p><strong>Questions 37–40</strong></p>
+                        <p>Choose <strong>YES</strong> if the statement agrees with the claims of the writer, choose <strong>NO</strong> if the statement contradicts the claims of the writer, or <strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks about this.</p>
+                    </div>
+
+                    <div class="tf-question" id="tf-q37">
+                        <div class="tf-question-line"><span class="tf-question-number">37</span><span class="tf-question-text">Particularly valuable animals in captivity are more likely to be protected by law.</span></div>
+                        <div class="tf-options">
+                            <label class="tf-option"><input type="radio" name="q37" value="YES" onchange="triggerAnswerCheck()"> YES</label>
+                            <label class="tf-option"><input type="radio" name="q37" value="NO" onchange="triggerAnswerCheck()"> NO</label>
+                            <label class="tf-option"><input type="radio" name="q37" value="NOT GIVEN" onchange="triggerAnswerCheck()"> NOT GIVEN</label>
+                        </div>
+                    </div>
+                    <div class="tf-question" id="tf-q38">
+                        <div class="tf-question-line"><span class="tf-question-number">38</span><span class="tf-question-text">de Waal highlights the need to give human rights to higher order animals.</span></div>
+                        <div class="tf-options">
+                            <label class="tf-option"><input type="radio" name="q38" value="YES" onchange="triggerAnswerCheck()"> YES</label>
+                            <label class="tf-option"><input type="radio" name="q38" value="NO" onchange="triggerAnswerCheck()"> NO</label>
+                            <label class="tf-option"><input type="radio" name="q38" value="NOT GIVEN" onchange="triggerAnswerCheck()"> NOT GIVEN</label>
+                        </div>
+                    </div>
+                    <div class="tf-question" id="tf-q39">
+                        <div class="tf-question-line"><span class="tf-question-number">39</span><span class="tf-question-text">If GAP beliefs were implemented in the wild, the survival rate of the larger apes would increase.</span></div>
+                        <div class="tf-options">
+                            <label class="tf-option"><input type="radio" name="q39" value="YES" onchange="triggerAnswerCheck()"> YES</label>
+                            <label class="tf-option"><input type="radio" name="q39" value="NO" onchange="triggerAnswerCheck()"> NO</label>
+                            <label class="tf-option"><input type="radio" name="q39" value="NOT GIVEN" onchange="triggerAnswerCheck()"> NOT GIVEN</label>
+                        </div>
+                    </div>
+                    <div class="tf-question" id="tf-q40">
+                        <div class="tf-question-line"><span class="tf-question-number">40</span><span class="tf-question-text">If people in Western countries, for example, learned to consider apes' needs, fewer apes would be captured for sale.</span></div>
+                        <div class="tf-options">
+                            <label class="tf-option"><input type="radio" name="q40" value="YES" onchange="triggerAnswerCheck()"> YES</label>
+                            <label class="tf-option"><input type="radio" name="q40" value="NO" onchange="triggerAnswerCheck()"> NO</label>
+                            <label class="tf-option"><input type="radio" name="q40" value="NOT GIVEN" onchange="triggerAnswerCheck()"> NOT GIVEN</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="submit-btn-wrap">
+                    <button class="submit-btn-main" id="deliver-button" onclick="checkAnswers()">Submit Answers</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- NAV ARROWS -->
+<div class="nav-arrows">
+    <button class="nav-arrow prev" onclick="navigateQuestion(-1)">&#8592;</button>
+    <button class="nav-arrow next" onclick="navigateQuestion(1)">&#8594;</button>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="nav-row">
+    <div class="footer__questionWrapper___1tZ46 selected">
+        <button class="footer__questionNo___3WNct"><span class="section-prefix">Questions </span><span class="sectionNr">27–40</span><span class="attemptedCount" id="attempted-count">0/14 answered</span></button>
+        <div class="footer__subquestionWrapper___9GgoP" id="subquestion-wrapper"></div>
+    </div>
+    <button class="footer__deliverButton___3FM07" id="deliver-button-footer" onclick="checkAnswers()">
+        <span>Submit</span>
+        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M4 15l8 8 8-8-1.41-1.41L13 19.17V2h-2v17.17l-6.58-6.59L4 15z"/></svg>
+    </button>
+</div>
+
+<!-- RESULTS MODAL -->
+<div class="modal-overlay hidden" id="results-modal">
+    <div class="modal-content">
+        <button class="modal-close-btn" onclick="document.getElementById('results-modal').classList.add('hidden')">×</button>
+        <h2>Your Results</h2>
+        <div class="results-summary"><p>Score: <span id="results-score">0</span> / 14</p><p>Band: <span id="results-band">–</span></p></div>
+        <div class="results-details-container">
+            <div class="result-row" style="font-weight:bold;background:#f8f9fa;"><span>Q#</span><span>Your Answer</span><span>Correct Answer</span><span style="justify-self:end;">Result</span></div>
+            <div id="results-details"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+const selectAnswers = { '27':'J','28':'D','29':'F','30':'B','31':'C' };
+const radioAnswers = { '32':'C','33':'D','34':'A','35':'B','36':'A','37':'NOT GIVEN','38':'NO','39':'NOT GIVEN','40':'YES' };
+const questionNumbers = [27,28,29,30,31,32,33,34,35,36,37,38,39,40];
+const TOTAL = 14;
+const isSelect = n => n >= 27 && n <= 31;
+
+let timeInSeconds=20*60, timerInterval, timerRunning=false;
+const timerDisplay=document.querySelector('.timer-display');
+const timerToggleBtn=document.getElementById('timer-toggle-btn');
+const timerResetBtn=document.getElementById('timer-reset-btn');
+const playIcon='<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M8 5v14l11-7L8 5z"/></svg>';
+const pauseIcon='<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+
+function updateTimerDisplay(){const m=Math.floor(timeInSeconds/60).toString().padStart(2,'0');const s=(timeInSeconds%60).toString().padStart(2,'0');timerDisplay.textContent=`${m}:${s}`;timerDisplay.style.color=timeInSeconds<=60?'#dc3545':'';}
+function startTimer(){if(timerRunning)return;timerRunning=true;timerToggleBtn.innerHTML=pauseIcon;timerInterval=setInterval(()=>{if(timeInSeconds>0){timeInSeconds--;updateTimerDisplay();}else{clearInterval(timerInterval);timerRunning=false;}},1000);}
+function toggleTimer(){if(timerRunning){clearInterval(timerInterval);timerRunning=false;timerToggleBtn.innerHTML=playIcon;}else startTimer();}
+function resetTimer(){clearInterval(timerInterval);timerRunning=false;timeInSeconds=20*60;timerToggleBtn.innerHTML=playIcon;updateTimerDisplay();}
+timerToggleBtn.addEventListener('click',toggleTimer);
+timerResetBtn.addEventListener('click',resetTimer);
+updateTimerDisplay(); startTimer();
+
+const darkToggle=document.getElementById('dark-mode-toggle');
+if(localStorage.getItem('darkMode')==='enabled')document.body.classList.add('dark-mode');
+darkToggle.addEventListener('click',()=>{document.body.classList.toggle('dark-mode');localStorage.setItem('darkMode',document.body.classList.contains('dark-mode')?'enabled':'disabled');});
+
+const resizer=document.getElementById('resizer');
+const passagePanel=document.getElementById('passage-panel');
+const questionsPanel=document.getElementById('questions-panel');
+let isResizing=false;
+resizer.addEventListener('mousedown',()=>{isResizing=true;document.addEventListener('mousemove',onResize);document.addEventListener('mouseup',()=>{isResizing=false;document.removeEventListener('mousemove',onResize);});});
+function onResize(e){if(!isResizing)return;const c=document.querySelector('.panels-container'),rect=c.getBoundingClientRect();const pct=Math.max(20,Math.min(80,((e.clientX-rect.left)/(rect.width-resizer.offsetWidth))*100));passagePanel.style.flex=`0 0 ${pct}%`;questionsPanel.style.flex=`0 0 ${100-pct}%`;}
+
+function buildNavButtons(){const wrapper=document.getElementById('subquestion-wrapper');wrapper.innerHTML='';questionNumbers.forEach(n=>{const btn=document.createElement('button');btn.className='subQuestion';btn.textContent=n;btn.id=`nav-btn-${n}`;btn.onclick=()=>scrollToQuestion(n);wrapper.appendChild(btn);});}
+buildNavButtons();
+
+function scrollToQuestion(n){
+    const el = isSelect(n) ? (document.getElementById(`ni-q${n}`)||document.getElementById(`q${n}`)) : document.getElementById(`tf-q${n}`);
+    if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+    document.querySelectorAll('.subQuestion').forEach(b=>b.classList.remove('active'));
+    const btn=document.getElementById(`nav-btn-${n}`);
+    if(btn)btn.classList.add('active');
+}
+
+function isAnswered(n){
+    if(isSelect(n)){ const el=document.getElementById(`q${n}`); return el? el.value!=='' : false; }
+    return !!document.querySelector(`input[name="q${n}"]:checked`);
+}
+
+function triggerAnswerCheck(){
+    let count=0;
+    questionNumbers.forEach(n=>{
+        const answered=isAnswered(n);
+        const btn=document.getElementById(`nav-btn-${n}`);
+        if(btn) answered?btn.classList.add('answered'):btn.classList.remove('answered');
+        if(answered) count++;
+    });
+    document.getElementById('attempted-count').textContent=`${count}/${TOTAL} answered`;
+}
+
+let currentFocus=0;
+function navigateQuestion(dir){currentFocus=Math.max(0,Math.min(questionNumbers.length-1,currentFocus+dir));scrollToQuestion(questionNumbers[currentFocus]);}
+
+(function(){
+    const ht=document.getElementById('highlight-toolbar');
+    const hyb=document.getElementById('highlight-yellow-btn');
+    const rt=document.getElementById('remove-highlight-toolbar');
+    const rb=document.getElementById('remove-highlight-btn');
+    let lastRange=null;
+    document.addEventListener('mouseup',function(){setTimeout(()=>{const sel=window.getSelection();if(sel&&sel.rangeCount>0&&!sel.isCollapsed){const range=sel.getRangeAt(0);if(inArea(range.commonAncestorContainer)){lastRange=range.cloneRange();show(ht,range.getBoundingClientRect(),10);}else ht.style.display='none';}else ht.style.display='none';},0);});
+    hyb.addEventListener('click',()=>applyHL('#872657','highlight-raspberry'));
+    function applyHL(color,cls){if(!lastRange)return;const sel=window.getSelection();sel.removeAllRanges();sel.addRange(lastRange);const span=document.createElement('span');span.className='highlight '+cls;span.style.backgroundColor=color;span.setAttribute('tabindex','0');span.addEventListener('click',function(e){e.stopPropagation();show(rt,e.target.getBoundingClientRect(),10);rb.onclick=()=>{e.target.replaceWith(...e.target.childNodes);rt.style.display='none';};});try{lastRange.surroundContents(span);}catch(e){}sel.removeAllRanges();ht.style.display='none';}
+    document.addEventListener('mousedown',function(e){if(!ht.contains(e.target))ht.style.display='none';if(!rt.contains(e.target))rt.style.display='none';});
+    function show(tb,rect,off){tb.style.display='block';tb.style.left=(window.scrollX+rect.left+rect.width/2-50)+'px';tb.style.top=(window.scrollY+rect.top-tb.offsetHeight-off)+'px';}
+    function inArea(node){while(node){if(node.classList&&(node.classList.contains('reading-passage')||node.classList.contains('questions-container')))return true;node=node.parentNode;}return false;}
+})();
+
+const wordList={'A':'experience','B':'well-being','C':'knowledge','D':'regulations','E':'charities','F':'research','G':'dolphins','H':'needs','J':'species'};
+
+function checkAnswers(){
+    clearInterval(timerInterval);
+    document.querySelectorAll('input, select').forEach(el=>el.disabled=true);
+    const container=document.getElementById('results-details');
+    container.innerHTML=''; let score=0;
+
+    questionNumbers.forEach(i=>{
+        const key=String(i);
+        let userAnswer='', correct='', isCorrect=false;
+
+        if(isSelect(i)){
+            correct=`${selectAnswers[key]} – ${wordList[selectAnswers[key]]}`;
+            const el=document.getElementById(`q${i}`);
+            const val=el?el.value:'';
+            isCorrect=val!==''&&val===selectAnswers[key];
+            if(el)el.classList.add(isCorrect?'correct':'incorrect');
+            userAnswer=val?`${val} – ${wordList[val]}`:'Not Answered';
+        } else {
+            correct=radioAnswers[key];
+            const checked=document.querySelector(`input[name="q${i}"]:checked`);
+            userAnswer=checked?checked.value:'';
+            isCorrect=userAnswer===correct;
+            const qContainer=document.getElementById(`tf-q${i}`);
+            if(checked){const lbl=checked.closest('.tf-option');if(lbl)lbl.classList.add(isCorrect?'correct':'incorrect');}
+            if(!isCorrect&&qContainer){const ci=qContainer.querySelector(`input[value="${correct}"]`);if(ci){const lbl=ci.closest('.tf-option');if(lbl)lbl.classList.add('correct-answer-highlight');}}
+            if(!userAnswer)userAnswer='Not Answered';
+        }
+
+        if(isCorrect)score++;
+        const navBtn=document.getElementById(`nav-btn-${i}`);
+        if(navBtn){navBtn.classList.remove('answered','active');navBtn.classList.add(isCorrect?'correct':'incorrect');}
+        container.innerHTML+=`<div class="result-row ${isCorrect?'correct':'incorrect'}"><span class="q-num">${i}</span><span class="user-ans">${userAnswer}</span><span class="correct-ans">${correct}</span><span class="status-badge ${isCorrect?'ok':'bad'}">${isCorrect?'Correct ✓':'Incorrect ✗'}</span></div>`;
+    });
+
+    document.getElementById('results-score').textContent=score;
+    document.getElementById('results-band').textContent=calcBand(score);
+    document.getElementById('results-modal').classList.remove('hidden');
+    ['deliver-button','deliver-button-footer'].forEach(id=>{const btn=document.getElementById(id);if(btn){btn.innerHTML='<span>My Result</span>';btn.style.backgroundColor='#4CAF50';btn.style.color='white';btn.style.borderColor='#4CAF50';btn.disabled=false;btn.style.cursor='pointer';btn.onclick=()=>document.getElementById('results-modal').classList.remove('hidden');}});
+}
+
+function calcBand(score){const pct=score/TOTAL;if(pct>=0.95)return'9.0';if(pct>=0.88)return'8.5';if(pct>=0.80)return'8.0';if(pct>=0.73)return'7.5';if(pct>=0.65)return'7.0';if(pct>=0.58)return'6.5';if(pct>=0.50)return'6.0';if(pct>=0.42)return'5.5';if(pct>=0.35)return'5.0';if(pct>=0.27)return'4.5';return'4.0';}
+
+triggerAnswerCheck();
+</script>
+</body>
+</html>

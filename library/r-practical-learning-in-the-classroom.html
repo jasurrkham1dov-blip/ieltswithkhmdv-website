@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading - Practical Learning in the Classroom | @ieltswithkhmdv</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        body { background:#f5f5f5; color:#333; line-height:1.6; overflow:hidden; }
+        .loading-screen, .start-screen { min-height:100vh; display:flex; align-items:center; justify-content:center; background:#f9fafb; position:fixed; top:0; left:0; width:100%; z-index:9999; flex-direction:column; }
+        .spinner { border:5px solid #f3f3f3; border-top:5px solid #2563eb; border-radius:50%; width:50px; height:50px; animation:spin 1s linear infinite; margin-bottom:20px; }
+        @keyframes spin { to { transform:rotate(360deg); } }
+        .start-title { font-size:2rem; font-weight:bold; color:#1e40af; margin-bottom:20px; }
+        .start-button { padding:14px 40px; background:#2563eb; color:white; border:none; border-radius:8px; font-size:1.1rem; cursor:pointer; transition:.3s; }
+        .start-button:hover { background:#1d4ed8; }
+        .hidden { display:none!important; }
+
+        .container { display:flex; flex-direction:column; height:100vh; width:100vw; background:white; }
+        header { background:white; padding:10px 20px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 10px rgba(0,0,0,.1); z-index:100; border-bottom:1px solid #e2e8f0; }
+        .logo-area { background:#2563eb; color:white; padding:10px 20px; border-radius:30px; text-decoration:none; font-weight:bold; display:flex; align-items:center; gap:8px; box-shadow:0 4px 10px rgba(37,99,235,.3); }
+        .logo-area:hover { background:#1d4ed8; transform:translateY(-2px); }
+        .passage-info { font-weight:600; color:#1e293b; }
+        .timer { background:#fee2e2; color:#991b1b; padding:8px 16px; border-radius:8px; font-weight:bold; border:1px solid #fecaca; }
+
+        .progress-container { padding:10px 20px; background:#f8fafc; border-bottom:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; }
+        .progress-items { display:flex; gap:8px; flex-wrap:wrap; }
+        .progress-item { width:40px; height:40px; border-radius:50%; background:#e2e8f0; display:flex; align-items:center; justify-content:center; font-weight:bold; cursor:pointer; transition:.3s; }
+        .progress-item.current { background:#3b82f6; color:white; transform:scale(1.15); }
+        .progress-item.answered { background:#86efac; color:#166534; }
+
+        .main-content { display:flex; flex:1; overflow:hidden; position:relative; }
+        .passage-container { flex:1; background:#fafafa; overflow-y:auto; padding:25px; transition:flex 0.3s; }
+        .questions-container { width:42%; background:white; border-left:1px solid #e2e8f0; overflow-y:auto; padding:25px; transition:width 0.3s; }
+        .resizer { width:10px; background:#cbd5e0; cursor:col-resize; position:relative; transition:.3s; z-index:10; }
+        .resizer:hover { background:#94a3b8; }
+        .resizer::after { content:''; position:absolute; top:0; left:50%; width:2px; height:100%; background:#2563eb; transform:translateX(-50%); }
+
+        .passage h2 { font-size:1.6rem; color:#1e293b; margin-bottom:20px; text-align:center; }
+        .passage-content p { margin:18px 0; text-align:justify; }
+
+        .question-group { background:#f8fafc; padding:20px; border-radius:12px; margin-bottom:25px; border:1px solid #e2e8f0; }
+        .section-title { font-size:1.3rem; font-weight:bold; color:#1e293b; margin-bottom:15px; padding-bottom:8px; border-bottom:2px solid #3b82f6; }
+
+        .gap-input { padding:6px 10px; border:1px solid #94a3b8; border-radius:6px; font-size:1rem; width:180px; }
+
+        .mc-option { 
+            display:block; 
+            padding:12px 16px; 
+            margin:8px 0; 
+            background:#f0f4f8; 
+            border:2px solid #cbd5e0; 
+            border-radius:8px; 
+            cursor:pointer; 
+            transition:all 0.2s; 
+            font-size:1rem;
+        }
+        .mc-option:hover { background:#e2e8f0; }
+        .mc-option.selected { 
+            background:#2563eb; 
+            color:white; 
+            border-color:#2563eb; 
+            font-weight:bold; 
+        }
+
+        .ynng-btns { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin:15px 0; }
+        .ynng-btn { padding:14px; font-size:1.1rem; border:none; border-radius:10px; cursor:pointer; font-weight:bold; transition:.3s; }
+        .ynng-btn[data-val="YES"] { background:#28a745; color:white; }
+        .ynng-btn[data-val="NO"] { background:#dc3545; color:white; }
+        .ynng-btn[data-val="NOT GIVEN"] { background:#6c757d; color:white; }
+        .ynng-btn.selected { transform:scale(1.08); box-shadow:0 4px 10px rgba(0,0,0,0.3); }
+
+        .btn-submit { background:#16a34a; color:white; padding:14px 40px; border:none; border-radius:8px; font-size:1.1rem; cursor:pointer; margin:30px auto; display:block; }
+
+        .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center; }
+        .modal-content { background:white; padding:30px; border-radius:16px; max-width:720px; width:90%; max-height:90vh; overflow-y:auto; }
+        .score-display { font-size:3.2rem; font-weight:bold; color:#16a34a; margin:25px 0; text-align:center; }
+        .answer-item { padding:16px; margin:12px 0; background:#f8fafc; border-radius:8px; border-left:5px solid #e2e8f0; }
+        .answer-item.correct { border-left-color:#16a34a; background:#f0fdf4; }
+        .answer-item.incorrect { border-left-color:#dc2626; background:#fef2f2; }
+
+        .highlight { background-color:#fff176 !important; cursor:pointer; transition:background 0.3s; }
+        .highlight:hover { background-color:#fff59d !important; }
+    </style>
+</head>
+<body>
+
+    <div class="loading-screen" id="loadingScreen">
+        <div><div class="spinner"></div><h2>Loading...</h2></div>
+    </div>
+
+    <div class="start-screen hidden" id="startScreen">
+        <div>
+            <h1 class="start-title">IELTS Reading Practice</h1>
+            <p style="font-size:1.3rem;color:#444;margin-bottom:30px;">Practical Learning in the Classroom – Passage 3</p>
+            <button class="start-button" onclick="startTest()">Start Test</button>
+        </div>
+    </div>
+
+    <div class="container hidden" id="testContainer">
+        <header>
+            <a href="https://t.me/ieltswithkhmdv" target="_blank" class="logo-area">
+                <i class="fab fa-telegram-plane"></i> @ieltswithkhmdv
+            </a>
+            <div class="passage-info">Passage 3</div>
+            <div class="timer" id="timer">20:00</div>
+        </header>
+
+        <div class="progress-container">
+            <div class="progress-items">
+                <div class="progress-item current" data-question="27">27</div>
+                <div class="progress-item" data-question="28">28</div>
+                <div class="progress-item" data-question="29">29</div>
+                <div class="progress-item" data-question="30">30</div>
+                <div class="progress-item" data-question="31">31</div>
+                <div class="progress-item" data-question="32">32</div>
+                <div class="progress-item" data-question="33">33</div>
+                <div class="progress-item" data-question="34">34</div>
+                <div class="progress-item" data-question="35">35</div>
+                <div class="progress-item" data-question="36">36</div>
+                <div class="progress-item" data-question="37">37</div>
+                <div class="progress-item" data-question="38">38</div>
+                <div class="progress-item" data-question="39">39</div>
+                <div class="progress-item" data-question="40">40</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="passage-container" id="passage">
+                <div class="passage">
+                    <h2>Practical Learning in the Classroom</h2>
+                    <p style="font-style:italic; text-align:center; color:#4b5563; margin-bottom:25px;">
+                        A teacher describes a case study involving middle school students and traditional earthen architecture
+                    </p>
+                    <div class="passage-content" id="passageText">
+                        <p><strong>A</strong> The way we think about architecture in schools has come a long way. Once, studying architecture in the art class meant learning to appreciate great buildings art history style, through slide presentations. In recent years, though, the American Institute of Architects has fostered the idea that the process of architectural design, not just the appreciation of architecture, is a beneficial aspect of the art curriculum (Sadler, 1989).</p>
+                        <p><strong>B</strong> The value of architectural design is that it is the concrete training ground for a broadly applicable creative process. Architectural training can help people design structures to meet needs. It can help farmers design crop rotations to meet needs. Furthermore, it provides hands-on experiences that reinforce learning in various other subjects, from math to social studies.</p>
+                        <p><strong>C</strong> In the ongoing dialogue about architecture in the middle school art curriculum, many believe students should actually build the structures they design in their courses. Although the technology and expertise required of modern architecture can prohibit students from actually realizing their designs, traditional architectural materials and methods remain quite accessible to the art classroom. Traditional architectural materials, such as earth, clay and straw, are cheap, easy to work with and readily available. Further, when students participate in the construction or preservation of a traditional earthen structure in their local community, they engage in a form of experiential learning and they are motivated to invest in the project. This is evident in a case study of an adobe* conservation project with middle school students in the town of Zuni, New Mexico, in the Southwestern United States.</p>
+                        <p><strong>D</strong> Traditional architecture reaches back to preindustrial America, when local resources and cultures produced structures in styles unique to each region. In New Mexico, examples of hand-built earthen structures still abound. The region has seen some decline in traditional architecture as industrialization has brought new building codes and materials; however, the traditional, non-industrial home, either preserved from earlier generations or newly built, remains in use. Traditional building materials and the land that supplies them are so accessible that handcrafting a house still remains feasible.</p>
+                        <p><strong>E</strong> Thus, with no technical expertise and little cost, middle school students can participate in the construction or preservation of a traditional earthen structure. During the project, a student will get to know the materials, understand the chemistry, solve problems, work with classmates, and exercise muscles. The student can apply knowledge of design principles and the creative process while participating in a cooperative effort. But most significantly, this type of project-based activity motivates students to invest intellectually and emotionally in the outcome.</p>
+                        <p><strong>F</strong> The town of Zuni, where I taught art, was surrounded by adobe construction, new and old. Behind our main high school building there was a one-room adobe structure which was once used for teaching. Now it served as a place where old furniture could be kept. I sent my class home with the oral history assignment to ask their family, friends and neighbors questions to find out about that building. From their research we compiled a sketchy history: it began as a kindergarten classroom; it later became an art classroom; now it was full of broken desks.</p>
+                        <p><strong>G</strong> The building's design kept it relatively warm in the winter, even without heating, due to its broad south face, and it stayed cool in the summer due to its spacious, ventilated attic and massive earthen walls. Because of this, my students agreed it was worth preserving and were enthusiastic about helping. Preservationist Shalie Gasper arrived in the fall to help with an assessment of the building's needs. She recommended replacing the stucco** that encased the original adobe walls with a traditional mud plaster. She showed us where to find local supplies of sand and clay soil for the plaster mix. We began work on the stucco removal in late fall. The next spring the students were ready to replaster. To teach the traditional skills, Gasper and other local specialists joined us. They gave my class three full mornings of intensive workshops on history and preservation as well as mud-plastering technique, and the building got a new coat of traditional mud plaster.</p>
+                        <p><strong>H</strong> Small design-and-build projects such as this can be seen through to the finish when working with earth in the art curriculum. A simple landscape feature such as a wall, entryway, or arch can draw students into important aspects of design that involve the structure's interaction with people, the surrounding landscape, and natural elements. The same project may provide an opportunity to focus on the chemistry of soil or the structural dynamics of construction. Design goals might guide students to involve traditional forms, consider formal aspects, or integrate math skills of measuring and estimating.</p>
+                        <p><strong>I</strong> During our traditional architecture unit, the students realized that something old and almost forgotten is valuable and worth preserving. Many others in the community and around the country share this renewal of interest in traditional earthen technologies. It is the connection to a cultural heritage that interests some; the quality of living within massive, natural walls that attracts others; or for others, the sustainability of the process and the minimal energy spent in construction. The value of adobe in general is becoming more and more known, but little has been said about its value in the art curriculum until now. This experiment in adobe conservation with middle school students convinced me that traditional architecture deserves a place in the regular curriculum.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="resizer" id="resizer"></div>
+
+            <div class="questions-container" id="questions">
+                <div class="question-group">
+                    <div class="section-title">Questions 27–31</div>
+                    <p>Choose the correct answer.</p>
+
+                    <div style="margin:20px 0;">
+                        <strong>27</strong> What education initiative does the American Institute of Architects currently promote?<br>
+                        <div class="mc-option" data-q="27" data-val="A">A multimedia presentation of information in classrooms</div>
+                        <div class="mc-option" data-q="27" data-val="B">B the study of monumental buildings throughout history</div>
+                        <div class="mc-option" data-q="27" data-val="C">C the practice of designing architectural structures</div>
+                        <div class="mc-option" data-q="27" data-val="D">D processes to add more art classes in schools</div>
+                        <div>Answer: <strong id="ans27">-</strong></div>
+                    </div>
+
+                    <div style="margin:20px 0;">
+                        <strong>28</strong> In the third paragraph, what problem with teaching architecture on art courses does the writer note?<br>
+                        <div class="mc-option" data-q="28" data-val="A">A Technology-based courses are unavailable.</div>
+                        <div class="mc-option" data-q="28" data-val="B">B Students cannot always construct their designs.</div>
+                        <div class="mc-option" data-q="28" data-val="C">C The curriculum is too traditional.</div>
+                        <div class="mc-option" data-q="28" data-val="D">D Students lack motivation.</div>
+                        <div>Answer: <strong id="ans28">-</strong></div>
+                    </div>
+
+                    <div style="margin:20px 0;">
+                        <strong>29</strong> What is the greatest benefit for students that the writer sees in a traditional architecture project?<br>
+                        <div class="mc-option" data-q="29" data-val="A">A personal connection to the end result</div>
+                        <div class="mc-option" data-q="29" data-val="B">B participation in a cooperative project</div>
+                        <div class="mc-option" data-q="29" data-val="C">C building of problem-solving skills</div>
+                        <div class="mc-option" data-q="29" data-val="D">D conservation of a traditional building</div>
+                        <div>Answer: <strong id="ans29">-</strong></div>
+                    </div>
+
+                    <div style="margin:20px 0;">
+                        <strong>30</strong> What is the purpose of the eighth paragraph?<br>
+                        <div class="mc-option" data-q="30" data-val="A">A to explain why it is important that projects be small</div>
+                        <div class="mc-option" data-q="30" data-val="B">B to outline the multiple skills involved in one project</div>
+                        <div class="mc-option" data-q="30" data-val="C">C to discuss strategies for connecting content areas</div>
+                        <div class="mc-option" data-q="30" data-val="D">D to propose suggestions for traditional earth projects</div>
+                        <div>Answer: <strong id="ans30">-</strong></div>
+                    </div>
+
+                    <div style="margin:20px 0;">
+                        <strong>31</strong> What does the writer say about traditional building and the general population?<br>
+                        <div class="mc-option" data-q="31" data-val="A">A Earthen architecture is becoming a profitable business.</div>
+                        <div class="mc-option" data-q="31" data-val="B">B Earthen architecture is less feasible in some areas of the country.</div>
+                        <div class="mc-option" data-q="31" data-val="C">C Interest in earthen architecture varies from region to region.</div>
+                        <div class="mc-option" data-q="31" data-val="D">D People are attracted to earthen architecture for different reasons.</div>
+                        <div>Answer: <strong id="ans31">-</strong></div>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <div class="section-title">Questions 32–36</div>
+                    <p>Complete the summary using the list of words, A–H, below.</p>
+
+                    <p>The Zuni earthen architecture project<br>
+                    The students in Zuni chose to renovate an old building which was being used for <input type="text" class="gap-input" id="q32" placeholder="32">. They came to an agreement that the building was worthy of rehabilitation based on its functional <input type="text" class="gap-input" id="q33" placeholder="33">. At the beginning of the project, students were given the task to discover the history of the building through interviews with local residents. Through the course of the project, they learned where to locate <input type="text" class="gap-input" id="q34" placeholder="34"> for the project. They also worked closely with a number of <input type="text" class="gap-input" id="q35" placeholder="35"> on each step of the project. During the project, students were also given <input type="text" class="gap-input" id="q36" placeholder="36"> to build useful skills.</p>
+
+                    <p>A experts B location C design D storage E students F resources G training H businesses</p>
+
+                    <div style="margin-top:15px; font-size:0.95rem; color:#64748b;">
+                        Your answers:<br>
+                        32: <strong id="ans32">-</strong> | 33: <strong id="ans33">-</strong> | 34: <strong id="ans34">-</strong> | 35: <strong id="ans35">-</strong> | 36: <strong id="ans36">-</strong>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <div class="section-title">Questions 37–40</div>
+                    <p>Choose <strong>YES</strong> if the statement agrees with the claims of the writer,<br><strong>NO</strong> if the statement contradicts the claims of the writer,<br>or <strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks about this.</p>
+
+                    <div style="margin:20px 0;">
+                        <strong>37</strong> The price of materials is one drawback to using traditional architecture.<br>
+                        <div class="ynng-btns">
+                            <button class="ynng-btn" data-q="37" data-val="YES">YES</button>
+                            <button class="ynng-btn" data-q="37" data-val="NO">NO</button>
+                            <button class="ynng-btn" data-q="37" data-val="NOT GIVEN">NOT GIVEN</button>
+                        </div>
+                        <div>Answer: <strong id="ans37">-</strong></div>
+                    </div>
+
+                    <div style="margin:20px 0;">
+                        <strong>38</strong> Earthen structures can easily be built in all regions of the U.S.<br>
+                        <div class="ynng-btns">
+                            <button class="ynng-btn" data-q="38" data-val="YES">YES</button>
+                            <button class="ynng-btn" data-q="38" data-val="NO">NO</button>
+                            <button class="ynng-btn" data-q="38" data-val="NOT GIVEN">NOT GIVEN</button>
+                        </div>
+                        <div>Answer: <strong id="ans38">-</strong></div>
+                    </div>
+
+                    <div style="margin:20px 0;">
+                        <strong>39</strong> Working with a traditional earthen structure can have physical benefits.<br>
+                        <div class="ynng-btns">
+                            <button class="ynng-btn" data-q="39" data-val="YES">YES</button>
+                            <button class="ynng-btn" data-q="39" data-val="NO">NO</button>
+                            <button class="ynng-btn" data-q="39" data-val="NOT GIVEN">NOT GIVEN</button>
+                        </div>
+                        <div>Answer: <strong id="ans39">-</strong></div>
+                    </div>
+
+                    <div style="margin:20px 0;">
+                        <strong>40</strong> A traditional architecture curriculum is best suited to middle school level students.<br>
+                        <div class="ynng-btns">
+                            <button class="ynng-btn" data-q="40" data-val="YES">YES</button>
+                            <button class="ynng-btn" data-q="40" data-val="NO">NO</button>
+                            <button class="ynng-btn" data-q="40" data-val="NOT GIVEN">NOT GIVEN</button>
+                        </div>
+                        <div>Answer: <strong id="ans40">-</strong></div>
+                    </div>
+                </div>
+
+                <button class="btn-submit" id="submit-btn">Submit Answers</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="resultsModal">
+        <div class="modal-content">
+            <h2>Test Complete!</h2>
+            <div class="score-display" id="scoreDisplay">0/14</div>
+            <div id="reviewAnswers"></div>
+            <button class="btn-submit" style="margin-top:20px;" onclick="document.getElementById('resultsModal').style.display='none'">Close</button>
+        </div>
+    </div>
+
+    <script>
+        let timeLeft = 1200;
+        const timerInterval = setInterval(() => {
+            let m = String(Math.floor(timeLeft/60)).padStart(2,'0');
+            let s = String(timeLeft%60).padStart(2,'0');
+            document.getElementById('timer').textContent = `${m}:${s}`;
+            if (--timeLeft < 0) { clearInterval(timerInterval); submitAnswers(); }
+        }, 1000);
+
+        const correctAnswers = {
+            27: "C",
+            28: "B",
+            29: "A",
+            30: "B",
+            31: "D",
+            32: "D",
+            33: "C",
+            34: "F",
+            35: "A",
+            36: "G",
+            37: "NO",
+            38: "NOT GIVEN",
+            39: "YES",
+            40: "NOT GIVEN"
+        };
+
+        // Text Highlight function
+        function makeTextHighlightable(element) {
+            element.addEventListener('mouseup', function(e) {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON') return;
+                const selection = window.getSelection();
+                const selectedText = selection.toString().trim();
+                if (selectedText.length > 0 && selectedText.length < 300) {
+                    try {
+                        const range = selection.getRangeAt(0);
+                        if (!element.contains(range.commonAncestorContainer)) return;
+                        const span = document.createElement('span');
+                        span.className = 'highlight';
+                        range.surroundContents(span);
+                        span.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            const parent = this.parentNode;
+                            while (this.firstChild) parent.insertBefore(this.firstChild, this);
+                            parent.removeChild(this);
+                            parent.normalize();
+                        });
+                        selection.removeAllRanges();
+                    } catch(e) {}
+                }
+            });
+        }
+
+        // Clickable multiple choice options (27-31)
+        document.querySelectorAll('.mc-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const q = this.getAttribute('data-q');
+                // Remove selected from all options in this question
+                document.querySelectorAll(`.mc-option[data-q="${q}"]`).forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                document.getElementById('ans'+q).textContent = this.getAttribute('data-val');
+                markAnswered(q);
+            });
+        });
+
+        // Summary gap-fill (32-36)
+        document.querySelectorAll('.gap-input').forEach(input => {
+            input.addEventListener('input', function() {
+                const q = this.id.slice(1);
+                const val = this.value.trim().toUpperCase();
+                document.getElementById('ans'+q).textContent = val || '-';
+                markAnswered(q);
+            });
+        });
+
+        // YES/NO/NOT GIVEN buttons (37-40)
+        document.querySelectorAll('.ynng-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const q = this.getAttribute('data-q');
+                document.querySelectorAll(`.ynng-btn[data-q="${q}"]`).forEach(b => b.classList.remove('selected'));
+                this.classList.add('selected');
+                document.getElementById('ans'+q).textContent = this.getAttribute('data-val');
+                markAnswered(q);
+            });
+        });
+
+        function markAnswered(q) {
+            const item = document.querySelector(`.progress-item[data-question="${q}"]`);
+            if (item) item.classList.add('answered');
+        }
+
+        function submitAnswers() {
+            clearInterval(timerInterval);
+            let score = 0;
+            let review = '';
+
+            for (let i = 27; i <= 40; i++) {
+                let userAns = document.getElementById('ans'+i)?.textContent.trim() || '-';
+                const correct = correctAnswers[i] || '-';
+                let isCorrect = userAns.toUpperCase() === correct.toUpperCase();
+
+                if (isCorrect) score++;
+                review += `<div class="answer-item ${isCorrect ? 'correct' : 'incorrect'}">
+                    <strong>Q${i}</strong>: Your answer <strong>${userAns}</strong> → Correct: <strong>${correct}</strong>
+                </div>`;
+            }
+
+            document.getElementById('scoreDisplay').textContent = score + '/14';
+            document.getElementById('reviewAnswers').innerHTML = review;
+            document.getElementById('resultsModal').style.display = 'flex';
+        }
+
+        document.getElementById('submit-btn').addEventListener('click', submitAnswers);
+
+        function startTest() {
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('testContainer').classList.remove('hidden');
+        }
+
+        setTimeout(() => {
+            document.getElementById('loadingScreen').classList.add('hidden');
+            document.getElementById('startScreen').classList.remove('hidden');
+            makeTextHighlightable(document.getElementById('passageText'));
+        }, 1500);
+
+        const resizer = document.getElementById('resizer');
+        const leftSide = resizer.previousElementSibling;
+        const rightSide = resizer.nextElementSibling;
+        let isResizing = false;
+
+        resizer.addEventListener('mousedown', () => {
+            isResizing = true;
+            document.body.style.cursor = 'col-resize';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isResizing) return;
+            const containerRect = document.querySelector('.main-content').getBoundingClientRect();
+            const x = e.clientX - containerRect.left;
+            const totalWidth = containerRect.width;
+            const leftWidth = (x / totalWidth) * 100;
+            leftSide.style.flex = `0 0 ${leftWidth}%`;
+            rightSide.style.width = `${100 - leftWidth}%`;
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isResizing) {
+                isResizing = false;
+                document.body.style.cursor = 'default';
+            }
+        });
+    </script>
+</body>
+</html>

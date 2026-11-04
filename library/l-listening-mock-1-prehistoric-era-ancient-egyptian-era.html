@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Listening Mock Test 1</title>
+<style>
+* { box-sizing: border-box; }
+body { font-family: Arial, sans-serif; font-size: 16px; line-height: 1.4; margin: 0; padding-bottom: 90px; background: #fff; color: #222; }
+.hidden { display: none !important; }
+
+/* ---------- Start screen ---------- */
+#start-screen { position: fixed; inset: 0; background: #f8f9fa; display: flex; align-items: center; justify-content: center; z-index: 9000; padding: 16px; }
+.start-card { background: #fff; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,.08); padding: 36px 40px; max-width: 560px; width: 100%; text-align: center; }
+.start-card h1 { font-size: 24px; margin: 14px 0 8px; color: #222; }
+.start-card .desc { color: #555; margin-bottom: 18px; }
+.instructions-box { background: #f1f3f5; border-left: 4px solid #495057; text-align: left; padding: 14px 18px; border-radius: 4px; margin-bottom: 24px; }
+.instructions-box ul { margin: 6px 0 0; padding-left: 20px; }
+.instructions-box li { margin-bottom: 4px; }
+.start-btn { background: #495057; color: #fff; border: 0; padding: 12px 34px; font-size: 16px; border-radius: 6px; cursor: pointer; }
+.start-btn:hover { background: #343a40; }
+
+/* ---------- Header ---------- */
+.header { position: fixed; top: 0; left: 0; right: 0; height: 60px; background: #fff; border-bottom: 1px solid #ddd; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 1000; }
+.header-left { display: flex; align-items: center; gap: 10px; }
+.header-left img { width: 30px; height: 30px; }
+.telegram-link { background: #4a90e2; color: #fff; text-decoration: none; padding: 6px 14px; border-radius: 20px; font-weight: bold; font-size: 14px; }
+.telegram-link:hover { background: #357abd; }
+.header-title { font-weight: bold; color: #495057; font-size: 15px; }
+
+/* ---------- Audio bar ---------- */
+.audio-player-bar { position: fixed; top: 65px; left: 50%; transform: translateX(-50%); width: 500px; max-width: calc(100% - 32px); background: #f8f9fa; border: 1px solid #ddd; border-radius: 30px; display: flex; align-items: center; gap: 10px; padding: 6px 14px; z-index: 999; }
+#play-pause-btn { width: 32px; height: 32px; border-radius: 50%; border: 0; background: #495057; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+#play-pause-btn:hover { background: #343a40; }
+#progress-bar { flex: 1; cursor: pointer; accent-color: #4a90e2; height: 6px; }
+.time-display { font-size: 13px; color: #555; white-space: nowrap; }
+
+#audio-ended-banner { position: fixed; top: 112px; left: 50%; transform: translateX(-50%); background: #fff3cd; border: 1px solid #ffe08a; color: #6b5200; padding: 8px 16px; border-radius: 6px; font-size: 14px; z-index: 998; max-width: calc(100% - 32px); text-align: center; }
+
+/* ---------- Main ---------- */
+.main-container { margin-top: 115px; padding: 0 20px 40px; }
+.part-header { background: #f1f2ec; padding: 10px 16px; border-radius: 4px; margin: 10px 0 20px; }
+.part-header p { margin: 2px 0; }
+.questions-container { width: 50%; }
+#part-1 .questions-container { width: 75%; }
+#part-2 .questions-container, #part-3 .questions-container, #part-4 .questions-container { width: 65%; }
+.instr { font-style: italic; margin: 4px 0; }
+.q-range { font-weight: bold; margin: 22px 0 4px; }
+.centered-title { text-align: center; font-weight: bold; font-size: 19px; margin: 10px 0 12px; }
+
+.answer-input { border: 1px solid #999; border-radius: 3px; padding: 3px 6px; width: 140px; font-size: 15px; text-align: center; font-family: Arial, sans-serif; }
+.answer-input:focus { outline: none; border-color: #4a90e2; box-shadow: 0 0 0 2px rgba(74,144,226,.25); }
+.answer-input::placeholder { color: #333; font-weight: bold; }
+
+.table-wrap { overflow-x: auto; }
+.people-table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+.people-table th, .people-table td { border: 1px solid #000; padding: 8px 10px; vertical-align: top; }
+.people-table th { background: #f1f2ec; }
+.people-table caption { font-weight: bold; font-size: 19px; padding: 8px; border: 1px solid #000; border-bottom: 0; }
+.people-table ul { margin: 0; padding-left: 18px; }
+
+.notes-box { border: 1px solid #000; padding: 15px 20px; margin: 10px 0; }
+.notes-box h4 { margin: 14px 0 6px; }
+.notes-box ul { list-style-type: none; padding-left: 20px; margin: 0; }
+.notes-box li { margin-bottom: 10px; }
+
+.single-choice-container { display: flex; flex-direction: column; gap: 18px; margin-top: 10px; }
+.single-choice p { margin: 0 0 6px; }
+.single-choice label { display: block; padding: 6px 10px; border-radius: 4px; cursor: pointer; margin-bottom: 2px; }
+.single-choice label:hover { background: #eef4fb; }
+.single-choice label.selected { background: #cfe3f6; }
+.single-choice input { margin-right: 8px; }
+
+.checkbox-group { margin: 10px 0 20px; }
+.checkbox-group .group-title { margin: 0 0 6px; }
+.checkbox-group label { display: block; padding: 6px 10px; border-radius: 4px; cursor: pointer; margin-bottom: 2px; }
+.checkbox-group label:hover { background: #eef4fb; }
+.checkbox-group label.selected { background: #cfe3f6; }
+.checkbox-group input { margin-right: 8px; }
+.shake { animation: shake .4s; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+
+.legend-box { border: 1px solid #000; padding: 10px 16px; margin: 12px auto; max-width: 480px; }
+.legend-box p { margin: 4px 0; }
+.map-radio-table { border-collapse: collapse; margin: 12px 0; }
+.map-radio-table th, .map-radio-table td { border: 1px solid #ccc; padding: 8px 12px; text-align: center; }
+.map-radio-table th { background: #1a73e8; color: #fff; }
+.map-radio-table td:first-child { text-align: left; min-width: 200px; }
+.map-radio-table input { cursor: pointer; transform: scale(1.15); }
+
+.map-img { display: block; max-width: 100%; width: 560px; margin: 12px 0; border: 1px solid #ccc; }
+.answer-input.wide { width: 190px; }
+.map-layout { display: flex; gap: 20px; align-items: flex-start; margin: 12px 0; }
+.map-layout .map-col { flex: 1 1 auto; min-width: 0; position: sticky; top: 125px; }
+.map-layout .map-img { width: 100%; max-width: 640px; margin: 0; }
+.map-layout .map-answers { flex: 0 0 auto; }
+.map-layout .map-radio-table { margin: 0; }
+.map-layout .map-radio-table td:first-child { min-width: 150px; }
+.map-layout .map-radio-table th, .map-layout .map-radio-table td { padding: 7px 8px; }
+#part-2 .questions-container { width: 100%; max-width: 1150px; }
+.map-layout .map-answers { max-width: 100%; overflow-x: auto; }
+body.script-open .map-layout { flex-direction: column; }
+body.script-open .map-layout .map-col { position: static; }
+@media (max-width: 900px) {
+  .map-layout { flex-direction: column; }
+  .map-layout .map-col { position: static; }
+  .map-layout .map-answers { width: 100%; }
+}
+@media (max-width: 600px) {
+  .map-layout .map-radio-table td:first-child { min-width: 0; white-space: normal; font-size: 13px; }
+  .map-layout .map-radio-table th, .map-layout .map-radio-table td { padding: 5px 4px; }
+  .map-layout .map-radio-table input { transform: none; }
+}
+.form-table { width: 100%; border-collapse: collapse; }
+.form-table td { padding: 7px 6px; vertical-align: middle; }
+.form-table td:first-child { width: 42%; font-weight: bold; }
+.form-table tr.sep td { border-top: 1px solid #000; padding-top: 12px; }
+@media (max-width: 600px) { .form-table td:first-child { width: 45%; font-size: 14px; } }
+.flash { animation: flash 1s; }
+@keyframes flash { 0%,100%{background:transparent} 30%{background:#fff3b0} }
+
+/* ---------- Arrows ---------- */
+.nav-arrows { position: fixed; bottom: 100px; right: 20px; display: flex; gap: 6px; z-index: 900; }
+.nav-arrows button { width: 44px; height: 44px; background: #333; color: #fff; border: 0; font-size: 26px; cursor: pointer; border-radius: 4px; line-height: 1; }
+.nav-arrows button:hover { background: #000; }
+
+/* ---------- Footer nav ---------- */
+.nav-row { position: fixed; bottom: 0; left: 0; right: 0; height: 80px; background: #fff; border-top: 1px solid #ddd; display: flex; align-items: center; padding: 0 10px; gap: 6px; z-index: 950; overflow-x: auto; }
+.footer__questionWrapper___1tZ46 { display: flex; align-items: center; gap: 6px; flex: 1; min-width: max-content; }
+.footer__questionWrapper___1tZ46.selected { flex: 3; }
+.footer__questionNo___3WNct { background: none; border: 0; cursor: pointer; font-size: 15px; padding: 6px 8px; white-space: nowrap; font-family: Arial, sans-serif; }
+.footer__questionNo___3WNct .partLabel { font-weight: bold; }
+.footer__questionNo___3WNct .attemptedCount { color: #666; font-size: 13px; margin-left: 6px; }
+.footer__subquestionWrapper___9GgoP { display: none; gap: 4px; }
+.footer__questionWrapper___1tZ46.selected .footer__subquestionWrapper___9GgoP { display: flex; }
+.footer__questionWrapper___1tZ46.selected .attemptedCount { display: none; }
+.subQuestion { width: 30px; height: 30px; border: 1px solid #999; background: #fff; cursor: pointer; font-size: 13px; border-radius: 3px; font-family: Arial, sans-serif; }
+.subQuestion.answered { background: #d0d4d8; }
+.subQuestion.active { background: #4a90e2; color: #fff; border-color: #4a90e2; }
+.footer__deliverButton___3FM07 { background: #dc3545; color: #fff; border: 0; padding: 10px 18px; border-radius: 4px; cursor: pointer; font-weight: bold; white-space: nowrap; margin-left: auto; font-family: Arial, sans-serif; }
+.footer__deliverButton___3FM07:hover { background: #b52a37; }
+
+/* ---------- Highlight / comment ---------- */
+.highlight { background-color: #b02350; color: #ffffff; }
+.comment-highlight { background-color: #c8f0d0; border-bottom: 2px solid #28a745; position: relative; cursor: help; }
+.comment-highlight:hover::after { content: attr(data-comment); position: absolute; left: 0; top: 100%; background: #333; color: #fff; padding: 6px 10px; border-radius: 4px; font-size: 13px; white-space: pre-wrap; width: max-content; max-width: 260px; z-index: 2000; }
+#contextMenu { position: absolute; background: #fff; border: 1px solid #ccc; box-shadow: 0 2px 10px rgba(0,0,0,.15); border-radius: 4px; z-index: 3000; min-width: 140px; }
+#contextMenu div, #mobile-selection-menu button { padding: 8px 14px; cursor: pointer; font-size: 14px; }
+#contextMenu div:hover { background: #f1f3f5; }
+#mobile-selection-menu { position: absolute; display: flex; background: #333; border-radius: 6px; z-index: 3000; overflow: hidden; }
+#mobile-selection-menu button { background: none; border: 0; color: #fff; font-family: Arial, sans-serif; }
+
+/* ---------- Go-to widget ---------- */
+#goto-widget { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: #fff; border: 1px solid #ccc; box-shadow: 0 4px 20px rgba(0,0,0,.2); padding: 16px 20px; border-radius: 8px; z-index: 4000; text-align: center; }
+#goto-widget input { width: 80px; font-size: 20px; text-align: center; padding: 4px; margin-top: 6px; }
+
+/* ---------- Completion ---------- */
+#completion-screen { position: fixed; inset: 0; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9500; text-align: center; padding: 20px; }
+#completion-screen h2 { margin: 16px 0 6px; }
+#completion-screen p { color: #555; margin: 0 0 22px; }
+.completion-buttons { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.btn-script { background: #4a90e2; color: #fff; border: 0; padding: 12px 26px; border-radius: 6px; font-size: 16px; cursor: pointer; }
+.btn-script:hover { background: #357abd; }
+.btn-restart { background: #dc2626; color: #fff; border: 0; padding: 12px 26px; border-radius: 6px; font-size: 16px; cursor: pointer; }
+.btn-restart:hover { background: #b91c1c; }
+.btn-secondary { background: #495057; color: #fff; border: 0; padding: 12px 26px; border-radius: 6px; font-size: 16px; cursor: pointer; }
+
+/* ---------- Review mode ---------- */
+.header-right { display: flex; align-items: center; gap: 8px; }
+.score-chip { background: #e9f7ef; color: #1e7e34; border: 1px solid #28a745; border-radius: 16px; padding: 5px 12px; font-weight: bold; font-size: 14px; white-space: nowrap; }
+.hdr-btn { border: 0; border-radius: 4px; padding: 7px 12px; cursor: pointer; font-size: 14px; color: #fff; font-family: Arial, sans-serif; white-space: nowrap; }
+.hdr-btn.blue { background: #4a90e2; }
+.hdr-btn.red { background: #dc2626; }
+body.review-mode.script-open .main-container { margin-right: 46%; }
+body.review-mode.script-open .questions-container, body.review-mode.script-open #part-1 .questions-container,
+body.review-mode.script-open #part-2 .questions-container, body.review-mode.script-open #part-3 .questions-container,
+body.review-mode.script-open #part-4 .questions-container { width: 100%; }
+.answer-input.correct { border: 2px solid #28a745; background: #e9f7ef; }
+.answer-input.incorrect { border: 2px solid #dc3545; background: #f8d7da; }
+.answer-input:disabled { color: #222; }
+.fix { color: #1e7e34; font-weight: bold; font-size: 14px; margin-left: 4px; white-space: nowrap; }
+.mark { font-weight: bold; margin-left: 4px; }
+.mark.ok { color: #28a745; }
+.mark.bad { color: #dc3545; }
+.single-choice label.opt-correct, .checkbox-group label.opt-correct { background: #e9f7ef; outline: 2px solid #28a745; }
+.single-choice label.opt-wrong, .checkbox-group label.opt-wrong { background: #f8d7da; outline: 2px solid #dc3545; }
+.map-radio-table td.cell-correct { background: #e9f7ef; outline: 2px solid #28a745; outline-offset: -2px; }
+.map-radio-table td.cell-wrong { background: #f8d7da; outline: 2px solid #dc3545; outline-offset: -2px; }
+.group-result { margin: 6px 0 0 10px; font-weight: bold; font-size: 14px; }
+.subQuestion.res-correct { background: #28a745; color: #fff; border-color: #28a745; }
+.subQuestion.res-incorrect { background: #dc3545; color: #fff; border-color: #dc3545; }
+.subQuestion.res-correct.active, .subQuestion.res-incorrect.active { box-shadow: 0 0 0 3px #4a90e2; }
+
+/* ---------- Script side panel ---------- */
+#script-modal { position: fixed; top: 112px; right: 0; bottom: 80px; width: 45%; background: #fff; border-left: 2px solid #ddd; z-index: 900; }
+.script-panel { width: 100%; height: 100%; display: flex; flex-direction: column; overflow: hidden; }
+@media (max-width: 900px) {
+  #script-modal { width: 100%; top: 60px; z-index: 1001; }
+  body.review-mode.script-open .main-container { margin-right: 0; }
+  .score-chip { font-size: 12px; padding: 4px 8px; }
+  .hdr-btn { padding: 6px 8px; font-size: 13px; }
+}
+@media (max-width: 600px) {
+  .header { padding: 0 8px; }
+  .header-left img { display: none; }
+  .telegram-link { padding: 5px 9px; font-size: 12px; }
+  .header-right { gap: 5px; }
+  .hdr-btn .lbl { display: none; }
+}
+.script-top { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-bottom: 1px solid #ddd; gap: 10px; flex-wrap: wrap; }
+.script-top h3 { margin: 0; }
+.script-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.script-tabs button { border: 1px solid #4a90e2; background: #fff; color: #4a90e2; padding: 6px 12px; border-radius: 16px; cursor: pointer; font-family: Arial, sans-serif; }
+.script-tabs button.active { background: #4a90e2; color: #fff; }
+.script-close { background: none; border: 0; font-size: 28px; cursor: pointer; line-height: 1; color: #555; }
+.script-body { padding: 18px 26px 30px; overflow-y: auto; flex: 1; line-height: 1.6; }
+.script-body h4 { margin: 0 0 12px; font-size: 19px; }
+.script-body p { margin: 0 0 10px; }
+.script-body .spk { font-weight: bold; }
+.ans { background: #e9f7ef; border-bottom: 2px solid #28a745; padding: 1px 2px; }
+.qb { display: inline-block; background: #28a745; color: #fff; font-size: 11px; font-weight: bold; border-radius: 10px; padding: 0 6px; margin-right: 4px; vertical-align: 1px; }
+.script-note { font-size: 13px; color: #666; margin-bottom: 14px; }
+
+@media (max-width: 1024px) {
+  .questions-container, #part-1 .questions-container, #part-2 .questions-container, #part-3 .questions-container, #part-4 .questions-container { width: 100%; }
+}
+@media (max-width: 600px) {
+  .main-container { padding: 0 12px 40px; }
+  .header-title { display: none; }
+  .people-table th, .people-table td { padding: 5px; font-size: 13px; }
+  .people-table ul { padding-left: 12px; }
+  .people-table .answer-input { width: 72px; font-size: 13px; }
+  .people-table .fix { white-space: normal; display: inline-block; }
+  .people-table caption { font-size: 16px; }
+  .answer-input { width: 110px; }
+  .map-radio-table td:first-child { min-width: 130px; }
+  .map-radio-table th, .map-radio-table td { padding: 6px; }
+  .start-card { padding: 26px 20px; }
+}
+.act-table { border-collapse: collapse; width: 100%; max-width: 640px; margin: 12px 0; }
+.act-table th, .act-table td { border: 1px solid #000; padding: 10px 12px; text-align: left; }
+.act-table th { background: #f2f2f2; }
+.map-gap-list { list-style: none; padding-left: 0; margin: 8px 0; }
+.map-gap-list li { margin: 0 0 16px; line-height: 2; }
+.map-layout .map-col { flex: 0 1 auto; }
+.map-layout .map-answers .map-gap-list { margin-top: 20px; }
+.flow-steps { max-width: 640px; margin: 10px auto 18px; text-align: center; }
+.flow-step { border: 1px solid #000; padding: 10px 12px; }
+.flow-arrow { font-size: 22px; line-height: 1.2; }
+
+/* drag and drop matching */
+.dd-layout { display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap; margin: 10px 0 18px; }
+.dd-targets { flex: 1 1 380px; min-width: 0; }
+.dd-targets .flow-steps { margin: 6px 0; max-width: 520px; }
+.dd-bank { flex: 0 1 320px; border: 1px solid #000; padding: 10px 12px; background: #fff; position: sticky; top: 125px; }
+.dd-bank-title { margin: 0 0 8px; }
+.dd-option { border: 1px solid #9aa0a6; border-radius: 4px; padding: 7px 10px; margin: 6px 0; background: #f8f9fa; cursor: grab; user-select: none; -webkit-user-select: none; touch-action: manipulation; }
+.dd-option:hover { background: #eef3fd; border-color: #1a73e8; }
+.dd-option.picked { background: #d2e3fc; border-color: #1a73e8; box-shadow: 0 0 0 2px #1a73e8; }
+.dd-option.used { display: none; }
+.dd-option.dragging { opacity: .45; }
+.dd-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 6px 4px; border-bottom: 1px solid #eee; }
+.dd-label { flex: 0 0 170px; }
+.dd-row .drop-zone { flex: 1 1 220px; max-width: 420px; }
+.drop-zone { display: inline-flex; align-items: center; gap: 6px; min-width: 210px; min-height: 34px; padding: 3px 8px; border: 2px dashed #9aa0a6; border-radius: 4px; background: #fff; vertical-align: middle; cursor: pointer; text-align: left; }
+.drop-zone .dz-num { font-weight: bold; color: #555; }
+.drop-zone.filled .dz-num { display: none; }
+.drop-zone.filled { border-style: solid; border-color: #1a73e8; background: #eef3fd; cursor: grab; }
+.drop-zone.over, .drop-zone.awaiting { border-color: #1a73e8; background: #e8f0fe; }
+.drop-zone.zone-correct { border: 2px solid #28a745; background: #e9f7ef; }
+.drop-zone.zone-wrong { border: 2px solid #dc3545; background: #f8d7da; }
+.dd-bank.over { background: #f1f3f4; }
+.dd-hint { font-size: 13px; color: #555; }
+body.script-open .dd-layout { flex-direction: column; }
+body.script-open .dd-bank { position: static; }
+@media (max-width: 700px) { .dd-bank { position: static; flex-basis: 100%; } .drop-zone { min-width: 150px; } .dd-label { flex: 1 1 100%; } }
+</style>
+</head>
+<body>
+
+<!-- ================= START SCREEN ================= -->
+<div id="start-screen">
+  <div class="start-card">
+    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#495057" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+    <h1>IELTS Listening Mock Test 1</h1>
+    <p class="desc">The audio starts when you click Start Test. You can pause it, and drag the audio bar to move forward or back.</p>
+    <div class="instructions-box">
+      <strong>Instructions</strong>
+      <ul>
+        <li>There are 40 questions in 4 parts.</li>
+        <li>Answer the questions while you listen.</li>
+        <li>You can pause, play and drag the audio bar to any point.</li>
+        <li>Click <strong>Submit Answers</strong> when you finish to see your score.</li>
+        <li>After submitting, your answers are marked right or wrong and the audio script opens on the right.</li>
+      </ul>
+    </div>
+    <button class="start-btn" onclick="startTest()">Start Test</button>
+  </div>
+</div>
+
+<!-- ================= TEST SCREEN ================= -->
+<div id="test-screen" class="hidden">
+  <div class="header">
+    <div class="header-left">
+      <img alt="" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23495057' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 18v-6a9 9 0 0 1 18 0v6'/%3E%3Cpath d='M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z'/%3E%3C/svg%3E">
+      <a href="https://t.me/ieltswithkhmdv" target="_blank" rel="noopener" class="telegram-link">@ieltswithkhmdv</a>
+    </div>
+    <div class="header-title" id="header-title">IELTS Listening Mock Test 1</div>
+    <div class="header-right hidden" id="review-controls">
+      <span class="score-chip" id="score-chip"></span>
+      <button class="hdr-btn blue" id="script-toggle" onclick="toggleScript()">Hide script</button>
+      <button class="hdr-btn red" onclick="location.reload()" title="Restart">&#8635;<span class="lbl"> Restart</span></button>
+    </div>
+  </div>
+
+  <div class="audio-player-bar">
+    <button id="play-pause-btn" title="Play / Pause" aria-label="Play or pause">
+      <svg id="icon-play" class="hidden" width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M6 4l15 8-15 8z"/></svg>
+      <svg id="icon-pause" width="14" height="14" viewBox="0 0 24 24" fill="#fff"><rect x="5" y="4" width="5" height="16"/><rect x="14" y="4" width="5" height="16"/></svg>
+    </button>
+    <input type="range" id="progress-bar" min="0" max="100" value="0" step="0.1">
+    <span class="time-display"><span id="current-time">0:00</span> / <span id="total-duration">0:00</span></span>
+  </div>
+  <audio id="global-audio-player" class="hidden" preload="auto"></audio>
+  <div id="audio-ended-banner" class="hidden">The audio has finished. Check your answers, then click <strong>Submit Answers</strong>.</div>
+
+  <div class="main-container">
+    <div class="left-panel">
+
+      <!-- ========== PART 1 ========== -->
+      <div id="part-1" class="question-part">
+        <div class="part-header"><p><strong>Part 1</strong></p><p>Listen and answer questions 1&ndash;10.</p></div>
+        <div class="questions-container">
+          <p class="q-range">Questions 1&ndash;6</p>
+          <p class="instr">Complete the table below.</p>
+          <p class="instr">Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.</p>
+          <div class="table-wrap"><table class="act-table" style="max-width:860px;">
+            <tr><th colspan="4">Local Walks</th></tr>
+            <tr><th></th><th>Village Walk</th><th>McGrady Falls Trail</th><th>Coal Mine Walk</th></tr>
+            <tr><td><strong>Length</strong></td><td><em>Example</em> 6 km</td><td>12 km</td><td>13.5 km</td></tr>
+            <tr><td><strong>General level of difficulty</strong></td><td>easy</td><td><input type="text" id="q1" class="answer-input" placeholder="1"></td><td>easy</td></tr>
+            <tr><td><strong>Attractions</strong></td><td>the <input type="text" id="q2" class="answer-input" placeholder="2"> (centrally located)<br><br>a <input type="text" id="q3" class="answer-input" placeholder="3"> with a good view</td><td>a <input type="text" id="q4" class="answer-input" placeholder="4"> below the falls<br><br>lots of <input type="text" id="q5" class="answer-input" placeholder="5"></td><td>signs about the <input type="text" id="q6" class="answer-input" placeholder="6"> of the mine</td></tr>
+          </table></div>
+
+          <p class="q-range">Questions 7&ndash;10</p>
+          <p class="instr">Complete the notes below.</p>
+          <p class="instr">Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.</p>
+          <div class="notes-box">
+            <div class="centered-title">McGrady Falls Trail</div>
+            <ul style="padding-left:20px;">
+              <li>&bull;&nbsp;&nbsp;Will be given a <input type="text" id="q7" class="answer-input" placeholder="7"> with the ticket</li>
+              <li>&bull;&nbsp;&nbsp;Can buy a picnic from the <input type="text" id="q8" class="answer-input" placeholder="8"> at the entrance</li>
+              <li>&bull;&nbsp;&nbsp;Most direct bus: number <input type="text" id="q9" class="answer-input" placeholder="9"></li>
+              <li>&bull;&nbsp;&nbsp;Get off the bus at the <input type="text" id="q10" class="answer-input" placeholder="10"></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== PART 2 ========== -->
+      <div id="part-2" class="question-part hidden">
+        <div class="part-header"><p><strong>Part 2</strong></p><p>Listen and answer questions 11&ndash;20.</p></div>
+        <div class="questions-container">
+          <p class="q-range">Questions 11&ndash;12</p>
+          <p class="instr">Choose <strong>TWO</strong> letters, <strong>A&ndash;E</strong>.</p>
+          <div class="checkbox-group" id="group-11-12" data-qs="11,12">
+            <p class="group-title"><strong>Which TWO things did the speaker&rsquo;s personal makeover include?</strong></p>
+            <label><input type="checkbox" name="q11-12" value="A"> <strong>A</strong>&nbsp;&nbsp;a review of her wardrobe</label>
+            <label><input type="checkbox" name="q11-12" value="B"> <strong>B</strong>&nbsp;&nbsp;a booklet on fashion</label>
+            <label><input type="checkbox" name="q11-12" value="C"> <strong>C</strong>&nbsp;&nbsp;advice on hairstyling</label>
+            <label><input type="checkbox" name="q11-12" value="D"> <strong>D</strong>&nbsp;&nbsp;a day shopping with a stylist</label>
+            <label><input type="checkbox" name="q11-12" value="E"> <strong>E</strong>&nbsp;&nbsp;photos of her in new clothes</label>
+          </div>
+
+          <p class="q-range">Questions 13&ndash;14</p>
+          <p class="instr">Choose <strong>TWO</strong> letters, <strong>A&ndash;E</strong>.</p>
+          <div class="checkbox-group" id="group-13-14" data-qs="13,14">
+            <p class="group-title"><strong>Which TWO things did the speaker appreciate about the makeover service?</strong></p>
+            <label><input type="checkbox" name="q13-14" value="A"> <strong>A</strong>&nbsp;&nbsp;It saved her a lot of time.</label>
+            <label><input type="checkbox" name="q13-14" value="B"> <strong>B</strong>&nbsp;&nbsp;It saved her a lot of money.</label>
+            <label><input type="checkbox" name="q13-14" value="C"> <strong>C</strong>&nbsp;&nbsp;It made her more self-confident.</label>
+            <label><input type="checkbox" name="q13-14" value="D"> <strong>D</strong>&nbsp;&nbsp;It improved her image at work.</label>
+            <label><input type="checkbox" name="q13-14" value="E"> <strong>E</strong>&nbsp;&nbsp;It made her more adventurous.</label>
+          </div>
+
+          <p class="q-range">Questions 15&ndash;20</p>
+          <p class="instr">What information is given about the personal shopping services at each of the following stores?</p>
+          <p class="instr">Choose <strong>SIX</strong> answers from the box and choose the correct letter, <strong>A&ndash;H</strong>, next to questions 15&ndash;20.</p>
+          <p class="instr dd-hint">Drag each option into a gap (or tap an option, then tap a gap). Each option can be used only once.</p>
+          <div class="dd-layout">
+            <div class="dd-targets"><p class="dd-bank-title"><strong>Stores</strong></p>
+<div class="dd-row" data-q="15"><span class="dd-label"><strong>15</strong>&nbsp;&nbsp;Holbury</span><span class="drop-zone" data-q="15" tabindex="0"><span class="dz-num">15</span><span class="dz-text"></span></span><input type="hidden" id="q15" class="answer-input dd-val"></div>
+<div class="dd-row" data-q="16"><span class="dd-label"><strong>16</strong>&nbsp;&nbsp;Rivero</span><span class="drop-zone" data-q="16" tabindex="0"><span class="dz-num">16</span><span class="dz-text"></span></span><input type="hidden" id="q16" class="answer-input dd-val"></div>
+<div class="dd-row" data-q="17"><span class="dd-label"><strong>17</strong>&nbsp;&nbsp;Justine&rsquo;s</span><span class="drop-zone" data-q="17" tabindex="0"><span class="dz-num">17</span><span class="dz-text"></span></span><input type="hidden" id="q17" class="answer-input dd-val"></div>
+<div class="dd-row" data-q="18"><span class="dd-label"><strong>18</strong>&nbsp;&nbsp;Blank and White</span><span class="drop-zone" data-q="18" tabindex="0"><span class="dz-num">18</span><span class="dz-text"></span></span><input type="hidden" id="q18" class="answer-input dd-val"></div>
+<div class="dd-row" data-q="19"><span class="dd-label"><strong>19</strong>&nbsp;&nbsp;Wave</span><span class="drop-zone" data-q="19" tabindex="0"><span class="dz-num">19</span><span class="dz-text"></span></span><input type="hidden" id="q19" class="answer-input dd-val"></div>
+<div class="dd-row" data-q="20"><span class="dd-label"><strong>20</strong>&nbsp;&nbsp;Dizzy&rsquo;s</span><span class="drop-zone" data-q="20" tabindex="0"><span class="dz-num">20</span><span class="dz-text"></span></span><input type="hidden" id="q20" class="answer-input dd-val"></div>
+            </div>
+            <div class="dd-bank" data-group="dd15"><p class="dd-bank-title"><strong>Information</strong></p><div class="dd-option" draggable="true" data-value="A" data-group="dd15"><strong>A</strong>&nbsp;&nbsp;charges a fee</div><div class="dd-option" draggable="true" data-value="B" data-group="dd15"><strong>B</strong>&nbsp;&nbsp;necessary to book in advance</div><div class="dd-option" draggable="true" data-value="C" data-group="dd15"><strong>C</strong>&nbsp;&nbsp;time is limited</div><div class="dd-option" draggable="true" data-value="D" data-group="dd15"><strong>D</strong>&nbsp;&nbsp;available in larger stores only</div><div class="dd-option" draggable="true" data-value="E" data-group="dd15"><strong>E</strong>&nbsp;&nbsp;advice on furniture also available</div><div class="dd-option" draggable="true" data-value="F" data-group="dd15"><strong>F</strong>&nbsp;&nbsp;now offers a service for men</div><div class="dd-option" draggable="true" data-value="G" data-group="dd15"><strong>G</strong>&nbsp;&nbsp;free alteration service provided</div><div class="dd-option" draggable="true" data-value="H" data-group="dd15"><strong>H</strong>&nbsp;&nbsp;showers available</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== PART 3 ========== -->
+      <div id="part-3" class="question-part hidden">
+        <div class="part-header"><p><strong>Part 3</strong></p><p>Listen and answer questions 21&ndash;30.</p></div>
+        <div class="questions-container">
+          <p class="q-range">Questions 21&ndash;25</p>
+          <p class="instr">Choose the correct letter, <strong>A</strong>, <strong>B</strong> or <strong>C</strong>.</p>
+          <div class="centered-title">Lesson plans</div>
+          <div class="single-choice-container">
+            <div class="single-choice" id="q21">
+              <p><strong>21</strong> In preparation for the field trip, Andrew and Molly have</p>
+              <label><input type="radio" name="q21" value="A"> <strong>A</strong>&nbsp;&nbsp;produced a letter.</label>
+              <label><input type="radio" name="q21" value="B"> <strong>B</strong>&nbsp;&nbsp;received permission to visit a pond.</label>
+              <label><input type="radio" name="q21" value="C"> <strong>C</strong>&nbsp;&nbsp;checked Health and Safety requirements.</label>
+            </div>
+            <div class="single-choice" id="q22">
+              <p><strong>22</strong> Andrew and Molly have decided against giving worksheets on the field trip because</p>
+              <label><input type="radio" name="q22" value="A"> <strong>A</strong>&nbsp;&nbsp;they don&rsquo;t want the activity to be too structured.</label>
+              <label><input type="radio" name="q22" value="B"> <strong>B</strong>&nbsp;&nbsp;they want the children to focus on collecting specimens.</label>
+              <label><input type="radio" name="q22" value="C"> <strong>C</strong>&nbsp;&nbsp;they don&rsquo;t think there will be enough time.</label>
+            </div>
+            <div class="single-choice" id="q23">
+              <p><strong>23</strong> In their third lesson, what is the purpose of the picture activity?</p>
+              <label><input type="radio" name="q23" value="A"> <strong>A</strong>&nbsp;&nbsp;The children practise drawing and labelling.</label>
+              <label><input type="radio" name="q23" value="B"> <strong>B</strong>&nbsp;&nbsp;The children identify the food chain in the pond.</label>
+              <label><input type="radio" name="q23" value="C"> <strong>C</strong>&nbsp;&nbsp;The children learn the names of pond creatures.</label>
+            </div>
+            <div class="single-choice" id="q24">
+              <p><strong>24</strong> Why does the professor suggest a follow-up activity?</p>
+              <label><input type="radio" name="q24" value="A"> <strong>A</strong>&nbsp;&nbsp;to give the children speaking practice</label>
+              <label><input type="radio" name="q24" value="B"> <strong>B</strong>&nbsp;&nbsp;to introduce the topic of mammals</label>
+              <label><input type="radio" name="q24" value="C"> <strong>C</strong>&nbsp;&nbsp;to provide variation in the lesson</label>
+            </div>
+            <div class="single-choice" id="q25">
+              <p><strong>25</strong> Andrew and Molly plan to use a movie instead of a live animal in the last lesson because it will be more</p>
+              <label><input type="radio" name="q25" value="A"> <strong>A</strong>&nbsp;&nbsp;practical.</label>
+              <label><input type="radio" name="q25" value="B"> <strong>B</strong>&nbsp;&nbsp;effective.</label>
+              <label><input type="radio" name="q25" value="C"> <strong>C</strong>&nbsp;&nbsp;motivating.</label>
+            </div>
+          </div>
+
+          <p class="q-range">Questions 26&ndash;30</p>
+          <p class="instr">Complete the flow-chart below.</p>
+          <p class="instr">Choose <strong>FIVE</strong> answers from the box and choose the correct letter, <strong>A&ndash;H</strong>, next to questions 26&ndash;30.</p>
+          <p class="instr dd-hint">Drag each option into a gap (or tap an option, then tap a gap). Each option can be used only once.</p>
+          <div class="dd-layout">
+            <div class="dd-targets"><div class="centered-title">Plan for last lesson</div>
+          <div class="flow-steps">
+            <div class="flow-step">(class) watch a movie</div><div class="flow-arrow">&darr;</div>
+            <div class="flow-step">(small groups) have a discussion</div><div class="flow-arrow">&darr;</div>
+            <div class="flow-step">(class) <span class="drop-zone" data-q="26" tabindex="0"><span class="dz-num">26</span><span class="dz-text"></span></span><input type="hidden" id="q26" class="answer-input dd-val"></div><div class="flow-arrow">&darr;</div>
+            <div class="flow-step">(pairs) <span class="drop-zone" data-q="27" tabindex="0"><span class="dz-num">27</span><span class="dz-text"></span></span><input type="hidden" id="q27" class="answer-input dd-val"></div><div class="flow-arrow">&darr;</div>
+            <div class="flow-step">(class) <span class="drop-zone" data-q="28" tabindex="0"><span class="dz-num">28</span><span class="dz-text"></span></span><input type="hidden" id="q28" class="answer-input dd-val"></div><div class="flow-arrow">&darr;</div>
+            <div class="flow-step">(individuals) <span class="drop-zone" data-q="29" tabindex="0"><span class="dz-num">29</span><span class="dz-text"></span></span><input type="hidden" id="q29" class="answer-input dd-val"></div><div class="flow-arrow">&darr;</div>
+            <div class="flow-step">(individuals) <span class="drop-zone" data-q="30" tabindex="0"><span class="dz-num">30</span><span class="dz-text"></span></span><input type="hidden" id="q30" class="answer-input dd-val"></div>
+          </div>
+            </div>
+            <div class="dd-bank" data-group="dd26"><div class="dd-option" draggable="true" data-value="A" data-group="dd26"><strong>A</strong>&nbsp;&nbsp;ask questions</div><div class="dd-option" draggable="true" data-value="B" data-group="dd26"><strong>B</strong>&nbsp;&nbsp;complete a worksheet</div><div class="dd-option" draggable="true" data-value="C" data-group="dd26"><strong>C</strong>&nbsp;&nbsp;do a drawing</div><div class="dd-option" draggable="true" data-value="D" data-group="dd26"><strong>D</strong>&nbsp;&nbsp;listen to the teachers</div><div class="dd-option" draggable="true" data-value="E" data-group="dd26"><strong>E</strong>&nbsp;&nbsp;make a list</div><div class="dd-option" draggable="true" data-value="F" data-group="dd26"><strong>F</strong>&nbsp;&nbsp;observe a live animal</div><div class="dd-option" draggable="true" data-value="G" data-group="dd26"><strong>G</strong>&nbsp;&nbsp;report ideas</div><div class="dd-option" draggable="true" data-value="H" data-group="dd26"><strong>H</strong>&nbsp;&nbsp;spell key words</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== PART 4 ========== -->
+      <div id="part-4" class="question-part hidden">
+        <div class="part-header"><p><strong>Part 4</strong></p><p>Listen and answer questions 31&ndash;40.</p></div>
+        <div class="questions-container">
+          <p class="q-range">Questions 31&ndash;40</p>
+          <p class="instr">Complete the notes below.</p>
+          <p class="instr">Write <strong>ONE WORD ONLY</strong> for each answer.</p>
+          <div class="notes-box">
+            <div class="centered-title">History of Paint</div>
+            <h4>Prehistoric era</h4>
+            <ul style="padding-left:20px;">
+              <li>&bull;&nbsp;&nbsp;The first colours were made from clay and probably put on the <input type="text" id="q31" class="answer-input" placeholder="31"></li>
+              <li>&bull;&nbsp;&nbsp;Coloured drawings in Australia were discovered in caves.</li>
+              <li>&bull;&nbsp;&nbsp;Colour was produced using substances such as charcoal.</li>
+              <li>&bull;&nbsp;&nbsp;Colours were temporary until the addition of animal fats and <input type="text" id="q32" class="answer-input" placeholder="32"></li>
+              <li>&bull;&nbsp;&nbsp;Permanent colours were transportable and possibly used as a form of <input type="text" id="q33" class="answer-input" placeholder="33"></li>
+            </ul>
+            <h4>Ancient Egyptian era</h4>
+            <ul style="padding-left:20px;">
+              <li>&bull;&nbsp;&nbsp;The creation of new monuments and <input type="text" id="q34" class="answer-input" placeholder="34"> resulted in different paints.</li>
+              <li>&bull;&nbsp;&nbsp;One problem was that many paints at this time were <input type="text" id="q35" class="answer-input" placeholder="35"></li>
+            </ul>
+            <p><strong>Egyptian Blue</strong></p>
+            <ul style="padding-left:20px;">
+              <li>&bull;&nbsp;&nbsp;was probably the first colour produced that is not found in <input type="text" id="q36" class="answer-input" placeholder="36"></li>
+              <li>&bull;&nbsp;&nbsp;was made from <input type="text" id="q37" class="answer-input" placeholder="37"> which had been broken up into tiny pieces</li>
+              <li>&bull;&nbsp;&nbsp;was used on rich people&rsquo;s tombs as decoration</li>
+            </ul>
+            <p><strong>Red Earth</strong></p>
+            <ul style="padding-left:20px;">
+              <li>&bull;&nbsp;&nbsp;Red minerals were turned into <input type="text" id="q38" class="answer-input" placeholder="38">, which was used to make paint.</li>
+            </ul>
+            <h4>Roman era</h4>
+            <ul style="padding-left:20px;">
+              <li>&bull;&nbsp;&nbsp;Artists used plants to make a range of colours.</li>
+            </ul>
+            <p><strong>Dragon&rsquo;s Blood</strong></p>
+            <ul style="padding-left:20px;">
+              <li>&bull;&nbsp;&nbsp;People believed it was a mixture of blood from dragons and <input type="text" id="q39" class="answer-input" placeholder="39"></li>
+              <li>&bull;&nbsp;&nbsp;It was actually the <input type="text" id="q40" class="answer-input" placeholder="40"> from tree trunks.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-arrows">
+    <button onclick="previousPart()" aria-label="Previous question">&lsaquo;</button>
+    <button onclick="nextPart()" aria-label="Next question">&rsaquo;</button>
+  </div>
+
+  <div class="nav-row" id="nav-row"></div>
+</div>
+
+<!-- ================= SCRIPT MODAL ================= -->
+<div id="script-modal" class="hidden">
+  <div class="script-panel">
+    <div class="script-top">
+      <h3>Audio Script</h3>
+      <div class="script-tabs">
+        <button data-s="1" onclick="openScript(1)">Part 1</button>
+        <button data-s="2" onclick="openScript(2)">Part 2</button>
+        <button data-s="3" onclick="openScript(3)">Part 3</button>
+        <button data-s="4" onclick="openScript(4)">Part 4</button>
+      </div>
+      <button class="script-close" onclick="closeScript()" aria-label="Close">&times;</button>
+    </div>
+    <div class="script-body" id="script-body">
+<div class="script-section" data-s="1">
+<h4>Part 1 &ndash; Local Walks</h4>
+<p class="script-note">Green marks show where each answer is heard.</p>
+<p><em>Part 1. You will hear a woman asking a tourist representative about walks in the local area. First, you have some time to look at questions 1 to 6. Now listen carefully and answer questions 1 to 6.</em></p>
+<p><span class="spk">Man:</span> G&rsquo;day. What can I do for you?</p>
+<p><span class="spk">Woman:</span> I&rsquo;d like to do a day&rsquo;s walk in the area. Do you have any suggestions?</p>
+<p><span class="spk">Man:</span> Well, the most popular day walks around here are the Village Walk, the McGrady Falls Trail and the Coal Mine Walk. If you just want a short walk, you can do the Village Walk. That&rsquo;s just 6 kilometres. The McGrady Falls is 12 kilometres. The Coal Mine Walk&rsquo;s a bit longer again. It&rsquo;s 13.5.</p>
+<p><span class="spk">Woman:</span> Right. So are those two more difficult as well as longer?</p>
+<p><span class="spk">Man:</span> Well, the Village Walk&rsquo;s classified as easy. McGrady Falls has some climbing, which is a bit difficult, but overall it&rsquo;s <span class="ans"><span class="qb">1</span>moderate</span>. But the Coal Mine Walk&rsquo;s mostly on flat ground and the paths are very good, so that&rsquo;s down as easy in spite of the length.</p>
+<p><span class="spk">Woman:</span> And what&rsquo;s special about each of the walks? I mean, what interesting things could I see?</p>
+<p><span class="spk">Man:</span> Well, with the Village Walk, you start off in the village. It&rsquo;s really nice. And right in the middle, there&rsquo;s the <span class="ans"><span class="qb">2</span>museum</span>. That&rsquo;s very popular. It tells you a bit about the background to the region.</p>
+<p><span class="spk">Woman:</span> OK.</p>
+<p><span class="spk">Man:</span> Then at the edge of the village, there&rsquo;s a <span class="ans"><span class="qb">3</span>park</span> where you can have a rest and look at the view before you set off on the walk back. It&rsquo;s pretty impressive on a clear day. You get a fantastic view of the mountains.</p>
+<p><span class="spk">Woman:</span> Mmm. I wouldn&rsquo;t mind a chance to go swimming. Can I do that at the McGrady Falls?</p>
+<p><span class="spk">Man:</span> Yeah, just under the falls there&rsquo;s a great <span class="ans"><span class="qb">4</span>pool</span>. At this time of year it&rsquo;s quite chilly, but it&rsquo;s a good way of cooling off after the climb up. And if you&rsquo;re interested in <span class="ans"><span class="qb">5</span>flowers</span>, it&rsquo;s a really good walk. You&rsquo;ll see lots of them.</p>
+<p><span class="spk">Woman:</span> Oh, right. And the Coal Mine Walk? Do you actually go down a mine?</p>
+<p><span class="spk">Man:</span> No, it&rsquo;s closed down now, but there are signs along the path telling you all about the mine&rsquo;s <span class="ans"><span class="qb">6</span>history</span>. It&rsquo;s very popular with school parties, but it&rsquo;s not just aimed at children. It&rsquo;s interesting for anyone.</p>
+<p><span class="spk">Woman:</span> Well, it sounds good, but I think I&rsquo;ll go for the McGrady Falls Trail.</p>
+<p><em>Before you hear the rest of the conversation, you have some time to look at questions 7 to 10. Now listen and answer questions 7 to 10.</em></p>
+<p><span class="spk">Woman:</span> Is there anything else I should know about it? Things to take and so on?</p>
+<p><span class="spk">Man:</span> Well, I should tell you there&rsquo;s an entrance fee for the trail, for maintenance, etc. It&rsquo;s $10 for adults, and you&rsquo;ll need a <span class="ans"><span class="qb">7</span>map</span> because the walk&rsquo;s not guided, but they&rsquo;ll give you one when you pay your entry fee.</p>
+<p><span class="spk">Woman:</span> Right. And I&rsquo;d like to take a picnic.</p>
+<p><span class="spk">Man:</span> The best thing is to get that from the <span class="ans"><span class="qb">8</span>cafe</span> at the beginning of the trail. They&rsquo;ll pack it all up for you.</p>
+<p><span class="spk">Woman:</span> Great. And can you tell me how to get there?</p>
+<p><span class="spk">Man:</span> Sure. The start of the trail is about nine kilometres from here, so it&rsquo;s best to get a bus.</p>
+<p><span class="spk">Woman:</span> Will the bus that stops at the front of the hotel take me there?</p>
+<p><span class="spk">Man:</span> That&rsquo;s the number 268 bus. It wouldn&rsquo;t take you there directly. It&rsquo;s best if you walk down to the market, and then you can catch the number <span class="ans"><span class="qb">9</span>279</span> there. It&rsquo;ll take you directly to the start of the trail.</p>
+<p><span class="spk">Woman:</span> OK. And will it be easy to tell when to get off?</p>
+<p><span class="spk">Man:</span> You need to ask the bus driver to stop at the <span class="ans"><span class="qb">10</span>lake</span>. The start of the walk is just beyond that.</p>
+<p><span class="spk">Woman:</span> OK. And the trail is a round trip?</p>
+<p><span class="spk">Man:</span> Yes, so you can get the same bus back. But mind that you&rsquo;re not too late. The last bus leaves at 5.30 on weekdays, 6.30 on Saturdays and 6 o&rsquo;clock on Sundays.</p>
+<p><span class="spk">Woman:</span> OK. Well, thanks for all that information.</p>
+<p><span class="spk">Man:</span> No problems. Have a good walk.</p>
+<p><em>That is the end of Part 1. You now have one minute to check your answers to Part 1.</em></p>
+</div>
+
+<div class="script-section" data-s="2">
+<h4>Part 2 &ndash; Makeover Shopping</h4>
+<p><em>You will hear a journalist talking on the radio about a personal shopping service she has used recently. First you have some time to look at questions 11 to 14. Now listen carefully and answer questions 11 to 14.</em></p>
+<p><span class="spk">Journalist:</span> I&rsquo;d never have considered getting a personal shopper to help me shop for new clothes, until I was shown some photos of myself at the office party. I was wearing a dress I&rsquo;d had for nearly a decade, and compared to my colleagues, I looked stuck in a time warp. Time for some professional advice.</p>
+<p>I contacted Miriam Hayes, who runs The Silver Slipper, one of the largest personal shopping services in the country. Miriam advised me to go for the standard personal makeover service. I had no idea what to expect. I wasn&rsquo;t sure if a bossy stylist was going to arrive at my house and demand to see inside my wardrobe, which would have been awful, but thankfully, I just had to fill in a questionnaire and send in a few photos ahead of the shopping day.</p>
+<p><span class="ans"><span class="qb">11&ndash;12</span>Penny, my stylist, was really helpful and I had a brilliant day</span> &ndash; the first shopping experience I&rsquo;ve ever enjoyed. I came back with a whole new look and lots of sensible advice. As part of the deal, <span class="ans"><span class="qb">11&ndash;12</span>Penny also gave me an information booklet which explains how to make fashion work for you</span>. Now I just need to do something about my hair.</p>
+<p>For me, this service was a more useful experience than I could have imagined. Miriam claims that one of the greatest benefits is that it&rsquo;s a cost-effective way of shopping, because you don&rsquo;t waste money on things you&rsquo;ll never wear, especially on expensive work clothes. But <span class="ans"><span class="qb">13&ndash;14</span>the great thing for me was that I feel good about myself again</span> and I don&rsquo;t worry about my clothes like I used to. I don&rsquo;t think I&rsquo;ll ever be the sort of person who follows every new fashion, but now at least I know what works for me. The other thing is that <span class="ans"><span class="qb">13&ndash;14</span>I bought everything I needed for the next six months in one day, so no need to waste endless hours shopping online</span>.</p>
+<p><em>Before you hear the rest of the talk, you have some time to look at questions 15 to 20. Now listen and answer questions 15 to 20.</em></p>
+<p><span class="spk">Journalist:</span> But these days, you don&rsquo;t have to hire your own personal shopper. You can just use an in-store personal shopping service, which most of the large stores now provide for free.</p>
+<p>Holbury provides an exclusive service for its high-end customers. Although there&rsquo;s no obligation to buy anything, <span class="ans"><span class="qb">15</span>it does cost &pound;15 per hour</span>, but that includes refreshments in a luxurious private room. You can book in advance, but there are usually appointments free on the day, so you can take a chance.</p>
+<p>Rivero&rsquo;s service is so popular that <span class="ans"><span class="qb">16</span>they&rsquo;ve had to restrict people to appointments of just one hour</span>, so you need to know the kind of thing you&rsquo;re looking for in advance. And if you use one of their smaller stores, you&rsquo;ll find there isn&rsquo;t the same range on offer as in the big city stores.</p>
+<p>Justine&rsquo;s is a good place to go if you need a suit for the office. And if, like me, you always find the trousers are too long, don&rsquo;t worry. <span class="ans"><span class="qb">17</span>The personal shopper at Justine&rsquo;s will get them shortened for you at no extra charge.</span></p>
+<p>Blank and White can help you choose the right dress for that special occasion. The great thing about their service is that you can get ready for your night out in store, as <span class="ans"><span class="qb">18</span>the personal shopping suite contains two luxury shower rooms</span> with all the facilities you&rsquo;d expect. When they move to their new, larger store, they&rsquo;ll also have a hairdresser and make-up artist on site.</p>
+<p>Wave found that their personal shopping service was so popular that <span class="ans"><span class="qb">19</span>female customers were frequently asking if they could send their husbands along for a makeover, so this is something they&rsquo;ve recently introduced</span>. What surprised the personal shopping team was how popular this has been.</p>
+<p>Dizzy&rsquo;s caters mainly for teenagers and young adults of both sexes. You can get the services of a personal shopper from one to three hours, but <span class="ans"><span class="qb">20</span>you&rsquo;ll need to make your appointment at least one month before</span>. So no more excuses for feeling&hellip;</p>
+<p><em>That is the end of Part 2. You now have 30 seconds to check your answers to Part 2.</em></p>
+</div>
+
+<div class="script-section" data-s="3">
+<h4>Part 3 &ndash; Lesson Plans</h4>
+<p><em>You will hear two students called Andrew and Molly, who are training to be elementary school teachers, discussing lesson plans with their professor. First you have some time to look at questions 21 to 25. Now listen carefully and answer questions 21 to 25.</em></p>
+<p><span class="spk">Professor:</span> Hello, come on in.</p>
+<p><span class="spk">Andrew:</span> Thanks.</p>
+<p><span class="spk">Professor:</span> How are things?</p>
+<p><span class="spk">Molly:</span> Fine, thanks.</p>
+<p><span class="spk">Professor:</span> Good. Well, you&rsquo;re going into a school for your first experience of classroom teaching next week, aren&rsquo;t you? And you&rsquo;ve been planning a series of lessons.</p>
+<p><span class="spk">Andrew:</span> Yes, we&rsquo;ve done that.</p>
+<p><span class="spk">Professor:</span> Good. What topic have you chosen?</p>
+<p><span class="spk">Andrew:</span> Animal life.</p>
+<p><span class="spk">Molly:</span> We&rsquo;ve grouped the lessons around three key concepts. That&rsquo;s predators and prey, the food chain and biological adaptation.</p>
+<p><span class="spk">Professor:</span> Fine. Now, you&rsquo;ve planned for four lessons in total, is that right?</p>
+<p><span class="spk">Andrew:</span> Yes.</p>
+<p><span class="spk">Professor:</span> Do you want to run through those then?</p>
+<p><span class="spk">Andrew:</span> Well, first we&rsquo;re going to take the children on a field trip to introduce our topic areas. We thought we&rsquo;d take them to look at a pond.</p>
+<p><span class="spk">Professor:</span> You&rsquo;ve checked out one in the area, have you?</p>
+<p><span class="spk">Molly:</span> Yes. It&rsquo;s not far away from the school, about 10 minutes&rsquo; walk. And <span class="ans"><span class="qb">21</span>we&rsquo;ve already asked the landowner if he&rsquo;d allow us to go there and that&rsquo;s fine</span>.</p>
+<p><span class="spk">Professor:</span> OK. I assume you&rsquo;ve looked up the health and safety guidelines too.</p>
+<p><span class="spk">Andrew:</span> The class teacher is going to do that for us.</p>
+<p><span class="spk">Molly:</span> She&rsquo;s also going to get the secretary to type up a letter for the parents. Then if you approve our plan, she&rsquo;ll send it out.</p>
+<p><span class="spk">Professor:</span> Excellent. Back to the field trip.</p>
+<p><span class="spk">Andrew:</span> We&rsquo;ll get the children to observe the animals and insects that visit the pond.</p>
+<p><span class="spk">Professor:</span> How will you focus their attention?</p>
+<p><span class="spk">Molly:</span> We were going to give them worksheets. That seemed to be what most teachers do. But then we decided not to. <span class="ans"><span class="qb">22</span>We wanted to get away from structured classroom-type activities.</span></p>
+<p><span class="spk">Professor:</span> That&rsquo;s fair enough.</p>
+<p><span class="spk">Andrew:</span> OK. They can tell each other what they already know about pond life. We thought that some of them might have collected things like tadpoles with their parents.</p>
+<p><span class="spk">Professor:</span> And is that one lesson or two?</p>
+<p><span class="spk">Molly:</span> That&rsquo;s a double lesson, so we&rsquo;ll have plenty of time.</p>
+<p><span class="spk">Andrew:</span> Then for the third lesson, which is the following day, Molly&rsquo;s drawn some big pictures of pond creatures. We&rsquo;re going to get the children to talk about them and guess what eats what. We&rsquo;ll stick the pictures up on the board in a random way and then get individual kids coming out to the front in turns and <span class="ans"><span class="qb">23</span>trying to put them in the order of the food chain</span>. The class can give feedback, and we hope that with a little help they&rsquo;ll eventually come up with the right sequence.</p>
+<p><span class="spk">Professor:</span> Sounds good. And is there any follow-up activity?</p>
+<p><span class="spk">Molly:</span> We hadn&rsquo;t planned one.</p>
+<p><span class="spk">Professor:</span> You might just give them a parallel activity with a different set of animals. <span class="ans"><span class="qb">24</span>It would provide a change of focus.</span> The pupils could work individually and be writing instead of listening and talking.</p>
+<p><span class="spk">Molly:</span> I think that&rsquo;s a good idea. I could do some pictures of big mammals. They&rsquo;re more likely to know about them, aren&rsquo;t they?</p>
+<p><span class="spk">Professor:</span> OK. What about the last lesson? What have you got planned for that?</p>
+<p><span class="spk">Molly:</span> In the last lesson, we want to get the kids thinking about adaptation. So we&rsquo;ve got a movie about chameleons.</p>
+<p><span class="spk">Professor:</span> You didn&rsquo;t think of bringing in a live animal to observe? A toad or something?</p>
+<p><span class="spk">Andrew:</span> We did think of it. We knew that would be more interesting for the kids than watching a movie. Real animals have more of an impact. <span class="ans"><span class="qb">25</span>But we just decided the movie would be easier to manage.</span></p>
+<p><span class="spk">Professor:</span> That&rsquo;s true.</p>
+<p><em>Before you hear the rest of the discussion, you have some time to look at questions 26 to 30. Now listen and answer questions 26 to 30.</em></p>
+<p><span class="spk">Professor:</span> OK, so in the last lesson, the whole class watches the movie, and what happens after that then?</p>
+<p><span class="spk">Molly:</span> After that, we&rsquo;ll give the children a chance to talk to each other about the movie. We&rsquo;ll put them into groups of three or four and they can exchange ideas about what they&rsquo;ve learned and what they liked and so on, and we&rsquo;ll be walking around the room and listening to what they&rsquo;re saying.</p>
+<p><span class="spk">Andrew:</span> And after that, we&rsquo;ll get the class together again and then introduce the concept of adaptation. <span class="ans"><span class="qb">26</span>This is really the only real direct teacher input, where they just have to sit and listen to what we&rsquo;re saying.</span> We&rsquo;ll use the example of the chameleon&rsquo;s long tongue and how it&rsquo;s designed to catch flying prey.</p>
+<p><span class="spk">Professor:</span> Fine.</p>
+<p><span class="spk">Molly:</span> Then we thought we&rsquo;d divide the class up again into twos and <span class="ans"><span class="qb">27</span>get them to list other adaptive features</span>, things they noticed in the movie, and we&rsquo;ll go around helping them if necessary.</p>
+<p><span class="spk">Professor:</span> Yes.</p>
+<p><span class="spk">Andrew:</span> Then we&rsquo;ll get the whole class together again so <span class="ans"><span class="qb">28</span>they can tell us their ideas</span> and we&rsquo;ll write them up on the board.</p>
+<p><span class="spk">Molly:</span> After that, <span class="ans"><span class="qb">29</span>we&rsquo;re going to give each child a table to fill in</span>. They&rsquo;ll do that by themselves and we&rsquo;ll collect the worksheets in to look at later. There are three columns. They&rsquo;ve got different physical features that chameleons have for hunting, defence and so on.</p>
+<p><span class="spk">Professor:</span> If I were you, I&rsquo;d give the kids the features, so they only have to sort and copy them, and they&rsquo;ll be able to concentrate on the key ideas instead of worrying about spelling.</p>
+<p><span class="spk">Andrew:</span> Right.</p>
+<p><span class="spk">Professor:</span> Is that it?</p>
+<p><span class="spk">Molly:</span> If there&rsquo;s a spare five minutes at the end of the lesson, <span class="ans"><span class="qb">30</span>we want the children to copy a picture of a chameleon</span>, just to wrap up the lesson.</p>
+<p><span class="spk">Professor:</span> OK. All right, that&rsquo;s fine.</p>
+<p><em>That is the end of Part 3. You now have 30 seconds to check your answers to Part 3.</em></p>
+</div>
+
+<div class="script-section" data-s="4">
+<h4>Part 4 &ndash; History of Paint</h4>
+<p><em>Part 4. First, you have some time to look at questions 31 to 40. Now listen carefully and answer questions 31 to 40.</em></p>
+<p><span class="spk">Lecturer:</span> Good morning, everyone. Today we&rsquo;re looking at the history of paint. As you&rsquo;re about to see, there&rsquo;s a lot to be said about it, so today I&rsquo;m just going to focus on ancient techniques for producing paint. We&rsquo;ll deal with prehistoric times to about the end of the Roman Empire.</p>
+<p>So let&rsquo;s start with the prehistoric era. As I&rsquo;m sure you&rsquo;re all aware, it&rsquo;s impossible to determine exactly when colours were first used by humans in art, but what we do know is what those first colours were made of and how they were applied. Researchers have determined that the first colours came from clay, which was most likely used to create marks on the <span class="ans"><span class="qb">31</span>face</span>. Of course, the art from this paint, as we&rsquo;ll call it, wasn&rsquo;t permanent, so it&rsquo;s difficult for us to know much more about what it was used for or who used it.</p>
+<p>However, some evidence of ancient paint has been found in Australia. There, scientists have discovered early forms of paint in drawings inside caves. Of course, as you&rsquo;d expect, the colours used in these drawings are simple, earthy colours, and people would have had to make them from naturally occurring materials around them, such as charcoal from their fires.</p>
+<p>One of the problems with the ancient paint was that it didn&rsquo;t last long. It was only temporary, because it faded easily or got blown away by the wind or washed off in rain. It wasn&rsquo;t until people introduced other elements, such as animal fats, to the paint that this problem was solved. In studying this ancient paint, scientists have determined that another popular additive, something that you wouldn&rsquo;t have expected at all, was <span class="ans"><span class="qb">32</span>honey</span>. Surprising, perhaps, but there you go. It worked well enough for us to be able to enjoy their artwork today.</p>
+<p>With the advent of more permanent colours, paints could be transported long distances. This is important because there is evidence to suggest that colours were valuable and may have been used at one time or another as a type of <span class="ans"><span class="qb">33</span>money</span> in some of these early societies.</p>
+<p>The next important stage in paint&rsquo;s history was in the time of the ancient Egyptian Empire. With wealth and power, monuments were constructed and decorated, and also a large number of <span class="ans"><span class="qb">34</span>temples</span>. This led to the development of a wider range of paint. Interestingly, we now know that one of the problems with much of the paint used at that time, and actually for centuries after, was that it was <span class="ans"><span class="qb">35</span>toxic</span>, though it is unlikely that the artists of the time were aware of that.</p>
+<p>The Egyptian era saw the introduction of many new colours. Egyptian blue is one of the best known colours of that time. It is thought to be the first paint colour made by man. It is not a colour that exists in <span class="ans"><span class="qb">36</span>nature</span>. Craftsmen of the time had perfected the art of making this unusual dark blue colour, and it&rsquo;s a colour that historians strongly identify with Egyptian culture at this time. The colour Egyptian blue was produced by crushing up blue <span class="ans"><span class="qb">37</span>glass</span> very finely. This colour was very popular in Egypt, and it was common for the wealthy to use it as decoration on their tombs.</p>
+<p>Red earth, another paint colour that emerged at that time, was also created by a crushing process. This colour was produced when minerals that were red in colour were ground into a very fine <span class="ans"><span class="qb">38</span>powder</span>.</p>
+<p>The Roman Empire also contributed a lot to the expanding range of paint colours available to artists. They extracted all sorts of colours from a wide variety of plants, but perhaps the most interesting colour of Roman times was a paint pigment called dragon&rsquo;s blood. As its name suggests, it was a red-coloured pigment. It was incredibly popular at the time, most likely due to the belief that the paint was a mixture of the blood from fights between dragons, which people really believed in then, and <span class="ans"><span class="qb">39</span>elephants</span>.</p>
+<p>At the time, the idea of dragons was very exotic and exciting, and the colour was much sought after. However, of course, the paint colour was not actually from any animal at all. It came from the tree trunks of a species of tree from Southeast Asia, or more specifically, the <span class="ans"><span class="qb">40</span>gum</span> from the trunks of those trees. Not nearly as exciting as dragons, sadly.</p>
+<p><em>That is the end of Part 4. You now have one minute to check your answers to Part 4. That is the end of the listening test.</em></p>
+</div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ================= MENUS ================= -->
+<div id="contextMenu" class="hidden">
+  <div onclick="applyHighlight()">Highlight</div>
+  <div onclick="applyComment()">Comment</div>
+  <div onclick="clearSelectionMarks()">Clear</div>
+  <div onclick="clearAllMarks()">Clear All</div>
+</div>
+<div id="mobile-selection-menu" class="hidden">
+  <button onclick="applyHighlight()">Highlight</button>
+  <button onclick="applyComment()">Comment</button>
+  <button onclick="clearSelectionMarks()">Clear</button>
+</div>
+<div id="goto-widget" class="hidden">
+  <div><strong>Go to question</strong> (1&ndash;40)</div>
+  <input type="number" id="goto-input" min="1" max="40">
+</div>
+
+<div id="answer-key" style="display:none;">
+    "1": "moderate",
+    "2": "museum",
+    "3": "park",
+    "4": "pool",
+    "5": "flowers",
+    "6": "history",
+    "7": "map",
+    "8": "cafe/café",
+    "9": "279",
+    "10": "lake",
+    "11": "B,D",
+    "12": "B,D",
+    "13": "A,C",
+    "14": "A,C",
+    "15": "A",
+    "16": "C",
+    "17": "G",
+    "18": "H",
+    "19": "F",
+    "20": "B",
+    "21": "B",
+    "22": "A",
+    "23": "B",
+    "24": "C",
+    "25": "A",
+    "26": "D",
+    "27": "E",
+    "28": "G",
+    "29": "B",
+    "30": "C",
+    "31": "face",
+    "32": "honey",
+    "33": "money",
+    "34": "temples",
+    "35": "toxic",
+    "36": "nature",
+    "37": "glass",
+    "38": "powder",
+    "39": "elephants",
+    "40": "gum"
+</div>
+
+<script>
+const audioSource = "https://raw.githubusercontent.com/jasurrkham1dov-blip/test-6-1/main/listening-test-27.mp3";
+const audioPlayer = document.getElementById('global-audio-player');
+const CHECKBOX_GROUPS = { 'q11-12': [11, 12], 'q13-14': [13, 14] };
+let currentPart = 1;
+let currentQuestion = 1;
+let testStarted = false;
+let testSubmitted = false;
+let savedRange = null;
+
+function parseAnswerKey() {
+    const answerKey = document.getElementById('answer-key').textContent;
+    return JSON.parse('{' + answerKey + '}');
+}
+
+function groupForQuestion(q) {
+    for (const name in CHECKBOX_GROUPS) {
+        if (CHECKBOX_GROUPS[name].includes(q)) return name;
+    }
+    return null;
+}
+
+/* ---------------- Footer ---------------- */
+function buildFooter() {
+    const row = document.getElementById('nav-row');
+    let html = '';
+    for (let p = 1; p <= 4; p++) {
+        html += '<div class="footer__questionWrapper___1tZ46' + (p === 1 ? ' selected' : '') + '" data-part="' + p + '">';
+        html += '<button class="footer__questionNo___3WNct" onclick="switchToPart(' + p + ')"><span class="partLabel">Part ' + p + '</span><span class="attemptedCount" id="attempted-' + p + '">0 of 10</span></button>';
+        html += '<div class="footer__subquestionWrapper___9GgoP">';
+        for (let q = (p - 1) * 10 + 1; q <= p * 10; q++) {
+            html += '<button class="subQuestion scorable-item" data-q="' + q + '" onclick="goToQuestion(' + q + ')">' + q + '</button>';
+        }
+        html += '</div></div>';
+    }
+    html += '<button id="deliver-button" class="footer__deliverButton___3FM07" onclick="submitListeningSection()">Submit Answers</button>';
+    row.innerHTML = html;
+}
+
+/* ---------------- Start / audio ---------------- */
+function formatTime(s) {
+    if (!isFinite(s)) return '0:00';
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return m + ':' + (sec < 10 ? '0' : '') + sec;
+}
+
+function startTest() {
+    document.getElementById('start-screen').classList.add('hidden');
+    document.getElementById('test-screen').classList.remove('hidden');
+    testStarted = true;
+    history.pushState(null, '', location.href);
+    audioPlayer.src = audioSource;
+    const p = audioPlayer.play();
+    if (p && p.catch) {
+        p.catch(function () {
+            audioPlayer.addEventListener('canplay', function retry() {
+                audioPlayer.removeEventListener('canplay', retry);
+                audioPlayer.play().catch(function () {});
+            });
+            const playNow = function () {
+                audioPlayer.play().catch(function () {});
+                ['click', 'keydown', 'touchstart'].forEach(function (ev) { document.removeEventListener(ev, playNow); });
+            };
+            ['click', 'keydown', 'touchstart'].forEach(function (ev) { document.addEventListener(ev, playNow, { once: true }); });
+        });
+    }
+    switchToPart(1);
+}
+
+document.getElementById('play-pause-btn').addEventListener('click', function (e) {
+    e.stopPropagation();
+    if (audioPlayer.paused) audioPlayer.play().catch(function () {});
+    else audioPlayer.pause();
+});
+audioPlayer.addEventListener('play', function () {
+    document.getElementById('icon-play').classList.add('hidden');
+    document.getElementById('icon-pause').classList.remove('hidden');
+});
+audioPlayer.addEventListener('pause', function () {
+    document.getElementById('icon-play').classList.remove('hidden');
+    document.getElementById('icon-pause').classList.add('hidden');
+});
+audioPlayer.addEventListener('loadedmetadata', function () {
+    document.getElementById('total-duration').textContent = formatTime(audioPlayer.duration);
+});
+audioPlayer.addEventListener('timeupdate', function () {
+    if (seeking) return;
+    if (audioPlayer.duration) {
+        document.getElementById('progress-bar').value = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+    }
+    document.getElementById('current-time').textContent = formatTime(audioPlayer.currentTime);
+});
+audioPlayer.addEventListener('ended', function () {
+    if (!testSubmitted) document.getElementById('audio-ended-banner').classList.remove('hidden');
+});
+
+/* ---------------- Navigation ---------------- */
+function switchToPart(n) {
+    currentPart = n;
+    for (let p = 1; p <= 4; p++) {
+        document.getElementById('part-' + p).classList.toggle('hidden', p !== n);
+    }
+    document.querySelectorAll('.footer__questionWrapper___1tZ46').forEach(function (w) {
+        w.classList.toggle('selected', parseInt(w.dataset.part, 10) === n);
+    });
+    const first = (n - 1) * 10 + 1;
+    if (currentQuestion < first || currentQuestion > first + 9) currentQuestion = first;
+    window.scrollTo(0, 0);
+    updateNavigation();
+    if (testSubmitted && document.body.classList.contains('script-open')) openScript(n);
+}
+
+function questionElement(q) {
+    let el = document.getElementById('q' + q);
+    if (el && el.classList.contains('dd-val')) return el.previousElementSibling;
+    if (el) return el;
+    const g = groupForQuestion(q);
+    if (g) return document.getElementById('group-' + g.slice(1));
+    const r = document.querySelector('input[name="q' + q + '"]');
+    return r ? r.closest('.single-choice') || r : null;
+}
+
+function goToQuestion(q) {
+    const part = Math.ceil(q / 10);
+    if (part !== currentPart) switchToPart(part);
+    currentQuestion = q;
+    updateNavigation();
+    const el = questionElement(q);
+    if (!el) return;
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const target = el.closest('.single-choice, .checkbox-group, .dd-row, .flow-step, tr, li') || el;
+    target.classList.remove('flash');
+    void target.offsetWidth;
+    target.classList.add('flash');
+    setTimeout(function () { target.classList.remove('flash'); }, 1000);
+    if (el.tagName === 'INPUT' && el.type === 'text') el.focus({ preventScroll: true });
+}
+
+function nextPart() { if (currentQuestion < 40) goToQuestion(currentQuestion + 1); }
+function previousPart() { if (currentQuestion > 1) goToQuestion(currentQuestion - 1); }
+
+function updateNavigation() {
+    document.querySelectorAll('.subQuestion').forEach(function (b) {
+        b.classList.toggle('active', parseInt(b.dataset.q, 10) === currentQuestion);
+    });
+}
+
+/* ---------------- Answer state ---------------- */
+function isAnswered(q) {
+    const g = groupForQuestion(q);
+    if (g) {
+        const count = document.querySelectorAll('input[name="' + g + '"]:checked').length;
+        return count >= CHECKBOX_GROUPS[g].indexOf(q) + 1;
+    }
+    const el = document.getElementById('q' + q);
+    if (el && el.classList.contains('answer-input')) return el.value.trim() !== '';
+    return !!document.querySelector('input[name="q' + q + '"]:checked');
+}
+
+function updateAttemptedCount(part) {
+    let n = 0;
+    for (let q = (part - 1) * 10 + 1; q <= part * 10; q++) if (isAnswered(q)) n++;
+    const el = document.getElementById('attempted-' + part);
+    if (el) el.textContent = Math.min(n, 10) + ' of 10';
+}
+
+function updateAnsweredIndicators() {
+    document.querySelectorAll('.subQuestion').forEach(function (b) {
+        b.classList.toggle('answered', isAnswered(parseInt(b.dataset.q, 10)));
+    });
+    for (let p = 1; p <= 4; p++) updateAttemptedCount(p);
+}
+
+function setupInputs() {
+    document.querySelectorAll('.left-panel input').forEach(function (inp) {
+        inp.addEventListener('input', updateAnsweredIndicators);
+        inp.addEventListener('change', function () {
+            if (inp.type === 'radio') {
+                document.querySelectorAll('input[name="' + inp.name + '"]').forEach(function (r) {
+                    const lab = r.closest('label');
+                    if (lab) lab.classList.toggle('selected', r.checked);
+                });
+            }
+            if (inp.type === 'checkbox') {
+                const lab = inp.closest('label');
+                if (lab) lab.classList.toggle('selected', inp.checked);
+            }
+            const m = inp.name ? inp.name.match(/^q(\d+)/) : (inp.id ? inp.id.match(/^q(\d+)/) : null);
+            if (m) { currentQuestion = parseInt(m[1], 10); updateNavigation(); }
+            updateAnsweredIndicators();
+        });
+        inp.addEventListener('focus', function () {
+            const m = (inp.id || '').match(/^q(\d+)$/);
+            if (m) { currentQuestion = parseInt(m[1], 10); updateNavigation(); }
+        });
+    });
+}
+
+function setupCheckboxLimits() {
+    Object.keys(CHECKBOX_GROUPS).forEach(function (name) {
+        document.querySelectorAll('input[name="' + name + '"]').forEach(function (cb) {
+            cb.addEventListener('change', function () {
+                const checked = document.querySelectorAll('input[name="' + name + '"]:checked');
+                if (checked.length > 2) {
+                    cb.checked = false;
+                    const lab = cb.closest('label');
+                    if (lab) lab.classList.remove('selected');
+                    const grp = cb.closest('.checkbox-group');
+                    grp.classList.remove('shake');
+                    void grp.offsetWidth;
+                    grp.classList.add('shake');
+                    updateAnsweredIndicators();
+                }
+            });
+        });
+    });
+}
+
+/* ---------------- Highlight & comments ---------------- */
+function selectionInPanel() {
+    const sel = window.getSelection();
+    if (!sel || sel.rangeCount === 0 || sel.isCollapsed) return null;
+    const range = sel.getRangeAt(0);
+    const panel = document.querySelector('.left-panel');
+    if (!panel.contains(range.commonAncestorContainer)) return null;
+    return range;
+}
+
+function hideMenus() {
+    document.getElementById('contextMenu').classList.add('hidden');
+    document.getElementById('mobile-selection-menu').classList.add('hidden');
+}
+
+function wrapRange(range, cls, comment) {
+    const span = document.createElement('span');
+    span.className = cls;
+    if (comment) span.setAttribute('data-comment', comment);
+    try {
+        range.surroundContents(span);
+    } catch (e) {
+        span.appendChild(range.extractContents());
+        range.insertNode(span);
+    }
+}
+
+function applyHighlight() {
+    const range = savedRange || selectionInPanel();
+    if (range) {
+        try { wrapRange(range, 'highlight'); }
+        catch (e) { document.execCommand('backColor', false, '#b02350'); }
+    }
+    savedRange = null;
+    window.getSelection().removeAllRanges();
+    hideMenus();
+}
+
+function applyComment() {
+    const range = savedRange || selectionInPanel();
+    hideMenus();
+    if (!range) return;
+    const text = prompt('Add a comment:');
+    if (text) wrapRange(range, 'comment-highlight', text);
+    savedRange = null;
+    window.getSelection().removeAllRanges();
+}
+
+function unwrap(el) {
+    const parent = el.parentNode;
+    while (el.firstChild) parent.insertBefore(el.firstChild, el);
+    parent.removeChild(el);
+    parent.normalize();
+}
+
+function clearSelectionMarks() {
+    const range = savedRange || selectionInPanel();
+    document.querySelectorAll('.left-panel .highlight, .left-panel .comment-highlight').forEach(function (el) {
+        if (range && range.intersectsNode(el)) unwrap(el);
+    });
+    savedRange = null;
+    hideMenus();
+}
+
+function clearAllMarks() {
+    document.querySelectorAll('.left-panel .highlight, .left-panel .comment-highlight').forEach(unwrap);
+    hideMenus();
+}
+
+document.addEventListener('contextmenu', function (e) {
+    if (!testStarted || testSubmitted) return;
+    const range = selectionInPanel();
+    const onMark = e.target.closest && e.target.closest('.left-panel .highlight, .left-panel .comment-highlight');
+    if (range || onMark) {
+        e.preventDefault();
+        savedRange = range ? range.cloneRange() : null;
+        if (!range && onMark) {
+            const r = document.createRange();
+            r.selectNodeContents(onMark);
+            savedRange = r;
+        }
+        const menu = document.getElementById('contextMenu');
+        menu.style.left = e.pageX + 'px';
+        menu.style.top = e.pageY + 'px';
+        menu.classList.remove('hidden');
+    } else {
+        e.preventDefault();
+    }
+});
+
+document.addEventListener('mousedown', function (e) {
+    if (!e.target.closest('#contextMenu') && !e.target.closest('#mobile-selection-menu')) hideMenus();
+});
+
+document.addEventListener('selectionchange', function () {
+    if (!('ontouchstart' in window) || !testStarted || testSubmitted) return;
+    const range = selectionInPanel();
+    const menu = document.getElementById('mobile-selection-menu');
+    if (!range) { menu.classList.add('hidden'); return; }
+    savedRange = range.cloneRange();
+    const rect = range.getBoundingClientRect();
+    menu.classList.remove('hidden');
+    const top = rect.top + window.scrollY - menu.offsetHeight - 10;
+    let left = rect.left + window.scrollX + rect.width / 2 - menu.offsetWidth / 2;
+    left = Math.max(8, Math.min(left, window.innerWidth - menu.offsetWidth - 8));
+    menu.style.top = Math.max(window.scrollY + 120, top) + 'px';
+    menu.style.left = left + 'px';
+});
+
+/* ---------------- Go-to widget ---------------- */
+document.addEventListener('keydown', function (e) {
+    const widget = document.getElementById('goto-widget');
+    const input = document.getElementById('goto-input');
+    if (!testStarted || testSubmitted) return;
+    if (!widget.classList.contains('hidden')) {
+        if (e.key === 'Escape') { widget.classList.add('hidden'); }
+        if (e.key === 'Enter') {
+            const n = parseInt(input.value, 10);
+            widget.classList.add('hidden');
+            if (n >= 1 && n <= 40) goToQuestion(n);
+        }
+        return;
+    }
+    const tag = (document.activeElement && document.activeElement.tagName) || '';
+    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+    if (/^[0-9]$/.test(e.key)) {
+        e.preventDefault();
+        widget.classList.remove('hidden');
+        input.value = e.key;
+        input.focus();
+    }
+});
+
+/* ---------------- Scoring ---------------- */
+function getUserAnswer(q) {
+    const g = groupForQuestion(q);
+    if (g) {
+        return Array.from(document.querySelectorAll('input[name="' + g + '"]:checked')).map(function (c) { return c.value; }).sort().join(', ');
+    }
+    const el = document.getElementById('q' + q);
+    if (el && el.classList.contains('answer-input')) return el.value.trim();
+    const r = document.querySelector('input[name="q' + q + '"]:checked');
+    return r ? r.value : '';
+}
+
+function normalize(s) {
+    return String(s).toLowerCase().replace(/[£$'"‘’“”]/g, '').replace(/\s+/g, ' ').trim().replace(/\.$/, '');
+}
+
+function getQuestionResult(qStr, correctAnswer) {
+    const q = parseInt(qStr, 10);
+    const g = groupForQuestion(q);
+    if (g) {
+        const correctSet = correctAnswer.split(',').map(function (x) { return x.trim(); });
+        const selected = Array.from(document.querySelectorAll('input[name="' + g + '"]:checked')).map(function (c) { return c.value; });
+        const hits = selected.filter(function (v) { return correctSet.includes(v); }).length;
+        const needed = CHECKBOX_GROUPS[g].indexOf(q) + 1;
+        return { user: selected.sort().join(', '), correct: correctSet.join(', '), isCorrect: hits >= needed };
+    }
+    const user = getUserAnswer(q);
+    if (!user) return { user: '', correct: correctAnswer.split('/')[0], isCorrect: false };
+    const options = correctAnswer.split('/').map(normalize);
+    return { user: user, correct: correctAnswer.split('/')[0], isCorrect: options.includes(normalize(user)) };
+}
+
+function bandFromRaw(raw) {
+    if (raw >= 39) return 9; if (raw >= 37) return 8.5; if (raw >= 35) return 8; if (raw >= 32) return 7.5;
+    if (raw >= 30) return 7; if (raw >= 26) return 6.5; if (raw >= 23) return 6; if (raw >= 18) return 5.5;
+    if (raw >= 16) return 5; if (raw >= 13) return 4.5; if (raw >= 10) return 4; if (raw >= 8) return 3.5;
+    if (raw >= 6) return 3; if (raw >= 4) return 2.5; if (raw >= 2) return 2; if (raw === 1) return 1.5;
+    return 0;
+}
+
+function addAfter(el, cls, text) {
+    const s = document.createElement('span');
+    s.className = cls;
+    s.textContent = text;
+    el.insertAdjacentElement('afterend', s);
+    return s;
+}
+
+function markQuestion(q, key) {
+    const r = getQuestionResult(String(q), key[String(q)]);
+    const btn = document.querySelector('.subQuestion[data-q="' + q + '"]');
+    if (btn) btn.classList.add(r.isCorrect ? 'res-correct' : 'res-incorrect');
+    if (groupForQuestion(q)) return r;
+    const el = document.getElementById('q' + q);
+    if (el && el.classList.contains('answer-input')) {
+        el.classList.add(r.isCorrect ? 'correct' : 'incorrect');
+        const after = r.isCorrect ? addAfter(el, 'mark ok', '✓')
+                                  : addAfter(el, 'mark bad', '✗');
+        if (!r.isCorrect) addAfter(after, 'fix', '→ ' + r.correct);
+        return r;
+    }
+    const correct = key[String(q)];
+    document.querySelectorAll('input[name="q' + q + '"]').forEach(function (inp) {
+        const box = inp.closest('label') || inp.closest('td');
+        if (!box) return;
+        if (inp.value === correct) box.classList.add(box.tagName === 'TD' ? 'cell-correct' : 'opt-correct');
+        else if (inp.checked) box.classList.add(box.tagName === 'TD' ? 'cell-wrong' : 'opt-wrong');
+    });
+    const cell = document.querySelector('input[name="q' + q + '"]');
+    const row = cell && cell.closest('tr');
+    if (row) {
+        const label = row.querySelector('td');
+        label.insertAdjacentHTML('beforeend', r.isCorrect ? ' <span class="mark ok">✓</span>' : ' <span class="mark bad">✗</span> <span class="fix">→ ' + correct + '</span>');
+    }
+    return r;
+}
+
+function markCheckboxGroups(key) {
+    Object.keys(CHECKBOX_GROUPS).forEach(function (name) {
+        const qs = CHECKBOX_GROUPS[name];
+        const correctSet = key[String(qs[0])].split(',').map(function (x) { return x.trim(); });
+        let hits = 0;
+        document.querySelectorAll('input[name="' + name + '"]').forEach(function (cb) {
+            const lab = cb.closest('label');
+            if (correctSet.includes(cb.value)) { lab.classList.add('opt-correct'); if (cb.checked) hits++; }
+            else if (cb.checked) lab.classList.add('opt-wrong');
+        });
+        const grp = document.getElementById('group-' + name.slice(1));
+        const p = document.createElement('p');
+        p.className = 'group-result';
+        p.innerHTML = '<span class="' + (hits === 2 ? 'mark ok' : 'mark bad') + '">' + hits + ' / 2 correct</span> <span class="fix">Answer: ' + correctSet.join(' and ') + '</span>';
+        grp.appendChild(p);
+    });
+}
+
+function submitListeningSection() {
+    if (testSubmitted) return;
+    if (!confirm('Are you sure you want to submit your answers?')) return;
+    testSubmitted = true;
+    audioPlayer.pause();
+    hideMenus();
+    document.getElementById('goto-widget').classList.add('hidden');
+    document.getElementById('audio-ended-banner').classList.add('hidden');
+
+    const key = parseAnswerKey();
+    let score = 0;
+    for (let q = 1; q <= 40; q++) { if (markQuestion(q, key).isCorrect) score++; }
+    markCheckboxGroups(key);
+    markDragDrop(key);
+    document.querySelectorAll('.left-panel input').forEach(function (i) { i.disabled = true; });
+
+    const btn = document.getElementById('deliver-button');
+    btn.textContent = 'Submitted';
+    btn.disabled = true;
+    btn.style.background = '#6c757d';
+    btn.style.cursor = 'default';
+
+    document.getElementById('score-chip').textContent = 'Score ' + score + '/40 · Band ' + bandFromRaw(score);
+    document.getElementById('header-title').classList.add('hidden');
+    document.getElementById('review-controls').classList.remove('hidden');
+    document.body.classList.add('review-mode');
+    if (window.innerWidth > 900) openScript(currentPart);
+    else closeScript();
+}
+
+/* ---------------- Script panel ---------------- */
+function openScript(n) {
+    if (!testSubmitted) return;
+    document.body.classList.add('script-open');
+    document.getElementById('script-modal').classList.remove('hidden');
+    document.getElementById('script-toggle').textContent = 'Hide script';
+    document.querySelectorAll('.script-section').forEach(function (s) {
+        s.classList.toggle('hidden', parseInt(s.dataset.s, 10) !== n);
+    });
+    document.querySelectorAll('.script-tabs button').forEach(function (b) {
+        b.classList.toggle('active', parseInt(b.dataset.s, 10) === n);
+    });
+    document.getElementById('script-body').scrollTop = 0;
+}
+function closeScript() {
+    document.body.classList.remove('script-open');
+    document.getElementById('script-modal').classList.add('hidden');
+    document.getElementById('script-toggle').textContent = 'Show script';
+}
+function toggleScript() {
+    if (document.body.classList.contains('script-open')) closeScript();
+    else openScript(currentPart);
+}
+
+/* Drag the bar to move through the audio */
+let seeking = false;
+const progressBar = document.getElementById('progress-bar');
+progressBar.addEventListener('input', function (e) {
+    seeking = true;
+    if (audioPlayer.duration) {
+        document.getElementById('current-time').textContent = formatTime((e.target.value / 100) * audioPlayer.duration);
+    }
+});
+progressBar.addEventListener('change', function (e) {
+    if (audioPlayer.duration) audioPlayer.currentTime = (e.target.value / 100) * audioPlayer.duration;
+    seeking = false;
+});
+
+/* ---------------- Back-navigation guard ---------------- */
+window.addEventListener('popstate', function () {
+    if (testStarted && !testSubmitted) history.pushState(null, '', location.href);
+});
+
+/* ---------------- Init ---------------- */
+buildFooter();
+setupInputs();
+setupCheckboxLimits();
+/* ---------------- Drag and drop matching ---------------- */
+let ddPicked = null;
+function ddOptionText(group, value) {
+    const o = document.querySelector('.dd-option[data-group="' + group + '"][data-value="' + value + '"]');
+    return o ? o.innerHTML : value;
+}
+function ddGroupOfZone(zone) { return zone.closest('.dd-layout').querySelector('.dd-bank').dataset.group; }
+function ddSetZone(zone, value) {
+    const group = ddGroupOfZone(zone);
+    const input = zone.nextElementSibling;
+    const old = input.value;
+    if (old) {
+        const o = document.querySelector('.dd-option[data-group="' + group + '"][data-value="' + old + '"]');
+        if (o) o.classList.remove('used');
+    }
+    if (value) {
+        document.querySelectorAll('.drop-zone').forEach(function (z) {
+            if (z !== zone && ddGroupOfZone(z) === group && z.nextElementSibling.value === value) ddClear(z);
+        });
+        const o = document.querySelector('.dd-option[data-group="' + group + '"][data-value="' + value + '"]');
+        if (o) o.classList.add('used');
+        zone.querySelector('.dz-text').innerHTML = ddOptionText(group, value);
+        zone.classList.add('filled');
+        zone.setAttribute('draggable', 'true');
+    } else {
+        zone.querySelector('.dz-text').innerHTML = '';
+        zone.classList.remove('filled');
+        zone.removeAttribute('draggable');
+    }
+    input.value = value || '';
+    currentQuestion = parseInt(zone.dataset.q, 10);
+    updateNavigation();
+    updateAnsweredIndicators();
+}
+function ddClear(zone) { ddSetZone(zone, ''); }
+function ddUnpick() {
+    if (ddPicked) ddPicked.classList.remove('picked');
+    ddPicked = null;
+    document.querySelectorAll('.drop-zone.awaiting').forEach(function (z) { z.classList.remove('awaiting'); });
+}
+function setupDragDrop() {
+    document.querySelectorAll('.dd-option').forEach(function (opt) {
+        opt.addEventListener('dragstart', function (e) {
+            if (testSubmitted) { e.preventDefault(); return; }
+            e.dataTransfer.setData('text/plain', JSON.stringify({ g: opt.dataset.group, v: opt.dataset.value, from: '' }));
+            e.dataTransfer.effectAllowed = 'move';
+            opt.classList.add('dragging');
+        });
+        opt.addEventListener('dragend', function () { opt.classList.remove('dragging'); });
+        opt.addEventListener('click', function () {
+            if (testSubmitted) return;
+            const same = ddPicked === opt;
+            ddUnpick();
+            if (same) return;
+            ddPicked = opt;
+            opt.classList.add('picked');
+            document.querySelectorAll('.drop-zone').forEach(function (z) { if (ddGroupOfZone(z) === opt.dataset.group) z.classList.add('awaiting'); });
+        });
+    });
+    document.querySelectorAll('.drop-zone').forEach(function (zone) {
+        zone.addEventListener('dragstart', function (e) {
+            const v = zone.nextElementSibling.value;
+            if (testSubmitted || !v) { e.preventDefault(); return; }
+            e.dataTransfer.setData('text/plain', JSON.stringify({ g: ddGroupOfZone(zone), v: v, from: zone.dataset.q }));
+            e.dataTransfer.effectAllowed = 'move';
+        });
+        zone.addEventListener('dragover', function (e) { if (!testSubmitted) { e.preventDefault(); zone.classList.add('over'); } });
+        zone.addEventListener('dragleave', function () { zone.classList.remove('over'); });
+        zone.addEventListener('drop', function (e) {
+            e.preventDefault();
+            zone.classList.remove('over');
+            if (testSubmitted) return;
+            let d; try { d = JSON.parse(e.dataTransfer.getData('text/plain')); } catch (err) { return; }
+            if (!d || d.g !== ddGroupOfZone(zone)) return;
+            if (d.from && d.from !== zone.dataset.q) {
+                const src = document.querySelector('.drop-zone[data-q="' + d.from + '"]');
+                const mine = zone.nextElementSibling.value;
+                ddClear(src);
+                ddSetZone(zone, d.v);
+                if (mine) ddSetZone(src, mine);
+            } else if (!d.from) {
+                ddSetZone(zone, d.v);
+            }
+            ddUnpick();
+        });
+        zone.addEventListener('click', function () {
+            if (testSubmitted) return;
+            if (ddPicked && ddPicked.dataset.group === ddGroupOfZone(zone)) {
+                ddSetZone(zone, ddPicked.dataset.value);
+                ddUnpick();
+            } else if (zone.nextElementSibling.value) {
+                ddClear(zone);
+            }
+        });
+        zone.addEventListener('keydown', function (e) {
+            if ((e.key === 'Backspace' || e.key === 'Delete') && !testSubmitted) ddClear(zone);
+            if ((e.key === 'Enter' || e.key === ' ') && !testSubmitted) { e.preventDefault(); zone.click(); }
+        });
+    });
+    document.querySelectorAll('.dd-bank').forEach(function (bank) {
+        bank.addEventListener('dragover', function (e) { if (!testSubmitted) { e.preventDefault(); bank.classList.add('over'); } });
+        bank.addEventListener('dragleave', function () { bank.classList.remove('over'); });
+        bank.addEventListener('drop', function (e) {
+            e.preventDefault();
+            bank.classList.remove('over');
+            let d; try { d = JSON.parse(e.dataTransfer.getData('text/plain')); } catch (err) { return; }
+            if (d && d.from) ddClear(document.querySelector('.drop-zone[data-q="' + d.from + '"]'));
+        });
+    });
+}
+function markDragDrop(key) {
+    ddUnpick();
+    document.querySelectorAll('.drop-zone').forEach(function (zone) {
+        const q = zone.dataset.q;
+        const input = zone.nextElementSibling;
+        const ok = input.value === key[q];
+        zone.classList.add(ok ? 'zone-correct' : 'zone-wrong');
+        zone.removeAttribute('draggable');
+        const fix = input.parentNode.querySelector('.fix');
+        if (fix) fix.innerHTML = '&rarr; ' + ddOptionText(ddGroupOfZone(zone), key[q]);
+    });
+    document.querySelectorAll('.dd-option').forEach(function (o) { o.setAttribute('draggable', 'false'); });
+}
+setupDragDrop();
+
+updateAnsweredIndicators();
+updateNavigation();
+</script>
+</body>
+</html>

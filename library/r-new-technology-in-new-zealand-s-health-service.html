@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>IELTS Reading – New Technology in New Zealand's Health Service | @ieltswithkhmdv</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        body { background:#f5f5f5; color:#333; line-height:1.6; overflow:hidden; }
+        .loading-screen { min-height:100vh; display:flex; align-items:center; justify-content:center; background:#f9fafb; position:fixed; top:0; left:0; width:100%; z-index:9999; flex-direction:column; }
+        .spinner { border:5px solid #f3f3f3; border-top:5px solid #2563eb; border-radius:50%; width:50px; height:50px; animation:spin 1s linear infinite; margin-bottom:20px; }
+        @keyframes spin { to { transform:rotate(360deg); } }
+        .hidden { display:none!important; }
+
+        .container { display:flex; flex-direction:column; height:100vh; width:100vw; background:white; }
+        header { background:white; padding:12px 24px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 12px rgba(0,0,0,.1); z-index:100; border-bottom:1px solid #e2e8f0; }
+        .logo-area { background:#2563eb; color:white; padding:10px 22px; border-radius:9999px; text-decoration:none; font-weight:bold; display:flex; align-items:center; gap:10px; box-shadow:0 4px 12px rgba(37,99,235,.3); }
+        .logo-area:hover { background:#1d4ed8; transform:translateY(-2px); }
+        .passage-info { font-weight:600; color:#1e293b; font-size:1.1rem; }
+        .timer { background:#fee2e2; color:#991b1b; padding:10px 18px; border-radius:8px; font-weight:bold; border:1px solid #fecaca; font-size:1.1rem; }
+
+        .progress-container { padding:12px 24px; background:#f8fafc; border-bottom:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
+        .progress-items { display:flex; gap:8px; flex-wrap:wrap; }
+        .progress-item { width:42px; height:42px; border-radius:50%; background:#e2e8f0; display:flex; align-items:center; justify-content:center; font-weight:bold; cursor:pointer; transition:.3s; font-size:1.1rem; }
+        .progress-item.current { background:#3b82f6; color:white; transform:scale(1.18); }
+        .progress-item.answered { background:#86efac; color:#166534; }
+
+        .main-content { display:flex; flex:1; overflow:hidden; position:relative; }
+        .passage-container { flex:1; background:#fafafa; overflow-y:auto; padding:30px; transition:flex 0.3s; }
+        .questions-container { width:42%; background:white; border-left:1px solid #e2e8f0; overflow-y:auto; padding:30px; transition:width 0.3s; }
+        .resizer { width:12px; background:#cbd5e0; cursor:col-resize; position:relative; transition:.3s; z-index:10; }
+        .resizer:hover { background:#94a3b8; }
+        .resizer::after { content:''; position:absolute; top:0; left:50%; width:2px; height:100%; background:#2563eb; transform:translateX(-50%); }
+
+        .passage h2 { font-size:1.8rem; color:#1e293b; margin-bottom:24px; text-align:center; }
+        .passage-content p { margin:20px 0; text-align:justify; font-size:1.05rem; }
+
+        .question-group { background:#f8fafc; padding:24px; border-radius:12px; margin-bottom:28px; border:1px solid #e2e8f0; }
+        .section-title { font-size:1.4rem; font-weight:bold; color:#1e293b; margin-bottom:16px; padding-bottom:10px; border-bottom:2px solid #3b82f6; }
+
+        .gap-input { padding:10px; border:1px solid #ccc; border-radius:6px; font-size:1.05rem; width:240px; margin:6px 0; }
+
+        .match-select { padding:10px; border:1px solid #ccc; border-radius:6px; font-size:1.05rem; width:100%; margin:8px 0; }
+
+        .btn-submit { background:#16a34a; color:white; padding:16px 48px; border:none; border-radius:8px; font-size:1.2rem; cursor:pointer; margin:40px auto; display:block; font-weight:bold; }
+
+        .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center; }
+        .modal-content { background:white; padding:36px; border-radius:16px; max-width:680px; width:92%; max-height:92vh; overflow-y:auto; text-align:center; }
+        .score-display { font-size:3.5rem; font-weight:bold; color:#16a34a; margin:24px 0; }
+        .answer-item { padding:18px; margin:12px 0; background:#f8fafc; border-radius:10px; border-left:6px solid #e2e8f0; text-align:left; font-size:1.05rem; }
+        .answer-item.correct { border-left-color:#16a34a; background:#f0fdf4; }
+        .answer-item.incorrect { border-left-color:#dc2626; background:#fef2f2; }
+
+        .highlight { background-color:#fff176; cursor:pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="loading-screen" id="loadingScreen">
+        <div><div class="spinner"></div><h2>Loading Test...</h2></div>
+    </div>
+
+    <div class="container" id="testContainer">
+        <header>
+            <a href="https://t.me/ieltswithkhmdv" target="_blank" class="logo-area">
+                <i class="fab fa-telegram-plane"></i> @ieltswithkhmdv
+            </a>
+            <div class="passage-info">Passage 2</div>
+            <div class="timer" id="timer">20:00</div>
+        </header>
+
+        <div class="progress-container">
+            <div class="progress-items">
+                <div class="progress-item" data-question="14">14</div>
+                <div class="progress-item" data-question="15">15</div>
+                <div class="progress-item" data-question="16">16</div>
+                <div class="progress-item" data-question="17">17</div>
+                <div class="progress-item" data-question="18">18</div>
+                <div class="progress-item" data-question="19">19</div>
+                <div class="progress-item" data-question="20">20</div>
+                <div class="progress-item" data-question="21">21</div>
+                <div class="progress-item" data-question="22">22</div>
+                <div class="progress-item" data-question="23">23</div>
+                <div class="progress-item" data-question="24">24</div>
+                <div class="progress-item" data-question="25">25</div>
+                <div class="progress-item current" data-question="26">26</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="passage-container" id="passage">
+                <div class="passage">
+                    <h2>New Technology in New Zealand's Health Service</h2>
+                    <div class="passage-content" id="passageText">
+                        <p><strong>A</strong></p>
+                        <p>At some time in their lives, nearly all New Zealanders will have to attend an afterhours clinic following an emergency or accident. On entering the consulting room, the patient is faced with a barrage of questions. The first ones relate to the current episode, and are followed by more general enquiries. Do you have any allergies? Are you on any medications? And so on. But imagine a different scenario. The patient walks into the consulting room and there on the healthcare professional's computer screen is his or her medical record in its entirety allergies, medications, test results and everything else. To some, it's amazing that this isn't happening already. After all, individuals can track their bank accounts, phone records and countless other transactions online, so why can't they track their health? Ian McCrae, Orion Health's CEO, says that it's understandable if health often falls behind other sectors in its adoption of information technology (IT). It might be. he argues, because of concerns about patient privacy, but also because health care is just so complicated.</p>
+
+                        <p><strong>B</strong></p>
+                        <p>The irony is, New Zealand started out being ahead of the game. The backbone of any health IT system is having a unique identifier for each patient, and New Zealand's national health index (NHI) number system was introduced in 1993, before most other countries in the world. Innovation then slowed for some years, but in 2011 the earthquake in Canterbury, which affected thousands of people, was a catalyst for health IT in that region of the country. Suddenly, many people couldn't be seen by their usual doctor and many health records were inaccessible. An existing plan for an electronic shared record was fast-tracked, and within six months a basic system, HealthOne, was up and running. By 2013, clinicians in the hospital emergency department were able to see all relevant medical information about patients. Dr. Nigel Millar, Chief Medical Officer for the Canterbury region, says within days doctors were telling him the information had already revolutionised the way they worked.</p>
+
+                        <p><strong>C</strong></p>
+                        <p>This idea, known as a 'patient portal', is now in operation in other parts of the country, including the capital Wellington. With a mobile app patients can remain connected to their patient portal on their mobile device, allowing for added flexibility. However, there's a lot of complacency in medicine, according to Dr. Richard Medlicott. He says that innovative IT systems have the potential to radically change health care delivery, because they will free doctors from routine administrative tasks and instead allow them to focus on diagnosis and patient care, which is where their skills are really needed. But he admits there is some way to go in the adoption of shared care records, and also in changing the mindset of some doctors who are resistant to change. A good example of technology in use comes from Australia, where the National Home Doctor Service has brought back a service that was becoming infrequent the home visit. The after hours service uses an app to arrange an on-call doctor who will visit patients at home to provide on-the-spot healthcare.</p>
+
+                        <p><strong>D</strong></p>
+                        <p>A key part of the health IT picture is maintaining a dialogue and exchange of ideas between healthcare professionals, according to Kate Reid. a director at Orion Health. Reid says this is critical, but it's not easy because there are so many different agencies that are sometimes in competition. Another issue, Reid says, is that there are many information systems that are being trialled today. However, these trials are not big enough to determine if they could ever work at a national level. One area where cooperation in health IT really could deliver benefits is in disease prevention and early intervention, says Reid. 'We've got innovations and technology that could be reaching at-risk people right now.’ she argues, but the infrastructure is not in place to allow funding to be shifted from treatment to prevention. Scott Arrol, CEO of New Zealand Health IT, says that advances are comin, they're just not arriving as fast as everybody would like.</p>
+
+                        <p><strong>E</strong></p>
+                        <p>While IT is extremely important to a functioning health system. there are other areas where New Zealand technologies are improving health care. Dr. Hong Sheng Chiong, for example, has adapted a smartphone camera for medical use. The examination kit combines a phone adapter and app. allowing users to examine the eye with minimal training. Another innovation is the Clever MedKit, an intelligent first aid kit. It separates different items like band-aids and ice packs and orders replacements when necessary, making it particularly helpful in today's busy offices. In a separate field, the use of pre-made ceramic fittings which can be placed over a broken tooth in a single sitting reduces the cost of treatment. Dr. Adam Doudney came up with the idea before it was developed by researchers at the technology company Rhondium. Another idea is the Silhouette system, which offers a way to easily monitor wounds. It allows practitioners to detect small differences in wound size by collecting accurate images and data. Finally, the Auckland Bioengineering Institute is helping those wishing to keep fit or rehabilitate from injury. When placed on the body their special sensor moves with the wearer and measures the amount of movement, before the data is transmitted to the user's mobile or tablet. It'll be fascinating to see how these and other technologies transform medicine over the years to come.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="resizer" id="resizer"></div>
+
+            <div class="questions-container" id="questions">
+                <div class="question-group">
+                    <div class="section-title">Questions 14–18</div>
+                    <p>Reading Passage 2 has five paragraphs, A-E.</p>
+                    <p>Which paragraph contains the following information?</p>
+                    <p>Choose the correct letter, A-E, in boxes 14-18 on your answer sheet.</p>
+                    <p>NB You may use any letter more than once.</p>
+
+                    <div style="margin:16px 0;">
+                        <strong>14</strong> reference to a medical practice that became less common but is now being used more frequently in one country<br>
+                        <select class="match-select" id="q14">
+                            <option value="">--</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                        </select>
+                    </div>
+
+                    <div style="margin:16px 0;">
+                        <strong>15</strong> reference to a health management scheme in New Zealand that was more advanced than those used in other nations<br>
+                        <select class="match-select" id="q15">
+                            <option value="">--</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                        </select>
+                    </div>
+
+                    <div style="margin:16px 0;">
+                        <strong>16</strong> the claim that some of the information systems being tested in the health sector are only on a small scale<br>
+                        <select class="match-select" id="q16">
+                            <option value="">--</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                        </select>
+                    </div>
+
+                    <div style="margin:16px 0;">
+                        <strong>17</strong> reference to the fact that most people in New Zealand will experience an urgent medical situation at some point<br>
+                        <select class="match-select" id="q17">
+                            <option value="">--</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                        </select>
+                    </div>
+
+                    <div style="margin:16px 0;">
+                        <strong>18</strong> mention of a dramatic event that led to improved use of health information technology in one part of New Zealand<br>
+                        <select class="match-select" id="q18">
+                            <option value="">--</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <div class="section-title">Questions 19–22</div>
+                    <p>Look at the following statements (Questions 19-22) and the list of people below.</p>
+                    <p>Match each statement with the correct person, A-E.</p>
+                    <p>Choose the correct letter, A-E, in boxes 19-22 on your answer sheet.</p>
+                    <p>NB You may use any letter more than once.</p>
+
+                    <p><strong>List of People</strong></p>
+                    <ul>
+                        <li>A Ian McCrae</li>
+                        <li>B Nigel Millar</li>
+                        <li>C Richard Medlicott</li>
+                        <li>D Kate Reid</li>
+                        <li>E Scott Arrol</li>
+                    </ul>
+
+                    <div style="margin:16px 0;">
+                        <strong>19</strong> Money should be invested in technology that attempts to stop people becoming sick, rather than caring for them once they are sick.<br>
+                        <select class="match-select" id="q19">
+                            <option value="">--</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                        </select>
+                    </div>
+
+                    <div style="margin:16px 0;">
+                        <strong>20</strong> There are good reasons why healthcare does not make more use of technology to manage patient information.<br>
+                        <select class="match-select" id="q20">
+                            <option value="">--</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                        </select>
+                    </div>
+
+                    <div style="margin:16px 0;">
+                        <strong>21</strong> Health professionals need to communicate and work together, even if they have different interests.<br>
+                        <select class="match-select" id="q21">
+                            <option value="">--</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                        </select>
+                    </div>
+
+                    <div style="margin:16px 0;">
+                        <strong>22</strong> New technologies will enable healthcare professionals to concentrate on the most important aspects of their work.<br>
+                        <select class="match-select" id="q22">
+                            <option value="">--</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <div class="section-title">Questions 23–26</div>
+                    <p>Complete the summary below.</p>
+                    <p>Write ONE WORD ONLY from the passage for each answer.</p>
+                    <p>Write your answers in boxes 23-26 on your answer sheet.</p>
+
+                    <p><strong>Other Health Technologies</strong></p>
+                    <p>Apart from IT, New Zealand scientists have made good progress with other types of medical technology. Dr Chiong has designed a camera so that doctors can look into a patient's <input type="text" class="gap-input" id="q23" placeholder="23"> . Clever MedKit provides everyday medical supplies for use in <input type="text" class="gap-input" id="q24" placeholder="24"> and ensures stocks are always up-to-date. Meanwhile, the cost of repairing a <input type="text" class="gap-input" id="q25" placeholder="25"> is likely to be reduced thanks to Dr Adam Doudney, whose idea was developed by researchers at Rhondium. Another breakthrough is that changes in the <input type="text" class="gap-input" id="q26" placeholder="26"> of wounds can now be recorded more accurately because of the new Silhouette system. Lastly, a new type of sensor developed by the Auckland Bioengineering Institute can assist fitness and recovery.</p>
+                </div>
+
+                <button class="btn-submit" id="submit-btn">Submit Answers</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="resultsModal">
+        <div class="modal-content">
+            <h2>Test Complete!</h2>
+            <div class="score-display" id="scoreDisplay">0/13</div>
+            <div id="reviewAnswers"></div>
+            <button class="btn-submit" style="margin-top:24px;" onclick="document.getElementById('resultsModal').style.display='none'">Close</button>
+        </div>
+    </div>
+
+    <script>
+        let timeLeft = 1200; // 20 minutes
+        const timer = document.getElementById('timer');
+        const interval = setInterval(() => {
+            let m = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+            let s = String(timeLeft % 60).padStart(2, '0');
+            timer.textContent = `${m}:${s}`;
+            if (--timeLeft < 0) { clearInterval(interval); submitAnswers(); }
+        }, 1000);
+
+        const correctAnswers = {
+            14: "C",
+            15: "B",
+            16: "D",
+            17: "A",
+            18: "B",
+            19: "D",
+            20: "A",
+            21: "D",
+            22: "C",
+            23: "eye",
+            24: "offices",
+            25: "tooth",
+            26: "size"
+        };
+
+        // Progress circles turn green when answered
+        document.querySelectorAll('.gap-input, .match-select').forEach(el => {
+            el.addEventListener('input', () => markAnswered(el.id.slice(1)));
+            el.addEventListener('change', () => markAnswered(el.id.slice(1)));
+        });
+
+        function markAnswered(q) {
+            const item = document.querySelector(`.progress-item[data-question="${q}"]`);
+            if (item && document.getElementById('q'+q).value.trim() !== '') {
+                item.classList.add('answered');
+            }
+        }
+
+        function submitAnswers() {
+            clearInterval(interval);
+            let score = 0;
+            let review = '';
+
+            for (let i = 14; i <= 26; i++) {
+                let user = document.getElementById('q'+i)?.value.trim().toUpperCase() || '-';
+                let correct = correctAnswers[i];
+                let isCorrect = user === correct.toUpperCase();
+                if (isCorrect) score++;
+                review += `<div class="answer-item ${isCorrect?'correct':'incorrect'}">
+                    <strong>Q${i}</strong>: Your answer <strong>${user}</strong> → Correct: <strong>${correct}</strong>
+                </div>`;
+            }
+
+            document.getElementById('scoreDisplay').textContent = score + '/13';
+            document.getElementById('reviewAnswers').innerHTML = review;
+            document.getElementById('resultsModal').style.display = 'flex';
+        }
+
+        document.getElementById('submit-btn').addEventListener('click', submitAnswers);
+
+        setTimeout(() => {
+            document.getElementById('loadingScreen').classList.add('hidden');
+            document.getElementById('testContainer').classList.remove('hidden');
+        }, 2000);
+
+        // Resizer
+        const resizer = document.getElementById('resizer');
+        const left = document.getElementById('passage');
+        const right = document.getElementById('questions');
+        let isResizing = false;
+
+        resizer.addEventListener('mousedown', () => { isResizing = true; });
+        document.addEventListener('mousemove', (e) => {
+            if (!isResizing) return;
+            const x = e.clientX;
+            const total = document.querySelector('.main-content').offsetWidth;
+            const leftWidth = ((x / total) * 100).toFixed(1) + '%';
+            left.style.flex = `0 0 ${leftWidth}`;
+            right.style.width = `${100 - parseFloat(leftWidth)}%`;
+        });
+        document.addEventListener('mouseup', () => { isResizing = false; });
+
+        // Text Highlight
+        function makeTextHighlightable(element) {
+            element.addEventListener('mouseup', function(e) {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON' || e.target.tagName === 'SELECT') return;
+                const selection = window.getSelection();
+                const selectedText = selection.toString().trim();
+                if (selectedText.length > 0) {
+                    const range = selection.getRangeAt(0);
+                    const span = document.createElement('span');
+                    span.className = 'highlight';
+                    range.surroundContents(span);
+                    span.onclick = () => span.outerHTML = span.innerHTML;
+                    selection.removeAllRanges();
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            makeTextHighlightable(document.getElementById('passageText'));
+        });
+    </script>
+</body>
+</html>

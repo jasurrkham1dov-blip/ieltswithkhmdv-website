@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IELTS Reading – Mendeleev / South Pole / Agatha Christie</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      margin:0; padding:0;
+      font-family:'Inter','Segoe UI',Arial,sans-serif;
+      background:linear-gradient(135deg,#f8fafc,#e2e8f0);
+      overflow:hidden;
+      color:#1e293b;
+    }
+    .test-wrapper { display:flex; flex-direction:column; height:100vh; }
+    .test-container { display:flex; flex:1; overflow:hidden; }
+
+    .header {
+      background:#ffffff; border-bottom:1px solid #cbd5e1;
+      padding:1rem 2rem; display:flex; justify-content:space-between;
+      align-items:center; box-shadow:0 4px 12px rgba(0,0,0,.08);
+      gap:1rem; flex-wrap:wrap;
+    }
+    .header__logo { display:flex; align-items:center; gap:.75rem; }
+    .header__title { font-size:1.1rem; font-weight:600; color:#1e293b; flex:1; min-width:300px; }
+    .header__timer {
+      font-size:1.25rem; font-weight:600; color:#dc2305;
+      background:#fef3c7; padding:.5rem 1.5rem; border-radius:9999px;
+      border:1px solid #fcd34d; white-space:nowrap;
+    }
+    .header__icons { display:flex; gap:1.25rem; align-items:center; }
+    .header__telegram {
+      display:flex; align-items:center; gap:0.5rem;
+      padding:0.5rem 1.2rem;
+      background:linear-gradient(90deg,#0369a1,#0284c7);
+      color:#fff; border-radius:9999px; text-decoration:none;
+      font-weight:600; font-size:0.9rem; transition:all .3s ease;
+      border:1px solid #0c4a6e;
+    }
+    .header__telegram:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(2,132,199,0.5); }
+
+    /* Passage tabs */
+    .passage-tabs {
+      display:flex; gap:0; border-bottom:2px solid #cbd5e1;
+      background:#f8fafc; padding:0 1rem;
+    }
+    .tab-btn {
+      padding:0.6rem 1.2rem; border:none; background:none; cursor:pointer;
+      font-weight:600; font-size:0.85rem; color:#64748b;
+      border-bottom:3px solid transparent; margin-bottom:-2px;
+      transition:all .2s ease;
+    }
+    .tab-btn.active { color:#0284c7; border-bottom-color:#0284c7; }
+    .tab-btn:hover:not(.active) { color:#1e293b; background:#f1f5f9; }
+
+    .answer-indicators {
+      display:flex; gap:0.5rem; flex-wrap:wrap;
+      padding:0.75rem 2rem; background:#f1f5f9;
+      border-bottom:1px solid #cbd5e1; align-items:center; font-size:0.8rem;
+    }
+    .indicator-label { font-weight:600; color:#475569; margin-right:0.5rem; }
+    .answer-circle {
+      width:2.2rem; height:2.2rem; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-weight:700; cursor:default; transition:all .3s ease;
+      border:2px solid #cbd5e1; background:#cbd5e1; color:#64748b; font-size:0.7rem;
+    }
+    .answer-circle.answered  { background:#10b981; border-color:#059669; color:#fff; box-shadow:0 0 8px rgba(16,185,129,0.4); }
+    .answer-circle.unanswered{ background:#ef4444; border-color:#dc2626; color:#fff; box-shadow:0 0 8px rgba(239,68,68,0.4); }
+
+    .passage-container {
+      width:45%; height:100%; overflow-y:auto;
+      padding:1.5rem; box-sizing:border-box;
+      background:#fafafa; border-right:1px solid #cbd5e1;
+      position:relative; user-select:text;
+    }
+    .questions-container {
+      flex:1; height:100%; overflow-y:auto;
+      padding:1.5rem; box-sizing:border-box;
+      background:#fafafa; position:relative; user-select:text;
+    }
+    .passage-container::-webkit-scrollbar,
+    .questions-container::-webkit-scrollbar { width:8px; }
+    .passage-container::-webkit-scrollbar-track,
+    .questions-container::-webkit-scrollbar-track { background:#f1f5f9; }
+    .passage-container::-webkit-scrollbar-thumb,
+    .questions-container::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:4px; }
+
+    .divider { width:14px; background:#cbd5e1; cursor:col-resize; position:relative; user-select:none; }
+    .divider-handle {
+      width:6px; height:60px; background:#94a3b8; border-radius:4px;
+      position:absolute; top:50%; left:4px; transform:translateY(-50%);
+    }
+
+    .highlight { border-radius:.25rem; padding:0 .15rem; }
+    .highlight.yellow { background:rgba(234,179,8,0.6); }
+    .highlight.green  { background:rgba(34,197,94,0.6); }
+    .highlight.pink   { background:rgba(236,72,153,0.6); }
+    .highlight.blue   { background:rgba(59,130,246,0.6); }
+    .highlight.purple { background:rgba(147,51,234,0.6); }
+    .highlight.red    { background:rgba(239,68,68,0.6); }
+
+    .highlight-toolbar {
+      position:fixed; background:#ffffff; border:1px solid #cbd5e1;
+      border-radius:.5rem; box-shadow:0 8px 16px rgba(0,0,0,.15);
+      display:none; z-index:2000; padding:.5rem;
+      transform:translate(-50%,-100%); margin-top:-.5rem;
+      gap:.35rem; align-items:center; flex-direction:row;
+    }
+    .highlight-toolbar button {
+      background:none; border:none; width:2rem; height:2rem;
+      cursor:pointer; border-radius:.25rem; transition:all .2s ease;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .highlight-toolbar button:hover { background:#f1f5f9; transform:scale(1.08); }
+    .highlight-toolbar button.remove { color:#ef4444; width:auto; padding:0 .5rem; gap:.35rem; }
+    .highlight-color { width:1.5rem; height:1.5rem; border-radius:9999px; border:2px solid #cbd5e1; }
+    .highlight-color.yellow { background:#eab308; }
+    .highlight-color.green  { background:#22c55e; }
+    .highlight-color.pink   { background:#ec4899; }
+    .highlight-color.blue   { background:#3b82f6; }
+    .highlight-color.purple { background:#9333ea; }
+    .highlight-color.red    { background:#ef4444; }
+
+    #passageContent { line-height:1.8; font-size:1.05rem; color:#1e293b; }
+    #passageContent p { margin:0.8rem 0; text-align:justify; }
+
+    .sectionRubric {
+      margin:0 0 1.5rem; padding:1.25rem; background:#ffffff;
+      border:1px solid #cbd5e1; border-radius:.75rem;
+      box-shadow:0 4px 12px rgba(0,0,0,.05);
+    }
+    .sectionRubric h2 { font-size:1.25rem; color:#d97706; margin-bottom:.5rem; }
+    .sectionRubric p  { margin:0.5rem 0; color:#475569; font-size:0.95rem; }
+
+    .question {
+      background:#ffffff; padding:1.5rem; margin-bottom:1.5rem;
+      border:1px solid #cbd5e1; border-radius:.75rem;
+      box-shadow:0 2px 8px rgba(0,0,0,.04); transition:all .3s ease;
+    }
+    .question:hover { box-shadow:0 4px 12px rgba(0,0,0,.08); border-color:#94a3b8; }
+    .question.answered   { border-left:4px solid #10b981; }
+    .question.unanswered { border-left:4px solid #ef4444; }
+    .question-title { font-weight:700; font-size:1rem; color:#1e293b; margin-bottom:0.75rem; }
+
+    .options-group { display:flex; flex-direction:column; gap:0.5rem; }
+    .option {
+      display:flex; align-items:center; padding:0.75rem;
+      background:#f8fafc; border:1px solid #cbd5e1;
+      border-radius:.5rem; cursor:pointer; transition:all .2s ease;
+    }
+    .option:hover { background:#f1f5f9; border-color:#94a3b8; }
+    .option input[type="radio"] { margin-right:0.75rem; cursor:pointer; accent-color:#0284c7; }
+
+    /* Text input for fill-in questions */
+    .fill-input {
+      width:100%; padding:0.65rem 0.9rem;
+      border:1px solid #cbd5e1; border-radius:.5rem;
+      font-size:0.95rem; color:#1e293b;
+      background:#f8fafc; outline:none; transition:border .2s;
+    }
+    .fill-input:focus { border-color:#0284c7; background:#fff; }
+
+    .submit-btn {
+      padding:0.75rem 2rem;
+      background:linear-gradient(135deg,#0284c7,#0369a1);
+      color:#fff; border:none; border-radius:.5rem;
+      font-weight:600; cursor:pointer; transition:all .3s ease; font-size:1rem;
+    }
+    .submit-btn:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(2,132,199,0.4); }
+
+    #submissionModal {
+      display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+      background:rgba(0,0,0,.5); align-items:center; justify-content:center; z-index:3000;
+    }
+    .modal-content {
+      background:#ffffff; border-radius:1rem; padding:2rem;
+      max-width:700px; max-height:85vh; overflow-y:auto;
+      box-shadow:0 25px 50px rgba(0,0,0,.15);
+    }
+    .modal-content h2 { font-size:1.5rem; font-weight:700; margin-bottom:1rem; color:#1e293b; }
+    .score-display { font-size:2.5rem; font-weight:700; color:#0284c7; text-align:center; margin:1rem 0; }
+    .feedback-message { text-align:center; font-size:1rem; color:#475569; margin:1rem 0; line-height:1.6; }
+    #detailedResults { margin-top:1.5rem; }
+    .result-item { padding:1rem; margin-bottom:1rem; border-radius:.5rem; border-left:4px solid; }
+    .result-item.correct   { background:#ecfdf5; border-left-color:#10b981; }
+    .result-item.incorrect { background:#fef2f2; border-left-color:#ef4444; }
+    .result-item strong { font-weight:700; display:block; margin-bottom:0.5rem; font-size:0.95rem; }
+    .result-detail { font-size:0.9rem; margin:0.5rem 0; line-height:1.5; }
+    .explanation {
+      margin-top:0.75rem; padding:0.75rem; background:#ffffff;
+      border-left:3px solid #0284c7; border-radius:4px;
+      font-size:0.9rem; color:#1e293b; line-height:1.6;
+    }
+    .close-results-btn {
+      margin-top:1.5rem; width:100%; padding:0.75rem;
+      background:#cbd5e1; border:none; border-radius:.5rem;
+      cursor:pointer; font-weight:600; transition:all .2s ease;
+    }
+    .close-results-btn:hover { background:#94a3b8; }
+
+    .info-note {
+      background:#e0f2fe; border:1px solid #0284c7; padding:0.75rem;
+      border-radius:.5rem; margin-bottom:1rem; font-size:0.9rem; color:#0c4a6e;
+    }
+    .ref-box {
+      background:#f8fafc; border:1px solid #cbd5e1; border-radius:.5rem;
+      padding:1rem; margin-bottom:1rem; font-size:0.9rem; line-height:2;
+    }
+    .ref-box p { margin:0.1rem 0; }
+
+    /* Passage panel content */
+    .passage-panel { display:none; }
+    .passage-panel.active { display:block; }
+    .questions-panel { display:none; }
+    .questions-panel.active { display:block; }
+  </style>
+</head>
+<body>
+<div class="test-wrapper">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header__logo">
+      <i class="fas fa-book" style="font-size:1.5rem; color:#0284c7;"></i>
+      <div class="header__title">IELTS Reading – 3 Passages (Q1–40)</div>
+    </div>
+    <div class="header__timer"><span id="timerDisplay">00:00</span></div>
+    <div class="header__icons">
+      <a href="https://t.me/ieltswithkhmdv" target="_blank" rel="noopener noreferrer" class="header__telegram">
+        <i class="fab fa-telegram"></i>
+        <span>@ieltswithkhmdv</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Passage tabs -->
+  <div class="passage-tabs">
+    <button class="tab-btn active" onclick="switchPassage(1)">Passage 1 – Mendeleev</button>
+    <button class="tab-btn" onclick="switchPassage(2)">Passage 2 – South Pole</button>
+    <button class="tab-btn" onclick="switchPassage(3)">Passage 3 – Agatha Christie</button>
+  </div>
+
+  <!-- Answer Indicators -->
+  <div class="answer-indicators">
+    <span class="indicator-label">Question Status:</span>
+    <div id="answerIndicators" style="display:flex; gap:0.5rem; flex-wrap:wrap;"></div>
+  </div>
+
+  <!-- Test Container -->
+  <div class="test-container">
+
+    <!-- Passage Panel -->
+    <div class="passage-container" id="passageContainer">
+
+      <!-- PASSAGE 1 -->
+      <div class="passage-panel active" id="passage-panel-1">
+        <div class="sectionRubric">
+          <h2>Reading Passage 1</h2>
+          <p><strong>Dmitri Ivanovich Mendeleev</strong></p>
+          <p><em>Questions 1–13</em></p>
+        </div>
+        <div id="passageContent">
+          <p>Mendeleev's wish – to find a better way of organizing chemistry – led to the creation of his periodic table, one of the most iconic symbols in science.</p>
+          <p>Dmitri Ivanovich Mendeleev was born on February 8, 1834 in Verkhnie Aremzyani, in the Russian province of Siberia. His father, a graduate of Saint Petersburg's Main Pedagogical Institute, died when Mendeleev was just 13. At age 16, Mendeleev relocated to Saint Petersburg, which was then Russia's capital city. He won a place at his father's old college, where he initially trained as a teacher, in part because the director of the Institute had known his father. However, he went on to achieve worldwide fame as a chemist.</p>
+          <p>By the time he was 20, Mendeleev was already having research papers published. However, he was troubled with various health issues and was often so ill with tuberculosis that he was forced to work from his bed. His uncontrollable temper made him unpopular with some of the staff and his classmates, but he still graduated as the top student in his year. In 1855, he got a job in Simferopol, Crimea, but soon returned to Saint Petersburg, where he worked towards a Master's degree in chemistry. He gained his Master's in 1856.</p>
+          <p>A few years later, he was given the opportunity to go to western Europe to pursue chemical enquiry. He spent most of 1859 and 1860 in Heidelberg, Germany. Here he had the good fortune to work briefly with renowned German chemist Robert Bunsen at Heidelberg University, before setting up a laboratory in his own apartment.</p>
+          <p>In 1860, Mendeleev attended the first ever international chemistry conference, held in Karlsruhe, Germany. Much of the event was spent discussing the need to standardize chemistry, and this played a key role in Mendeleev's eventual development of his periodic table of the elements.</p>
+          <p>By the time he returned to Saint Petersburg in 1861, this time to work at the Technical Institute, Mendeleev had become even more passionate about chemistry. He was concerned that Russia was trailing behind Germany in this field. He thought improved Russian-language chemistry textbooks were necessary, and was determined to do something about it. In just 61 days, the 27-year-old chemist wrote his 500-page <em>Organic Chemistry</em>, which put him at the forefront of Russian chemical education.</p>
+          <p>Mendeleev was a charismatic lecturer and held a number of academic positions until, in 1867, aged just 33, he was awarded the Chair of General Chemistry at the University of Saint Petersburg. In this prestigious position he continued pushing to improve chemistry in Russia, publishing <em>The Principles of Chemistry</em> in 1869. The popularity of this work in Russia and elsewhere led to the publication of translations in three languages: English, French and German.</p>
+          <p>At this time, chemistry was a patchwork of observations and discoveries. Mendeleev was certain that better, more fundamental principles could be found. This was his mindset when, in 1869, he began writing a second volume of his book. At the heart of chemistry were hydrogen, oxygen and all its other elements. What, wondered Mendeleev, could they reveal if he could find some way of organizing them logically?</p>
+          <p>He wrote the names of the 65 known elements on cards – one element on each card – and then wrote the fundamental properties of each element, including atomic weight, on its card. He saw that atomic weight was important in some way – the behavior of the elements seemed to repeat as their atomic weights increased – but he could not see the pattern. Convinced that he was close to making a significant discovery, Mendeleev moved the cards about for hours until finally he fell asleep at his desk. When he awoke, he found that his subconscious mind had done his work for him. He later wrote, "In a dream I saw a table where all the elements fell into place as required. Awakening, I immediately wrote it down on a piece of paper."</p>
+          <p>Two weeks later, he published a paper entitled <em>The Relation between the Properties and Atomic Weights of the Elements</em>. The periodic table had been released to the scientific world. Lothar Meyer had proposed a rough periodic table in 1864 and by 1868 had devised one very similar to Mendeleev's, but he did not publish it until 1870.</p>
+          <p>Mendeleev was successful because he not only showed how the elements could be organized, but he used his periodic table to predict the existence of eight new elements and also to propose that some elements, whose behavior did not agree with his predictions, must have had their atomic weights measured incorrectly. It turned out that chemists had measured some atomic weights incorrectly. Mendeleev was right.</p>
+          <p>In 1905, the British Royal Society gave him its highest honor, the Copley Medal, for his achievements, and in the same year he was elected to the Royal Swedish Academy of Sciences. Element 101 is named Mendelevium in his honor. Dmitri Mendeleev died in Saint Petersburg, on February 2, 1907.</p>
+        </div>
+      </div>
+
+      <!-- PASSAGE 2 -->
+      <div class="passage-panel" id="passage-panel-2">
+        <div class="sectionRubric">
+          <h2>Reading Passage 2</h2>
+          <p><strong>South Pole Adventurer</strong></p>
+          <p><em>Questions 14–26</em></p>
+        </div>
+        <div id="passageContent2" style="line-height:1.8; font-size:1.05rem; color:#1e293b;">
+          <p>For a few weeks in January 1912, Antarctica was full of explorers. Norwegian Roald Amundsen had reached the South Pole on 14 December and was speeding back to the coast. On 17 January, Robert Scott and the men of the British Antarctic expedition had arrived at the pole to find they had been beaten to it. Just then, a third man arrived; Japanese explorer Nobu Shirase. However, his part in one of the greatest adventure stories of the 20th century is hardly known outside his own country, even by fellow explorers. Yet as Scott was nearing the pole and with the rest of the world still unaware of Amundsen's triumph, Shirase and his team sailed into Antarctica's Bay of Whales in the smallest ship ever to try its luck in these dangerous waters.</p>
+          <p>Since boyhood Shirase had dreamed of becoming a polar explorer. Like Amundsen, he initially set his sights on the North Pole. But after the American Robert Peary claimed to have reached it in 1909, both men hastily altered their plans. Instead they would aim for the last big prize: the South Pole. In January 1910, Shirase put his plans before Japanese government officials, promising to raise the flag at the South Pole within three years. For many of them, the question wasn't could he do it but why would it be worth doing? Fifteen years earlier the International Geographical Congress had said that as the last unknown continent the Antarctic offered the chance to add to knowledge in almost every branch of science. So, like the British, Shirase presented his expedition as a search for knowledge: he would bring back fossils, make meteorological measurements and explore unknown parts of the continent.</p>
+          <p>The response from the government was cool, however, and Shirase struggled to raise funds. Fortunately, a few months later, Japan's former prime minister Shigenobu Ōkuma came to Shirase's rescue. With Ōkuma's backing, Shirase got together just enough money to buy and equip a small ship. He eventually acquired a scientist, too, called Terutaro Takeda. At the end of November 1910, his ship the Kainan Maru finally left Tokyo with 27 men and 28 Siberian dogs on board. Before leaving, Shirase confidently outlined his plans to the media. He would sail to New Zealand, then reach Antarctica in February, during the southern summer, and then proceed to the pole the following spring. This was not to be, however. Bad weather delayed the expedition and they didn't reach New Zealand until 8 February; Amundsen and Scott had already been in Antarctica for a month, preparing for winter.</p>
+          <p>In New Zealand local reporters were astonished: the ship was half the size of Amundsen's ship. True, it was reinforced with iron plate and extra wood, but the ship had only the feeblest engine to help force its way through ice. Few doubted Shirase's courage, but most reckoned the expedition to be ill-prepared as the Japanese had only lightweight sledges for transport across the ice, made of bamboo and wood.</p>
+          <p>But Shirase's biggest challenge was time. Antarctica is only accessible by sea for a few weeks in summer and expeditions usually aimed to arrive in January or February. 'Even with their determination and daring, our Japanese friends are running it rather fine,' wrote local reporters. Nevertheless, on 11 February the Kainan Maru left New Zealand and sailed straight into the worst weather the captain had ever seen. Then, on 6 March, they approached the coastline of Antarctica's Ross Sea, looking for a place to land. The ice began to close in, threatening to trap them for the winter, an experience no one was likely to survive. With a remarkable piece of seamanship, the captain steered the ship out of the ice and turned north. They would have to wait out the winter in a warmer climate.</p>
+          <p>A year later than planned, Shirase and six men finally reached Antarctica. Catching up with Scott or Amundsen was out of the question and he had said he would stick to science this time. Yet Shirase still felt the pull of the pole and eventually decided he would head southward to experience the thrills and hardships of polar exploration he had always dreamed of. With provisions for 20 days, he and four men would see how far they could get.</p>
+          <p>Shirase set off on 20 January 1912 with Takeda and two dog handlers, leaving two men at the edge of the ice shelf to make meteorological measurements. For a week they struggled through one blizzard after another, holing up in their tents during the worst of the weather. The temperature fell to −25°C, and frostbite claimed some of the dogs. On 26 January, Shirase estimated there were enough provisions to continue for two more days. Two days later, he announced it was time to turn back. Takeda calculated they had reached 80° 5 south and had travelled 250 kilometres. The men hoisted the Japanese flag.</p>
+          <p>On 3 February, all the men were heading home. The ship reached Tokyo in June 1912 and Shirase was greeted like a hero despite the fact that he never reached the pole. Nor did he contribute much to science—but then nor did Amundsen, whose only interest was in being first to the pole. Yet Shirase's expedition was heroic. They travelled beyond 80° south, one of only four teams to have gone so far south at the time. Furthermore, they did it all without the advantages of the other teams and with no previous experience.</p>
+        </div>
+      </div>
+
+      <!-- PASSAGE 3 -->
+      <div class="passage-panel" id="passage-panel-3">
+        <div class="sectionRubric">
+          <h2>Reading Passage 3</h2>
+          <p><strong>Agatha Christie</strong></p>
+          <p><em>Questions 27–40</em></p>
+        </div>
+        <div id="passageContent3" style="line-height:1.8; font-size:1.05rem; color:#1e293b;">
+          <p>Crime fiction books, in which detectives hunt for the perpetrators of crimes, have been popular with readers for many decades – so popular, in fact, that at a recent London Book Fair sales of the genre overtook general fiction for the first time ever, a development that had been widely anticipated. Commercial success, of course, does not impress everyone and there are those who believe crime fiction should not be held in such high regard. Prominent in this group is Sebastian Franklin, who has argued that most crime fiction books better resemble crossword puzzles than literature. His view is shared by other literary critics. However, increasingly this is a minority opinion as crime fiction becomes recognised around the world as a rich and dynamic literary genre in its own right.</p>
+          <p>Crime writing really came to prominence in the 1920s and 30s with the books of the British author Agatha Christie, and to a slightly lesser extent the American James M. Cain. Agatha Christie was a prolific writer, publishing more than 60 detective novels over a 50-year period, beginning in 1920. However, the majority of the general public have never picked up one of her books and are more familiar with Christie from the numerous adaptations of her work for films. The colourful locations around the world where Christie set many of her stories were not fictional depictions, but were informed by her extensive travels, on the Orient Express train, to Cairo and the River Nile, and elsewhere. Her memoir, <em>Come, Tell Me How You Live</em>, published in 1946, is a non-fiction account of these real-life travels, so is unique among Christie's publications. Success brought Christie considerable wealth and international fame, though she never lost her appetite for work, continuing writing and publishing until shortly before her death in 1976.</p>
+          <p>Without doubt there are certain elements that tend to be repeated in Christie's books. The stories generally revolve around a well-off if not aristocratic circle of people, whose privileged lives are thrown into chaos by an unexplained crime. What's more, the location is often a confined space of some sort: a train, an island, a boat, an isolated house or a village. This is quite different, for example, to the world of the fictional detective Sherlock Holmes, who often has as his hunting ground the entire city of London. But the influence of Christie's sheltered, secluded locations has been immense, for they have been used in countless television series ever since.</p>
+          <p>The writer Michael Utley argues that Christie's characters lack depth and are not convincing people we can believe in. This is not an infrequent complaint, but it is quite untrue. Christie was a perceptive observer of human nature and psychology and she put the traits of people she knew into many of her fictional characters. Part of the reason her appeal has been so widespread is that she wrote about human relationships in a way so many of us can relate to. Her very first book, <em>The Mysterious Affair at Styles</em>, features the amateur detective Hercule Poirot. Poirot and Miss Marple are Christie's two best known and most frequently imitated characters precisely because they are so well drawn and believable. Further evidence of Christie's ability at characterisation was provided by a recent survey. The survey asked readers to identify the villain revealed in the final pages of Christie's sixteenth book, <em>Murder on the Orient Express</em>. Most readers could not recall, because for them the really important aspect of the book had been the interplay between the characters, not the outcome. The truth is that Christie's characters were one of her greatest achievements as a writer.</p>
+          <p>The books are also action-packed, no less so than today's most popular thrillers. Christie mastered the art of the page-turner: events unfold so quickly and unpredictably that we keep reading to find out what happens next. The most significant consequence is that it is so simple to overlook vital clues. It is worth reading a Christie book a second time just to notice how carefully she hides crucial information about the criminal's identity. It was there all along, but we just fail to see it because she has created such tension and so many exciting distractions.</p>
+          <p>Attempts to retell Christie's stories in contemporary times have largely been unsuccessful; they work best in their original early twentieth-century settings and cannot accommodate mobile phones, computers and DNA analysis. But that does not mean her influence has come to an end. Indeed, a new generation of global crime writers is emerging in nations as diverse as Brazil, Singapore, South Korea, India and Nigeria, to name but five. And though each new writer adds something of their own, they all employ conventions first established by Christie. If we take just one of her books, <em>The Murder of Roger Ackroyd</em>, we find near perfect examples of conventions that are still used today: tight plotting, clever sub-plots, unexpected twists, perceptive characterisation. Perhaps this is why Christie herself is believed to have ranked <em>The Murder of Roger Ackroyd</em> above all her other work. Certainly, the digital revolution has transformed crime fighting. But a survey of contemporary crime writing shows that Agatha Christie's legacy is more important now than at any time previously, at the very point when crime writing has become the most popular of all book genres.</p>
+        </div>
+      </div>
+
+    </div><!-- end passage-container -->
+
+    <!-- Divider -->
+    <div class="divider" id="divider"><div class="divider-handle"></div></div>
+
+    <!-- Questions Panel -->
+    <div class="questions-container">
+      <div id="questionsContent">
+
+        <!-- ════════════ PASSAGE 1 QUESTIONS ════════════ -->
+        <div class="questions-panel active" id="questions-panel-1">
+
+          <div class="sectionRubric">
+            <h2>Questions 1–13</h2>
+            <p>Based on Passage 1 – <strong>Dmitri Ivanovich Mendeleev</strong></p>
+          </div>
+
+          <!-- Q1–7: Note Completion -->
+          <div style="margin-bottom:2rem;">
+            <div class="info-note">
+              <strong>Questions 1–7: Note Completion</strong><br>
+              Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.
+            </div>
+
+            <div class="question" id="q1-box">
+              <div class="question-title">1. He studied to become a __________ in St Petersburg.</div>
+              <input class="fill-input" type="text" name="q1" placeholder="One word only…" oninput="updateIndicators()">
+            </div>
+            <div class="question" id="q2-box">
+              <div class="question-title">2. He often had to work in bed when suffering from __________.</div>
+              <input class="fill-input" type="text" name="q2" placeholder="One word only…" oninput="updateIndicators()">
+            </div>
+            <div class="question" id="q3-box">
+              <div class="question-title">3. He went to a __________ in 1860, which inspired his work on the periodic table.</div>
+              <input class="fill-input" type="text" name="q3" placeholder="One word only…" oninput="updateIndicators()">
+            </div>
+            <div class="question" id="q4-box">
+              <div class="question-title">4. In 1861 he identified a need for better __________ in Russian.</div>
+              <input class="fill-input" type="text" name="q4" placeholder="One word only…" oninput="updateIndicators()">
+            </div>
+            <div class="question" id="q5-box">
+              <div class="question-title">5. Several __________ of <em>The Principles of Chemistry</em> were published.</div>
+              <input class="fill-input" type="text" name="q5" placeholder="One word only…" oninput="updateIndicators()">
+            </div>
+            <div class="question" id="q6-box">
+              <div class="question-title">6. He used cards to note the atomic weight and other __________ of the elements.</div>
+              <input class="fill-input" type="text" name="q6" placeholder="One word only…" oninput="updateIndicators()">
+            </div>
+            <div class="question" id="q7-box">
+              <div class="question-title">7. While asleep, he subconsciously discovered a __________ that organised the elements.</div>
+              <input class="fill-input" type="text" name="q7" placeholder="One word only…" oninput="updateIndicators()">
+            </div>
+          </div>
+
+          <!-- Q8–13: True / False / Not Given -->
+          <div style="margin-bottom:2rem;">
+            <div class="info-note">
+              <strong>Questions 8–13: True / False / Not Given</strong><br>
+              Write <strong>TRUE</strong> if the statement agrees · <strong>FALSE</strong> if it contradicts · <strong>NOT GIVEN</strong> if there is no information.
+            </div>
+
+            <div class="question" id="q8-box">
+              <div class="question-title">8. Dmitri Mendeleev was the first member of his family to receive a college education.</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q8" value="TRUE" onchange="updateIndicators()"> TRUE</label>
+                <label class="option"><input type="radio" name="q8" value="FALSE" onchange="updateIndicators()"> FALSE</label>
+                <label class="option"><input type="radio" name="q8" value="NOT GIVEN" onchange="updateIndicators()"> NOT GIVEN</label>
+              </div>
+            </div>
+            <div class="question" id="q9-box">
+              <div class="question-title">9. While studying in Saint Petersburg, Mendeleev often failed to control his anger.</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q9" value="TRUE" onchange="updateIndicators()"> TRUE</label>
+                <label class="option"><input type="radio" name="q9" value="FALSE" onchange="updateIndicators()"> FALSE</label>
+                <label class="option"><input type="radio" name="q9" value="NOT GIVEN" onchange="updateIndicators()"> NOT GIVEN</label>
+              </div>
+            </div>
+            <div class="question" id="q10-box">
+              <div class="question-title">10. During his time at Heidelberg University, Mendeleev published a paper with Robert Bunsen.</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q10" value="TRUE" onchange="updateIndicators()"> TRUE</label>
+                <label class="option"><input type="radio" name="q10" value="FALSE" onchange="updateIndicators()"> FALSE</label>
+                <label class="option"><input type="radio" name="q10" value="NOT GIVEN" onchange="updateIndicators()"> NOT GIVEN</label>
+              </div>
+            </div>
+            <div class="question" id="q11-box">
+              <div class="question-title">11. Mendeleev worried that Germany was more successful than Russia in the field of chemistry.</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q11" value="TRUE" onchange="updateIndicators()"> TRUE</label>
+                <label class="option"><input type="radio" name="q11" value="FALSE" onchange="updateIndicators()"> FALSE</label>
+                <label class="option"><input type="radio" name="q11" value="NOT GIVEN" onchange="updateIndicators()"> NOT GIVEN</label>
+              </div>
+            </div>
+            <div class="question" id="q12-box">
+              <div class="question-title">12. Mendeleev was the first scientist to suggest the organisation of the elements in a table.</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q12" value="TRUE" onchange="updateIndicators()"> TRUE</label>
+                <label class="option"><input type="radio" name="q12" value="FALSE" onchange="updateIndicators()"> FALSE</label>
+                <label class="option"><input type="radio" name="q12" value="NOT GIVEN" onchange="updateIndicators()"> NOT GIVEN</label>
+              </div>
+            </div>
+            <div class="question" id="q13-box">
+              <div class="question-title">13. In his lifetime, Mendeleev failed to receive any awards for his work in chemistry.</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q13" value="TRUE" onchange="updateIndicators()"> TRUE</label>
+                <label class="option"><input type="radio" name="q13" value="FALSE" onchange="updateIndicators()"> FALSE</label>
+                <label class="option"><input type="radio" name="q13" value="NOT GIVEN" onchange="updateIndicators()"> NOT GIVEN</label>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /questions-panel-1 -->
+
+        <!-- ════════════ PASSAGE 2 QUESTIONS ════════════ -->
+        <div class="questions-panel" id="questions-panel-2">
+
+          <div class="sectionRubric">
+            <h2>Questions 14–26</h2>
+            <p>Based on Passage 2 – <strong>South Pole Adventurer</strong></p>
+          </div>
+
+          <!-- Q14–21: True / False / Not Given -->
+          <div style="margin-bottom:2rem;">
+            <div class="info-note">
+              <strong>Questions 14–21: True / False / Not Given</strong><br>
+              Write <strong>TRUE</strong> if the statement agrees · <strong>FALSE</strong> if it contradicts · <strong>NOT GIVEN</strong> if there is no information.
+            </div>
+
+            <div class="question" id="q14-box">
+              <div class="question-title">14. Shirase's trip to the South Pole is well-known to other explorers.</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q14" value="TRUE" onchange="updateIndicators()"> TRUE</label>
+                <label class="option"><input type="radio" name="q14" value="FALSE" onchange="updateIndicators()"> FALSE</label>
+                <label class="option"><input type="radio" name="q14" value="NOT GIVEN" onchange="updateIndicators()"> NOT GIVEN</label>
+              </div>
+            </div>
+            <div class="question" id="q15-box">
+              <div class="question-title">15. Before Shirase arrived in Antarctica, smaller ships had also made the journey.</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q15" value="TRUE" onchange="updateIndicators()"> TRUE</label>
+                <label class="option"><input type="radio" name="q15" value="FALSE" onchange="updateIndicators()"> FALSE</label>
+                <label class="option"><input type="radio" name="q15" value="NOT GIVEN" onchange="updateIndicators()"> NOT GIVEN</label>
+              </div>
+            </div>
+            <div class="question" id="q16-box">
+              <div class="question-title">16. Shirase's original ambition was to travel to the North Pole.</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q16" value="TRUE" onchange="updateIndicators()"> TRUE</label>
+                <label class="option"><input type="radio" name="q16" value="FALSE" onchange="updateIndicators()"> FALSE</label>
+                <label class="option"><input type="radio" name="q16" value="NOT GIVEN" onchange="updateIndicators()"> NOT GIVEN</label>
+              </div>
+            </div>
+            <div class="question" id="q17-box">
+              <div class="question-title">17. Some Japanese officials thought Shirase's intention to travel to the South Pole was pointless.</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q17" value="TRUE" onchange="updateIndicators()"> TRUE</label>
+                <label class="option"><input type="radio" name="q17" value="FALSE" onchange="updateIndicators()"> FALSE</label>
+                <label class="option"><input type="radio" name="q17" value="NOT GIVEN" onchange="updateIndicators()"> NOT GIVEN</label>
+              </div>
+            </div>
+            <div class="question" id="q18-box">
+              <div class="question-title">18. The British team announced their decision to carry out scientific research in Antarctica before Shirase.</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q18" value="TRUE" onchange="updateIndicators()"> TRUE</label>
+                <label class="option"><input type="radio" name="q18" value="FALSE" onchange="updateIndicators()"> FALSE</label>
+                <label class="option"><input type="radio" name="q18" value="NOT GIVEN" onchange="updateIndicators()"> NOT GIVEN</label>
+              </div>
+            </div>
+            <div class="question" id="q19-box">
+              <div class="question-title">19. Shirase found it easy to raise the money he needed for his trip to the South Pole.</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q19" value="TRUE" onchange="updateIndicators()"> TRUE</label>
+                <label class="option"><input type="radio" name="q19" value="FALSE" onchange="updateIndicators()"> FALSE</label>
+                <label class="option"><input type="radio" name="q19" value="NOT GIVEN" onchange="updateIndicators()"> NOT GIVEN</label>
+              </div>
+            </div>
+            <div class="question" id="q20-box">
+              <div class="question-title">20. A previous prime minister of Japan persuaded a scientist to go with Shirase.</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q20" value="TRUE" onchange="updateIndicators()"> TRUE</label>
+                <label class="option"><input type="radio" name="q20" value="FALSE" onchange="updateIndicators()"> FALSE</label>
+                <label class="option"><input type="radio" name="q20" value="NOT GIVEN" onchange="updateIndicators()"> NOT GIVEN</label>
+              </div>
+            </div>
+            <div class="question" id="q21-box">
+              <div class="question-title">21. The weather that slowed Shirase's progress to New Zealand was unusually bad for the season.</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q21" value="TRUE" onchange="updateIndicators()"> TRUE</label>
+                <label class="option"><input type="radio" name="q21" value="FALSE" onchange="updateIndicators()"> FALSE</label>
+                <label class="option"><input type="radio" name="q21" value="NOT GIVEN" onchange="updateIndicators()"> NOT GIVEN</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Q22–26: Multiple Choice -->
+          <div style="margin-bottom:2rem;">
+            <div class="info-note">
+              <strong>Questions 22–26: Multiple Choice</strong><br>
+              Choose the correct letter, A, B, C or D.
+            </div>
+
+            <div class="question" id="q22-box">
+              <div class="question-title">22. When reporters in New Zealand met Shirase, they were</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q22" value="A" onchange="updateIndicators()"> A – concerned about the quality of his equipment</label>
+                <label class="option"><input type="radio" name="q22" value="B" onchange="updateIndicators()"> B – impressed with the design of his ship</label>
+                <label class="option"><input type="radio" name="q22" value="C" onchange="updateIndicators()"> C – certain he was unaware of the dangers ahead</label>
+                <label class="option"><input type="radio" name="q22" value="D" onchange="updateIndicators()"> D – surprised by the bravery he demonstrated</label>
+              </div>
+            </div>
+            <div class="question" id="q23-box">
+              <div class="question-title">23. What are we told about the captain of the Kainan Maru?</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q23" value="A" onchange="updateIndicators()"> A – He had given Shirase some poor advice</label>
+                <label class="option"><input type="radio" name="q23" value="B" onchange="updateIndicators()"> B – His skill at sailing saved the boat and crew</label>
+                <label class="option"><input type="radio" name="q23" value="C" onchange="updateIndicators()"> C – He refused to listen to the warnings of others</label>
+                <label class="option"><input type="radio" name="q23" value="D" onchange="updateIndicators()"> D – He was originally confident they could reach Antarctica</label>
+              </div>
+            </div>
+            <div class="question" id="q24-box">
+              <div class="question-title">24. After Shirase finally reached Antarctica he realised that</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q24" value="A" onchange="updateIndicators()"> A – he was unsure of the direction he should follow</label>
+                <label class="option"><input type="radio" name="q24" value="B" onchange="updateIndicators()"> B – he would have to give up on fulfilling his personal ambition</label>
+                <label class="option"><input type="radio" name="q24" value="C" onchange="updateIndicators()"> C – he might not have enough food to get to the South Pole</label>
+                <label class="option"><input type="radio" name="q24" value="D" onchange="updateIndicators()"> D – he still wanted to compete in the race against the other teams</label>
+              </div>
+            </div>
+            <div class="question" id="q25-box">
+              <div class="question-title">25. What is the writer doing in the seventh paragraph?</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q25" value="A" onchange="updateIndicators()"> A – criticising a decision concerning scientific research</label>
+                <label class="option"><input type="radio" name="q25" value="B" onchange="updateIndicators()"> B – explaining why a particular mistake had occurred</label>
+                <label class="option"><input type="radio" name="q25" value="C" onchange="updateIndicators()"> C – describing the conditions that the expedition faced</label>
+                <label class="option"><input type="radio" name="q25" value="D" onchange="updateIndicators()"> D – rejecting the idea that Shirase was poorly prepared</label>
+              </div>
+            </div>
+            <div class="question" id="q26-box">
+              <div class="question-title">26. What is the writer's main point in the final paragraph?</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q26" value="A" onchange="updateIndicators()"> A – Considering the problems Shirase had to deal with, his achievement was incredible</label>
+                <label class="option"><input type="radio" name="q26" value="B" onchange="updateIndicators()"> B – In Japan, the reaction to Shirase's adventure in Antarctica came as a surprise to him</label>
+                <label class="option"><input type="radio" name="q26" value="C" onchange="updateIndicators()"> C – It was obvious that Amundsen would receive more attention as an explorer than Shirase</label>
+                <label class="option"><input type="radio" name="q26" value="D" onchange="updateIndicators()"> D – Shirase had achieved more on the Antarctic expedition than even he had expected</label>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /questions-panel-2 -->
+
+        <!-- ════════════ PASSAGE 3 QUESTIONS ════════════ -->
+        <div class="questions-panel" id="questions-panel-3">
+
+          <div class="sectionRubric">
+            <h2>Questions 27–40</h2>
+            <p>Based on Passage 3 – <strong>Agatha Christie</strong></p>
+          </div>
+
+          <!-- Q27–32: Yes / No / Not Given -->
+          <div style="margin-bottom:2rem;">
+            <div class="info-note">
+              <strong>Questions 27–32: Yes / No / Not Given</strong><br>
+              Write <strong>YES</strong> if the statement agrees with the writer's claims · <strong>NO</strong> if it contradicts · <strong>NOT GIVEN</strong> if it is impossible to say.
+            </div>
+
+            <div class="question" id="q27-box">
+              <div class="question-title">27. Sales of crime fiction were surprisingly high at a recent London Book Fair.</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q27" value="YES" onchange="updateIndicators()"> YES</label>
+                <label class="option"><input type="radio" name="q27" value="NO" onchange="updateIndicators()"> NO</label>
+                <label class="option"><input type="radio" name="q27" value="NOT GIVEN" onchange="updateIndicators()"> NOT GIVEN</label>
+              </div>
+            </div>
+            <div class="question" id="q28-box">
+              <div class="question-title">28. Literary critics such as Sebastian Franklin think that crime fiction is overrated.</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q28" value="YES" onchange="updateIndicators()"> YES</label>
+                <label class="option"><input type="radio" name="q28" value="NO" onchange="updateIndicators()"> NO</label>
+                <label class="option"><input type="radio" name="q28" value="NOT GIVEN" onchange="updateIndicators()"> NOT GIVEN</label>
+              </div>
+            </div>
+            <div class="question" id="q29-box">
+              <div class="question-title">29. Agatha Christie and James M. Cain admired each other's writing.</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q29" value="YES" onchange="updateIndicators()"> YES</label>
+                <label class="option"><input type="radio" name="q29" value="NO" onchange="updateIndicators()"> NO</label>
+                <label class="option"><input type="radio" name="q29" value="NOT GIVEN" onchange="updateIndicators()"> NOT GIVEN</label>
+              </div>
+            </div>
+            <div class="question" id="q30-box">
+              <div class="question-title">30. Most people know about Christie from films rather than books.</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q30" value="YES" onchange="updateIndicators()"> YES</label>
+                <label class="option"><input type="radio" name="q30" value="NO" onchange="updateIndicators()"> NO</label>
+                <label class="option"><input type="radio" name="q30" value="NOT GIVEN" onchange="updateIndicators()"> NOT GIVEN</label>
+              </div>
+            </div>
+            <div class="question" id="q31-box">
+              <div class="question-title">31. Christie's descriptions of international locations were based on her own experience.</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q31" value="YES" onchange="updateIndicators()"> YES</label>
+                <label class="option"><input type="radio" name="q31" value="NO" onchange="updateIndicators()"> NO</label>
+                <label class="option"><input type="radio" name="q31" value="NOT GIVEN" onchange="updateIndicators()"> NOT GIVEN</label>
+              </div>
+            </div>
+            <div class="question" id="q32-box">
+              <div class="question-title">32. Christie enjoyed the wealth and fame she achieved through writing.</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q32" value="YES" onchange="updateIndicators()"> YES</label>
+                <label class="option"><input type="radio" name="q32" value="NO" onchange="updateIndicators()"> NO</label>
+                <label class="option"><input type="radio" name="q32" value="NOT GIVEN" onchange="updateIndicators()"> NOT GIVEN</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Q33–36: Multiple Choice -->
+          <div style="margin-bottom:2rem;">
+            <div class="info-note">
+              <strong>Questions 33–36: Multiple Choice</strong><br>
+              Choose the correct letter, A, B, C or D.
+            </div>
+
+            <div class="question" id="q33-box">
+              <div class="question-title">33. What is the writer doing in the third paragraph?</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q33" value="A" onchange="updateIndicators()"> A – discussing one weakness of Christie's style</label>
+                <label class="option"><input type="radio" name="q33" value="B" onchange="updateIndicators()"> B – identifying a writer who influenced Christie</label>
+                <label class="option"><input type="radio" name="q33" value="C" onchange="updateIndicators()"> C – contrasting different techniques Christie used</label>
+                <label class="option"><input type="radio" name="q33" value="D" onchange="updateIndicators()"> D – listing some features of a typical Christie story</label>
+              </div>
+            </div>
+            <div class="question" id="q34-box">
+              <div class="question-title">34. The writer refers to Michael Utley in order to</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q34" value="A" onchange="updateIndicators()"> A – reject a common criticism of Christie's books</label>
+                <label class="option"><input type="radio" name="q34" value="B" onchange="updateIndicators()"> B – compare two of Christie's better-known books</label>
+                <label class="option"><input type="radio" name="q34" value="C" onchange="updateIndicators()"> C – explain the conclusion of one of Christie's books</label>
+                <label class="option"><input type="radio" name="q34" value="D" onchange="updateIndicators()"> D – suggest that each of Christie's books was different</label>
+              </div>
+            </div>
+            <div class="question" id="q35-box">
+              <div class="question-title">35. What point does the writer make about Christie's writing style in the fifth paragraph?</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q35" value="A" onchange="updateIndicators()"> A – Occasionally, the stories do not make sense</label>
+                <label class="option"><input type="radio" name="q35" value="B" onchange="updateIndicators()"> B – Little happens compared to modern stories</label>
+                <label class="option"><input type="radio" name="q35" value="C" onchange="updateIndicators()"> C – Important evidence is very easy to miss</label>
+                <label class="option"><input type="radio" name="q35" value="D" onchange="updateIndicators()"> D – Some unnecessary details are included</label>
+              </div>
+            </div>
+            <div class="question" id="q36-box">
+              <div class="question-title">36. What does the writer conclude about Christie in the final paragraph?</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q36" value="A" onchange="updateIndicators()"> A – Her influence is slowly beginning to decrease</label>
+                <label class="option"><input type="radio" name="q36" value="B" onchange="updateIndicators()"> B – She is more influential today than ever before</label>
+                <label class="option"><input type="radio" name="q36" value="C" onchange="updateIndicators()"> C – One book was more influential than the others</label>
+                <label class="option"><input type="radio" name="q36" value="D" onchange="updateIndicators()"> D – She has only influenced writers in certain countries</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Q37–40: Sentence Endings -->
+          <div style="margin-bottom:2rem;">
+            <div class="info-note">
+              <strong>Questions 37–40: Sentence Endings</strong><br>
+              Complete each sentence with the correct ending, A–F, below.
+            </div>
+
+            <div class="ref-box">
+              <p><strong>List of Endings</strong></p>
+              <p><strong>A</strong> &nbsp; is an example of a book disliked by many critics</p>
+              <p><strong>B</strong> &nbsp; has sold more copies than her other books</p>
+              <p><strong>C</strong> &nbsp; has illustrated the fact that readers cannot remember the ending</p>
+              <p><strong>D</strong> &nbsp; was Christie's own favourite from among her books for good reasons</p>
+              <p><strong>E</strong> &nbsp; is different from all of her other books</p>
+              <p><strong>F</strong> &nbsp; introduced one of her most famous and most often copied characters</p>
+            </div>
+
+            <div class="question" id="q37-box">
+              <div class="question-title">37. Christie's book <em>Come, Tell Me How You Live</em>…</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q37" value="A" onchange="updateIndicators()"> A – is an example of a book disliked by many critics</label>
+                <label class="option"><input type="radio" name="q37" value="B" onchange="updateIndicators()"> B – has sold more copies than her other books</label>
+                <label class="option"><input type="radio" name="q37" value="C" onchange="updateIndicators()"> C – has illustrated the fact that readers cannot remember the ending</label>
+                <label class="option"><input type="radio" name="q37" value="D" onchange="updateIndicators()"> D – was Christie's own favourite from among her books</label>
+                <label class="option"><input type="radio" name="q37" value="E" onchange="updateIndicators()"> E – is different from all of her other books</label>
+                <label class="option"><input type="radio" name="q37" value="F" onchange="updateIndicators()"> F – introduced one of her most famous and most often copied characters</label>
+              </div>
+            </div>
+            <div class="question" id="q38-box">
+              <div class="question-title">38. Christie's first book, <em>The Mysterious Affair at Styles</em>…</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q38" value="A" onchange="updateIndicators()"> A – is an example of a book disliked by many critics</label>
+                <label class="option"><input type="radio" name="q38" value="B" onchange="updateIndicators()"> B – has sold more copies than her other books</label>
+                <label class="option"><input type="radio" name="q38" value="C" onchange="updateIndicators()"> C – has illustrated the fact that readers cannot remember the ending</label>
+                <label class="option"><input type="radio" name="q38" value="D" onchange="updateIndicators()"> D – was Christie's own favourite from among her books</label>
+                <label class="option"><input type="radio" name="q38" value="E" onchange="updateIndicators()"> E – is different from all of her other books</label>
+                <label class="option"><input type="radio" name="q38" value="F" onchange="updateIndicators()"> F – introduced one of her most famous and most often copied characters</label>
+              </div>
+            </div>
+            <div class="question" id="q39-box">
+              <div class="question-title">39. Christie's sixteenth book, <em>Murder on the Orient Express</em>…</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q39" value="A" onchange="updateIndicators()"> A – is an example of a book disliked by many critics</label>
+                <label class="option"><input type="radio" name="q39" value="B" onchange="updateIndicators()"> B – has sold more copies than her other books</label>
+                <label class="option"><input type="radio" name="q39" value="C" onchange="updateIndicators()"> C – has illustrated the fact that readers cannot remember the ending</label>
+                <label class="option"><input type="radio" name="q39" value="D" onchange="updateIndicators()"> D – was Christie's own favourite from among her books</label>
+                <label class="option"><input type="radio" name="q39" value="E" onchange="updateIndicators()"> E – is different from all of her other books</label>
+                <label class="option"><input type="radio" name="q39" value="F" onchange="updateIndicators()"> F – introduced one of her most famous and most often copied characters</label>
+              </div>
+            </div>
+            <div class="question" id="q40-box">
+              <div class="question-title">40. <em>The Murder of Roger Ackroyd</em>…</div>
+              <div class="options-group">
+                <label class="option"><input type="radio" name="q40" value="A" onchange="updateIndicators()"> A – is an example of a book disliked by many critics</label>
+                <label class="option"><input type="radio" name="q40" value="B" onchange="updateIndicators()"> B – has sold more copies than her other books</label>
+                <label class="option"><input type="radio" name="q40" value="C" onchange="updateIndicators()"> C – has illustrated the fact that readers cannot remember the ending</label>
+                <label class="option"><input type="radio" name="q40" value="D" onchange="updateIndicators()"> D – was Christie's own favourite from among her books</label>
+                <label class="option"><input type="radio" name="q40" value="E" onchange="updateIndicators()"> E – is different from all of her other books</label>
+                <label class="option"><input type="radio" name="q40" value="F" onchange="updateIndicators()"> F – introduced one of her most famous and most often copied characters</label>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /questions-panel-3 -->
+
+        <!-- Submit -->
+        <div style="text-align:center; margin-top:2rem; padding:2rem; border-top:2px solid #cbd5e1;">
+          <button class="submit-btn" id="submitBtn">Submit All Answers</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div style="background:#ffffff; border-top:1px solid #cbd5e1; height:0;"></div>
+</div>
+
+<!-- Submission Modal -->
+<div id="submissionModal">
+  <div class="modal-content">
+    <h2>Results &amp; Explanations</h2>
+    <div class="score-display" id="scoreDisplay">0 / 40</div>
+    <div class="feedback-message" id="feedbackMessage">Loading results...</div>
+    <div id="detailedResults"></div>
+    <button class="close-results-btn" id="closeResultsBtn">Close</button>
+  </div>
+</div>
+
+<script>
+  const TOTAL = 40;
+
+  const ANSWER_KEY = {
+    // Passage 1 – Note Completion
+    1:  { answer:'teacher',      explanation:'The passage states Mendeleev "initially trained as a teacher" at his father\'s old college in St Petersburg.' },
+    2:  { answer:'tuberculosis', explanation:'He "was often so ill with tuberculosis that he was forced to work from his bed."' },
+    3:  { answer:'conference',   explanation:'In 1860 he "attended the first ever international chemistry conference, held in Karlsruhe, Germany."' },
+    4:  { answer:'textbooks',    explanation:'He "thought improved Russian-language chemistry textbooks were necessary."' },
+    5:  { answer:'translations', explanation:'"The popularity of this work… led to the publication of translations in three languages."' },
+    6:  { answer:'properties',   explanation:'He "wrote the fundamental properties of each element, including atomic weight, on its card."' },
+    7:  { answer:'pattern',      explanation:'"He now knew the pattern the elements fell into" — discovered while asleep.' },
+    // Passage 1 – True / False / Not Given
+    8:  { answer:'FALSE',      explanation:'His father was also a graduate of Saint Petersburg\'s Main Pedagogical Institute — he was NOT the first in his family.' },
+    9:  { answer:'NOT GIVEN',  explanation:'The passage says his temper made him unpopular, but does not specify this happened specifically while studying in St Petersburg.' },
+    10: { answer:'NOT GIVEN',  explanation:'The passage says he worked briefly with Bunsen but does not mention publishing a paper together.' },
+    11: { answer:'TRUE',       explanation:'"He was concerned that Russia was trailing behind Germany in this field."' },
+    12: { answer:'FALSE',      explanation:'Lothar Meyer proposed a rough periodic table in 1864, before Mendeleev.' },
+    13: { answer:'FALSE',      explanation:'He received the Copley Medal from the British Royal Society in 1905 and was elected to the Royal Swedish Academy of Sciences.' },
+    // Passage 2 – True / False / Not Given
+    14: { answer:'FALSE',      explanation:'The passage says his role "is hardly known outside his own country, even by fellow explorers."' },
+    15: { answer:'FALSE',      explanation:'Shirase sailed in "the smallest ship ever to try its luck in these dangerous waters" — implying no smaller ship had done it before.' },
+    16: { answer:'TRUE',       explanation:'"Like Amundsen, he initially set his sights on the North Pole."' },
+    17: { answer:'TRUE',       explanation:'"For many of them, the question wasn\'t could he do it but why would it be worth doing?"' },
+    18: { answer:'NOT GIVEN',  explanation:'The passage says Shirase presented his expedition as scientific like the British, but does not say who announced first.' },
+    19: { answer:'FALSE',      explanation:'"The response from the government was cool, however, and Shirase struggled to raise funds."' },
+    20: { answer:'NOT GIVEN',  explanation:'Ōkuma helped Shirase get money but the passage does not say he persuaded the scientist Takeda to join.' },
+    21: { answer:'NOT GIVEN',  explanation:'The passage says bad weather delayed them, but does not describe whether the weather was unusually bad for the season.' },
+    // Passage 2 – Multiple Choice
+    22: { answer:'A', explanation:'Reporters "reckoned the expedition to be ill-prepared as the Japanese had only lightweight sledges" — concerned about equipment quality.' },
+    23: { answer:'B', explanation:'"With a remarkable piece of seamanship, the captain steered the ship out of the ice" — his skill saved them.' },
+    24: { answer:'C', explanation:'"With provisions for 20 days, he and four men would see how far they could get" — he knew food limited how far they could reach.' },
+    25: { answer:'C', explanation:'The seventh paragraph describes the blizzards, −25°C temperatures, and frostbite the team endured.' },
+    26: { answer:'A', explanation:'The final paragraph emphasises Shirase\'s achievement given the lack of advantages and previous experience.' },
+    // Passage 3 – Yes / No / Not Given
+    27: { answer:'NO',        explanation:'The passage says the overtaking of general fiction "had been widely anticipated" — so it was NOT surprising.' },
+    28: { answer:'YES',       explanation:'Franklin "has argued that most crime fiction books better resemble crossword puzzles than literature" — he thinks it is overrated.' },
+    29: { answer:'NOT GIVEN', explanation:'The passage mentions both writers but says nothing about them admiring each other.' },
+    30: { answer:'YES',       explanation:'"The majority of the general public… are more familiar with Christie from the numerous adaptations of her work for films."' },
+    31: { answer:'YES',       explanation:'Her locations "were not fictional depictions, but were informed by her extensive travels."' },
+    32: { answer:'NOT GIVEN', explanation:'The passage says success brought wealth and fame and she kept working, but does not comment on whether she enjoyed it.' },
+    // Passage 3 – Multiple Choice
+    33: { answer:'D', explanation:'The third paragraph lists typical features: a well-off circle of people, a confined location, a mysterious crime.' },
+    34: { answer:'A', explanation:'The writer introduces Utley\'s criticism only to argue it is "quite untrue" — rejecting it.' },
+    35: { answer:'C', explanation:'"It is so simple to overlook vital clues… she hides crucial information about the criminal\'s identity."' },
+    36: { answer:'B', explanation:'"Agatha Christie\'s legacy is more important now than at any time previously."' },
+    // Passage 3 – Sentence Endings
+    37: { answer:'E', explanation:'"Come, Tell Me How You Live… is unique among Christie\'s publications" — different from all others.' },
+    38: { answer:'F', explanation:'"Her very first book… features the amateur detective Hercule Poirot" — who is most frequently imitated.' },
+    39: { answer:'C', explanation:'The survey showed "most readers could not recall" the villain — illustrating readers forget the ending.' },
+    40: { answer:'D', explanation:'"Christie herself is believed to have ranked The Murder of Roger Ackroyd above all her other work."' },
+  };
+
+  let timeElapsed = 0;
+  let testSubmitted = false;
+
+  setInterval(() => {
+    if (!testSubmitted) {
+      timeElapsed++;
+      const m = String(Math.floor(timeElapsed / 60)).padStart(2,'0');
+      const s = String(timeElapsed % 60).padStart(2,'0');
+      document.getElementById('timerDisplay').textContent = `${m}:${s}`;
+    }
+  }, 1000);
+
+  function isAnswered(q) {
+    const radio = document.querySelector(`input[name="q${q}"]:checked`);
+    const text  = document.querySelector(`input[name="q${q}"][type="text"]`);
+    if (radio) return true;
+    if (text && text.value.trim() !== '') return true;
+    return false;
+  }
+
+  function updateIndicators() {
+    const container = document.getElementById('answerIndicators');
+    container.innerHTML = '';
+    for (let i = 1; i <= TOTAL; i++) {
+      const answered = isAnswered(i);
+      const circle = document.createElement('div');
+      circle.className = `answer-circle ${answered ? 'answered' : 'unanswered'}`;
+      circle.textContent = i;
+      circle.title = answered ? 'Answered' : 'Not answered';
+      container.appendChild(circle);
+    }
+    // Update question border colours
+    for (let i = 1; i <= TOTAL; i++) {
+      const box = document.getElementById(`q${i}-box`);
+      if (!box) continue;
+      box.classList.toggle('answered', isAnswered(i));
+    }
+  }
+
+  updateIndicators();
+
+  // Switch passage tabs
+  function switchPassage(n) {
+    document.querySelectorAll('.passage-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.questions-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', i === n-1));
+    document.getElementById(`passage-panel-${n}`).classList.add('active');
+    document.getElementById(`questions-panel-${n}`).classList.add('active');
+    // scroll both panels to top
+    document.querySelector('.passage-container').scrollTop = 0;
+    document.querySelector('.questions-container').scrollTop = 0;
+  }
+
+  function getUserAnswer(q) {
+    const radio = document.querySelector(`input[name="q${q}"]:checked`);
+    if (radio) return radio.value.trim();
+    const text = document.querySelector(`input[name="q${q}"][type="text"]`);
+    if (text) return text.value.trim();
+    return '';
+  }
+
+  function checkAnswer(q, userAns) {
+    if (!userAns) return false;
+    return userAns.toLowerCase() === ANSWER_KEY[q].answer.toLowerCase();
+  }
+
+  function submitAnswers() {
+    if (testSubmitted) return;
+    testSubmitted = true;
+
+    let correct = 0;
+    const results = {};
+    for (let i = 1; i <= TOTAL; i++) {
+      const ua = getUserAnswer(i);
+      const ok = checkAnswer(i, ua);
+      if (ok) correct++;
+      results[i] = { answer: ua, isCorrect: ok };
+    }
+
+    document.getElementById('scoreDisplay').textContent = `${correct} / ${TOTAL}`;
+    const pct = Math.round((correct / TOTAL) * 100);
+    const m = String(Math.floor(timeElapsed / 60)).padStart(2,'0');
+    const s = String(timeElapsed % 60).padStart(2,'0');
+    document.getElementById('feedbackMessage').textContent =
+      `You scored ${pct}%. Time taken: ${m}:${s}`;
+
+    let html = '';
+    for (let i = 1; i <= TOTAL; i++) {
+      const r = results[i];
+      const ak = ANSWER_KEY[i];
+      const icon = r.isCorrect ? '✓' : '✗';
+      const cls  = r.isCorrect ? 'correct' : 'incorrect';
+      html += `<div class="result-item ${cls}">
+        <strong>Q${i}: ${icon} ${r.isCorrect ? 'Correct' : 'Incorrect'}</strong>
+        <div class="result-detail"><strong>Correct Answer:</strong> ${ak.answer}</div>
+        <div class="result-detail"><strong>Your Answer:</strong> ${r.answer || '(empty)'}</div>
+        <div class="explanation"><strong>📚 Explanation:</strong> ${ak.explanation}</div>
+      </div>`;
+    }
+    document.getElementById('detailedResults').innerHTML = html;
+    document.getElementById('submissionModal').style.display = 'flex';
+  }
+
+  document.getElementById('submitBtn').addEventListener('click', submitAnswers);
+  document.getElementById('closeResultsBtn').addEventListener('click', () => {
+    document.getElementById('submissionModal').style.display = 'none';
+  });
+
+  /*** HIGHLIGHT TOOL ***/
+  const HIGHLIGHT_ROOTS = [
+    document.getElementById('passageContent'),
+    document.getElementById('passageContent2'),
+    document.getElementById('passageContent3'),
+    document.getElementById('questionsContent')
+  ];
+  const highlightToolbar = document.createElement('div');
+  highlightToolbar.className = 'highlight-toolbar';
+  ['yellow','green','pink','blue','purple','red'].forEach(color => {
+    const btn = document.createElement('button');
+    btn.innerHTML = `<div class="highlight-color ${color}"></div>`;
+    btn.addEventListener('click', () => { applyHighlight(color); highlightToolbar.style.display = 'none'; });
+    highlightToolbar.appendChild(btn);
+  });
+  const removeBtn = document.createElement('button');
+  removeBtn.className = 'remove';
+  removeBtn.innerHTML = '<i class="fas fa-trash"></i> Remove';
+  removeBtn.addEventListener('click', () => { removeHighlights(); highlightToolbar.style.display = 'none'; });
+  highlightToolbar.appendChild(removeBtn);
+  document.body.appendChild(highlightToolbar);
+
+  HIGHLIGHT_ROOTS.forEach(root => {
+    if (!root) return;
+    root.addEventListener('mouseup', () => {
+      const sel = window.getSelection();
+      if (sel && sel.toString().length > 0) {
+        const range = sel.getRangeAt(0);
+        const rect = range.getBoundingClientRect();
+        highlightToolbar.style.left = rect.left + rect.width / 2 + 'px';
+        highlightToolbar.style.top  = rect.top + 'px';
+        highlightToolbar.style.display = 'flex';
+      } else {
+        highlightToolbar.style.display = 'none';
+      }
+    });
+  });
+
+  function applyHighlight(color) {
+    const sel = window.getSelection();
+    if (!sel.rangeCount || sel.isCollapsed) return;
+    const range = sel.getRangeAt(0);
+    removeHighlightsInRange(range);
+    const root = HIGHLIGHT_ROOTS.find(r => r && r.contains(range.commonAncestorContainer)) || HIGHLIGHT_ROOTS[0];
+    const textNodes = getTextNodesIntersectingRange(root, range);
+    if (!textNodes.length) return;
+    textNodes.forEach(node => {
+      const { startOffset, endOffset } = getOffsetsForTextNode(node, range);
+      if (startOffset === endOffset) return;
+      const selectedNode = splitTextNode(node, startOffset, endOffset);
+      const span = document.createElement('span');
+      span.className = `highlight ${color}`;
+      selectedNode.parentNode.insertBefore(span, selectedNode);
+      span.appendChild(selectedNode);
+      mergeAdjacentHighlights(span);
+    });
+  }
+
+  function removeHighlights() {
+    const sel = window.getSelection();
+    if (!sel.rangeCount || sel.isCollapsed) return;
+    removeHighlightsInRange(sel.getRangeAt(0));
+  }
+
+  function removeHighlightsInRange(range) {
+    HIGHLIGHT_ROOTS.forEach(root => {
+      if (!root) return;
+      Array.from(root.querySelectorAll('span.highlight')).forEach(sp => {
+        if (rangeIntersectsNode(range, sp)) unwrapHighlightSpan(sp);
+      });
+    });
+  }
+
+  function unwrapHighlightSpan(span) {
+    const parent = span.parentNode;
+    while (span.firstChild) parent.insertBefore(span.firstChild, span);
+    parent.removeChild(span);
+    parent.normalize();
+  }
+
+  function mergeAdjacentHighlights(span) {
+    const prev = span.previousSibling;
+    if (prev && prev.nodeType === 1 && prev.classList.contains('highlight') && prev.className === span.className) {
+      while (span.firstChild) prev.appendChild(span.firstChild);
+      span.remove(); span = prev;
+    }
+    const next = span.nextSibling;
+    if (next && next.nodeType === 1 && next.classList.contains('highlight') && next.className === span.className) {
+      while (next.firstChild) span.appendChild(next.firstChild);
+      next.remove();
+    }
+  }
+
+  function getTextNodesIntersectingRange(root, range) {
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: node => {
+        if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        return rangeIntersectsNode(range, node) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      }
+    });
+    const nodes = []; let n;
+    while (n = walker.nextNode()) nodes.push(n);
+    return nodes;
+  }
+
+  function rangeIntersectsNode(range, node) {
+    const nr = document.createRange();
+    try { nr.selectNodeContents(node); } catch { return false; }
+    return range.compareBoundaryPoints(Range.END_TO_START, nr) < 0 &&
+           range.compareBoundaryPoints(Range.START_TO_END, nr) > 0;
+  }
+
+  function getOffsetsForTextNode(textNode, range) {
+    let startOffset = 0, endOffset = textNode.nodeValue.length;
+    if (range.startContainer === textNode) startOffset = range.startOffset;
+    else { const r = document.createRange(); r.selectNodeContents(textNode); if (range.compareBoundaryPoints(Range.START_TO_END, r) >= 0) startOffset = endOffset; }
+    if (range.endContainer === textNode) endOffset = range.endOffset;
+    else { const r = document.createRange(); r.selectNodeContents(textNode); if (range.compareBoundaryPoints(Range.END_TO_START, r) <= 0) endOffset = startOffset; }
+    startOffset = Math.max(0, Math.min(startOffset, textNode.nodeValue.length));
+    endOffset   = Math.max(0, Math.min(endOffset,   textNode.nodeValue.length));
+    if (endOffset < startOffset) endOffset = startOffset;
+    return { startOffset, endOffset };
+  }
+
+  function splitTextNode(textNode, startOffset, endOffset) {
+    let node = textNode;
+    if (endOffset < node.nodeValue.length) node.splitText(endOffset);
+    if (startOffset > 0) node = node.splitText(startOffset);
+    return node;
+  }
+
+  /*** RESIZABLE DIVIDER ***/
+  const divider = document.getElementById('divider');
+  const passagePanel = document.querySelector('.passage-container');
+  const testContainer = document.querySelector('.test-container');
+  let isResizing = false;
+
+  divider.addEventListener('mousedown', () => { isResizing = true; });
+  document.addEventListener('mouseup',  () => { isResizing = false; });
+  document.addEventListener('mousemove', e => {
+    if (!isResizing) return;
+    const bounds = testContainer.getBoundingClientRect();
+    const newWidth = e.clientX - bounds.left;
+    if (newWidth > 250 && newWidth < bounds.width - 250)
+      passagePanel.style.width = newWidth + 'px';
+  });
+</script>
+</body>
+</html>

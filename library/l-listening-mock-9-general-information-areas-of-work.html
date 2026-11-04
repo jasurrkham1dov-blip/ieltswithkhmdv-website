@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Listening Mock Test 9</title>
+<style>
+* { box-sizing: border-box; }
+body { font-family: Arial, sans-serif; font-size: 16px; line-height: 1.4; margin: 0; padding-bottom: 90px; background: #fff; color: #222; }
+.hidden { display: none !important; }
+
+/* ---------- Start screen ---------- */
+#start-screen { position: fixed; inset: 0; background: #f8f9fa; display: flex; align-items: center; justify-content: center; z-index: 9000; padding: 16px; }
+.start-card { background: #fff; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,.08); padding: 36px 40px; max-width: 560px; width: 100%; text-align: center; }
+.start-card h1 { font-size: 24px; margin: 14px 0 8px; color: #222; }
+.start-card .desc { color: #555; margin-bottom: 18px; }
+.instructions-box { background: #f1f3f5; border-left: 4px solid #495057; text-align: left; padding: 14px 18px; border-radius: 4px; margin-bottom: 24px; }
+.instructions-box ul { margin: 6px 0 0; padding-left: 20px; }
+.instructions-box li { margin-bottom: 4px; }
+.start-btn { background: #495057; color: #fff; border: 0; padding: 12px 34px; font-size: 16px; border-radius: 6px; cursor: pointer; }
+.start-btn:hover { background: #343a40; }
+
+/* ---------- Header ---------- */
+.header { position: fixed; top: 0; left: 0; right: 0; height: 60px; background: #fff; border-bottom: 1px solid #ddd; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 1000; }
+.header-left { display: flex; align-items: center; gap: 10px; }
+.header-left img { width: 30px; height: 30px; }
+.telegram-link { background: #4a90e2; color: #fff; text-decoration: none; padding: 6px 14px; border-radius: 20px; font-weight: bold; font-size: 14px; }
+.telegram-link:hover { background: #357abd; }
+.header-title { font-weight: bold; color: #495057; font-size: 15px; }
+
+/* ---------- Audio bar ---------- */
+.audio-player-bar { position: fixed; top: 65px; left: 50%; transform: translateX(-50%); width: 500px; max-width: calc(100% - 32px); background: #f8f9fa; border: 1px solid #ddd; border-radius: 30px; display: flex; align-items: center; gap: 10px; padding: 6px 14px; z-index: 999; }
+#play-pause-btn { width: 32px; height: 32px; border-radius: 50%; border: 0; background: #495057; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+#play-pause-btn:hover { background: #343a40; }
+#progress-bar { flex: 1; cursor: pointer; accent-color: #4a90e2; height: 6px; }
+.time-display { font-size: 13px; color: #555; white-space: nowrap; }
+
+#audio-ended-banner { position: fixed; top: 112px; left: 50%; transform: translateX(-50%); background: #fff3cd; border: 1px solid #ffe08a; color: #6b5200; padding: 8px 16px; border-radius: 6px; font-size: 14px; z-index: 998; max-width: calc(100% - 32px); text-align: center; }
+
+/* ---------- Main ---------- */
+.main-container { margin-top: 115px; padding: 0 20px 40px; }
+.part-header { background: #f1f2ec; padding: 10px 16px; border-radius: 4px; margin: 10px 0 20px; }
+.part-header p { margin: 2px 0; }
+.questions-container { width: 50%; }
+#part-1 .questions-container { width: 75%; }
+#part-2 .questions-container, #part-3 .questions-container, #part-4 .questions-container { width: 65%; }
+.instr { font-style: italic; margin: 4px 0; }
+.q-range { font-weight: bold; margin: 22px 0 4px; }
+.centered-title { text-align: center; font-weight: bold; font-size: 19px; margin: 10px 0 12px; }
+
+.answer-input { border: 1px solid #999; border-radius: 3px; padding: 3px 6px; width: 140px; font-size: 15px; text-align: center; font-family: Arial, sans-serif; }
+.answer-input:focus { outline: none; border-color: #4a90e2; box-shadow: 0 0 0 2px rgba(74,144,226,.25); }
+.answer-input::placeholder { color: #333; font-weight: bold; }
+
+.table-wrap { overflow-x: auto; }
+.people-table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+.people-table th, .people-table td { border: 1px solid #000; padding: 8px 10px; vertical-align: top; }
+.people-table th { background: #f1f2ec; }
+.people-table caption { font-weight: bold; font-size: 19px; padding: 8px; border: 1px solid #000; border-bottom: 0; }
+.people-table ul { margin: 0; padding-left: 18px; }
+
+.notes-box { border: 1px solid #000; padding: 15px 20px; margin: 10px 0; }
+.notes-box h4 { margin: 14px 0 6px; }
+.notes-box ul { list-style-type: none; padding-left: 20px; margin: 0; }
+.notes-box li { margin-bottom: 10px; }
+
+.single-choice-container { display: flex; flex-direction: column; gap: 18px; margin-top: 10px; }
+.single-choice p { margin: 0 0 6px; }
+.single-choice label { display: block; padding: 6px 10px; border-radius: 4px; cursor: pointer; margin-bottom: 2px; }
+.single-choice label:hover { background: #eef4fb; }
+.single-choice label.selected { background: #cfe3f6; }
+.single-choice input { margin-right: 8px; }
+
+.checkbox-group { margin: 10px 0 20px; }
+.checkbox-group .group-title { margin: 0 0 6px; }
+.checkbox-group label { display: block; padding: 6px 10px; border-radius: 4px; cursor: pointer; margin-bottom: 2px; }
+.checkbox-group label:hover { background: #eef4fb; }
+.checkbox-group label.selected { background: #cfe3f6; }
+.checkbox-group input { margin-right: 8px; }
+.shake { animation: shake .4s; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+
+.legend-box { border: 1px solid #000; padding: 10px 16px; margin: 12px auto; max-width: 480px; }
+.legend-box p { margin: 4px 0; }
+.map-radio-table { border-collapse: collapse; margin: 12px 0; }
+.map-radio-table th, .map-radio-table td { border: 1px solid #ccc; padding: 8px 12px; text-align: center; }
+.map-radio-table th { background: #1a73e8; color: #fff; }
+.map-radio-table td:first-child { text-align: left; min-width: 200px; }
+.map-radio-table input { cursor: pointer; transform: scale(1.15); }
+
+.map-img { display: block; max-width: 100%; width: 560px; margin: 12px 0; border: 1px solid #ccc; }
+.answer-input.wide { width: 190px; }
+.map-layout { display: flex; gap: 20px; align-items: flex-start; margin: 12px 0; }
+.map-layout .map-col { flex: 1 1 auto; min-width: 0; position: sticky; top: 125px; }
+.map-layout .map-img { width: 100%; max-width: 640px; margin: 0; }
+.map-layout .map-answers { flex: 0 0 auto; }
+.map-layout .map-radio-table { margin: 0; }
+.map-layout .map-radio-table td:first-child { min-width: 150px; }
+.map-layout .map-radio-table th, .map-layout .map-radio-table td { padding: 7px 8px; }
+#part-2 .questions-container { width: 100%; max-width: 1150px; }
+.map-layout .map-answers { max-width: 100%; overflow-x: auto; }
+body.script-open .map-layout { flex-direction: column; }
+body.script-open .map-layout .map-col { position: static; }
+@media (max-width: 900px) {
+  .map-layout { flex-direction: column; }
+  .map-layout .map-col { position: static; }
+  .map-layout .map-answers { width: 100%; }
+}
+@media (max-width: 600px) {
+  .map-layout .map-radio-table td:first-child { min-width: 0; white-space: normal; font-size: 13px; }
+  .map-layout .map-radio-table th, .map-layout .map-radio-table td { padding: 5px 4px; }
+  .map-layout .map-radio-table input { transform: none; }
+}
+.form-table { width: 100%; border-collapse: collapse; }
+.form-table td { padding: 7px 6px; vertical-align: middle; }
+.form-table td:first-child { width: 42%; font-weight: bold; }
+.form-table tr.sep td { border-top: 1px solid #000; padding-top: 12px; }
+@media (max-width: 600px) { .form-table td:first-child { width: 45%; font-size: 14px; } }
+.flash { animation: flash 1s; }
+@keyframes flash { 0%,100%{background:transparent} 30%{background:#fff3b0} }
+
+/* ---------- Arrows ---------- */
+.nav-arrows { position: fixed; bottom: 100px; right: 20px; display: flex; gap: 6px; z-index: 900; }
+.nav-arrows button { width: 44px; height: 44px; background: #333; color: #fff; border: 0; font-size: 26px; cursor: pointer; border-radius: 4px; line-height: 1; }
+.nav-arrows button:hover { background: #000; }
+
+/* ---------- Footer nav ---------- */
+.nav-row { position: fixed; bottom: 0; left: 0; right: 0; height: 80px; background: #fff; border-top: 1px solid #ddd; display: flex; align-items: center; padding: 0 10px; gap: 6px; z-index: 950; overflow-x: auto; }
+.footer__questionWrapper___1tZ46 { display: flex; align-items: center; gap: 6px; flex: 1; min-width: max-content; }
+.footer__questionWrapper___1tZ46.selected { flex: 3; }
+.footer__questionNo___3WNct { background: none; border: 0; cursor: pointer; font-size: 15px; padding: 6px 8px; white-space: nowrap; font-family: Arial, sans-serif; }
+.footer__questionNo___3WNct .partLabel { font-weight: bold; }
+.footer__questionNo___3WNct .attemptedCount { color: #666; font-size: 13px; margin-left: 6px; }
+.footer__subquestionWrapper___9GgoP { display: none; gap: 4px; }
+.footer__questionWrapper___1tZ46.selected .footer__subquestionWrapper___9GgoP { display: flex; }
+.footer__questionWrapper___1tZ46.selected .attemptedCount { display: none; }
+.subQuestion { width: 30px; height: 30px; border: 1px solid #999; background: #fff; cursor: pointer; font-size: 13px; border-radius: 3px; font-family: Arial, sans-serif; }
+.subQuestion.answered { background: #d0d4d8; }
+.subQuestion.active { background: #4a90e2; color: #fff; border-color: #4a90e2; }
+.footer__deliverButton___3FM07 { background: #dc3545; color: #fff; border: 0; padding: 10px 18px; border-radius: 4px; cursor: pointer; font-weight: bold; white-space: nowrap; margin-left: auto; font-family: Arial, sans-serif; }
+.footer__deliverButton___3FM07:hover { background: #b52a37; }
+
+/* ---------- Highlight / comment ---------- */
+.highlight { background-color: #b02350; color: #ffffff; }
+.comment-highlight { background-color: #c8f0d0; border-bottom: 2px solid #28a745; position: relative; cursor: help; }
+.comment-highlight:hover::after { content: attr(data-comment); position: absolute; left: 0; top: 100%; background: #333; color: #fff; padding: 6px 10px; border-radius: 4px; font-size: 13px; white-space: pre-wrap; width: max-content; max-width: 260px; z-index: 2000; }
+#contextMenu { position: absolute; background: #fff; border: 1px solid #ccc; box-shadow: 0 2px 10px rgba(0,0,0,.15); border-radius: 4px; z-index: 3000; min-width: 140px; }
+#contextMenu div, #mobile-selection-menu button { padding: 8px 14px; cursor: pointer; font-size: 14px; }
+#contextMenu div:hover { background: #f1f3f5; }
+#mobile-selection-menu { position: absolute; display: flex; background: #333; border-radius: 6px; z-index: 3000; overflow: hidden; }
+#mobile-selection-menu button { background: none; border: 0; color: #fff; font-family: Arial, sans-serif; }
+
+/* ---------- Go-to widget ---------- */
+#goto-widget { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: #fff; border: 1px solid #ccc; box-shadow: 0 4px 20px rgba(0,0,0,.2); padding: 16px 20px; border-radius: 8px; z-index: 4000; text-align: center; }
+#goto-widget input { width: 80px; font-size: 20px; text-align: center; padding: 4px; margin-top: 6px; }
+
+/* ---------- Completion ---------- */
+#completion-screen { position: fixed; inset: 0; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9500; text-align: center; padding: 20px; }
+#completion-screen h2 { margin: 16px 0 6px; }
+#completion-screen p { color: #555; margin: 0 0 22px; }
+.completion-buttons { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.btn-script { background: #4a90e2; color: #fff; border: 0; padding: 12px 26px; border-radius: 6px; font-size: 16px; cursor: pointer; }
+.btn-script:hover { background: #357abd; }
+.btn-restart { background: #dc2626; color: #fff; border: 0; padding: 12px 26px; border-radius: 6px; font-size: 16px; cursor: pointer; }
+.btn-restart:hover { background: #b91c1c; }
+.btn-secondary { background: #495057; color: #fff; border: 0; padding: 12px 26px; border-radius: 6px; font-size: 16px; cursor: pointer; }
+
+/* ---------- Review mode ---------- */
+.header-right { display: flex; align-items: center; gap: 8px; }
+.score-chip { background: #e9f7ef; color: #1e7e34; border: 1px solid #28a745; border-radius: 16px; padding: 5px 12px; font-weight: bold; font-size: 14px; white-space: nowrap; }
+.hdr-btn { border: 0; border-radius: 4px; padding: 7px 12px; cursor: pointer; font-size: 14px; color: #fff; font-family: Arial, sans-serif; white-space: nowrap; }
+.hdr-btn.blue { background: #4a90e2; }
+.hdr-btn.red { background: #dc2626; }
+body.review-mode.script-open .main-container { margin-right: 46%; }
+body.review-mode.script-open .questions-container, body.review-mode.script-open #part-1 .questions-container,
+body.review-mode.script-open #part-2 .questions-container, body.review-mode.script-open #part-3 .questions-container,
+body.review-mode.script-open #part-4 .questions-container { width: 100%; }
+.answer-input.correct { border: 2px solid #28a745; background: #e9f7ef; }
+.answer-input.incorrect { border: 2px solid #dc3545; background: #f8d7da; }
+.answer-input:disabled { color: #222; }
+.fix { color: #1e7e34; font-weight: bold; font-size: 14px; margin-left: 4px; white-space: nowrap; }
+.mark { font-weight: bold; margin-left: 4px; }
+.mark.ok { color: #28a745; }
+.mark.bad { color: #dc3545; }
+.single-choice label.opt-correct, .checkbox-group label.opt-correct { background: #e9f7ef; outline: 2px solid #28a745; }
+.single-choice label.opt-wrong, .checkbox-group label.opt-wrong { background: #f8d7da; outline: 2px solid #dc3545; }
+.map-radio-table td.cell-correct { background: #e9f7ef; outline: 2px solid #28a745; outline-offset: -2px; }
+.map-radio-table td.cell-wrong { background: #f8d7da; outline: 2px solid #dc3545; outline-offset: -2px; }
+.group-result { margin: 6px 0 0 10px; font-weight: bold; font-size: 14px; }
+.subQuestion.res-correct { background: #28a745; color: #fff; border-color: #28a745; }
+.subQuestion.res-incorrect { background: #dc3545; color: #fff; border-color: #dc3545; }
+.subQuestion.res-correct.active, .subQuestion.res-incorrect.active { box-shadow: 0 0 0 3px #4a90e2; }
+
+/* ---------- Script side panel ---------- */
+#script-modal { position: fixed; top: 112px; right: 0; bottom: 80px; width: 45%; background: #fff; border-left: 2px solid #ddd; z-index: 900; }
+.script-panel { width: 100%; height: 100%; display: flex; flex-direction: column; overflow: hidden; }
+@media (max-width: 900px) {
+  #script-modal { width: 100%; top: 60px; z-index: 1001; }
+  body.review-mode.script-open .main-container { margin-right: 0; }
+  .score-chip { font-size: 12px; padding: 4px 8px; }
+  .hdr-btn { padding: 6px 8px; font-size: 13px; }
+}
+@media (max-width: 600px) {
+  .header { padding: 0 8px; }
+  .header-left img { display: none; }
+  .telegram-link { padding: 5px 9px; font-size: 12px; }
+  .header-right { gap: 5px; }
+  .hdr-btn .lbl { display: none; }
+}
+.script-top { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-bottom: 1px solid #ddd; gap: 10px; flex-wrap: wrap; }
+.script-top h3 { margin: 0; }
+.script-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.script-tabs button { border: 1px solid #4a90e2; background: #fff; color: #4a90e2; padding: 6px 12px; border-radius: 16px; cursor: pointer; font-family: Arial, sans-serif; }
+.script-tabs button.active { background: #4a90e2; color: #fff; }
+.script-close { background: none; border: 0; font-size: 28px; cursor: pointer; line-height: 1; color: #555; }
+.script-body { padding: 18px 26px 30px; overflow-y: auto; flex: 1; line-height: 1.6; }
+.script-body h4 { margin: 0 0 12px; font-size: 19px; }
+.script-body p { margin: 0 0 10px; }
+.script-body .spk { font-weight: bold; }
+.ans { background: #e9f7ef; border-bottom: 2px solid #28a745; padding: 1px 2px; }
+.qb { display: inline-block; background: #28a745; color: #fff; font-size: 11px; font-weight: bold; border-radius: 10px; padding: 0 6px; margin-right: 4px; vertical-align: 1px; }
+.script-note { font-size: 13px; color: #666; margin-bottom: 14px; }
+
+@media (max-width: 1024px) {
+  .questions-container, #part-1 .questions-container, #part-2 .questions-container, #part-3 .questions-container, #part-4 .questions-container { width: 100%; }
+}
+@media (max-width: 600px) {
+  .main-container { padding: 0 12px 40px; }
+  .header-title { display: none; }
+  .people-table th, .people-table td { padding: 5px; font-size: 13px; }
+  .people-table ul { padding-left: 12px; }
+  .people-table .answer-input { width: 72px; font-size: 13px; }
+  .people-table .fix { white-space: normal; display: inline-block; }
+  .people-table caption { font-size: 16px; }
+  .answer-input { width: 110px; }
+  .map-radio-table td:first-child { min-width: 130px; }
+  .map-radio-table th, .map-radio-table td { padding: 6px; }
+  .start-card { padding: 26px 20px; }
+}
+.act-table { border-collapse: collapse; width: 100%; max-width: 640px; margin: 12px 0; }
+.act-table th, .act-table td { border: 1px solid #000; padding: 10px 12px; text-align: left; }
+.act-table th { background: #f2f2f2; }
+.map-gap-list { list-style: none; padding-left: 0; margin: 8px 0; }
+.map-gap-list li { margin: 0 0 16px; line-height: 2; }
+.map-layout .map-col { flex: 0 1 auto; }
+.map-layout .map-answers .map-gap-list { margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<!-- ================= START SCREEN ================= -->
+<div id="start-screen">
+  <div class="start-card">
+    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#495057" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
+    <h1>IELTS Listening Mock Test 9</h1>
+    <p class="desc">The audio starts when you click Start Test. You can pause it, and drag the audio bar to move forward or back.</p>
+    <div class="instructions-box">
+      <strong>Instructions</strong>
+      <ul>
+        <li>There are 40 questions in 4 parts.</li>
+        <li>Answer the questions while you listen.</li>
+        <li>You can pause, play and drag the audio bar to any point.</li>
+        <li>Click <strong>Submit Answers</strong> when you finish to see your score.</li>
+        <li>After submitting, your answers are marked right or wrong and the audio script opens on the right.</li>
+      </ul>
+    </div>
+    <button class="start-btn" onclick="startTest()">Start Test</button>
+  </div>
+</div>
+
+<!-- ================= TEST SCREEN ================= -->
+<div id="test-screen" class="hidden">
+  <div class="header">
+    <div class="header-left">
+      <img alt="" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23495057' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 18v-6a9 9 0 0 1 18 0v6'/%3E%3Cpath d='M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z'/%3E%3C/svg%3E">
+      <a href="https://t.me/ieltswithkhmdv" target="_blank" rel="noopener" class="telegram-link">@ieltswithkhmdv</a>
+    </div>
+    <div class="header-title" id="header-title">IELTS Listening Mock Test 9</div>
+    <div class="header-right hidden" id="review-controls">
+      <span class="score-chip" id="score-chip"></span>
+      <button class="hdr-btn blue" id="script-toggle" onclick="toggleScript()">Hide script</button>
+      <button class="hdr-btn red" onclick="location.reload()" title="Restart">&#8635;<span class="lbl"> Restart</span></button>
+    </div>
+  </div>
+
+  <div class="audio-player-bar">
+    <button id="play-pause-btn" title="Play / Pause" aria-label="Play or pause">
+      <svg id="icon-play" class="hidden" width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M6 4l15 8-15 8z"/></svg>
+      <svg id="icon-pause" width="14" height="14" viewBox="0 0 24 24" fill="#fff"><rect x="5" y="4" width="5" height="16"/><rect x="14" y="4" width="5" height="16"/></svg>
+    </button>
+    <input type="range" id="progress-bar" min="0" max="100" value="0" step="0.1">
+    <span class="time-display"><span id="current-time">0:00</span> / <span id="total-duration">0:00</span></span>
+  </div>
+  <audio id="global-audio-player" class="hidden" preload="auto"></audio>
+  <div id="audio-ended-banner" class="hidden">The audio has finished. Check your answers, then click <strong>Submit Answers</strong>.</div>
+
+  <div class="main-container">
+    <div class="left-panel">
+
+      <!-- ========== PART 1 ========== -->
+      <div id="part-1" class="question-part">
+        <div class="part-header"><p><strong>Part 1</strong></p><p>Listen and answer questions 1&ndash;10.</p></div>
+        <div class="questions-container">
+          <p class="q-range">Questions 1&ndash;10</p>
+          <p class="instr">Complete the notes below.</p>
+          <p class="instr">Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.</p>
+          <div class="notes-box">
+            <div class="centered-title">Part-time work in a charity shop</div>
+            <p>Manager&rsquo;s name: Mark</p>
+            <h4>General information</h4>
+            <ul style="padding-left:20px;">
+              <li>&bull;&nbsp;&nbsp;The charity supports people who are <input type="text" id="q1" class="answer-input" placeholder="1"></li>
+              <li>&bull;&nbsp;&nbsp;There is a shop next to the <input type="text" id="q2" class="answer-input" placeholder="2"> (on Roslyn Rd)</li>
+              <li>&bull;&nbsp;&nbsp;New staff are needed from <input type="text" id="q3" class="answer-input" placeholder="3"> March</li>
+              <li>&bull;&nbsp;&nbsp;Day of the week when new staff are needed: <input type="text" id="q4" class="answer-input" placeholder="4"></li>
+            </ul>
+            <h4>Areas of work</h4>
+            <ul style="padding-left:20px;">
+              <li>&bull;&nbsp;&nbsp;Putting <input type="text" id="q5" class="answer-input" placeholder="5"> on items</li>
+              <li>&bull;&nbsp;&nbsp;Sorting donations, especially <input type="text" id="q6" class="answer-input" placeholder="6"></li>
+              <li>&bull;&nbsp;&nbsp;Checking <input type="text" id="q7" class="answer-input" placeholder="7"></li>
+            </ul>
+            <h4>Personal qualities</h4>
+            <ul style="padding-left:20px;">
+              <li>&bull;&nbsp;&nbsp;Most important &ndash; must be <input type="text" id="q8" class="answer-input" placeholder="8"></li>
+              <li>&bull;&nbsp;&nbsp;Also prefer people who are <input type="text" id="q9" class="answer-input" placeholder="9"></li>
+            </ul>
+            <h4>Website</h4>
+            <ul style="padding-left:20px;">
+              <li>&bull;&nbsp;&nbsp;www.giving.org.uk</li>
+              <li>&bull;&nbsp;&nbsp;Can find the form on the website &ndash; click on <input type="text" id="q10" class="answer-input" placeholder="10"> tab</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== PART 2 ========== -->
+      <div id="part-2" class="question-part hidden">
+        <div class="part-header"><p><strong>Part 2</strong></p><p>Listen and answer questions 11&ndash;20.</p></div>
+        <div class="questions-container">
+          <p class="q-range">Questions 11&ndash;12</p>
+          <p class="instr">Complete the information below.</p>
+          <p class="instr">Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.</p>
+          <div class="notes-box" style="max-width:520px; margin-left:auto; margin-right:auto;">
+            <div class="centered-title">City Tours<br>Fare information</div>
+            <ul style="padding-left:0;">
+              <li>Adult All-Day Pass: $<input type="text" id="q11" class="answer-input" placeholder="11"></li>
+              <li>Children aged 5&ndash;12 All-Day Pass: $9</li>
+              <li>Children under age 5: <input type="text" id="q12" class="answer-input" placeholder="12"></li>
+            </ul>
+          </div>
+
+          <p class="q-range">Questions 13&ndash;15</p>
+          <p class="instr">Label the map below.</p>
+          <p class="instr">Write <strong>TWO WORDS ONLY</strong> for each answer.</p>
+          <div class="map-layout">
+            <div class="map-col"><img class="map-img" src="https://raw.githubusercontent.com/jasurrkham1dov-blip/mapps/main/Tour%20Bus%20Route%20Map%20Worksheet.png" alt="Tour bus route map with stops 1 to 5"></div>
+            <div class="map-answers">
+              <ul class="map-gap-list">
+                <li><strong>13</strong>&nbsp;&nbsp;1st stop: <input type="text" id="q13" class="answer-input" placeholder="13"></li>
+                <li><strong>14</strong>&nbsp;&nbsp;3rd stop: <input type="text" id="q14" class="answer-input" placeholder="14"></li>
+                <li><strong>15</strong>&nbsp;&nbsp;5th stop: <input type="text" id="q15" class="answer-input" placeholder="15"></li>
+              </ul>
+            </div>
+          </div>
+
+          <p class="q-range">Questions 16&ndash;20</p>
+          <p class="instr">Complete the table below.</p>
+          <p class="instr">Write <strong>ONE WORD ONLY</strong> for each answer.</p>
+          <div class="table-wrap"><table class="act-table">
+            <tr><th>Place</th><th>Activity</th></tr>
+            <tr><td>First Stop</td><td>Enjoy the <input type="text" id="q16" class="answer-input" placeholder="16"> of the bay</td></tr>
+            <tr><td>Second Stop</td><td>Look at the <input type="text" id="q17" class="answer-input" placeholder="17"></td></tr>
+            <tr><td>Third Stop</td><td><input type="text" id="q18" class="answer-input" placeholder="18"> fish</td></tr>
+            <tr><td>Fourth Stop</td><td>Purchase <input type="text" id="q19" class="answer-input" placeholder="19"></td></tr>
+            <tr><td>Fifth Stop</td><td>Visit the <input type="text" id="q20" class="answer-input" placeholder="20"></td></tr>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- ========== PART 3 ========== -->
+      <div id="part-3" class="question-part hidden">
+        <div class="part-header"><p><strong>Part 3</strong></p><p>Listen and answer questions 21&ndash;30.</p></div>
+        <div class="questions-container">
+          <p class="q-range">Questions 21&ndash;22</p>
+          <p class="instr">Choose the correct letter, <strong>A</strong>, <strong>B</strong> or <strong>C</strong>.</p>
+          <div class="single-choice-container">
+            <div class="single-choice" id="q21">
+              <p><strong>21</strong> Why is Jeff worried about doing his speech on Shakespeare?</p>
+              <label><input type="radio" name="q21" value="A"> <strong>A</strong>&nbsp;&nbsp;Shakespeare is a hard subject.</label>
+              <label><input type="radio" name="q21" value="B"> <strong>B</strong>&nbsp;&nbsp;The professor might not like it.</label>
+              <label><input type="radio" name="q21" value="C"> <strong>C</strong>&nbsp;&nbsp;Other students might have the same idea.</label>
+            </div>
+            <div class="single-choice" id="q22">
+              <p><strong>22</strong> Why does Brad tell Jeff not to worry about his speech on Shakespeare?</p>
+              <label><input type="radio" name="q22" value="A"> <strong>A</strong>&nbsp;&nbsp;A good professor will grade all students fairly.</label>
+              <label><input type="radio" name="q22" value="B"> <strong>B</strong>&nbsp;&nbsp;Not many people will choose Shakespeare.</label>
+              <label><input type="radio" name="q22" value="C"> <strong>C</strong>&nbsp;&nbsp;He will do a better speech than other students.</label>
+            </div>
+          </div>
+
+          <p class="q-range">Questions 23&ndash;24</p>
+          <p class="instr">Answer the questions below.</p>
+          <p class="instr">Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.</p>
+          <ul class="map-gap-list">
+            <li><strong>23</strong>&nbsp;&nbsp;What is the first step in preparing a speech? <input type="text" id="q23" class="answer-input" placeholder="23"></li>
+            <li><strong>24</strong>&nbsp;&nbsp;What is the next step in preparing a speech? <input type="text" id="q24" class="answer-input" placeholder="24"></li>
+          </ul>
+
+          <p class="q-range">Questions 25&ndash;26</p>
+          <p class="instr">Choose the correct letter, <strong>A</strong>, <strong>B</strong> or <strong>C</strong>.</p>
+          <div class="single-choice-container">
+            <div class="single-choice" id="q25">
+              <p><strong>25</strong> Why does Brad say that it is essential to write an outline?</p>
+              <label><input type="radio" name="q25" value="A"> <strong>A</strong>&nbsp;&nbsp;An outline tells you exactly what to say.</label>
+              <label><input type="radio" name="q25" value="B"> <strong>B</strong>&nbsp;&nbsp;An outline will prevent you from saying the wrong thing.</label>
+              <label><input type="radio" name="q25" value="C"> <strong>C</strong>&nbsp;&nbsp;An outline will give you a good structure to base your speech on.</label>
+            </div>
+            <div class="single-choice" id="q26">
+              <p><strong>26</strong> Why is it important to write the speech out, word for word?</p>
+              <label><input type="radio" name="q26" value="A"> <strong>A</strong>&nbsp;&nbsp;You will have a firm idea of what to say.</label>
+              <label><input type="radio" name="q26" value="B"> <strong>B</strong>&nbsp;&nbsp;You will have an exact idea of what to say.</label>
+              <label><input type="radio" name="q26" value="C"> <strong>C</strong>&nbsp;&nbsp;You will have no idea of what to say.</label>
+            </div>
+          </div>
+
+          <p class="q-range">Questions 27&ndash;28</p>
+          <p class="instr">Choose <strong>TWO</strong> letters, <strong>A&ndash;E</strong>.</p>
+          <div class="checkbox-group" id="group-27-28" data-qs="27,28">
+            <p class="group-title"><strong>What are TWO ways to practise giving a speech?</strong></p>
+            <label><input type="checkbox" name="q27-28" value="A"> <strong>A</strong>&nbsp;&nbsp;murmuring in your heart</label>
+            <label><input type="checkbox" name="q27-28" value="B"> <strong>B</strong>&nbsp;&nbsp;practising in front of a mirror</label>
+            <label><input type="checkbox" name="q27-28" value="C"> <strong>C</strong>&nbsp;&nbsp;practising in front of your professor</label>
+            <label><input type="checkbox" name="q27-28" value="D"> <strong>D</strong>&nbsp;&nbsp;practising in front of your friends</label>
+            <label><input type="checkbox" name="q27-28" value="E"> <strong>E</strong>&nbsp;&nbsp;practising every word</label>
+          </div>
+
+          <p class="q-range">Questions 29&ndash;30</p>
+          <p class="instr">Choose the correct letter, <strong>A</strong>, <strong>B</strong> or <strong>C</strong>.</p>
+          <div class="single-choice-container">
+            <div class="single-choice" id="q29">
+              <p><strong>29</strong> When is the speech due?</p>
+              <label><input type="radio" name="q29" value="A"> <strong>A</strong>&nbsp;&nbsp;next Tuesday.</label>
+              <label><input type="radio" name="q29" value="B"> <strong>B</strong>&nbsp;&nbsp;next Friday.</label>
+              <label><input type="radio" name="q29" value="C"> <strong>C</strong>&nbsp;&nbsp;Tuesday.</label>
+            </div>
+            <div class="single-choice" id="q30">
+              <p><strong>30</strong> Why does Brad say he can help Jeff anytime?</p>
+              <label><input type="radio" name="q30" value="A"> <strong>A</strong>&nbsp;&nbsp;He has no tests this next week.</label>
+              <label><input type="radio" name="q30" value="B"> <strong>B</strong>&nbsp;&nbsp;He is an English major.</label>
+              <label><input type="radio" name="q30" value="C"> <strong>C</strong>&nbsp;&nbsp;He likes Shakespeare.</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== PART 4 ========== -->
+      <div id="part-4" class="question-part hidden">
+        <div class="part-header"><p><strong>Part 4</strong></p><p>Listen and answer questions 31&ndash;40.</p></div>
+        <div class="questions-container">
+          <p class="q-range">Questions 31&ndash;40</p>
+          <p class="instr">Complete the notes below.</p>
+          <p class="instr">Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+          <div class="notes-box">
+            <div class="centered-title">Case study on LCP Technologies</div>
+            <h4>Introduction</h4>
+            <ul style="padding-left:20px;">
+              <li>&bull;&nbsp;&nbsp;an Indian software company specialised in outsourcing</li>
+              <li>&bull;&nbsp;&nbsp;one of the largest companies with over 10,000 employees</li>
+              <li>&bull;&nbsp;&nbsp;Manjeet Khanna mainly aims to create a more <input type="text" id="q31" class="answer-input" placeholder="31"> workplace</li>
+            </ul>
+            <h4>System for rating and grading staff</h4>
+            <ul style="padding-left:20px;">
+              <li>&bull;&nbsp;&nbsp;in LCP, all staff including the CEO are graded</li>
+              <li>&bull;&nbsp;&nbsp;grades are displayed on the <input type="text" id="q32" class="answer-input" placeholder="32"> of internal staff</li>
+              <li>&bull;&nbsp;&nbsp;initially managers tended to object to such an idea of <input type="text" id="q33" class="answer-input" placeholder="33"></li>
+              <li>&bull;&nbsp;&nbsp;a more open culture and better communication is created at the workplace</li>
+              <li>&bull;&nbsp;&nbsp;Khanna&rsquo;s motto is <input type="text" id="q34" class="answer-input" placeholder="34"></li>
+            </ul>
+            <h4>Benefits of the managing style</h4>
+            <ul style="padding-left:20px;">
+              <li>&bull;&nbsp;&nbsp;the high staff turnover solved</li>
+              <li>&bull;&nbsp;&nbsp;increased job satisfaction has led to the growth in <input type="text" id="q35" class="answer-input" placeholder="35"> by 32% in the past two years</li>
+              <li>&bull;&nbsp;&nbsp;this philosophy signals that a <input type="text" id="q36" class="answer-input" placeholder="36"> can be from any part of the company</li>
+              <li>&bull;&nbsp;&nbsp;grades are not used to decide about <input type="text" id="q37" class="answer-input" placeholder="37"></li>
+            </ul>
+            <h4>Features of the managing style</h4>
+            <ul style="padding-left:20px;">
+              <li>&bull;&nbsp;&nbsp;answering emails personally</li>
+              <li>&bull;&nbsp;&nbsp;setting up an online forum for complaints, each of which is called a <input type="text" id="q38" class="answer-input" placeholder="38"></li>
+              <li>&bull;&nbsp;&nbsp;any complaint can be posted, e.g. air conditioning, food or <input type="text" id="q39" class="answer-input" placeholder="39"> entitlement</li>
+              <li>&bull;&nbsp;&nbsp;a <input type="text" id="q40" class="answer-input" placeholder="40"> on anonymous complaints was introduced</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-arrows">
+    <button onclick="previousPart()" aria-label="Previous question">&lsaquo;</button>
+    <button onclick="nextPart()" aria-label="Next question">&rsaquo;</button>
+  </div>
+
+  <div class="nav-row" id="nav-row"></div>
+</div>
+
+<!-- ================= SCRIPT MODAL ================= -->
+<div id="script-modal" class="hidden">
+  <div class="script-panel">
+    <div class="script-top">
+      <h3>Audio Script</h3>
+      <div class="script-tabs">
+        <button data-s="1" onclick="openScript(1)">Part 1</button>
+        <button data-s="2" onclick="openScript(2)">Part 2</button>
+        <button data-s="3" onclick="openScript(3)">Part 3</button>
+        <button data-s="4" onclick="openScript(4)">Part 4</button>
+      </div>
+      <button class="script-close" onclick="closeScript()" aria-label="Close">&times;</button>
+    </div>
+    <div class="script-body" id="script-body">
+<div class="script-section" data-s="1">
+<h4>Part 1 &ndash; Part-time work in a charity shop</h4>
+<p class="script-note">Green marks show where each answer is heard.</p>
+<p><em>Part 1. You will hear a telephone conversation between the manager of a shop run for charity and a young woman who is interested in volunteering. First, you have some time to look at questions 1 to 4. Now listen carefully and answer questions 1 to 4.</em></p>
+<p><span class="spk">Mark:</span> Good morning. Charity Links, Mark speaking.</p>
+<p><span class="spk">Joanne:</span> Oh, good morning. My name&rsquo;s Joanne Richardson and I&rsquo;m ringing about the advert I saw in your city centre shop window.</p>
+<p><span class="spk">Mark:</span> Asking for part-time volunteers to help in our shops?</p>
+<p><span class="spk">Joanne:</span> That&rsquo;s right. Well, I&rsquo;m interested in helping and wonder if I could ask a few questions.</p>
+<p><span class="spk">Mark:</span> Of course.</p>
+<p><span class="spk">Joanne:</span> I understand your charity helps local people with housing problems, is that right?</p>
+<p><span class="spk">Mark:</span> Yes, though it now focuses exclusively on helping the <span class="ans"><span class="qb">1</span>homeless</span>.</p>
+<p><span class="spk">Joanne:</span> Oh, right. And I was just wondering, I live in the north of the city, do you have any shops in this area?</p>
+<p><span class="spk">Mark:</span> Yes, we have one on Roslyn Road.</p>
+<p><span class="spk">Joanne:</span> Is that near the <span class="ans"><span class="qb">2</span>museum</span>?</p>
+<p><span class="spk">Mark:</span> Yes, we&rsquo;re in the large white building next door.</p>
+<p><span class="spk">Joanne:</span> I know it. Yes, and it&rsquo;s within easy walking distance for me. And do you have any vacancies for volunteers in that store?</p>
+<p><span class="spk">Mark:</span> Well, we certainly will have very soon. Two of our Roslyn Road volunteers, a couple, are moving from the area on the 28th of February, so we&rsquo;ll definitely have a gap starting the week after on the <span class="ans"><span class="qb">3</span>5th of March</span>.</p>
+<p><span class="spk">Joanne:</span> Great. That would suit me really well. And do you need people every day of the week?</p>
+<p><span class="spk">Mark:</span> Well, we don&rsquo;t open on Sundays and Mondays. At the moment, most of our volunteers prefer to work on Saturdays, but the two people we&rsquo;re losing worked on <span class="ans"><span class="qb">4</span>Wednesday</span>, so that&rsquo;s a key day we need to fill.</p>
+<p><span class="spk">Joanne:</span> Right. I&rsquo;ve made a note of that.</p>
+<p><em>Before you hear the rest of the conversation, you have some time to look at questions 5 to 10. Now listen and answer questions 5 to 10.</em></p>
+<p><span class="spk">Joanne:</span> And what type of work do you need people to do?</p>
+<p><span class="spk">Mark:</span> Well, there&rsquo;s lots of different tasks that you might not think of. So, for example, all the different things for sale have to have the <span class="ans"><span class="qb">5</span>prices</span> on.</p>
+<p><span class="spk">Joanne:</span> Yes, sure. And I imagine you also have a lot of stuff that&rsquo;s been donated.</p>
+<p><span class="spk">Mark:</span> Absolutely. And that all needs sorting, particularly the <span class="ans"><span class="qb">6</span>clothing</span>.</p>
+<p><span class="spk">Joanne:</span> Oh, right. I guess that&rsquo;s a big job.</p>
+<p><span class="spk">Mark:</span> It varies, but sometimes we get 50 or 60 bags of donations a day.</p>
+<p><span class="spk">Joanne:</span> Gosh.</p>
+<p><span class="spk">Mark:</span> And then another area we need help in is looking at all the <span class="ans"><span class="qb">7</span>toys</span> that have been donated and making sure none of the bits are missing.</p>
+<p><span class="spk">Joanne:</span> Oh, that sounds like fun. And what about personal qualities? I suppose you will want volunteers who are very flexible.</p>
+<p><span class="spk">Mark:</span> Well, not necessarily because, you know, you&rsquo;ll be part of a team. More important is for people to be <span class="ans"><span class="qb">8</span>reliable</span>. We&rsquo;ve got to be sure that people will turn up and do the work we ask.</p>
+<p><span class="spk">Joanne:</span> Yes, I can see that that&rsquo;s really important for you.</p>
+<p><span class="spk">Mark:</span> Yes.</p>
+<p><span class="spk">Joanne:</span> And I suppose it&rsquo;s good if you&rsquo;re <span class="ans"><span class="qb">9</span>confident</span>.</p>
+<p><span class="spk">Mark:</span> Well, that&rsquo;s certainly an added bonus when you&rsquo;re meeting the public.</p>
+<p><span class="spk">Joanne:</span> Sounds great. Well, I&rsquo;m certainly interested in giving it a go.</p>
+<p><span class="spk">Mark:</span> Great. So we&rsquo;ll need you to fill in a form. You can pick one up from one of our shops or download it from our website.</p>
+<p><span class="spk">Joanne:</span> What&rsquo;s the address?</p>
+<p><span class="spk">Mark:</span> It&rsquo;s www.giving.org.uk.</p>
+<p><span class="spk">Joanne:</span> OK, I&rsquo;ve got it.</p>
+<p><span class="spk">Mark:</span> Good. And then when you&rsquo;ve found the website, on the homepage, click on the tab called <span class="ans"><span class="qb">10</span>Applications</span>.</p>
+<p><span class="spk">Joanne:</span> Right. Well, thanks ever so much. I&rsquo;ll try to get the form sent to you in the next couple of days.</p>
+<p><span class="spk">Mark:</span> Thanks. We look forward to hearing from you.</p>
+<p><em>That is the end of Part 1. You now have one minute to check your answers to Part 1.</em></p>
+</div>
+
+<div class="script-section hidden" data-s="2">
+<h4>Part 2 &ndash; City Tours</h4>
+<p><em>Turn to Part 2. Part 2. You will hear a tour leader giving information about a bus tour. First, you have some time to look at questions 11 to 15. Now listen and answer questions 11 to 15.</em></p>
+<p><span class="spk">Tour leader:</span> Thank you for choosing City Tours. The reason so many people choose our tours when visiting this city is because you can design your tour to suit your own interests. Your all-day pass entitles you to board our bus at any stop and stay as long as you like at each place. The all-day bus pass costs <span class="ans"><span class="qb">11</span>$18</span> for adults. Children between the ages of 5 and 12 pay half the adult fare and children under 5 ride for <span class="ans"><span class="qb">12</span>free</span>.</p>
+<p>Our buses run every hour on the half-hour starting at 8:30 a.m. Our most popular tour is the Center City Tour, which goes to all the major attractions in the center of the city. From the starting point here at the tour bus office, the bus goes to the first stop, <span class="ans"><span class="qb">13</span>Hill Park</span>. As you may guess, this park is located at the top of a small hill. The next stop is the fishing docks. Following that, the bus goes on to the third stop, <span class="ans"><span class="qb">14</span>Bay Bridge</span>, located at the foot of the bridge which crosses the bay. The fourth stop is in the shopping district, then the fifth and last stop is at <span class="ans"><span class="qb">15</span>Green Street</span>.</p>
+<p><em>Before you hear the rest of the talk, you have some time to look at questions 16 to 20. Now listen and answer questions 16 to 20.</em></p>
+<p>There are many interesting things to do and see on the Center City Tour. At the first stop, you can enjoy a spectacular <span class="ans"><span class="qb">16</span>view</span> of the bay, the city, and especially the fishing docks, which are located at the foot of the hill. At the second stop, you can walk around and look at the <span class="ans"><span class="qb">17</span>boats</span>. Fresh fish from the bay are also for sale here since this is a place where the fishermen bring in their catch. The next stop here, you can eat <span class="ans"><span class="qb">18</span>fresh</span> fish, prepared in the traditional local way. The fourth stop is, of course, where you can do your shopping. Don&rsquo;t miss the opportunity to purchase some of our city&rsquo;s famous handmade <span class="ans"><span class="qb">19</span>baskets</span>. You would want to take several home as souvenirs of your visit to our city. Finally, the last stop on the tour. You can visit one of the oldest buildings in our city, the <span class="ans"><span class="qb">20</span>theatre</span>. This building was built over 400 years ago and is still used today as a place to see plays, musicals and other performances, as well as our annual film festival.</p>
+<p><em>That is the end of Part 2. You now have half a minute to check your answers.</em></p>
+</div>
+
+<div class="script-section hidden" data-s="3">
+<h4>Part 3 &ndash; Preparing a speech on Shakespeare</h4>
+<p><em>Now turn to Part 3. Part 3. You are going to hear a conversation between a student and a tutor. First, you have some time to look at questions 21 to 25. Now listen to the tape and answer questions 21 to 25.</em></p>
+<p><span class="spk">Jeff:</span> Hi Brad. I was wondering if you have time to answer some of my questions about my upcoming test.</p>
+<p><span class="spk">Brad:</span> Sure, no problem, Jeff. What is it that you are having problems on?</p>
+<p><span class="spk">Jeff:</span> Well, it&rsquo;s for my English final. We have to prepare a five-minute speech to present in front of the whole class, including the professor. So I&rsquo;m a little bit worried.</p>
+<p><span class="spk">Brad:</span> Is there any specific topic or can you do it on whatever you want?</p>
+<p><span class="spk">Jeff:</span> It has to have something to do with the origins of English literature. I&rsquo;m thinking of doing it on Shakespeare, but <span class="ans"><span class="qb">21</span>I bet many other students will have the same idea</span>.</p>
+<p><span class="spk">Brad:</span> That&rsquo;s fine. Don&rsquo;t worry if others are doing the same thing. As long as you do a good job, that&rsquo;s all that counts. <span class="ans"><span class="qb">22</span>A good professor will grade all students fairly</span>.</p>
+<p><span class="spk">Jeff:</span> You really think so?</p>
+<p><span class="spk">Brad:</span> I suppose Shakespeare is the most famous author, so it should be fine. Besides, Shakespeare has so many works, you only have to choose a couple of them and talk about those.</p>
+<p><span class="spk">Jeff:</span> I guess you&rsquo;re right. Do you have any advice about how to prepare a speech?</p>
+<p><span class="spk">Brad:</span> First, you need to <span class="ans"><span class="qb">23</span>select your topic</span>. Have you done this yet?</p>
+<p><span class="spk">Jeff:</span> Yes, I have lots of information on Shakespeare.</p>
+<p><span class="spk">Brad:</span> Good. Next, you should <span class="ans"><span class="qb">24</span>do a research</span> on a specific topic. Do you have a deadline for which to turn in your speech topic?</p>
+<p><span class="spk">Jeff:</span> The deadline is next Tuesday.</p>
+<p><span class="spk">Brad:</span> So you should have a detailed outline of what you will say by then. Do not just turn in a piece of paper saying Shakespeare on it. That will not give your professor any ideas to what you will be talking about.</p>
+<p><span class="spk">Jeff:</span> OK. So you think I should write out an outline of my speech?</p>
+<p><span class="spk">Brad:</span> Of course! Writing your speech out in outline form is essential. No one could give a speech from scratch. Even the president must refer to his outline when giving a speech. <span class="ans"><span class="qb">25</span>An outline will give you a good structure to base your speech on</span>.</p>
+<p><em>Now look at questions 26 to 30. Now listen to the tape and answer questions 26 to 30.</em></p>
+<p><span class="spk">Jeff:</span> That&rsquo;s true. I was thinking that I would do an outline last, after I figured everything out. But I think your idea is better. What should I do after I have an outline prepared?</p>
+<p><span class="spk">Brad:</span> You should then write the speech out, word for word, what you&rsquo;re going to say. This is so <span class="ans"><span class="qb">26</span>you&rsquo;ll have a firm idea of what you will say</span>. It doesn&rsquo;t mean that the speech you will give will be exactly the same, but at least you have a fairly good idea what the final product will be. At this point, I can read it over for you if you want.</p>
+<p><span class="spk">Jeff:</span> Really? That would be great! I would appreciate that so much!</p>
+<p><span class="spk">Brad:</span> No problem. Once you write it out, the next step is to practise giving the speech. At first, you can do it <span class="ans"><span class="qb">27</span>in front of the mirror</span>, so you can see your expressions in your presentation. After that, you should practise giving your speech <span class="ans"><span class="qb">28</span>to some friends</span>. I can listen to it for you, too.</p>
+<p><span class="spk">Jeff:</span> That&rsquo;s a great idea! I really owe you a big favour then.</p>
+<p><span class="spk">Brad:</span> Sure. You can do my Latin homework for me. Just kidding. Seriously, don&rsquo;t worry about it. I can help you with anything you need.</p>
+<p><span class="spk">Jeff:</span> So when is the speech due?</p>
+<p><span class="spk">Brad:</span> Well, the speech topic is due next Tuesday. <span class="ans"><span class="qb">29</span>The speech itself will be due next Friday</span>. I can help you any time you want because <span class="ans"><span class="qb">30</span>I have no tests this next week</span>. Besides, I&rsquo;m an English major and Shakespeare is one of my favourite authors, so helping you out will be no big deal.</p>
+<p><span class="spk">Jeff:</span> Thanks so much. Well, I&rsquo;m going to the library to get started on all this. I&rsquo;ll call you tomorrow.</p>
+<p><span class="spk">Brad:</span> See you tomorrow then.</p>
+<p><em>That is the end of Part 3. You now have 30 seconds to check your answers to Part 3.</em></p>
+</div>
+
+<div class="script-section hidden" data-s="4">
+<h4>Part 4 &ndash; Case study on LCP Technologies</h4>
+<p><em>Part 4. First, you have some time to look at questions 31 to 40. Now listen carefully and answer questions 31 to 40.</em></p>
+<p><span class="spk">Lecturer:</span> The basis of my work has been a case study of a company in India called LCP Technologies. You may have heard about it as it has been in the news lately. India, as you know, is famous for its high quality software companies. LCP Technologies is a software company specialising in outsourcing, designing solutions to specific problems other companies have. And it&rsquo;s one of the biggest by size in the country with over 10,000 employees. The new CEO, Manjeet Khanna, has built a reputation for innovation that has attracted attention from every continent. His basic idea is not to reduce levels of management but to make the workplace more <span class="ans"><span class="qb">31</span>democratic</span>. By that I don&rsquo;t mean that everyone has equal power and equal responsibility, which most people would agree would make a company impossible to manage. But everyone is encouraged to be a critical and active part of the company. Let me give you an example.</p>
+<p>Many companies have a system of rating and grading employees and managers are also graded, but normally by superiors as this sort of information generally goes upwards and it&rsquo;s used for reviews and performance assessments. In LCP Technologies, everyone, including the CEO, is graded. And what&rsquo;s more, these grades are published on the internal staff <span class="ans"><span class="qb">32</span>website</span>, accessible for everyone in the company. The initial reaction from managers not used to such a concept of <span class="ans"><span class="qb">33</span>transparency</span> was understandably negative, as you can imagine, but it did work. According to Khanna, one benefit in particular is that the culture has changed. It&rsquo;s now one of openness, much more so than in the past. What&rsquo;s more, managers and in fact the whole workforce now feel much more comfortable commenting on and also correcting any management faults. So, the philosophy has encouraged good communication at all levels of the company and that works to the benefit of everyone.</p>
+<p>In fact, the motto Khanna goes by, which may sound unusual in an era where we are all used to thinking of the customer as king, is <span class="ans"><span class="qb">34</span>employee first</span>. The benefits of this style are obvious. One of LCP&rsquo;s problems was high staff turnover, with trained software engineers leaving to join another company, sometimes after just a few months&rsquo; service. This is one of the typical problems of industries that are in demand. However, the company now manages to keep its staff. And according to statistics, considerably fewer key engineers are leaving than the industry average, indicating a high level of job satisfaction. This has been an important part of enabling the terrific growth of the company and that, in turn, has seen <span class="ans"><span class="qb">35</span>income</span> increase by 32% in two years, which is pretty astonishing.</p>
+<p>What&rsquo;s more, according to Khanna, his philosophy reinforces the message that the <span class="ans"><span class="qb">36</span>solution</span> to a problem can come from any part of the company, not simply from the top. The system depends on winning the trust of everyone involved, of course. Khanna again broke with tradition by making it clear that grading would not be used to determine <span class="ans"><span class="qb">37</span>promotion</span>.</p>
+<p>Two other tools that form part of his management style are his personal touch. He answers all emails from anyone in the company in person and is on record as saying that this can take up to 10 hours a week of his time. And finally, he introduced a novel approach to dealing with staff issues. Khanna developed an online forum for complaints. Each one is called a <span class="ans"><span class="qb">38</span>ticket</span>, since that avoids the overtly unpleasant image of a complaint. Any employee or manager can post one online about absolutely anything, whether about faulty air conditioning, food choices in the cafeteria, or even much more sensitive issues such as the length of <span class="ans"><span class="qb">39</span>vacation</span> you&rsquo;re allowed. When the new system for dealing with complaints was introduced, people were unsure about criticising the company and so sent their complaints in anonymously. But then it was impossible to check if they were happy with the action taken. So, a <span class="ans"><span class="qb">40</span>ban</span> was placed on this, and now everyone has to take responsibility for their complaint. Another interesting aspect of the company&hellip;</p>
+<p><em>That is the end of Part 4. You now have one minute to check your answers to Part 4. That is the end of the listening test.</em></p>
+</div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ================= MENUS ================= -->
+<div id="contextMenu" class="hidden">
+  <div onclick="applyHighlight()">Highlight</div>
+  <div onclick="applyComment()">Comment</div>
+  <div onclick="clearSelectionMarks()">Clear</div>
+  <div onclick="clearAllMarks()">Clear All</div>
+</div>
+<div id="mobile-selection-menu" class="hidden">
+  <button onclick="applyHighlight()">Highlight</button>
+  <button onclick="applyComment()">Comment</button>
+  <button onclick="clearSelectionMarks()">Clear</button>
+</div>
+<div id="goto-widget" class="hidden">
+  <div><strong>Go to question</strong> (1&ndash;40)</div>
+  <input type="number" id="goto-input" min="1" max="40">
+</div>
+
+<div id="answer-key" style="display:none;">
+    "1": "homeless",
+    "2": "museum",
+    "3": "5th/5th of March",
+    "4": "Wednesday",
+    "5": "prices",
+    "6": "clothing",
+    "7": "toys",
+    "8": "reliable",
+    "9": "confident",
+    "10": "Applications",
+    "11": "18",
+    "12": "free",
+    "13": "Hill Park",
+    "14": "Bay Bridge",
+    "15": "Green Street",
+    "16": "view",
+    "17": "boats",
+    "18": "fresh",
+    "19": "baskets",
+    "20": "theatre",
+    "21": "C",
+    "22": "A",
+    "23": "select topic",
+    "24": "do research",
+    "25": "C",
+    "26": "A",
+    "27": "B,D",
+    "28": "B,D",
+    "29": "B",
+    "30": "A",
+    "31": "democratic",
+    "32": "website",
+    "33": "transparency",
+    "34": "employee first",
+    "35": "income",
+    "36": "solution",
+    "37": "promotion",
+    "38": "ticket",
+    "39": "vacation",
+    "40": "ban"
+</div>
+
+<script>
+const audioSource = "https://raw.githubusercontent.com/jasurrkham1dov-blip/test-4-9/main/listening-test-15_1.mp3";
+const audioPlayer = document.getElementById('global-audio-player');
+const CHECKBOX_GROUPS = { 'q27-28': [27, 28] };
+let currentPart = 1;
+let currentQuestion = 1;
+let testStarted = false;
+let testSubmitted = false;
+let savedRange = null;
+
+function parseAnswerKey() {
+    const answerKey = document.getElementById('answer-key').textContent;
+    return JSON.parse('{' + answerKey + '}');
+}
+
+function groupForQuestion(q) {
+    for (const name in CHECKBOX_GROUPS) {
+        if (CHECKBOX_GROUPS[name].includes(q)) return name;
+    }
+    return null;
+}
+
+/* ---------------- Footer ---------------- */
+function buildFooter() {
+    const row = document.getElementById('nav-row');
+    let html = '';
+    for (let p = 1; p <= 4; p++) {
+        html += '<div class="footer__questionWrapper___1tZ46' + (p === 1 ? ' selected' : '') + '" data-part="' + p + '">';
+        html += '<button class="footer__questionNo___3WNct" onclick="switchToPart(' + p + ')"><span class="partLabel">Part ' + p + '</span><span class="attemptedCount" id="attempted-' + p + '">0 of 10</span></button>';
+        html += '<div class="footer__subquestionWrapper___9GgoP">';
+        for (let q = (p - 1) * 10 + 1; q <= p * 10; q++) {
+            html += '<button class="subQuestion scorable-item" data-q="' + q + '" onclick="goToQuestion(' + q + ')">' + q + '</button>';
+        }
+        html += '</div></div>';
+    }
+    html += '<button id="deliver-button" class="footer__deliverButton___3FM07" onclick="submitListeningSection()">Submit Answers</button>';
+    row.innerHTML = html;
+}
+
+/* ---------------- Start / audio ---------------- */
+function formatTime(s) {
+    if (!isFinite(s)) return '0:00';
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return m + ':' + (sec < 10 ? '0' : '') + sec;
+}
+
+function startTest() {
+    document.getElementById('start-screen').classList.add('hidden');
+    document.getElementById('test-screen').classList.remove('hidden');
+    testStarted = true;
+    history.pushState(null, '', location.href);
+    audioPlayer.src = audioSource;
+    const p = audioPlayer.play();
+    if (p && p.catch) {
+        p.catch(function () {
+            audioPlayer.addEventListener('canplay', function retry() {
+                audioPlayer.removeEventListener('canplay', retry);
+                audioPlayer.play().catch(function () {});
+            });
+            const playNow = function () {
+                audioPlayer.play().catch(function () {});
+                ['click', 'keydown', 'touchstart'].forEach(function (ev) { document.removeEventListener(ev, playNow); });
+            };
+            ['click', 'keydown', 'touchstart'].forEach(function (ev) { document.addEventListener(ev, playNow, { once: true }); });
+        });
+    }
+    switchToPart(1);
+}
+
+document.getElementById('play-pause-btn').addEventListener('click', function (e) {
+    e.stopPropagation();
+    if (audioPlayer.paused) audioPlayer.play().catch(function () {});
+    else audioPlayer.pause();
+});
+audioPlayer.addEventListener('play', function () {
+    document.getElementById('icon-play').classList.add('hidden');
+    document.getElementById('icon-pause').classList.remove('hidden');
+});
+audioPlayer.addEventListener('pause', function () {
+    document.getElementById('icon-play').classList.remove('hidden');
+    document.getElementById('icon-pause').classList.add('hidden');
+});
+audioPlayer.addEventListener('loadedmetadata', function () {
+    document.getElementById('total-duration').textContent = formatTime(audioPlayer.duration);
+});
+audioPlayer.addEventListener('timeupdate', function () {
+    if (seeking) return;
+    if (audioPlayer.duration) {
+        document.getElementById('progress-bar').value = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+    }
+    document.getElementById('current-time').textContent = formatTime(audioPlayer.currentTime);
+});
+audioPlayer.addEventListener('ended', function () {
+    if (!testSubmitted) document.getElementById('audio-ended-banner').classList.remove('hidden');
+});
+
+/* ---------------- Navigation ---------------- */
+function switchToPart(n) {
+    currentPart = n;
+    for (let p = 1; p <= 4; p++) {
+        document.getElementById('part-' + p).classList.toggle('hidden', p !== n);
+    }
+    document.querySelectorAll('.footer__questionWrapper___1tZ46').forEach(function (w) {
+        w.classList.toggle('selected', parseInt(w.dataset.part, 10) === n);
+    });
+    const first = (n - 1) * 10 + 1;
+    if (currentQuestion < first || currentQuestion > first + 9) currentQuestion = first;
+    window.scrollTo(0, 0);
+    updateNavigation();
+    if (testSubmitted && document.body.classList.contains('script-open')) openScript(n);
+}
+
+function questionElement(q) {
+    let el = document.getElementById('q' + q);
+    if (el) return el;
+    const g = groupForQuestion(q);
+    if (g) return document.getElementById('group-' + g.slice(1));
+    const r = document.querySelector('input[name="q' + q + '"]');
+    return r ? r.closest('.single-choice') || r : null;
+}
+
+function goToQuestion(q) {
+    const part = Math.ceil(q / 10);
+    if (part !== currentPart) switchToPart(part);
+    currentQuestion = q;
+    updateNavigation();
+    const el = questionElement(q);
+    if (!el) return;
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const target = el.closest('.single-choice, .checkbox-group, tr, li') || el;
+    target.classList.remove('flash');
+    void target.offsetWidth;
+    target.classList.add('flash');
+    setTimeout(function () { target.classList.remove('flash'); }, 1000);
+    if (el.tagName === 'INPUT' && el.type === 'text') el.focus({ preventScroll: true });
+}
+
+function nextPart() { if (currentQuestion < 40) goToQuestion(currentQuestion + 1); }
+function previousPart() { if (currentQuestion > 1) goToQuestion(currentQuestion - 1); }
+
+function updateNavigation() {
+    document.querySelectorAll('.subQuestion').forEach(function (b) {
+        b.classList.toggle('active', parseInt(b.dataset.q, 10) === currentQuestion);
+    });
+}
+
+/* ---------------- Answer state ---------------- */
+function isAnswered(q) {
+    const g = groupForQuestion(q);
+    if (g) {
+        const count = document.querySelectorAll('input[name="' + g + '"]:checked').length;
+        return count >= CHECKBOX_GROUPS[g].indexOf(q) + 1;
+    }
+    const el = document.getElementById('q' + q);
+    if (el && el.classList.contains('answer-input')) return el.value.trim() !== '';
+    return !!document.querySelector('input[name="q' + q + '"]:checked');
+}
+
+function updateAttemptedCount(part) {
+    let n = 0;
+    for (let q = (part - 1) * 10 + 1; q <= part * 10; q++) if (isAnswered(q)) n++;
+    const el = document.getElementById('attempted-' + part);
+    if (el) el.textContent = Math.min(n, 10) + ' of 10';
+}
+
+function updateAnsweredIndicators() {
+    document.querySelectorAll('.subQuestion').forEach(function (b) {
+        b.classList.toggle('answered', isAnswered(parseInt(b.dataset.q, 10)));
+    });
+    for (let p = 1; p <= 4; p++) updateAttemptedCount(p);
+}
+
+function setupInputs() {
+    document.querySelectorAll('.left-panel input').forEach(function (inp) {
+        inp.addEventListener('input', updateAnsweredIndicators);
+        inp.addEventListener('change', function () {
+            if (inp.type === 'radio') {
+                document.querySelectorAll('input[name="' + inp.name + '"]').forEach(function (r) {
+                    const lab = r.closest('label');
+                    if (lab) lab.classList.toggle('selected', r.checked);
+                });
+            }
+            if (inp.type === 'checkbox') {
+                const lab = inp.closest('label');
+                if (lab) lab.classList.toggle('selected', inp.checked);
+            }
+            const m = inp.name ? inp.name.match(/^q(\d+)/) : (inp.id ? inp.id.match(/^q(\d+)/) : null);
+            if (m) { currentQuestion = parseInt(m[1], 10); updateNavigation(); }
+            updateAnsweredIndicators();
+        });
+        inp.addEventListener('focus', function () {
+            const m = (inp.id || '').match(/^q(\d+)$/);
+            if (m) { currentQuestion = parseInt(m[1], 10); updateNavigation(); }
+        });
+    });
+}
+
+function setupCheckboxLimits() {
+    Object.keys(CHECKBOX_GROUPS).forEach(function (name) {
+        document.querySelectorAll('input[name="' + name + '"]').forEach(function (cb) {
+            cb.addEventListener('change', function () {
+                const checked = document.querySelectorAll('input[name="' + name + '"]:checked');
+                if (checked.length > 2) {
+                    cb.checked = false;
+                    const lab = cb.closest('label');
+                    if (lab) lab.classList.remove('selected');
+                    const grp = cb.closest('.checkbox-group');
+                    grp.classList.remove('shake');
+                    void grp.offsetWidth;
+                    grp.classList.add('shake');
+                    updateAnsweredIndicators();
+                }
+            });
+        });
+    });
+}
+
+/* ---------------- Highlight & comments ---------------- */
+function selectionInPanel() {
+    const sel = window.getSelection();
+    if (!sel || sel.rangeCount === 0 || sel.isCollapsed) return null;
+    const range = sel.getRangeAt(0);
+    const panel = document.querySelector('.left-panel');
+    if (!panel.contains(range.commonAncestorContainer)) return null;
+    return range;
+}
+
+function hideMenus() {
+    document.getElementById('contextMenu').classList.add('hidden');
+    document.getElementById('mobile-selection-menu').classList.add('hidden');
+}
+
+function wrapRange(range, cls, comment) {
+    const span = document.createElement('span');
+    span.className = cls;
+    if (comment) span.setAttribute('data-comment', comment);
+    try {
+        range.surroundContents(span);
+    } catch (e) {
+        span.appendChild(range.extractContents());
+        range.insertNode(span);
+    }
+}
+
+function applyHighlight() {
+    const range = savedRange || selectionInPanel();
+    if (range) {
+        try { wrapRange(range, 'highlight'); }
+        catch (e) { document.execCommand('backColor', false, '#b02350'); }
+    }
+    savedRange = null;
+    window.getSelection().removeAllRanges();
+    hideMenus();
+}
+
+function applyComment() {
+    const range = savedRange || selectionInPanel();
+    hideMenus();
+    if (!range) return;
+    const text = prompt('Add a comment:');
+    if (text) wrapRange(range, 'comment-highlight', text);
+    savedRange = null;
+    window.getSelection().removeAllRanges();
+}
+
+function unwrap(el) {
+    const parent = el.parentNode;
+    while (el.firstChild) parent.insertBefore(el.firstChild, el);
+    parent.removeChild(el);
+    parent.normalize();
+}
+
+function clearSelectionMarks() {
+    const range = savedRange || selectionInPanel();
+    document.querySelectorAll('.left-panel .highlight, .left-panel .comment-highlight').forEach(function (el) {
+        if (range && range.intersectsNode(el)) unwrap(el);
+    });
+    savedRange = null;
+    hideMenus();
+}
+
+function clearAllMarks() {
+    document.querySelectorAll('.left-panel .highlight, .left-panel .comment-highlight').forEach(unwrap);
+    hideMenus();
+}
+
+document.addEventListener('contextmenu', function (e) {
+    if (!testStarted || testSubmitted) return;
+    const range = selectionInPanel();
+    const onMark = e.target.closest && e.target.closest('.left-panel .highlight, .left-panel .comment-highlight');
+    if (range || onMark) {
+        e.preventDefault();
+        savedRange = range ? range.cloneRange() : null;
+        if (!range && onMark) {
+            const r = document.createRange();
+            r.selectNodeContents(onMark);
+            savedRange = r;
+        }
+        const menu = document.getElementById('contextMenu');
+        menu.style.left = e.pageX + 'px';
+        menu.style.top = e.pageY + 'px';
+        menu.classList.remove('hidden');
+    } else {
+        e.preventDefault();
+    }
+});
+
+document.addEventListener('mousedown', function (e) {
+    if (!e.target.closest('#contextMenu') && !e.target.closest('#mobile-selection-menu')) hideMenus();
+});
+
+document.addEventListener('selectionchange', function () {
+    if (!('ontouchstart' in window) || !testStarted || testSubmitted) return;
+    const range = selectionInPanel();
+    const menu = document.getElementById('mobile-selection-menu');
+    if (!range) { menu.classList.add('hidden'); return; }
+    savedRange = range.cloneRange();
+    const rect = range.getBoundingClientRect();
+    menu.classList.remove('hidden');
+    const top = rect.top + window.scrollY - menu.offsetHeight - 10;
+    let left = rect.left + window.scrollX + rect.width / 2 - menu.offsetWidth / 2;
+    left = Math.max(8, Math.min(left, window.innerWidth - menu.offsetWidth - 8));
+    menu.style.top = Math.max(window.scrollY + 120, top) + 'px';
+    menu.style.left = left + 'px';
+});
+
+/* ---------------- Go-to widget ---------------- */
+document.addEventListener('keydown', function (e) {
+    const widget = document.getElementById('goto-widget');
+    const input = document.getElementById('goto-input');
+    if (!testStarted || testSubmitted) return;
+    if (!widget.classList.contains('hidden')) {
+        if (e.key === 'Escape') { widget.classList.add('hidden'); }
+        if (e.key === 'Enter') {
+            const n = parseInt(input.value, 10);
+            widget.classList.add('hidden');
+            if (n >= 1 && n <= 40) goToQuestion(n);
+        }
+        return;
+    }
+    const tag = (document.activeElement && document.activeElement.tagName) || '';
+    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+    if (/^[0-9]$/.test(e.key)) {
+        e.preventDefault();
+        widget.classList.remove('hidden');
+        input.value = e.key;
+        input.focus();
+    }
+});
+
+/* ---------------- Scoring ---------------- */
+function getUserAnswer(q) {
+    const g = groupForQuestion(q);
+    if (g) {
+        return Array.from(document.querySelectorAll('input[name="' + g + '"]:checked')).map(function (c) { return c.value; }).sort().join(', ');
+    }
+    const el = document.getElementById('q' + q);
+    if (el && el.classList.contains('answer-input')) return el.value.trim();
+    const r = document.querySelector('input[name="q' + q + '"]:checked');
+    return r ? r.value : '';
+}
+
+function normalize(s) {
+    return String(s).toLowerCase().replace(/[£$'"‘’“”]/g, '').replace(/\s+/g, ' ').trim().replace(/\.$/, '');
+}
+
+function getQuestionResult(qStr, correctAnswer) {
+    const q = parseInt(qStr, 10);
+    const g = groupForQuestion(q);
+    if (g) {
+        const correctSet = correctAnswer.split(',').map(function (x) { return x.trim(); });
+        const selected = Array.from(document.querySelectorAll('input[name="' + g + '"]:checked')).map(function (c) { return c.value; });
+        const hits = selected.filter(function (v) { return correctSet.includes(v); }).length;
+        const needed = CHECKBOX_GROUPS[g].indexOf(q) + 1;
+        return { user: selected.sort().join(', '), correct: correctSet.join(', '), isCorrect: hits >= needed };
+    }
+    const user = getUserAnswer(q);
+    if (!user) return { user: '', correct: correctAnswer.split('/')[0], isCorrect: false };
+    const options = correctAnswer.split('/').map(normalize);
+    return { user: user, correct: correctAnswer.split('/')[0], isCorrect: options.includes(normalize(user)) };
+}
+
+function bandFromRaw(raw) {
+    if (raw >= 39) return 9; if (raw >= 37) return 8.5; if (raw >= 35) return 8; if (raw >= 32) return 7.5;
+    if (raw >= 30) return 7; if (raw >= 26) return 6.5; if (raw >= 23) return 6; if (raw >= 18) return 5.5;
+    if (raw >= 16) return 5; if (raw >= 13) return 4.5; if (raw >= 10) return 4; if (raw >= 8) return 3.5;
+    if (raw >= 6) return 3; if (raw >= 4) return 2.5; if (raw >= 2) return 2; if (raw === 1) return 1.5;
+    return 0;
+}
+
+function addAfter(el, cls, text) {
+    const s = document.createElement('span');
+    s.className = cls;
+    s.textContent = text;
+    el.insertAdjacentElement('afterend', s);
+    return s;
+}
+
+function markQuestion(q, key) {
+    const r = getQuestionResult(String(q), key[String(q)]);
+    const btn = document.querySelector('.subQuestion[data-q="' + q + '"]');
+    if (btn) btn.classList.add(r.isCorrect ? 'res-correct' : 'res-incorrect');
+    if (groupForQuestion(q)) return r;
+    const el = document.getElementById('q' + q);
+    if (el && el.classList.contains('answer-input')) {
+        el.classList.add(r.isCorrect ? 'correct' : 'incorrect');
+        const after = r.isCorrect ? addAfter(el, 'mark ok', '✓')
+                                  : addAfter(el, 'mark bad', '✗');
+        if (!r.isCorrect) addAfter(after, 'fix', '→ ' + r.correct);
+        return r;
+    }
+    const correct = key[String(q)];
+    document.querySelectorAll('input[name="q' + q + '"]').forEach(function (inp) {
+        const box = inp.closest('label') || inp.closest('td');
+        if (!box) return;
+        if (inp.value === correct) box.classList.add(box.tagName === 'TD' ? 'cell-correct' : 'opt-correct');
+        else if (inp.checked) box.classList.add(box.tagName === 'TD' ? 'cell-wrong' : 'opt-wrong');
+    });
+    const cell = document.querySelector('input[name="q' + q + '"]');
+    const row = cell && cell.closest('tr');
+    if (row) {
+        const label = row.querySelector('td');
+        label.insertAdjacentHTML('beforeend', r.isCorrect ? ' <span class="mark ok">✓</span>' : ' <span class="mark bad">✗</span> <span class="fix">→ ' + correct + '</span>');
+    }
+    return r;
+}
+
+function markCheckboxGroups(key) {
+    Object.keys(CHECKBOX_GROUPS).forEach(function (name) {
+        const qs = CHECKBOX_GROUPS[name];
+        const correctSet = key[String(qs[0])].split(',').map(function (x) { return x.trim(); });
+        let hits = 0;
+        document.querySelectorAll('input[name="' + name + '"]').forEach(function (cb) {
+            const lab = cb.closest('label');
+            if (correctSet.includes(cb.value)) { lab.classList.add('opt-correct'); if (cb.checked) hits++; }
+            else if (cb.checked) lab.classList.add('opt-wrong');
+        });
+        const grp = document.getElementById('group-' + name.slice(1));
+        const p = document.createElement('p');
+        p.className = 'group-result';
+        p.innerHTML = '<span class="' + (hits === 2 ? 'mark ok' : 'mark bad') + '">' + hits + ' / 2 correct</span> <span class="fix">Answer: ' + correctSet.join(' and ') + '</span>';
+        grp.appendChild(p);
+    });
+}
+
+function submitListeningSection() {
+    if (testSubmitted) return;
+    if (!confirm('Are you sure you want to submit your answers?')) return;
+    testSubmitted = true;
+    audioPlayer.pause();
+    hideMenus();
+    document.getElementById('goto-widget').classList.add('hidden');
+    document.getElementById('audio-ended-banner').classList.add('hidden');
+
+    const key = parseAnswerKey();
+    let score = 0;
+    for (let q = 1; q <= 40; q++) { if (markQuestion(q, key).isCorrect) score++; }
+    markCheckboxGroups(key);
+    document.querySelectorAll('.left-panel input').forEach(function (i) { i.disabled = true; });
+
+    const btn = document.getElementById('deliver-button');
+    btn.textContent = 'Submitted';
+    btn.disabled = true;
+    btn.style.background = '#6c757d';
+    btn.style.cursor = 'default';
+
+    document.getElementById('score-chip').textContent = 'Score ' + score + '/40 · Band ' + bandFromRaw(score);
+    document.getElementById('header-title').classList.add('hidden');
+    document.getElementById('review-controls').classList.remove('hidden');
+    document.body.classList.add('review-mode');
+    if (window.innerWidth > 900) openScript(currentPart);
+    else closeScript();
+}
+
+/* ---------------- Script panel ---------------- */
+function openScript(n) {
+    if (!testSubmitted) return;
+    document.body.classList.add('script-open');
+    document.getElementById('script-modal').classList.remove('hidden');
+    document.getElementById('script-toggle').textContent = 'Hide script';
+    document.querySelectorAll('.script-section').forEach(function (s) {
+        s.classList.toggle('hidden', parseInt(s.dataset.s, 10) !== n);
+    });
+    document.querySelectorAll('.script-tabs button').forEach(function (b) {
+        b.classList.toggle('active', parseInt(b.dataset.s, 10) === n);
+    });
+    document.getElementById('script-body').scrollTop = 0;
+}
+function closeScript() {
+    document.body.classList.remove('script-open');
+    document.getElementById('script-modal').classList.add('hidden');
+    document.getElementById('script-toggle').textContent = 'Show script';
+}
+function toggleScript() {
+    if (document.body.classList.contains('script-open')) closeScript();
+    else openScript(currentPart);
+}
+
+/* Drag the bar to move through the audio */
+let seeking = false;
+const progressBar = document.getElementById('progress-bar');
+progressBar.addEventListener('input', function (e) {
+    seeking = true;
+    if (audioPlayer.duration) {
+        document.getElementById('current-time').textContent = formatTime((e.target.value / 100) * audioPlayer.duration);
+    }
+});
+progressBar.addEventListener('change', function (e) {
+    if (audioPlayer.duration) audioPlayer.currentTime = (e.target.value / 100) * audioPlayer.duration;
+    seeking = false;
+});
+
+/* ---------------- Back-navigation guard ---------------- */
+window.addEventListener('popstate', function () {
+    if (testStarted && !testSubmitted) history.pushState(null, '', location.href);
+});
+
+/* ---------------- Init ---------------- */
+buildFooter();
+setupInputs();
+setupCheckboxLimits();
+updateAnsweredIndicators();
+updateNavigation();
+</script>
+</body>
+</html>

@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IELTS Reading Test – The Early History of Olive Oil (Q1–13)</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      overflow: hidden;
+      color: #1e293b;
+    }
+    .test-wrapper { display:flex; flex-direction:column; height:100vh; }
+    .test-container { display:flex; flex:1; overflow:hidden; }
+
+    /* Header */
+    .header{
+      background:#ffffff; border-bottom:1px solid #cbd5e1;
+      padding:1rem 2rem; display:flex;
+      justify-content:space-between; align-items:center;
+      box-shadow:0 4px 12px rgba(0,0,0,.08);
+      gap:1rem; flex-wrap:wrap;
+    }
+    .header__logo { display:flex; align-items:center; gap:.75rem; }
+    .header__title { font-size:1.1rem; font-weight:600; color:#1e293b; flex:1; min-width:300px; }
+    .header__timer{
+      font-size:1.25rem; font-weight:600; color:#dc2305;
+      background:#fef3c7; padding:.5rem 1.5rem;
+      border-radius:9999px; border:1px solid #fcd34d;
+      transition:all .3s ease; white-space:nowrap;
+    }
+    .header__icons { display:flex; gap:1.25rem; align-items:center; }
+    .header__icon{ font-size:1.5rem; color:#64748b; cursor:pointer; transition:all .3s ease; }
+    .header__icon:hover { color:#d97706; transform:scale(1.15); }
+    .header__telegram{
+      display:flex; align-items:center; gap:0.5rem;
+      padding:0.5rem 1.2rem;
+      background:linear-gradient(90deg,#0369a1,#0284c7);
+      color:#fff; border-radius:9999px; text-decoration:none;
+      font-weight:600; font-size:0.9rem; transition:all .3s ease;
+      border:1px solid #0c4a6e;
+    }
+    .header__telegram:hover{ transform:translateY(-2px); box-shadow:0 4px 12px rgba(2,132,199,0.5); }
+
+    /* Answer Indicators */
+    .answer-indicators{
+      display:flex; gap:0.5rem; flex-wrap:wrap;
+      padding:1rem 2rem; background:#f1f5f9;
+      border-bottom:1px solid #cbd5e1; align-items:center; font-size:0.8rem;
+    }
+    .indicator-label { font-weight:600; color:#475569; margin-right:0.5rem; }
+    .answer-circle{
+      width:2.2rem; height:2.2rem; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-weight:700; cursor:default; transition:all .3s ease;
+      border:2px solid #cbd5e1; background:#cbd5e1; color:#64748b; font-size:0.7rem;
+    }
+    .answer-circle.answered{ background:#10b981; border-color:#059669; color:#fff; box-shadow:0 0 8px rgba(16,185,129,0.4); }
+    .answer-circle.unanswered{ background:#ef4444; border-color:#dc2626; color:#fff; box-shadow:0 0 8px rgba(239,68,68,0.4); }
+
+    /* Rubric */
+    .sectionRubric{
+      margin:1.5rem; padding:1.25rem; background:#ffffff;
+      border:1px solid #cbd5e1; border-radius:.75rem;
+      box-shadow:0 4px 12px rgba(0,0,0,.05);
+    }
+    .sectionRubric h2 { font-size:1.25rem; color:#d97706; margin-bottom:.5rem; }
+    .sectionRubric p { margin:0.5rem 0; color:#475569; font-size:0.95rem; }
+
+    /* Panels */
+    .passage-container{
+      width:45%; height:100%; overflow-y:auto;
+      padding:1.5rem; box-sizing:border-box;
+      background:#fafafa; border-right:1px solid #cbd5e1;
+      position:relative; user-select:text; -webkit-user-select:text;
+    }
+    .questions-container{
+      flex:1; height:100%; overflow-y:auto;
+      padding:1.5rem; box-sizing:border-box;
+      background:#fafafa; position:relative;
+      user-select:text; -webkit-user-select:text;
+    }
+    .passage-container::-webkit-scrollbar,
+    .questions-container::-webkit-scrollbar { width:8px; }
+    .passage-container::-webkit-scrollbar-track,
+    .questions-container::-webkit-scrollbar-track { background:#f1f5f9; }
+    .passage-container::-webkit-scrollbar-thumb,
+    .questions-container::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:4px; }
+    .passage-container::-webkit-scrollbar-thumb:hover,
+    .questions-container::-webkit-scrollbar-thumb:hover { background:#94a3b8; }
+
+    /* Divider */
+    .divider { width:14px; background:#cbd5e1; cursor:col-resize; position:relative; }
+    .divider-handle{
+      width:6px; height:60px; background:#94a3b8; border-radius:4px;
+      position:absolute; top:50%; left:4px; transform:translateY(-50%);
+    }
+
+    /* Highlight */
+    .highlight { border-radius:.25rem; padding:0 .15rem; }
+    .highlight.yellow { background:rgba(234,179,8,0.6); }
+    .highlight.green  { background:rgba(34,197,94,0.6); }
+    .highlight.pink   { background:rgba(236,72,153,0.6); }
+    .highlight.blue   { background:rgba(59,130,246,0.6); }
+    .highlight.purple { background:rgba(147,51,234,0.6); }
+    .highlight.red    { background:rgba(239,68,68,0.6); }
+
+    .highlight-toolbar{
+      position:fixed; background:#ffffff;
+      border:1px solid #cbd5e1; border-radius:.5rem;
+      box-shadow:0 8px 16px rgba(0,0,0,.15);
+      display:none; z-index:2000; padding:.5rem;
+      transform:translate(-50%,-100%); margin-top:-.5rem;
+      gap:.35rem; align-items:center; flex-direction:row;
+    }
+    .highlight-toolbar button{
+      background:none; border:none; width:2rem; height:2rem;
+      cursor:pointer; border-radius:.25rem; transition:all .2s ease;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .highlight-toolbar button:hover { background:#f1f5f9; transform:scale(1.08); }
+    .highlight-toolbar button.remove { color:#ef4444; width:auto; padding:0 .5rem; gap:.35rem; }
+    .highlight-color { width:1.5rem; height:1.5rem; border-radius:9999px; border:2px solid #cbd5e1; }
+    .highlight-color.yellow { background:#eab308; }
+    .highlight-color.green  { background:#22c55e; }
+    .highlight-color.pink   { background:#ec4899; }
+    .highlight-color.blue   { background:#3b82f6; }
+    .highlight-color.purple { background:#9333ea; }
+    .highlight-color.red    { background:#ef4444; }
+
+    /* Passage */
+    #passageContent { line-height:1.8; font-size:1.05rem; color:#1e293b; }
+    #passageContent h2 { margin:1rem 0 0.5rem; line-height:1.2; color:#d97706; font-size:1.2rem; }
+    #passageContent p { margin:0.8rem 0; text-align:justify; }
+    .para-label { font-weight:700; color:#d97706; }
+
+    /* Question cards */
+    .questionCard{
+      background:#ffffff; border:1px solid #cbd5e1;
+      border-radius:.75rem; padding:1.25rem; margin-bottom:1.25rem;
+      box-shadow:0 2px 8px rgba(0,0,0,.05); transition:all .3s ease;
+    }
+    .questionCard:hover { box-shadow:0 4px 12px rgba(0,0,0,.08); }
+    .questionCard h3 { font-size:1.1rem; color:#d97706; margin-bottom:.75rem; font-weight:600; }
+    .questionCard p { margin:.4rem 0 .6rem; color:#334155; }
+
+    /* TRUE/FALSE/NOT GIVEN */
+    .tfng-options { display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.5rem; }
+    .tfng-btn{
+      padding:0.45rem 1.1rem; border:2px solid #cbd5e1; border-radius:9999px;
+      font-size:0.85rem; font-weight:600; cursor:pointer; background:#fff;
+      transition:all .2s ease; color:#475569;
+    }
+    .tfng-btn:hover { border-color:#d97706; color:#d97706; }
+    .tfng-btn.selected-true  { background:#d1fae5; border-color:#10b981; color:#065f46; }
+    .tfng-btn.selected-false { background:#fee2e2; border-color:#ef4444; color:#991b1b; }
+    .tfng-btn.selected-ng    { background:#e0e7ff; border-color:#6366f1; color:#3730a3; }
+
+    /* Notes groups for fill-in */
+    .notes-group { margin-bottom:0.8rem; }
+    .notes-group-label {
+      font-weight:700; color:#d97706; font-size:0.9rem; margin-bottom:0.4rem;
+      padding:0.3rem 0.6rem; background:#fffbeb; border-left:3px solid #d97706;
+      border-radius:0 4px 4px 0; display:inline-block;
+    }
+    .notes-group ul { margin:0.3rem 0 0 1rem; padding-left:1rem; }
+    .notes-group li { margin:0.5rem 0; line-height:1.8; font-size:0.95rem; display:flex; align-items:center; flex-wrap:wrap; gap:0.4rem; }
+    .notes-group li::before { content: "•"; color:#d97706; font-size:1rem; flex-shrink:0; }
+
+    /* Fill-in inputs */
+    .q-input {
+      width:150px; padding:.35rem .6rem;
+      border:none; border-bottom:2px solid #cbd5e1;
+      font-size:1rem; background:transparent; transition:border-color .2s;
+    }
+    .q-input:focus { outline:none; border-bottom-color:#d97706; }
+    .blank-num{
+      display:inline-flex; align-items:center; justify-content:center;
+      width:1.55rem; height:1.55rem; background:#d97706; color:#fff;
+      border-radius:50%; font-size:0.72rem; font-weight:700; flex-shrink:0;
+    }
+
+    /* Submit */
+    .submit-container { padding:2rem 1.5rem 3rem; text-align:center; }
+    #submitBtn{
+      background:linear-gradient(135deg,#d97706,#b45309);
+      color:#fff; padding:1rem 3rem; border:none; border-radius:9999px;
+      font-size:1.1rem; font-weight:600; cursor:pointer; transition:all .3s ease;
+      box-shadow:0 4px 12px rgba(217,119,6,.3);
+    }
+    #submitBtn:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(217,119,6,.4); }
+
+    /* Modal */
+    .modal{
+      display:none; position:fixed; z-index:3000;
+      left:0; top:0; width:100%; height:100%;
+      background:rgba(0,0,0,.6); align-items:center;
+      justify-content:center; backdrop-filter:blur(4px);
+    }
+    .modal-content{
+      background:#ffffff; border-radius:1rem; padding:2rem;
+      max-width:620px; width:90%; max-height:80vh; overflow-y:auto;
+      box-shadow:0 20px 60px rgba(0,0,0,.3);
+    }
+    .modal-content h2 { color:#d97706; margin-bottom:1rem; font-size:1.75rem; }
+    #scoreDisplay { font-size:3rem; font-weight:700; color:#10b981; text-align:center; margin:1rem 0; }
+    #feedbackMessage { text-align:center; font-size:1.1rem; color:#475569; margin-bottom:1.5rem; }
+    .result-item { padding:1rem; margin:.75rem 0; border-radius:.5rem; border:1px solid #e2e8f0; }
+    .result-item.correct   { background:#d1fae5; border-color:#10b981; }
+    .result-item.incorrect { background:#fee2e2; border-color:#ef4444; }
+    .result-item .detail { margin:.35rem 0; font-size:.95rem; }
+    #closeResultsBtn{
+      background:#d97706; color:#fff; padding:.75rem 2rem;
+      border:none; border-radius:9999px; font-weight:600;
+      cursor:pointer; margin-top:1rem; width:100%; transition:all .3s ease;
+    }
+    #closeResultsBtn:hover { background:#b45309; }
+
+    /* High contrast */
+    body.high-contrast { background:#000; color:#fff; }
+    body.high-contrast .passage-container,
+    body.high-contrast .questions-container { background:#1a1a1a; color:#fff; }
+    body.high-contrast .questionCard,
+    body.high-contrast .sectionRubric { background:#2a2a2a; border-color:#444; color:#fff; }
+    body.high-contrast #passageContent { color:#fff; }
+    body.high-contrast .tfng-btn { background:#2a2a2a; color:#fff; }
+    body.high-contrast .notes-group-label { background:#2a2a2a; }
+  </style>
+</head>
+<body>
+<div class="test-wrapper">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header__logo">
+      <span style="font-size:2rem;">🫒</span>
+      <span class="header__title">IELTS Reading Test — The Early History of Olive Oil (Questions 1–13)</span>
+    </div>
+    <div class="header__timer" id="timer">00:00</div>
+    <div class="header__icons">
+      <i class="fas fa-adjust header__icon" id="contrastToggle" title="Toggle High Contrast"></i>
+      <i class="fas fa-text-height header__icon" id="textSizeToggle" title="Change Text Size"></i>
+    </div>
+    <a href="https://t.me/ieltswithkhmdv" target="_blank" class="header__telegram">
+      <i class="fab fa-telegram"></i>
+      <span>@ieltswithkhmdv</span>
+    </a>
+  </div>
+
+  <!-- Progress Indicators -->
+  <div class="answer-indicators">
+    <span class="indicator-label">Your Progress:</span>
+    <div class="answer-circle" data-question="1">1</div>
+    <div class="answer-circle" data-question="2">2</div>
+    <div class="answer-circle" data-question="3">3</div>
+    <div class="answer-circle" data-question="4">4</div>
+    <div class="answer-circle" data-question="5">5</div>
+    <div class="answer-circle" data-question="6">6</div>
+    <div class="answer-circle" data-question="7">7</div>
+    <div class="answer-circle" data-question="8">8</div>
+    <div class="answer-circle" data-question="9">9</div>
+    <div class="answer-circle" data-question="10">10</div>
+    <div class="answer-circle" data-question="11">11</div>
+    <div class="answer-circle" data-question="12">12</div>
+    <div class="answer-circle" data-question="13">13</div>
+  </div>
+
+  <!-- Main -->
+  <div class="test-container">
+
+    <!-- Passage -->
+    <div class="passage-container">
+      <div id="passageContent">
+        <h2>The Early History of Olive Oil</h2>
+        <p style="font-style:italic;color:#64748b;">Reading Passage 1 — Questions 1–13</p>
+
+        <p><span class="para-label">A &nbsp;</span> Olive oil is produced from the fruit of the olive tree, which is a member of the Oleaceae plant family. The trees require some cold weather during the year, but also tolerate hot, dry conditions, and do not like moisture when they are flowering. They actually produce better when subjected to these stressful conditions, and as a result, olive trees have traditionally been grown on land where little else will survive.</p>
+
+        <p><span class="para-label">B &nbsp;</span> Archaeologists today are divided over exactly where the first domestication of the olive occurred: some say it was in the area which is now Iran, Syria, Jordan and Egypt, while others contend it was in mainland Greece or on the island of Crete. The one thing that can be said with certainty is that cultivation began at least 6,000 years ago and spread slowly westward across the lands bordering on the Mediterranean Sea. Olive oil was used for a variety of purposes during these early times, including as a pharmacological ointment and in rituals for anointing royalty.</p>
+
+        <p><span class="para-label">C &nbsp;</span> The ancient Greeks believed the olive tree was a priceless gift from the goddess Athena and used its oil in sacred religious rituals. In fact, the Greek poet Homer called olive oil 'liquid gold', and during the 6th and 7th centuries BC Greek law forbade the cutting down of olive trees and made it punishable by death. The ancient Middle Eastern ruler King David valued his groves of olive trees and his olive oil warehouses so much that he posted guards around the clock to protect them.</p>
+
+        <p><span class="para-label">D &nbsp;</span> Over the years, olive oil developed other uses. Its employment in cooking dates at least as far back as the 5th century BC, as described by the Greek philosopher Plato. Its use as an aid to beauty and health later became ingrained in many Mediterranean cultures. The Romans, for example, are said to have used generous amounts on their bodies to moisturise their skin after bathing. With the spread of the Roman Empire, olive oil became a major commodity and its trade promoted commerce throughout the ancient world. It is generally believed that in the 1st-2nd century BC, olive trees were taken to North Africa and then to Spain, which was later to become the world's largest producer of olive oil. Artefacts found at various Mediterranean archaeological sites include olive oil storage vessels with olive plant residue still in them. Historical evidence still in existence in the form of wall paintings and ancient manuscripts (including the works of the Roman naturalist and philosopher, Pliny the Elder) all record production techniques and the various uses of olive oil.</p>
+
+        <p><span class="para-label">E &nbsp;</span> Making olive oil in those early days was a laborious process accomplished without mechanisation. Processing or milling the fruit involved several distinct stages to extract the liquid. The olives were harvested from the trees by hand or by beating the fruit from the trees with long sticks. The olives were then rinsed and crushed to separate out the large seed found in the centre of each. The remaining seedless flesh was put in woven bags and pressed. Hot water was then poured over the bags to separate the oil from the solid bits of olive. The liquid produced in this process, consisting of oil and water, was drained into stone basins or tanks, where it was allowed to settle and separate. In cold weather a bit of salt was added to speed up the process. As much oil as possible was drawn off the water, but the result was still not pure oil. Therefore, this impure mixture was allowed once more to settle in vats and then separated in order to refine the product.</p>
+
+        <p><span class="para-label">F &nbsp;</span> The waste water from the milling process, which is called amurca, is a bitter-tasting and foul-smelling liquid. In many ancient civilisations it was often simply discarded, causing serious pollution because of its acidity and high salt content. However, in the Roman period it was regarded as a very useful substance. When spread on surfaces, amurca forms a hard finish and therefore it was often applied to the floors of grain storage buildings where it hardened, keeping out water, mud and pests. When boiled down amurca was applied to leather to soften it so that it was easier to shape into articles of clothing and shoes. It could also be eaten by farm animals and was, in fact, fed to livestock suffering from malnutrition. According to ancient texts, amurca was also utilised in moderate amounts by farmers as a fertiliser or as a pesticide helping them to protect their crops from insects and even small rodents.</p>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="divider" id="divider"><div class="divider-handle"></div></div>
+
+    <!-- Questions -->
+    <div class="questions-container">
+      <div id="questionsContent">
+
+        <!-- Q1–6: TRUE / FALSE / NOT GIVEN -->
+        <div class="sectionRubric">
+          <h2>Questions 1–6</h2>
+          <p>Do the following statements agree with the information given in <strong>Reading Passage 1</strong>?</p>
+          <p>In boxes 1–6 on your answer sheet, write:</p>
+          <p><strong>TRUE</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the statement agrees with the information</p>
+          <p><strong>FALSE</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the statement contradicts the information</p>
+          <p><strong>NOT GIVEN</strong> &nbsp; if there is no information on this</p>
+        </div>
+
+        <!-- Q1 -->
+        <div class="questionCard">
+          <h3>Question 1</h3>
+          <p>In the cultivation of olives, a period without rain is advantageous.</p>
+          <div class="tfng-options">
+            <button class="tfng-btn" data-q="1" data-val="TRUE">TRUE</button>
+            <button class="tfng-btn" data-q="1" data-val="FALSE">FALSE</button>
+            <button class="tfng-btn" data-q="1" data-val="NOT GIVEN">NOT GIVEN</button>
+          </div>
+          <input type="hidden" name="q1" value="">
+        </div>
+
+        <!-- Q2 -->
+        <div class="questionCard">
+          <h3>Question 2</h3>
+          <p>The most fertile fields are usually chosen for growing olives.</p>
+          <div class="tfng-options">
+            <button class="tfng-btn" data-q="2" data-val="TRUE">TRUE</button>
+            <button class="tfng-btn" data-q="2" data-val="FALSE">FALSE</button>
+            <button class="tfng-btn" data-q="2" data-val="NOT GIVEN">NOT GIVEN</button>
+          </div>
+          <input type="hidden" name="q2" value="">
+        </div>
+
+        <!-- Q3 -->
+        <div class="questionCard">
+          <h3>Question 3</h3>
+          <p>In ancient Greece, the olive tree was said to have divine origins.</p>
+          <div class="tfng-options">
+            <button class="tfng-btn" data-q="3" data-val="TRUE">TRUE</button>
+            <button class="tfng-btn" data-q="3" data-val="FALSE">FALSE</button>
+            <button class="tfng-btn" data-q="3" data-val="NOT GIVEN">NOT GIVEN</button>
+          </div>
+          <input type="hidden" name="q3" value="">
+        </div>
+
+        <!-- Q4 -->
+        <div class="questionCard">
+          <h3>Question 4</h3>
+          <p>Olive oil was more costly to buy in Greece than gold.</p>
+          <div class="tfng-options">
+            <button class="tfng-btn" data-q="4" data-val="TRUE">TRUE</button>
+            <button class="tfng-btn" data-q="4" data-val="FALSE">FALSE</button>
+            <button class="tfng-btn" data-q="4" data-val="NOT GIVEN">NOT GIVEN</button>
+          </div>
+          <input type="hidden" name="q4" value="">
+        </div>
+
+        <!-- Q5 -->
+        <div class="questionCard">
+          <h3>Question 5</h3>
+          <p>Plato mentions the use of olive oil in the preparation of food.</p>
+          <div class="tfng-options">
+            <button class="tfng-btn" data-q="5" data-val="TRUE">TRUE</button>
+            <button class="tfng-btn" data-q="5" data-val="FALSE">FALSE</button>
+            <button class="tfng-btn" data-q="5" data-val="NOT GIVEN">NOT GIVEN</button>
+          </div>
+          <input type="hidden" name="q5" value="">
+        </div>
+
+        <!-- Q6 -->
+        <div class="questionCard">
+          <h3>Question 6</h3>
+          <p>North African farmers initially resisted the introduction of olive trees.</p>
+          <div class="tfng-options">
+            <button class="tfng-btn" data-q="6" data-val="TRUE">TRUE</button>
+            <button class="tfng-btn" data-q="6" data-val="FALSE">FALSE</button>
+            <button class="tfng-btn" data-q="6" data-val="NOT GIVEN">NOT GIVEN</button>
+          </div>
+          <input type="hidden" name="q6" value="">
+        </div>
+
+        <!-- Q7–9: Note Completion (olive oil production) -->
+        <div class="sectionRubric">
+          <h2>Questions 7–9</h2>
+          <p>Write <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+        </div>
+
+        <div class="questionCard">
+          <h3>Questions 7–9 — Olive oil production process</h3>
+          <div class="notes-group">
+            <div class="notes-group-label">How olives are processed</div>
+            <ul>
+              <li>
+                Olives are harvested by picking them or
+                <span class="blank-num">7</span>
+                <input class="q-input" type="text" name="q7" placeholder="one word" maxlength="20">
+              </li>
+              <li>
+                Olive flesh is placed in
+                <span class="blank-num">8</span>
+                <input class="q-input" type="text" name="q8" placeholder="one word" maxlength="20">
+                and pressed
+              </li>
+              <li>
+                Resulting liquid is given time to settle and
+                <span class="blank-num">9</span>
+                <input class="q-input" type="text" name="q9" placeholder="one word" maxlength="20">
+                is used to aid the process
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Q10–13: Note Completion (amurca uses) -->
+        <div class="sectionRubric">
+          <h2>Questions 10–13</h2>
+          <p>Write <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+        </div>
+
+        <div class="questionCard">
+          <h3>Questions 10–13 — Uses of amurca (waste water)</h3>
+          <div class="notes-group">
+            <div class="notes-group-label">Uses of amurca in ancient times</div>
+            <ul>
+              <li>
+                In ancient times this waste liquid was usually thrown away, which led to
+                <span class="blank-num">10</span>
+                <input class="q-input" type="text" name="q10" placeholder="one word" maxlength="20">
+              </li>
+              <li>
+                When dried, created hard surface, so used on
+                <span class="blank-num">11</span>
+                <input class="q-input" type="text" name="q11" placeholder="one word" maxlength="20">
+                of certain buildings
+              </li>
+              <li>
+                When boiled down, applied to
+                <span class="blank-num">12</span>
+                <input class="q-input" type="text" name="q12" placeholder="one word" maxlength="20">
+              </li>
+              <li>
+                Used on farms as a
+                <span class="blank-num">13</span>
+                <input class="q-input" type="text" name="q13" placeholder="one word" maxlength="20">
+                to stop insects or animals damaging crops
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="submit-container">
+          <button id="submitBtn">Submit Test</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Highlight Toolbar -->
+<div class="highlight-toolbar" id="highlightToolbar">
+  <button data-color="yellow"><span class="highlight-color yellow"></span></button>
+  <button data-color="green"><span class="highlight-color green"></span></button>
+  <button data-color="pink"><span class="highlight-color pink"></span></button>
+  <button data-color="blue"><span class="highlight-color blue"></span></button>
+  <button data-color="purple"><span class="highlight-color purple"></span></button>
+  <button data-color="red"><span class="highlight-color red"></span></button>
+  <button class="remove" id="removeHighlight">
+    <i class="fas fa-times"></i>
+    <span style="font-size:0.85rem;">Remove</span>
+  </button>
+</div>
+
+<!-- Results Modal -->
+<div class="modal" id="submissionModal">
+  <div class="modal-content">
+    <h2>🫒 Test Results</h2>
+    <div id="scoreDisplay">0 / 13</div>
+    <div id="feedbackMessage"></div>
+    <div id="detailedResults"></div>
+    <button id="closeResultsBtn">Close</button>
+  </div>
+</div>
+
+<script>
+  /*** ANSWER KEY ***/
+  const ANSWER_KEY = {
+    1: 'TRUE', 2: 'FALSE', 3: 'TRUE', 4: 'NOT GIVEN', 5: 'TRUE', 6: 'NOT GIVEN',
+    7: 'beating', 8: 'bags', 9: 'salt',
+    10: 'pollution', 11: 'floors', 12: 'leather', 13: 'pesticide'
+  };
+
+  const ALTERNATES = {};
+  const Q_NUMS = [1,2,3,4,5,6,7,8,9,10,11,12,13];
+  const TOTAL = Q_NUMS.length;
+
+  /*** TIMER ***/
+  let timeElapsed = 0, testSubmitted = false;
+  setInterval(() => {
+    if (!testSubmitted) {
+      timeElapsed++;
+      const m = Math.floor(timeElapsed / 60), s = timeElapsed % 60;
+      document.getElementById('timer').textContent =
+        `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    }
+  }, 1000);
+
+  /*** TRUE/FALSE/NOT GIVEN ***/
+  document.querySelectorAll('.tfng-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const q = btn.dataset.q;
+      const val = btn.dataset.val;
+      document.querySelectorAll(`.tfng-btn[data-q="${q}"]`).forEach(b =>
+        b.classList.remove('selected-true','selected-false','selected-ng'));
+      if (val==='TRUE') btn.classList.add('selected-true');
+      else if (val==='FALSE') btn.classList.add('selected-false');
+      else btn.classList.add('selected-ng');
+      document.querySelector(`input[name="q${q}"]`).value = val;
+      updateIndicators();
+    });
+  });
+
+  /*** INPUT HELPERS ***/
+  function getVal(i) {
+    const el = document.querySelector(`input[name="q${i}"]`);
+    return el ? el.value.trim() : '';
+  }
+
+  /*** PROGRESS INDICATORS ***/
+  function updateIndicators() {
+    Q_NUMS.forEach(i => {
+      const circle = document.querySelector(`.answer-circle[data-question="${i}"]`);
+      if (!circle) return;
+      const answered = getVal(i) !== '';
+      circle.classList.toggle('answered', answered);
+      circle.classList.toggle('unanswered', !answered);
+    });
+  }
+  document.querySelectorAll('input[type="text"]').forEach(el => {
+    el.addEventListener('input', updateIndicators);
+  });
+
+  /*** CHECK ANSWER ***/
+  function checkAnswer(i) {
+    const user = getVal(i).toLowerCase().trim();
+    const correct = String(ANSWER_KEY[i]).toLowerCase().trim();
+    if (user === correct) return true;
+    if (ALTERNATES[i]) return ALTERNATES[i].some(a => a.toLowerCase() === user);
+    return false;
+  }
+
+  /*** SUBMIT ***/
+  function submitAnswers() {
+    if (testSubmitted) return;
+    testSubmitted = true;
+    let correct = 0;
+    const results = {};
+
+    Q_NUMS.forEach(i => {
+      const isCorrect = checkAnswer(i);
+      if (isCorrect) correct++;
+      results[i] = { answer: getVal(i), isCorrect };
+    });
+
+    document.getElementById('scoreDisplay').textContent = `${correct} / ${TOTAL}`;
+    const pct = Math.round((correct / TOTAL) * 100);
+    const elapsed = `${String(Math.floor(timeElapsed/60)).padStart(2,'0')}:${String(timeElapsed%60).padStart(2,'0')}`;
+    document.getElementById('feedbackMessage').textContent =
+      `You got ${pct}% correct. Time elapsed: ${elapsed}`;
+
+    let html = '';
+    Q_NUMS.forEach(i => {
+      const r = results[i];
+      html += `<div class="result-item ${r.isCorrect ? 'correct' : 'incorrect'}">
+        <strong>Q${i}: ${r.isCorrect ? '✓' : '✗'}</strong>
+        <div class="detail"><strong>Your answer:</strong> ${r.answer || '(empty)'}</div>
+        <div class="detail"><strong>Correct answer:</strong> ${ANSWER_KEY[i]}</div>
+      </div>`;
+    });
+    document.getElementById('detailedResults').innerHTML = html;
+    document.getElementById('submissionModal').style.display = 'flex';
+  }
+
+  document.getElementById('submitBtn').addEventListener('click', submitAnswers);
+  document.getElementById('closeResultsBtn').addEventListener('click', () => {
+    document.getElementById('submissionModal').style.display = 'none';
+  });
+
+  /*** DIVIDER RESIZE ***/
+  const divider = document.getElementById('divider');
+  const passagePanel = document.querySelector('.passage-container');
+  const testContainer = document.querySelector('.test-container');
+  let isResizing = false;
+  divider.addEventListener('mousedown', () => { isResizing = true; });
+  document.addEventListener('mouseup', () => { isResizing = false; });
+  document.addEventListener('mousemove', e => {
+    if (!isResizing) return;
+    const box = testContainer.getBoundingClientRect();
+    const w = e.clientX - box.left;
+    if (w > 250 && w < box.width - 250) passagePanel.style.width = w + 'px';
+  });
+
+  /*** CONTRAST & TEXT SIZE ***/
+  document.getElementById('contrastToggle').addEventListener('click', () => {
+    document.body.classList.toggle('high-contrast');
+  });
+  let textSizeIndex = 0;
+  const textSizes = ['1.05rem','1.2rem','1.35rem'];
+  document.getElementById('textSizeToggle').addEventListener('click', () => {
+    textSizeIndex = (textSizeIndex + 1) % textSizes.length;
+    document.getElementById('passageContent').style.fontSize = textSizes[textSizeIndex];
+    document.getElementById('questionsContent').style.fontSize = textSizes[textSizeIndex];
+  });
+
+  /*** HIGHLIGHTING ***/
+  const ROOTS = [
+    document.getElementById('passageContent'),
+    document.getElementById('questionsContent')
+  ];
+  const toolbar = document.getElementById('highlightToolbar');
+
+  document.addEventListener('mouseup', e => {
+    const sel = window.getSelection();
+    if (!sel.rangeCount || sel.isCollapsed) { toolbar.style.display='none'; return; }
+    const range = sel.getRangeAt(0);
+    if (!ROOTS.some(r => r.contains(range.commonAncestorContainer))) { toolbar.style.display='none'; return; }
+    const rect = range.getBoundingClientRect();
+    toolbar.style.left = rect.left + rect.width/2 + 'px';
+    toolbar.style.top  = rect.top + window.scrollY + 'px';
+    toolbar.style.display = 'flex';
+  });
+
+  toolbar.querySelectorAll('button[data-color]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      applyHighlight(btn.getAttribute('data-color'));
+      toolbar.style.display = 'none';
+      window.getSelection().removeAllRanges();
+    });
+  });
+
+  document.getElementById('removeHighlight').addEventListener('click', () => {
+    removeHighlights();
+    toolbar.style.display = 'none';
+    window.getSelection().removeAllRanges();
+  });
+
+  function applyHighlight(color) {
+    const sel = window.getSelection();
+    if (!sel.rangeCount || sel.isCollapsed) return;
+    const range = sel.getRangeAt(0);
+    const root = ROOTS.find(r => r.contains(range.commonAncestorContainer)) || ROOTS[0];
+    getTextNodes(root, range).forEach(node => {
+      const {s,e} = getOffsets(node, range);
+      if (s===e) return;
+      const chosen = splitNode(node,s,e);
+      const span = document.createElement('span');
+      span.className = `highlight ${color}`;
+      chosen.parentNode.insertBefore(span, chosen);
+      span.appendChild(chosen);
+      mergeAdjacent(span);
+    });
+  }
+
+  function removeHighlights() {
+    const sel = window.getSelection();
+    if (!sel.rangeCount || sel.isCollapsed) return;
+    const range = sel.getRangeAt(0);
+    const root = ROOTS.find(r => r.contains(range.commonAncestorContainer)) || ROOTS[0];
+    Array.from(root.querySelectorAll('span.highlight')).forEach(sp => {
+      if (intersects(range,sp)) unwrap(sp);
+    });
+  }
+
+  function unwrap(span) {
+    const p = span.parentNode;
+    while (span.firstChild) p.insertBefore(span.firstChild, span);
+    p.removeChild(span); p.normalize();
+  }
+
+  function mergeAdjacent(span) {
+    const prev = span.previousSibling;
+    if (prev && prev.nodeType===1 && prev.className===span.className) {
+      while (span.firstChild) prev.appendChild(span.firstChild);
+      span.remove(); span = prev;
+    }
+    const next = span.nextSibling;
+    if (next && next.nodeType===1 && next.className===span.className) {
+      while (next.firstChild) span.appendChild(next.firstChild);
+      next.remove();
+    }
+  }
+
+  function getTextNodes(root, range) {
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: node => {
+        if (!node.nodeValue?.trim()) return NodeFilter.FILTER_REJECT;
+        const p = node.parentElement;
+        if (p?.closest?.('script,style,input,select,textarea,button')) return NodeFilter.FILTER_REJECT;
+        return intersects(range,node) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      }
+    });
+    const nodes=[]; let n;
+    while (n=walker.nextNode()) nodes.push(n);
+    return nodes;
+  }
+
+  function intersects(range, node) {
+    const nr = document.createRange();
+    try { nr.selectNodeContents(node); } catch { return false; }
+    return range.compareBoundaryPoints(Range.END_TO_START,nr)<0 &&
+           range.compareBoundaryPoints(Range.START_TO_END,nr)>0;
+  }
+
+  function getOffsets(node, range) {
+    const len = node.nodeValue.length;
+    let s=0, e=len;
+    if (range.startContainer===node) s=range.startOffset;
+    else { const r=document.createRange(); r.selectNodeContents(node); if(range.compareBoundaryPoints(Range.START_TO_END,r)>=0) s=e; }
+    if (range.endContainer===node) e=range.endOffset;
+    else { const r=document.createRange(); r.selectNodeContents(node); if(range.compareBoundaryPoints(Range.END_TO_START,r)<=0) e=s; }
+    s=Math.max(0,Math.min(s,len)); e=Math.max(0,Math.min(e,len));
+    if(e<s) e=s;
+    return {s,e};
+  }
+
+  function splitNode(node,s,e) {
+    if (e<node.nodeValue.length) node.splitText(e);
+    if (s>0) node=node.splitText(s);
+    return node;
+  }
+</script>
+</body>
+</html>

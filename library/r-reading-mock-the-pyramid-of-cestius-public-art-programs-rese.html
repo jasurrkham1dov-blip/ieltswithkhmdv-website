@@ -1,0 +1,3625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading Mock Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            line-height: 1.4;
+            font-size: 16px;
+        }
+
+        /* Login Screen Styles */
+        .login-screen {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(350deg, #393E46 100%, #948979 100%);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 10000;
+                }
+
+                .login-content {
+                    background: white;
+                    padding: 40px;
+                    border-radius: 12px;
+                    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+                    max-width: 400px;
+                    width: 90%;
+                    text-align: center;
+                }
+
+                .login-logo {
+                    margin-bottom: 30px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                .login-logo img {
+                    width: 80px;
+                    height: 80px;
+                    object-fit: contain;
+                    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+                }
+
+                .login-content h1 {
+                    color: #333;
+                    font-size: 24px;
+                    margin-bottom: 10px;
+                    font-weight: 600;
+                }
+
+                .login-content p {
+                    color: #666;
+                    font-size: 16px;
+                    margin-bottom: 30px;
+                }
+
+                .form-group {
+                    margin-bottom: 20px;
+                    text-align: left;
+                }
+
+                .form-group label {
+                    display: block;
+                    margin-bottom: 8px;
+                    color: #333;
+                    font-weight: 500;
+                    font-size: 14px;
+                }
+
+                .form-group input {
+                    width: 100%;
+                    padding: 12px 16px;
+                    border: 2px solid #e1e5e9;
+                    border-radius: 8px;
+                    font-size: 16px;
+                    transition: border-color 0.3s ease;
+                    box-sizing: border-box;
+                }
+
+                .form-group input:focus {
+                    outline: none;
+                    border-color: #DFD0B8;
+                    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+                }
+
+                .login-button {
+                    width: 100%;
+                    background: #948979;
+                    color: white;
+                    border: none;
+                    padding: 14px 20px;
+                    font-size: 16px;
+                    font-weight: 600;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    margin-top: 10px;
+                }
+
+                .login-button:hover {
+                    background: #DFD0B8;
+                    transform: translateY(-1px);
+                }
+
+                .login-button:disabled {
+                    background: #ccc;
+                    cursor: not-allowed;
+                    transform: none;
+                }
+
+                .loading {
+                    opacity: 0.7;
+                    pointer-events: none;
+                }
+
+                .shake {
+                    animation: shake 0.5s ease-in-out;
+                }
+
+                @keyframes shake {
+                    0%, 100% { transform: translateX(0); }
+                    25% { transform: translateX(-5px); }
+                    75% { transform: translateX(5px); }
+                }
+
+                .error-message {
+                    color: #e74c3c;
+                    font-size: 14px;
+                    margin-top: 10px;
+                    display: none;
+                }
+
+                .success-message {
+                    color: #27ae60;
+                    font-size: 14px;
+                    margin-top: 10px;
+                    display: none;
+                }
+
+                /* Candidate ID Screen Styles */
+                .candidate-screen {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(350deg, #393E46 100%, #948979 100%);
+                    display: none;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 9999;
+                }
+
+                .candidate-content {
+                    background: white;
+                    padding: 40px;
+                    border-radius: 12px;
+                    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+                    max-width: 450px;
+                    width: 90%;
+                    text-align: center;
+                }
+
+                .candidate-logo {
+                    margin-bottom: 30px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                .candidate-logo img {
+                    width: 80px;
+                    height: 80px;
+                    object-fit: contain;
+                    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+                }
+
+                .candidate-content h1 {
+                    color: #333;
+                    font-size: 24px;
+                    margin-bottom: 10px;
+                    font-weight: 600;
+                }
+
+                .candidate-content p {
+                    color: #666;
+                    font-size: 16px;
+                    margin-bottom: 30px;
+                }
+
+                .candidate-id-input {
+                    width: 100%;
+                    padding: 12px 16px;
+                    border: 2px solid #e1e5e9;
+                    border-radius: 8px;
+                    font-size: 18px;
+                    text-align: center;
+                    letter-spacing: 2px;
+                    font-weight: 600;
+                    transition: border-color 0.3s ease;
+                    box-sizing: border-box;
+                }
+
+                .candidate-id-input:focus {
+                    outline: none;
+                    border-color: #DFD0B8;
+                    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+                }
+
+                .candidate-button {
+                    width: 100%;
+                    background: #948979;
+                    color: white;
+                    border: none;
+                    padding: 14px 20px;
+                    font-size: 16px;
+                    font-weight: 600;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    margin-top: 20px;
+                }
+
+                .candidate-button:hover {
+                    background: #DFD0B8;
+                    transform: translateY(-1px);
+                }
+
+                .candidate-button:disabled {
+                    background: #ccc;
+                    cursor: not-allowed;
+                    transform: none;
+                }
+
+           
+        .back-button {
+            background: #95a5a6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .back-button:hover {
+            background: #7f8c8d;
+        }
+
+        /* Hide other screens initially */
+        .start-screen {
+            display: none;
+        }
+
+        .header {
+            display: none;
+        }
+
+        .main-container {
+            display: none;
+        }
+
+        .nav-arrows {
+            display: none;
+        }
+
+        .nav-row {
+            display: none;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            line-height: 1.4;
+            font-size: 16px;
+        }
+
+
+
+        .header {
+            background-color: #ffffff;
+            padding: 12px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            height: 60px;
+        }
+
+        .ielts-logo {
+            display: none;
+        }
+
+        .test-info {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .audio-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+        }
+
+        .audio-icon {
+            width: 16px;
+            height: 16px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon></svg>') no-repeat center;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .telegram-link {
+            color: #0088cc;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .telegram-link:hover {
+            text-decoration: underline;
+        }
+
+        .telegram-link::before {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-color: currentColor;
+            -webkit-mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.78 18.65l.28-4.23l7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3L3.64 12c-.88-.25-.89-1.37.2-1.64l16.56-6.4c.75-.29 1.4.22 1.2.94l-2.67 12.61c-.22.95-1.13 1.18-1.78.73l-4.5-3.32l-2.23 2.15c-.47.44-1.29.21-1.48-.37z"/></svg>');
+            mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.78 18.65l.28-4.23l7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3L3.64 12c-.88-.25-.89-1.37.2-1.64l16.56-6.4c.75-.29 1.4.22 1.2.94l-2.67 12.61c-.22.95-1.13 1.18-1.78.73l-4.5-3.32l-2.23 2.15c-.47.44-1.29.21-1.48-.37z"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        #volume-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 80px;
+            height: 4px;
+            background: #ddd;
+            outline: none;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        #volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #333;
+            cursor: pointer;
+        }
+
+        #volume-slider::-moz-range-thumb {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #333;
+            cursor: pointer;
+            border: none;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            opacity: 0.7;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .icon:hover {
+            opacity: 1;
+        }
+        
+        #play-pause-btn {
+            background: none;
+            border: none;
+            padding: 0;
+        }
+
+        .main-container {
+            margin-top: 60px;
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+            height: calc(100vh - 60px); /* Full height minus header */
+        }
+
+        .panels-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .passage-panel {
+            flex: 1;
+            padding: 20px 20px 100px;
+            overflow-y: auto;
+            min-width: 200px; /* Minimum width */
+        }
+
+        /* Passage Content */
+        .text-center {
+            text-align: center;
+        }
+        .reading-passage h4 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+       
+        .reading-passage p {
+            margin-bottom: 1.2em;
+        }
+
+        .question ul li label {
+            display: block;
+            margin-top: 8px;
+            cursor: pointer;
+        }
+
+        .questions-panel {
+            flex: 1;
+            padding: 20px 20px 100px;
+            overflow-y: auto;
+            min-width: 200px; /* Minimum width */
+            border-left: 1px solid #e0e0e0;
+        }
+
+        .resizer {
+            width: 10px;
+            cursor: col-resize;
+            background-color: #f0f0f0;
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="30" viewBox="0 0 10 30"><path d="M4 11h2v2H4zM4 15h2v2H4zM4 19h2v2H4z" fill="%23888"/></svg>');
+            background-repeat: no-repeat;
+            background-position: center;
+            flex-shrink: 0;
+            flex-grow: 0;
+        }
+
+        /* Left Panel */
+        .left-panel {
+            width: 100%;
+            padding: 20px;
+        }
+
+        /* Right Panel */
+        .right-panel {
+            display: none;
+            width: 50%;
+            padding: 20px;
+            position: relative;
+        }
+
+        .help-button {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+
+        .help-button:hover {
+            background: #357abd;
+        }
+
+        .section-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .people-section {
+            margin-bottom: 30px;
+        }
+
+        .people-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #ccc;
+        }
+
+        .people-table th {
+            text-align: left;
+            padding: 10px;
+            font-weight: bold;
+            border: 1px solid #ddd;
+        }
+
+        .people-table td {
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+        }
+
+        /* Matrix matching table for Q33-38 */
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #ddd;
+        }
+        .matrix-table th,
+        .matrix-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        .matrix-table thead th {
+            background: #0d6efd;
+            color: #fff;
+            text-align: center;
+        }
+        .matrix-table td.selectable {
+            text-align: center;
+            width: 60px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .matrix-table td.selectable:hover {
+            background: #f0f8ff;
+        }
+        .matrix-table td.matrix-selected {
+            background: #dbeafe;
+            border-color: #93c5fd;
+            font-weight: 600;
+        }
+
+        .person-name {
+            font-size: 16px;
+        }
+
+        .question-number {
+            background: white;
+            border: 1px solid #4a90e2;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-weight: bold;
+            font-size: 14px;
+            color: #4a90e2;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .assigned-responsibility {
+            background: #f0f0f0;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+        }
+
+        .responsibilities-section {
+            margin-bottom: 30px;
+        }
+
+        .responsibility-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .responsibility-item {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: move;
+            font-size: 16px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .responsibility-item:hover {
+            background: #e9ecef;
+            transform: translateY(-1px);
+        }
+
+        .responsibility-item.dragging {
+            opacity: 0.5;
+        }
+
+        .questions-section {
+            margin-bottom: 20px;
+        }
+
+        .question-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .instruction {
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #666;
+        }
+
+        /* Map Styles */
+        .map-container {
+            position: relative;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .map-svg {
+            border: 2px solid #333;
+            background: white;
+        }
+
+        .map-room {
+            fill: #f9f9f9;
+            stroke: #333;
+            stroke-width: 1;
+        }
+
+        .map-text {
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            text-anchor: middle;
+            fill: #333;
+        }
+
+        .map-number {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+            text-anchor: middle;
+            fill: #333;
+        }
+
+        .room-labels {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .room-label {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: move;
+            font-size: 16px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .room-label:hover {
+            background: #e9ecef;
+            transform: translateY(-1px);
+        }
+
+        .room-label.dragging {
+            opacity: 0.5;
+        }
+
+        /* Navigation Arrows */
+        .nav-arrows {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            display: flex;
+            gap: 5px;
+            z-index: 101;
+        }
+
+        .nav-arrow {
+            width: 50px;
+            height: 50px;
+            background: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .nav-arrow:hover {
+            background: #555;
+        }
+
+        .nav-arrow:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Bottom Navigation - Exact Match */
+        .nav-row {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #ffffff;
+        
+            padding: 0;
+            display: flex;
+            align-items: center;
+            height: 80px;
+            z-index: 100;
+        }
+
+        .footer__questionWrapper___1tZ46 {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+
+        .footer__questionNo___3WNct {
+            background: none;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background-color 0.2s;
+        }
+
+        .footer__questionNo___3WNct:hover {
+            background-color: #f8f9fa;
+        }
+
+        .section-prefix {
+            font-size: 16px;
+        }
+
+        .sectionNr {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .attemptedCount {
+            font-size: 14px;
+            color: #666;
+            margin-left: 5px;
+            font-weight: 400; /* Normal weight */
+        }
+
+        @media (max-width: 768px) {
+            .attemptedCount {
+                display: none;
+            }
+        }
+
+        .footer__questionWrapper___1tZ46.selected .attemptedCount {
+            display: none;
+        }
+
+        .footer__subquestionWrapper___9GgoP {
+            display: none;
+            gap: 2px;
+            margin-left: 10px;
+        }
+
+        .footer__questionWrapper___1tZ46.selected .footer__subquestionWrapper___9GgoP {
+            display: flex;
+        }
+
+        .subQuestion {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #ccc;
+            background: white;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            border-radius: 2px;
+        }
+
+        .subQuestion.answered {
+            background-color: #e9ecef;
+            border-color: #ddd;
+        }
+        .subQuestion.correct {
+            background-color: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+        .subQuestion.incorrect {
+            background-color: #dc3545;
+            color: white;
+            border-color: #dc3545;
+        }
+
+        .subQuestion:hover {
+            background-color: #f0f0f0;
+            border-color: #999;
+        }
+
+        .subQuestion.active {
+            background-color: #4a90e2;
+            color: white;
+            border-color: #4a90e2;
+        }
+
+        .subQuestion.completed {
+            background-color: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .footer__deliverButton___3FM07 {
+            margin-left: auto;
+            margin-right: 20px;
+            background-color: #dc3545;
+            color: #fff;
+            border: 1px solid #dc3545;
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.2s, border-color 0.2s;
+            min-width: 170px;
+            justify-content: center;
+        }
+
+        .footer__deliverButton___3FM07:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+        .footer__deliverButton___3FM07:disabled {
+            background: #e9ecef;
+            color: #6c757d;
+            cursor: not-allowed;
+            border-color: #ddd;
+        }
+
+        /* Time expiration overlay styles */
+        .time-expiration-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .completion-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .fa-check::before {
+            content: "✓";
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Context Menu */
+        .context-menu {
+            position: absolute;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            display: none;
+            min-width: 140px;
+        }
+
+        .context-menu-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            font-size: 16px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .context-menu-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .context-menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .highlight {
+            background-color: #ffff00;
+        }
+
+        .comment-highlight {
+            background-color: #90EE90;
+            position: relative;
+            cursor: help;
+        }
+
+        .comment-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            white-space: nowrap;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .comment-highlight:hover .comment-tooltip {
+            opacity: 1;
+        }
+
+        .question {
+            margin-bottom: 40px;
+        }
+        .question p {
+            margin-bottom: 10px;
+        }
+        .question ul, .question .people-table {
+            margin-top: 0;
+        }
+        .question-prompt {
+            margin-bottom: 20px;
+        }
+        .question ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .question ul li {
+            margin-bottom: 5px;
+        }
+        .answer-input {
+            border: 1px solid #888;
+            border-radius: 4px;
+            background-color: #fff;
+            padding: 2px 5px;
+            font-size: 16px;
+            text-align: left;
+            margin-right: 4px;
+            margin-left: 4px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            height: 28px; /* Standard height */
+            width: 150px; /* Standard width */
+        }
+        .answer-input.active-input {
+            border-color: #4a90e2;
+            box-shadow: 0 0 3px 1px rgba(74, 144, 226, 0.5);
+        }
+        .answer-input::placeholder {
+            color: #999;
+            font-weight: bold;
+            text-align: center;
+        }
+        /* Keep placeholder centered visually even when input text is left-aligned */
+        .answer-input::placeholder { text-align: center; }
+        .answer-input.correct {
+            border-color: #28a745;
+            background-color: #e9f7ef;
+        }
+        .answer-input.incorrect {
+            border-color: #dc3545;
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .answer-input {
+    z-index: 10;
+    position: relative;
+    pointer-events: auto;
+}
+.drag-drop-container {
+            display: flex;
+            gap: 30px;
+            margin-top: 20px;
+            align-items: flex-start;
+            flex-direction: column;
+        }
+        .recommendations-box {
+    display: flex
+;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 200px;
+}
+        .recommendations-box .drag-item {
+    border: 1px solid #3d3d3d;
+    border-radius: 4px;
+    cursor: move;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: left;
+    transition: all 0.2s;
+    user-select: none;
+    color: #000000;
+    padding: 0px 5px;
+}
+       
+        .drag-item:hover {
+            background: #e9ecef;
+        }
+        .drag-item.dragging {
+            opacity: 0.5;
+        }
+        .drag-item.selected {
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.5);
+        }
+        .drop-zone {
+            border: 2px dashed #aaa;
+            border-radius: 4px;
+            width: 50%;
+            margin-top: 19px;
+            margin-bottom: 5px;
+            transition: background-color 0.2s, border-color 0.2s;
+            padding: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .drop-zone.drag-over {
+            background-color: #e6f4ff;
+            border-color: #4a90e2;
+        }
+        .drop-zone.correct {
+            background-color: #e9f7ef;
+            border-color: #28a745;
+            border-style: solid;
+        }
+        .drop-zone.incorrect {
+            background-color: #f8d7da;
+            border-color: #dc3545;
+            border-style: solid;
+        }
+        .drop-zone.disabled {
+            pointer-events: none;
+        }
+        .drop-zone .drag-item {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            padding: 2px;
+        }
+        .drag-options-container {
+            margin-top: 10px;
+        }
+        .drag-options-container .drag-item {
+            display: block;
+            width: fit-content;
+            font-size: 15px;
+            padding: 0.5px 10px;
+            margin-bottom: 5px;
+        }
+        .drag-options-container .drag-item:last-child {
+            margin-bottom: 0;
+        }
+        .q-number {
+            color: #888;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .questions-container {
+            width: 100%;
+        }
+        audio {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .part-header {
+            background-color: #f1f2ec;
+            padding: 15px 20px;
+            border: 1px solid #e0e0e0;
+            text-align: left;
+            margin: 10px 20px;
+            border-radius: 5px;
+        }
+        .part-header p {
+            margin: 0;
+        }
+        .part-header p:first-child {
+            margin-bottom: 5px;
+        }
+
+        .question li.correct {
+            color: #155724;
+            font-weight: bold;
+        }
+        .question li.incorrect {
+            color: #721c24;
+        }
+        .question li.correct::before {
+            content: '✔ ';
+            color: #28a745;
+        }
+        .question li.incorrect::before {
+            content: '✖ ';
+            color: #dc3545;
+        }
+
+        .example-box {
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .timer-container {
+            display: flex;
+            position: relative;
+            cursor: default;
+            color: #333;
+            font-size: 16px;
+            font-weight: 500;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+        .timer-container.warning {
+            color: #ff6b35;
+            font-weight: 600;
+        }
+        .timer-container .timer-tooltip {
+            display: none;
+        }
+
+        .timer-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 15px;
+        }
+
+        .timer-controls button {
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+            padding: 0;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+        }
+        .timer-controls button:hover {
+            background: #e0e0e0;
+        }
+
+        .timer-controls button svg {
+            width: 20px;
+            height: 20px;
+            fill: #333;
+        }
+
+        .audio-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(40, 40, 40, 0.9);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+        .audio-modal-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            max-width: 500px;
+            padding: 20px;
+        }
+        .audio-modal-content p {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #eee;
+        }
+        .audio-modal-icon {
+            margin-bottom: 20px;
+        }
+        .modal-play-btn {
+            background-color: #000;
+            color: white;
+            border: 1px solid white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.2s;
+        }
+        .modal-play-btn:hover {
+            background-color: #333;
+        }
+        #goto-widget {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        #goto-input {
+            width: 80px;
+            padding: 4px 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #goto-btn {
+            padding: 4px 10px;
+            border: 1px solid #ccc;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Styles for TRUE/FALSE/NOT GIVEN questions */
+        .tf-question {
+            margin-bottom: 25px;
+            padding: 10px 0px;
+            border-radius: 4px;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+        .tf-question-line {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 5px 0px;
+            border-radius: 4px;
+        }
+        .tf-question-number, .question-number-box {
+            border: 2px solid #ccc;
+            padding: 2px 8px;
+            margin-right: 10px;
+            border-radius: 3px;
+            font-weight: bold;
+            transition: border-color 0.3s;
+            display: inline-block;
+        }
+        .tf-question-text {
+            padding-top: 3px;
+        }
+        .tf-options {
+            padding-left: 5px;
+        }
+        .tf-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            background: #ffffff;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+        }
+        .tf-option:hover {
+            background: #f8fafc;
+            border-color: #bcd0ea;
+        }
+        .tf-option:has(input[type="radio"]:checked) {
+            background: #dbeafe;
+            border-color: #93c5fd;
+            font-weight: 600;
+        }
+        .tf-option input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        .tf-question.correct .tf-question-line {
+            background-color: #e9f7ef;
+        }
+        .tf-question.incorrect .tf-question-line {
+            background-color: #f8d7da;
+        }
+        .matching-question-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+        }
+        .matching-options-bank {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .matching-questions {
+            flex: 1.5;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .matching-question-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+
+            border: 2px solid transparent;
+            border-radius: 4px;
+            transition: border-color 0.3s;
+        }
+        .matching-question-item > span {
+            flex: 1;
+        }
+        .matching-question-item.correct {
+            background-color: #e9f7ef;
+            border-color: #28a745 !important;
+        }
+        .matching-question-item.incorrect {
+            background-color: #f8d7da;
+            border-color: #dc3545 !important;
+        }
+        .matching-question-item .drop-zone {
+            width: 200px;
+            flex-shrink: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #aaa;
+        }
+        .matching-options-bank .drag-item {
+            font-size: 15px;
+            text-align: center;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+        }
+
+        .questions-panel {
+            flex: 1;
+            padding: 20px 20px 100px;
+            overflow-y: auto;
+            min-width: 200px; /* Minimum width */
+            border-left: 1px solid #e0e0e0;
+        }
+        .matching-question-item.incorrect {
+            background-color: #f8d7da;
+            border-color: #dc3545 !important;
+        }
+        .summary-completion-container {
+            margin-top: 20px;
+        }
+        .summary-text p {
+            line-height: 2.5;
+            font-size: 16px;
+        }
+        .summary-drop-zone {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+            min-width:200px;
+            height: 25px;
+            border: 2px dashed #999;
+            border-radius: 4px;
+            margin: 0 5px;
+            padding: 0 5px;
+            transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+            color: #aaa;
+            font-weight: bold;
+        }
+        .summary-drop-zone.filled {
+            border-color: #4a90e2;
+        }
+        .summary-drop-zone.active-input {
+             border-color: #4a90e2;
+             box-shadow: none;
+        }
+        .summary-drop-zone .drag-item {
+            font-size: 15px;
+            font-weight: bold;
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .summary-options-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .summary-options-bank .drag-item {
+            flex-grow: 1;
+            min-width: 100px;
+            text-align: center;
+        }
+        .multi-choice-question {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 4px;
+            border: 3px solid transparent;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+        .multi-choice-option {
+            padding: 12px 14px;
+            background: #ffffff;
+            transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+        }
+        .multi-choice-option label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .multi-choice-option input[type="checkbox"],
+        .multi-choice-option input[type="radio"] {
+            margin-right: 12px;
+            transform: scale(1.3);
+            accent-color: #4a90e2;
+        }
+        .multi-choice-option:hover {
+            background: #f8fafc;
+            border-color: #bcd0ea;
+        }
+        .multi-choice-option:has(input:checked) {
+            background: #dbeafe;
+            border-color: #93c5fd;
+            font-weight: 600;
+        }
+        .multi-choice-option.correct { background-color: #e9f7ef; }
+        .multi-choice-option.incorrect { background-color: #f8d7da; }
+        .matching-question-item.incorrect {
+            background-color: #f8d7da;
+            border-color: #dc3545 !important;
+        }
+        .matching-question-item .drop-zone.filled {
+            border-color: #4a90e2;
+        }
+        .matching-question-item .drop-zone {
+            width: 200px;
+            height: 40px;
+        }
+        .paragraph-matching-question {
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 12px;
+        }
+        .paragraph-matching-question .answer-input {
+            width: 80px;
+            flex-shrink: 0;
+        }
+
+        .matching-form-container {
+            margin-top: 20px;
+        }
+        .matching-form-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .matching-form-label {
+            flex-shrink: 0;
+            display: inline-block;
+        }
+
+        /* Results Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-overlay.hidden {
+            display: none;
+        }
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .modal-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #888;
+        }
+        .modal-content h2 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .results-summary {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+        .results-details-container {
+            overflow-y: auto;
+            padding-right: 10px; /* For scrollbar */
+        }
+        .result-row {
+            display: grid;
+            grid-template-columns: 40px 1fr 1fr;
+            gap: 15px;
+            padding: 8px 5px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 15px;
+        }
+        .result-row.incorrect {
+            background-color: #f8d7da;
+        }
+        .result-row .q-num {
+            font-weight: bold;
+        }
+        .result-row .user-ans {
+            color: #555;
+        }
+        .result-row .correct-ans {
+            color: #155724;
+            font-weight: 500;
+        }
+
+        .centered-title {
+    text-align: center;
+    font-size: 50px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+        /* Start Screen Styles - Minimalist Design */
+        .start-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .start-content {
+            background: white;
+            padding: 50px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            max-width: 650px;
+            text-align: center;
+            border: 1px solid #e9ecef;
+        }
+
+        .headphone-icon {
+            color: #495057;
+            margin-bottom: 25px;
+        }
+
+        .start-content h1 {
+            color: #212529;
+            font-size: 32px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .main-description {
+            color: #6c757d;
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+
+        .instructions-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 35px;
+            border-left: 4px solid #495057;
+        }
+
+        .instructions-section h3 {
+            color: #495057;
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .instructions-section ul {
+            text-align: left;
+            color: #6c757d;
+            font-size: 16px;
+            line-height: 1.7;
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .instructions-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .start-test-button {
+            background: #495057;
+            color: white;
+            border: none;
+            padding: 16px 45px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .start-test-button:hover {
+            background: #343a40;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(73, 80, 87, 0.3);
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen" class="login-screen">
+        <div class="login-content">
+            <div class="login-logo">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23495057' stroke-width='1.5'%3E%3Cpath d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20'/%3E%3Cpath d='M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z'/%3E%3C/svg%3E" alt="Logo" style="width: 150px; object-fit: contain;">
+            </div>
+            <h1><strong>Reading Test</strong></h1>
+            <p>Please enter the password to access the test</p>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter password" required>
+                </div>
+                <button type="submit" class="login-button" id="login-btn">Login</button>
+                <div class="error-message" id="login-error">Incorrect password. Please try again.</div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Candidate ID Screen -->
+    <div id="candidate-screen" class="candidate-screen">
+        <div class="candidate-content">
+            <div class="candidate-logo">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23495057' stroke-width='1.5'%3E%3Cpath d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20'/%3E%3Cpath d='M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z'/%3E%3C/svg%3E" alt="Logo" style="width: 150px; object-fit: contain;">
+            </div>
+            <h1>Candidate Verification</h1>
+            <p>Please enter your candidate ID to proceed</p>
+            <form id="candidate-form">
+                <input type="text" id="candidate-id" class="candidate-id-input" placeholder="Enter Candidate ID" maxlength="10" required>
+                <button type="submit" class="candidate-button" id="candidate-btn">Continue</button>
+                <button type="button" class="back-button" id="back-to-login">Back to Login</button>
+                <div class="error-message" id="candidate-error">Please enter a valid candidate ID.</div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Start Screen -->
+    <div id="start-screen" class="start-screen">
+        <div class="start-content">
+            <div class="headphone-icon">
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+                    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+                </svg>
+            </div>
+            <h1>IELTS Reading Mock Test</h1>
+            <p class="main-description">This is a timed reading test. You have 60 minutes to complete all 40 questions.</p>
+            <div class="instructions-section">
+                <h3>Instructions:</h3>
+                <ul>
+                    <li>The test contains 40 questions divided into 3 parts</li>
+                    <li>You have 60 minutes to complete the test</li>
+                    <li>Read all passages carefully and answer all questions</li>
+                    <li>You can navigate between questions and parts freely</li>
+                </ul>
+            </div>
+            <button id="start-test-btn" class="start-test-button">Start Test</button>
+        </div>
+    </div>
+
+    <div class="header">
+       
+        
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23495057' stroke-width='1.5'%3E%3Cpath d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20'/%3E%3Cpath d='M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z'/%3E%3C/svg%3E" alt="Logo" style="width: 130px; object-fit: contain;">
+       
+        </div>
+            <div class="timer-container">
+                <span class="timer-display" title="">60:00</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <a href="https://t.me/ieltswithkhmdv" target="_blank" rel="noopener" class="telegram-link">@ieltswithkhmdv</a>
+                <span style="color: #333; font-size: 14px; font-weight: 500;">Candidate: <span id="header-candidate-id"></span></span>
+            <button id="logout-btn" style="background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;">Logout</button>
+            </div>
+        
+    </div>
+
+    <div class="main-container" id="main-container">
+        <div id="passage-header-container">
+            <div id="part-header-1" class="part-header">
+                <p><strong>Part 1</strong></p>
+                <p>Read "The Pyramid of Cestius" and answer questions 1-13. You should spend about 20 minutes on this part.</p>
+            </div>
+            <div id="part-header-2" class="part-header hidden">
+                <p><strong>Part 2</strong></p>
+                <p>Read "Public Art Programs: Research Update" and answer questions 14-26. You should spend about 20 minutes on this part.</p>
+            </div>
+            <div id="part-header-3" class="part-header hidden">
+                <p><strong>Part 3</strong></p>
+                <p>Read "Saving the Skink" and answer questions 27-40. You should spend about 20 minutes on this part.</p>
+            </div>
+        </div>
+        <div class="panels-container">
+            <div class="passage-panel" id="passage-panel">
+                <div id="passage-text-1" class="reading-passage">
+                    <h4 class="text-center">The Pyramid of Cestius</h4>
+                    <p style="text-align: center; font-style: italic;">A 2,000-year-old pyramid in the city of Rome has been restored by archaeologists.</p>
+                    <p>Though Rome draws tourists from around the world to its many impressive sites, one notable monument there has never attracted nearly as much interest: The Pyramid of Cestius. But why would there be a pyramid in Italy? After the Roman conquest of Egypt in 30 B.C., Egyptian architectural style became the fashion in Rome.</p>
+                    <p>Though obelisks and other monuments inspired by Egypt's Great Pyramids sprung up around the city, only two actual pyramids are known to have been built. The only one left standing, the Pyramid of Cestius, was designed as the burial pyramid for a Roman politician named Caius Cestius, who ordered that the building work be completed within a period of 330 days.</p>
+                    <p>Construction took place at some point between 18 B.C. and 12 B.C. Cestius' pyramid had a layer of white Carrara marble on the outside, and was constructed from brick held together by a basic kind of cement on the inside. One of the things that strikes you when you look at the pyramid is how steep it is, so that the shape of Cestius' pyramid is quite unlike that of typical Egyptian ones. This is a difference that could have been the result of inaccurate information sent back to Rome by soldiers who saw the pyramids in person in Egypt. Alternatively, Roman builders could have drawn inspiration from the pyramids in Nubia, a region located in what is today northern Sudan and southern Egypt.</p>
+                    <p>At the time of its construction, since there was a strict Roman law prohibiting the placement of tombs within the city itself, the Pyramid of Cestius would have stood in the countryside. Rome grew enormously during the next two centuries, and by the 3rd century A.D., the pyramid would have been surrounded by buildings. We also know that in the 3rd century A.D. the Pyramid of Cestius was hidden behind a high wall on the orders of Emperor Aurelian; this probably helped it survive throughout the centuries to come, even as other ancient monuments disappeared.</p>
+                    <p>By the Middle Ages, the pyramid was covered in vegetation and thick dirt, and popular myth had developed that it might be a tomb for one of the twin brothers Romulus and Remus, who were regarded as the men who had established the city of Rome. Cestius' actual tomb within the pyramid and the inscription identifying the pyramid as his, weren't rediscovered until the 1680s when the pyramid underwent restoration. During excavations, when trees and plants were cleared away, two marble bases were found in front of the pyramid, as well as fragments of bronze statues that had once stood on either side of the pyramid. The people employed to excavate the pyramid did not find the urn that would have contained Cestius' remains, but they did come across a tunnel. It was quite possible, therefore, that robbers had at some earlier time removed the contents of the tomb. But while some of the features of Cestius' tomb no longer exist, at least the pyramid itself has survived.</p>
+                    <p>Today, the foundations of Cestius' pyramid rest below street level near an intersection with heavy traffic, so that passing tourists and residents could easily fail to notice its full height of 119 feet. Across the intersection is the Piramide station, located on Line B of the Rome Metro. In 2011, the Japanese clothing company entrepreneur Yuzo Yagi, president of Yagi Tsusho Ltd, announced his intention to help the Italian government pay for an ambitious renovation of the Pyramid of Cestius. 'It's an act of gratitude,' he later told journalists. 'Our company has grown thanks to Italy.' Work began at the site shortly after Yagi signed an official agreement with the Special Superintendency for the Archaeological Heritage of Rome, and was completed ahead of schedule thanks to his 2-million-euro contribution.</p>
+                    <p>As archaeologist Leonardo Guarnieri explained to journalists, officials are now conducting tours of the newly renovated pyramid twice a month by reservation. Visitors who take advantage of the tour can make their way through a narrow corridor in order to enter the burial chamber itself. It is within these walls that they can admire the frescoes: watercolour paintings typical of the time. In the chamber, it is possible to make out four frescoes of the winged Roman goddess of war, Victoria, a figure from Roman legend, as well as of a series of vases, the type that would have been used for special rituals and purification purposes. We know from the writings of earlier visitors that there used to be more here, but the majority have disappeared over time.</p>
+                    <p>Only one problem remains now that the restoration is complete. The white exterior of the Pyramid of Cestius will have to be cleaned every few months to remove the layer of urban pollution. A team of free-climbers will be employed to do the job, in order to avoid placing builders' scaffolding around the newly welcoming monument.</p>
+                </div>
+                <div id="passage-text-2" class="reading-passage hidden">
+                    <h4 class="text-center">Public Art Programs: Research Update</h4>
+                    <p style="text-align: center; font-style: italic;">Researchers agree that art participation is an important leisure pursuit, with benefits not only to the individual, but also to the community. Art participation can be active, where people create or perform the art, or passive, as is the case when an audience views a performance or a person visits a gallery.</p>
+                    <p><strong>A</strong>&nbsp;&nbsp;Researcher Howard Spector suggests that active art experiences benefit all age groups by providing individuals with the means to freely and creatively express themselves. Self-expression, in turn, promotes individuality, bolsters self-confidence and improves motivation and attitudes towards academic performance. Both active and passive art experiences can provide the benefits of discovery, stimulation and relaxation (Oliphant 2000). Furthermore, people's participation in art enhances their development and expands their thoughts about culture. In short, art can make individuals more socially conscious.</p>
+                    <p><strong>B</strong>&nbsp;&nbsp;Communities committed to providing opportunities for experiencing art are considered more livable because they are attractive to businesses and industry and they offer a higher quality of life for residents (Riley 2002). Tourism is strongly linked to art&mdash;art activities are believed to stimulate tourism in a community, and vice versa. Art-related tourism generates tourists and revenue, attracts high-income consumers, extends the tourist season and is a "green" form of the industry (Hughes 2000). Revitalization efforts have increased in many cities because of the strong presence of art opportunities. Art programs can be highly effective in reducing community problems related to delinquent behavior and truancy in youth (Spector 2000). The Philadelphia Department of Recreation, Mural Arts Program (MAP) is one such program. It began in the early 1980s when the city undertook to remove graffiti in the city while creating a positive, productive and creative outlet for adjudicated graffiti artists, as they used their talents to beautify public spaces through the creation of murals, instilling a sense of pride, excellence, diligence and civic responsibility.</p>
+                    <p><strong>C</strong>&nbsp;&nbsp;In recognition of these and other benefits, communities are finding many ways to ensure that the public is provided with opportunities to experience art. Public art programs are one way. These programs are typically administered by government, which commissions or mandates works of art for display in public spaces. Public art works can include street furniture, decorations, paving and landmarks, and may take on many forms, including sculpture, decorative ironwork, mosaic flooring and murals. The primary purpose of public art is to bring art into everyday life, to energize public spaces and to arouse society's thinking and imagination.</p>
+                    <p><strong>D</strong>&nbsp;&nbsp;Despite the significant benefits that art participation can offer to individuals and communities, only 35 percent of the American adult population visit museums or galleries at least once during the year, and only about 25 percent attend a live performance (Bradshaw 1998). Even fewer (14 percent) participate directly in photography, painting, drawing, sculpting, dance (other than ballet), creative writing or classical music. If art experiences are so beneficial, why aren't more people participating?</p>
+                    <p>To help researchers shed light on this question, the RAND Corporation, a nonprofit institution that helps improve policy and decision-making through objective research and analysis, developed 'A Behavior Model of the Participant Decision', which can be used to investigate people's inclinations about participating in an art activity (Yoshitomi 2000). According to Yoshitomi, each person has a disposition related to his or her interest in engaging in an art activity; a person's disposition is based on sociodemographic characteristics, social or cultural identity, personality and previous experience. The RAND model clusters participants into three groups according to their disposition toward art participation: those disinclined to participate; those inclined to participate; and those currently participating.</p>
+                    <p><strong>E</strong>&nbsp;&nbsp;The RAND findings reveal that the disinclined perceive themselves as being uncomfortable or unfamiliar with art. This disposition might occur among people who do not value art and who have not received art education, or who perceive themselves as unsophisticated or lacking skill to participate. The inclined are interested in participating, but may be constrained by particular barriers, such as cost, time, and proper attire. Current participants are those who are involved, and influence or encourage others to participate.</p>
+                    <p>Researchers suggest that a strong relationship exists between childhood and adult art participation rates. Individuals with a greater number of childhood art experiences are more likely to have higher rates of participation as adults. Although 90 percent of Americans believe art instruction is important for children and should be offered in schools, almost 40 percent of schools either offer no art instruction or have art instructors with no formal art training.</p>
+                    <p><strong>F</strong>&nbsp;&nbsp;One recreation organization working to make sure children get exposed to art is the Boys and Girls Clubs of America, which offer two innovative programs: The National Photography Program and the National Fine Arts Exhibit. Both are designed to get children excited about art. The photography program promotes new art that is technologically produced, including video and computer graphics, but primarily focuses on photography. The program provides club members with the opportunity to achieve personal growth and receive artistic recognition through instruction in photography. Participants also display their work at local, regional and national photography contests. The second program is the Fine Arts Exhibit. This encourages artistic expression, creativity, cultural appreciation and the development of artistic skills through classes, special events, exhibits and competitions. It allows participants to explore a variety of mediums, including drawing, painting, print-making, collage and sculpture.</p>
+                    <p>Because art experiences provide so many important benefits to individuals and communities, it is important for community programs to facilitate opportunities and provide encouragement to increase participation in a variety of programs.</p>
+                </div>
+                <div id="passage-text-3" class="reading-passage hidden">
+                    <h4 class="text-center">Saving the Skink</h4>
+                    <p style="text-align: center; font-style: italic;">What can be done to save the skink, one of New Zealand's most endangered lizards?</p>
+                    <p>New Zealand's reptiles come in three forms: the tuatara, the geckos and the skinks. With their gleaming scales, long bodies and often surprisingly short limbs, skinks are instantly recognisable. There are more than 90 species, half of which still await formal description. Identification depends on where specimens are found, and such minutiae as the number of scales on their toes. Two of the largest species of skink &mdash; the grand and the Otago &mdash; are found only in Otago, in New Zealand's South Island. Skinks, being reptiles, need to regulate their temperature, and lie on sunny rocks to absorb heat. However, the grand and Otago are the only kinds that do not hibernate through winter; when snow can fall even in summer in Otago, there is no point in them lying dormant for extended periods. Like all other New Zealand reptiles except tuatara and the egg-laying Suter's skink, they give birth to tiny baby lizards. Today, the Otago and grand skinks are lucky to reach five years of age in the wild, although in zoos or research centres they can live beyond thirty.</p>
+                    <p>Unfortunately, extinction may loom for these reptiles. With any decline in New Zealand fauna, predation is always suspected, so the efforts of the Department of Conservation (DOC) have focused on controlling specific pests. An example was a six-year project to control the feral cats on the Otago Skink Reserve, launched in the 1990s. Despite the capture of hundreds of cats, skinks showed no signs of recovery; indeed, there were further declines. The trapping programme also revealed rats and hedgehogs to be predators.</p>
+                    <p>Parasite infections are also thought to be on the rise. Although no direct health implications have been detected, the trend is a concern, as it may signal a subtle deterioration in the skinks' living environment. Infection with mites is suspected of inhibiting reproduction among captive animals.</p>
+                    <p>Another potential threat is habitat loss. Eight hundred years ago, Otago was covered in forest. However, extensive burning produced wide open tussock country. The skink's response to this change isn't known, nor what their habitat was in the earlier environment, with its predominance of shrubs and trees. Furthermore, recent intensive farming has led to poor soil. Even if we had the answer to the eradication of predators, we haven't a clue to the habitat we should be recreating for the skinks, or if where they persist is best for conservation.</p>
+                    <p>It is also puzzling that grands and Otagos are disappearing more rapidly than other species in the same region. The explanation likely lies in their delayed sexual maturity. Taking five years before you can breed is a handicap, since there is little likelihood of surviving that long. If survivors have only two offspring annually, they do little to remedy the situation. The commoner skinks mature earlier and produce more offspring, thereby doing more to counter predator pressure. Not that there is room for complacency concerning these species. As more is learned about the size of skink populations, it becomes clear that even common species may be facing a doubtful future.</p>
+                    <p>So far, DOC's efforts to eliminate specific predators have not resulted in a recovery of skink numbers. The prediction that less than six years is all the Otagos and grands have left is supported by data from surveys conducted outside the protected areas between 1984 and 2002. These show that more than 50 per cent of sub-populations of both skinks have died out over the past 20 years. Populations in other regions are believed to be smaller, although access issues on some properties limited knowledge. No more than five years remain in which to turn things around &mdash; a close call considering it will be at least three before a detectable response in the populations can be expected owing to their low breeding rate.</p>
+                    <p>DOC's recovery-programme team has recently embarked upon an experiment to extend nearly two kilometres of mammal-proof fencing around a population of Otagos and grands in the Macraes Flat reserve. Choosing a site was difficult, as with a limited budget and the high cost of the fencing it had to be small. It also had to include vacant space and resources for a growing population. An added complication was that grands and Otagos have subtly different environmental preferences, both of which need catering for.</p>
+                    <p>Because of the danger of imminent extinction, the team has also had to develop emergency captive-management techniques. Specially permitted breeders, who have had some success in breeding the Otago in captivity, are now developing techniques to breed grands. Captive management, however, is a last resort. The priority is to manage and protect skinks in the wild.</p>
+                    <p>Getting the public to understand the plight of these creatures is essential. Without public support, their chances are slim. Conservation is as much driven by public opinion as it is by political decisions. In New Zealand, the situation is more pressing than just about anywhere else on the planet because many of its native birds and lizards have simply not evolved to defend themselves against species introduced in the last few hundred years. In the once-isolated islands that form New Zealand, ecosystem collapse didn't happen 5000 years ago or even 500 years ago; it's happening now.</p>
+                    <p>Fortunately, DOC no longer faces these problems alone. The challenge has been taken up by a group of conservationists representing business, science and agriculture.</p>
+                    <p>Central Otago Ecological Trust (COET) aims to establish a refuge for the reintroduction of native species. It has identified suitable habitat and, with the generous support of a local farmer with grazing land there, has begun the construction of a mammal-proof fence to protect a 24-hectare area. The recovery programme and COET provide hope that skinks might once again flourish.</p>
+                </div>
+            </div>
+            <div class="resizer" id="resizer"></div>
+            <div class="questions-panel" id="questions-panel">
+                <div id="questions-1" class="question-set"><div class="questions-container">
+                    <div class="question" data-q-start="1" data-q-end="7">
+                        <div class="question-prompt">
+                            <p><strong>Questions 1-7</strong><br>Do the following statements agree with the information given in Reading Passage 1?</p>
+                            <p>Write</p>
+                            <ul style="list-style: none; padding-left: 0;">
+                                <li><strong>TRUE</strong> if the statement agrees with the information</li>
+                                <li><strong>FALSE</strong> if the statement contradicts the information</li>
+                                <li><strong>NOT GIVEN</strong> if there is no information on this</li>
+                            </ul>
+                        </div>
+                        <div class="tf-question" data-q-start="1" data-q-end="1"><div class="tf-question-line"><span class="tf-question-number">1</span><span class="tf-question-text">The Pyramid of Cestius has always been one of Rome's most popular tourist attractions.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q1" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q1" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q1" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+                        <div class="tf-question" data-q-start="2" data-q-end="2"><div class="tf-question-line"><span class="tf-question-number">2</span><span class="tf-question-text">The construction of the Pyramid was completed before Cestius' death.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q2" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q2" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q2" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+                        <div class="tf-question" data-q-start="3" data-q-end="3"><div class="tf-question-line"><span class="tf-question-number">3</span><span class="tf-question-text">In the Middle Ages, people thought an original founder of Rome was buried in the Pyramid of Cestius.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q3" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q3" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q3" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+                        <div class="tf-question" data-q-start="4" data-q-end="4"><div class="tf-question-line"><span class="tf-question-number">4</span><span class="tf-question-text">Today the height of the Pyramid is something that tourists and residents immediately notice.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q4" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q4" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q4" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+                        <div class="tf-question" data-q-start="5" data-q-end="5"><div class="tf-question-line"><span class="tf-question-number">5</span><span class="tf-question-text">Japanese businessman Yuzo Yagi was an admirer of both Italian and Egyptian architecture.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q5" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q5" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q5" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+                        <div class="tf-question" data-q-start="6" data-q-end="6"><div class="tf-question-line"><span class="tf-question-number">6</span><span class="tf-question-text">The restoration of the Pyramid of Cestius, which was funded by Yuzo Yagi, finished earlier than expected.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q6" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q6" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q6" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+                        <div class="tf-question" data-q-start="7" data-q-end="7"><div class="tf-question-line"><span class="tf-question-number">7</span><span class="tf-question-text">Most of the original frescoes inside Cestius' tomb have survived to this day.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q7" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q7" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q7" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+                    </div>
+                    <div class="question" data-q-start="8" data-q-end="13">
+                        <div class="question-prompt">
+                            <p><strong>Questions 8-13</strong><br>Complete the notes below.</p>
+                            <p>Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+                        </div>
+                        <div class="summary-text">
+                            <p style="text-align:center; font-weight:bold; font-size:18px;">History of the Pyramid of Cestius</p>
+                            <p><strong>Construction of Cestius' pyramid</strong></p>
+                            <ul>
+                                <li>&bull;&nbsp;&nbsp;it was made from <input type="text" class="answer-input" id="q8" placeholder="8">, marble and cement</li>
+                                <li>&bull;&nbsp;&nbsp;its <input type="text" class="answer-input" id="q9" placeholder="9"> is different to the pyramids found in Egypt</li>
+                                <li>&bull;&nbsp;&nbsp;it was originally built in the <input type="text" class="answer-input" id="q10" placeholder="10"> as building tombs in the city was forbidden</li>
+                                <li>&bull;&nbsp;&nbsp;Emperor Aurelian ordered that a wall had to be built around it</li>
+                            </ul>
+                            <p><strong>Restoration of Cestius' pyramid in the 1660s</strong></p>
+                            <ul>
+                                <li>&bull;&nbsp;&nbsp;in the 1660s, some broken <input type="text" class="answer-input" id="q11" placeholder="11"> were found next to it</li>
+                                <li>&bull;&nbsp;&nbsp;the <input type="text" class="answer-input" id="q12" placeholder="12"> inside the tomb suggests that robbers had been there</li>
+                                <li>&bull;&nbsp;&nbsp;the frescoes show mythological scenes, and images of vases</li>
+                            </ul>
+                            <p><strong>Restoration of Cestius' pyramid today</strong></p>
+                            <ul>
+                                <li>&bull;&nbsp;&nbsp;a Japanese businessman paid for its restoration</li>
+                                <li>&bull;&nbsp;&nbsp;climbers are helping to get rid of signs of <input type="text" class="answer-input" id="q13" placeholder="13"></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div></div>
+                <div id="questions-2" class="question-set hidden"><div class="questions-container">
+                    <div class="question" data-q-start="14" data-q-end="19">
+                        <div class="question-prompt">
+                            <p><strong>Questions 14-19</strong><br>Reading Passage 2 has six sections, <strong>A-F</strong>.</p>
+                            <p>Choose the correct heading for each section from the list of headings below.</p>
+                            <p>Write the correct number, <strong>i-viii</strong>, in boxes 14-19 on your answer sheet.</p>
+                        </div>
+                        <div class="people-section">
+                            <p class="section-title">List of Headings</p>
+                            <ul>
+                                <li><strong>i</strong>&nbsp;&nbsp;Interpreting the research behind who is participating in art activities</li>
+                                <li><strong>ii</strong>&nbsp;&nbsp;How sales of artwork have increased in many countries</li>
+                                <li><strong>iii</strong>&nbsp;&nbsp;Two opportunities for getting kids involved in art activities</li>
+                                <li><strong>iv</strong>&nbsp;&nbsp;How art can be made accessible to the public</li>
+                                <li><strong>v</strong>&nbsp;&nbsp;Developing a model to explain the lack of participation in art</li>
+                                <li><strong>vi</strong>&nbsp;&nbsp;The connection between art and media</li>
+                                <li><strong>vii</strong>&nbsp;&nbsp;How involvement with art affects well-being and attitudes</li>
+                                <li><strong>viii</strong>&nbsp;&nbsp;How art makes communities safer and more vital</li>
+                            </ul>
+                        </div>
+                        <div class="matching-form-container">
+                            <div class="matching-form-row" data-q-start="14" data-q-end="14"><label for="q14" class="matching-form-label" style="flex:1;flex-shrink:1;margin-right:10px;"><strong>14</strong>&nbsp;&nbsp;Section <strong>A</strong></label><select class="answer-input" id="q14" style="min-width:90px;"><option value=""></option><option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option></select></div>
+                            <div class="matching-form-row" data-q-start="15" data-q-end="15"><label for="q15" class="matching-form-label" style="flex:1;flex-shrink:1;margin-right:10px;"><strong>15</strong>&nbsp;&nbsp;Section <strong>B</strong></label><select class="answer-input" id="q15" style="min-width:90px;"><option value=""></option><option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option></select></div>
+                            <div class="matching-form-row" data-q-start="16" data-q-end="16"><label for="q16" class="matching-form-label" style="flex:1;flex-shrink:1;margin-right:10px;"><strong>16</strong>&nbsp;&nbsp;Section <strong>C</strong></label><select class="answer-input" id="q16" style="min-width:90px;"><option value=""></option><option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option></select></div>
+                            <div class="matching-form-row" data-q-start="17" data-q-end="17"><label for="q17" class="matching-form-label" style="flex:1;flex-shrink:1;margin-right:10px;"><strong>17</strong>&nbsp;&nbsp;Section <strong>D</strong></label><select class="answer-input" id="q17" style="min-width:90px;"><option value=""></option><option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option></select></div>
+                            <div class="matching-form-row" data-q-start="18" data-q-end="18"><label for="q18" class="matching-form-label" style="flex:1;flex-shrink:1;margin-right:10px;"><strong>18</strong>&nbsp;&nbsp;Section <strong>E</strong></label><select class="answer-input" id="q18" style="min-width:90px;"><option value=""></option><option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option></select></div>
+                            <div class="matching-form-row" data-q-start="19" data-q-end="19"><label for="q19" class="matching-form-label" style="flex:1;flex-shrink:1;margin-right:10px;"><strong>19</strong>&nbsp;&nbsp;Section <strong>F</strong></label><select class="answer-input" id="q19" style="min-width:90px;"><option value=""></option><option value="i">i</option><option value="ii">ii</option><option value="iii">iii</option><option value="iv">iv</option><option value="v">v</option><option value="vi">vi</option><option value="vii">vii</option><option value="viii">viii</option></select></div>
+                        </div>
+                    </div>
+                    <div class="question" data-q-start="20" data-q-end="23">
+                        <div class="question-prompt">
+                            <p><strong>Questions 20-23</strong><br>Look at the following statements (Questions 20-23) and the list of researchers below.</p>
+                            <p>Match each statement with the correct researcher, <strong>A-F</strong>.</p>
+                            <p><strong>NB</strong> You may use any letter more than once.</p>
+                        </div>
+                        <div class="people-section">
+                            <p class="section-title">List of Researchers</p>
+                            <ul>
+                                <li><strong>A</strong>&nbsp;&nbsp;Spector</li>
+                                <li><strong>B</strong>&nbsp;&nbsp;Oliphant</li>
+                                <li><strong>C</strong>&nbsp;&nbsp;Riley</li>
+                                <li><strong>D</strong>&nbsp;&nbsp;Hughes</li>
+                                <li><strong>E</strong>&nbsp;&nbsp;Bradshaw</li>
+                                <li><strong>F</strong>&nbsp;&nbsp;Yoshitomi</li>
+                            </ul>
+                        </div>
+                        <div class="matching-form-container">
+                            <div class="matching-form-row" data-q-start="20" data-q-end="20"><label for="q20" class="matching-form-label" style="flex:1;flex-shrink:1;margin-right:10px;"><strong>20</strong>&nbsp;&nbsp;Art activities can contribute to lowering negative incidents associated with juvenile crime.</label><select class="answer-input" id="q20" style="min-width:180px;"><option value=""></option><option value="A">A. Spector</option><option value="B">B. Oliphant</option><option value="C">C. Riley</option><option value="D">D. Hughes</option><option value="E">E. Bradshaw</option><option value="F">F. Yoshitomi</option></select></div>
+                            <div class="matching-form-row" data-q-start="21" data-q-end="21"><label for="q21" class="matching-form-label" style="flex:1;flex-shrink:1;margin-right:10px;"><strong>21</strong>&nbsp;&nbsp;Art can bring money and visitors into a community.</label><select class="answer-input" id="q21" style="min-width:180px;"><option value=""></option><option value="A">A. Spector</option><option value="B">B. Oliphant</option><option value="C">C. Riley</option><option value="D">D. Hughes</option><option value="E">E. Bradshaw</option><option value="F">F. Yoshitomi</option></select></div>
+                            <div class="matching-form-row" data-q-start="22" data-q-end="22"><label for="q22" class="matching-form-label" style="flex:1;flex-shrink:1;margin-right:10px;"><strong>22</strong>&nbsp;&nbsp;Commercial interests are drawn to areas that emphasise public art.</label><select class="answer-input" id="q22" style="min-width:180px;"><option value=""></option><option value="A">A. Spector</option><option value="B">B. Oliphant</option><option value="C">C. Riley</option><option value="D">D. Hughes</option><option value="E">E. Bradshaw</option><option value="F">F. Yoshitomi</option></select></div>
+                            <div class="matching-form-row" data-q-start="23" data-q-end="23"><label for="q23" class="matching-form-label" style="flex:1;flex-shrink:1;margin-right:10px;"><strong>23</strong>&nbsp;&nbsp;Art activities can both energise and calm people.</label><select class="answer-input" id="q23" style="min-width:180px;"><option value=""></option><option value="A">A. Spector</option><option value="B">B. Oliphant</option><option value="C">C. Riley</option><option value="D">D. Hughes</option><option value="E">E. Bradshaw</option><option value="F">F. Yoshitomi</option></select></div>
+                        </div>
+                    </div>
+                    <div class="question" data-q-start="24" data-q-end="26">
+                        <div class="question-prompt">
+                            <p><strong>Questions 24-26</strong><br>Complete the sentences below.</p>
+                            <p>Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+                        </div>
+                        <div class="summary-text">
+                            <p>Sometimes people want to get involved in art activities but can't afford it, can't fit it into their schedule, or don't have the suitable <input type="text" class="answer-input" id="q24" placeholder="24">.</p>
+                            <p>A noticeable correlation exists between art involvement in childhood and those in <input type="text" class="answer-input" id="q25" placeholder="25">.</p>
+                            <p>The National Photography Program allows members to grow personally and also gain <input type="text" class="answer-input" id="q26" placeholder="26">.</p>
+                        </div>
+                    </div>
+                </div></div>
+                <div id="questions-3" class="question-set hidden"><div class="questions-container">
+                    <div class="question" data-q-start="27" data-q-end="31">
+                        <div class="question-prompt">
+                            <p><strong>Questions 27-31</strong><br>Complete the summary using the list of words and phrases, <strong>A-K</strong>, below.</p>
+                        </div>
+                        <div class="people-section">
+                            <p class="section-title">List of Words and Phrases</p>
+                            <ul>
+                                <li><strong>A</strong>&nbsp;&nbsp;eggs</li>
+                                <li><strong>B</strong>&nbsp;&nbsp;location</li>
+                                <li><strong>C</strong>&nbsp;&nbsp;hooded eyes</li>
+                                <li><strong>D</strong>&nbsp;&nbsp;the wild</li>
+                                <li><strong>E</strong>&nbsp;&nbsp;body heat</li>
+                                <li><strong>F</strong>&nbsp;&nbsp;winter sleep</li>
+                                <li><strong>G</strong>&nbsp;&nbsp;captivity</li>
+                                <li><strong>H</strong>&nbsp;&nbsp;live young</li>
+                                <li><strong>I</strong>&nbsp;&nbsp;digestive process</li>
+                                <li><strong>J</strong>&nbsp;&nbsp;small legs</li>
+                                <li><strong>K</strong>&nbsp;&nbsp;warmer areas</li>
+                            </ul>
+                        </div>
+                        <div class="summary-text">
+                            <p style="text-align:center; font-weight:bold; font-size:18px;">Characteristics of New Zealand skinks</p>
+                            <p>There are three kinds of reptiles in New Zealand: the tuatara, the gecko and the skink. Skinks are easily distinguished from these other natives by their shiny scales and <select class="answer-input" id="q27" style="min-width:150px;"><option value=""></option><option value="A">A. eggs</option><option value="B">B. location</option><option value="C">C. hooded eyes</option><option value="D">D. the wild</option><option value="E">E. body heat</option><option value="F">F. winter sleep</option><option value="G">G. captivity</option><option value="H">H. live young</option><option value="I">I. digestive process</option><option value="J">J. small legs</option><option value="K">K. warmer areas</option></select>. In common with other reptiles, the grand and Otago species of skink have cold blood and therefore <select class="answer-input" id="q28" style="min-width:150px;"><option value=""></option><option value="A">A. eggs</option><option value="B">B. location</option><option value="C">C. hooded eyes</option><option value="D">D. the wild</option><option value="E">E. body heat</option><option value="F">F. winter sleep</option><option value="G">G. captivity</option><option value="H">H. live young</option><option value="I">I. digestive process</option><option value="J">J. small legs</option><option value="K">K. warmer areas</option></select> must be externally controlled. They are unique in that they do not require a long <select class="answer-input" id="q29" style="min-width:150px;"><option value=""></option><option value="A">A. eggs</option><option value="B">B. location</option><option value="C">C. hooded eyes</option><option value="D">D. the wild</option><option value="E">E. body heat</option><option value="F">F. winter sleep</option><option value="G">G. captivity</option><option value="H">H. live young</option><option value="I">I. digestive process</option><option value="J">J. small legs</option><option value="K">K. warmer areas</option></select>. Many species are yet to be identified, and identification depends primarily on their <select class="answer-input" id="q30" style="min-width:150px;"><option value=""></option><option value="A">A. eggs</option><option value="B">B. location</option><option value="C">C. hooded eyes</option><option value="D">D. the wild</option><option value="E">E. body heat</option><option value="F">F. winter sleep</option><option value="G">G. captivity</option><option value="H">H. live young</option><option value="I">I. digestive process</option><option value="J">J. small legs</option><option value="K">K. warmer areas</option></select> and extremely small physical difference. In <select class="answer-input" id="q31" style="min-width:150px;"><option value=""></option><option value="A">A. eggs</option><option value="B">B. location</option><option value="C">C. hooded eyes</option><option value="D">D. the wild</option><option value="E">E. body heat</option><option value="F">F. winter sleep</option><option value="G">G. captivity</option><option value="H">H. live young</option><option value="I">I. digestive process</option><option value="J">J. small legs</option><option value="K">K. warmer areas</option></select> skinks may potentially live for about 30 years.</p>
+                        </div>
+                    </div>
+                    <div class="question" data-q-start="32" data-q-end="36">
+                        <div class="question-prompt">
+                            <p><strong>Questions 32-36</strong><br>Do the following statements agree with the claims of the writer in Reading Passage 3?</p>
+                            <p>Write</p>
+                            <ul style="list-style: none; padding-left: 0;">
+                                <li><strong>YES</strong> if the statement agrees with the claims of the writer</li>
+                                <li><strong>NO</strong> if the statement contradicts the claims of the writer</li>
+                                <li><strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks about this</li>
+                            </ul>
+                        </div>
+                        <div class="tf-question" data-q-start="32" data-q-end="32"><div class="tf-question-line"><span class="tf-question-number">32</span><span class="tf-question-text">The DOC project to remove feral cats helped stop the decline in Otago skink numbers.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q32" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q32" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q32" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+                        <div class="tf-question" data-q-start="33" data-q-end="33"><div class="tf-question-line"><span class="tf-question-number">33</span><span class="tf-question-text">Parasite infections are having a serious effect on the physical condition of wild skinks.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q33" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q33" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q33" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+                        <div class="tf-question" data-q-start="34" data-q-end="34"><div class="tf-question-line"><span class="tf-question-number">34</span><span class="tf-question-text">The best possible habitat for the conservation of skinks is unknown.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q34" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q34" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q34" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+                        <div class="tf-question" data-q-start="35" data-q-end="35"><div class="tf-question-line"><span class="tf-question-number">35</span><span class="tf-question-text">It is possible that skinks used to have larger numbers of young than they do now.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q35" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q35" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q35" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+                        <div class="tf-question" data-q-start="36" data-q-end="36"><div class="tf-question-line"><span class="tf-question-number">36</span><span class="tf-question-text">The survival of the common species of skink may soon be at risk.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q36" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q36" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q36" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+                    </div>
+                    <div class="question" data-q-start="37" data-q-end="40">
+                        <div class="question-prompt">
+                            <p><strong>Questions 37-40</strong><br>Choose the correct letter, <strong>A, B, C</strong> or <strong>D</strong>.</p>
+                        </div>
+                        <div class="mcq-question" data-q-start="37" data-q-end="37" style="margin-bottom:18px;">
+                            <p style="font-weight:600; margin-bottom:6px;"><span style="display:inline-block;min-width:24px;">37</span>According to the sixth paragraph, what is being said about the future of the grand and Otago skinks?</p>
+                            <label class="mcq-option" style="display:block; padding:6px 8px; cursor:pointer;"><input type="radio" name="q37" value="A"> <strong>A</strong>&nbsp;&nbsp;More data is necessary in order for DOC to target the right areas.</label>
+                            <label class="mcq-option" style="display:block; padding:6px 8px; cursor:pointer;"><input type="radio" name="q37" value="B"> <strong>B</strong>&nbsp;&nbsp;DOC is uncertain how long a new strategy will take to be effective.</label>
+                            <label class="mcq-option" style="display:block; padding:6px 8px; cursor:pointer;"><input type="radio" name="q37" value="C"> <strong>C</strong>&nbsp;&nbsp;There is a considerable risk that DOC will not succeed in saving them.</label>
+                            <label class="mcq-option" style="display:block; padding:6px 8px; cursor:pointer;"><input type="radio" name="q37" value="D"> <strong>D</strong>&nbsp;&nbsp;The first step in DOC's strategy is to identify their main predator.</label>
+                        </div>
+                        <div class="mcq-question" data-q-start="38" data-q-end="38" style="margin-bottom:18px;">
+                            <p style="font-weight:600; margin-bottom:6px;"><span style="display:inline-block;min-width:24px;">38</span>According to the writer, a problem with DOC's fencing project was that</p>
+                            <label class="mcq-option" style="display:block; padding:6px 8px; cursor:pointer;"><input type="radio" name="q38" value="A"> <strong>A</strong>&nbsp;&nbsp;the fence needed to surround various kinds of habitat.</label>
+                            <label class="mcq-option" style="display:block; padding:6px 8px; cursor:pointer;"><input type="radio" name="q38" value="B"> <strong>B</strong>&nbsp;&nbsp;the fence was not the preferred choice of some conservationists.</label>
+                            <label class="mcq-option" style="display:block; padding:6px 8px; cursor:pointer;"><input type="radio" name="q38" value="C"> <strong>C</strong>&nbsp;&nbsp;the fence had to be constructed near a heavily populated urban area.</label>
+                            <label class="mcq-option" style="display:block; padding:6px 8px; cursor:pointer;"><input type="radio" name="q38" value="D"> <strong>D</strong>&nbsp;&nbsp;there was no way of knowing how many skinks were inside the fence.</label>
+                        </div>
+                        <div class="mcq-question" data-q-start="39" data-q-end="39" style="margin-bottom:18px;">
+                            <p style="font-weight:600; margin-bottom:6px;"><span style="display:inline-block;min-width:24px;">39</span>The writer uses the phrase 'a last resort' in the eighth paragraph in order to</p>
+                            <label class="mcq-option" style="display:block; padding:6px 8px; cursor:pointer;"><input type="radio" name="q39" value="A"> <strong>A</strong>&nbsp;&nbsp;introduce a recent alternative approach to skink conservation.</label>
+                            <label class="mcq-option" style="display:block; padding:6px 8px; cursor:pointer;"><input type="radio" name="q39" value="B"> <strong>B</strong>&nbsp;&nbsp;question whether captive breeding has worked in the past.</label>
+                            <label class="mcq-option" style="display:block; padding:6px 8px; cursor:pointer;"><input type="radio" name="q39" value="C"> <strong>C</strong>&nbsp;&nbsp;imply that skinks are unlikely to reproduce outside their usual habitat.</label>
+                            <label class="mcq-option" style="display:block; padding:6px 8px; cursor:pointer;"><input type="radio" name="q39" value="D"> <strong>D</strong>&nbsp;&nbsp;express a preference for conserving skinks in their natural environment.</label>
+                        </div>
+                        <div class="mcq-question" data-q-start="40" data-q-end="40" style="margin-bottom:18px;">
+                            <p style="font-weight:600; margin-bottom:6px;"><span style="display:inline-block;min-width:24px;">40</span>What is the writer doing in the final paragraph?</p>
+                            <label class="mcq-option" style="display:block; padding:6px 8px; cursor:pointer;"><input type="radio" name="q40" value="A"> <strong>A</strong>&nbsp;&nbsp;referring to obstacles in the way of skink conservation.</label>
+                            <label class="mcq-option" style="display:block; padding:6px 8px; cursor:pointer;"><input type="radio" name="q40" value="B"> <strong>B</strong>&nbsp;&nbsp;appealing to landowners to donate land for conservation purposes.</label>
+                            <label class="mcq-option" style="display:block; padding:6px 8px; cursor:pointer;"><input type="radio" name="q40" value="C"> <strong>C</strong>&nbsp;&nbsp;describing a conservation scheme that is being set up on farmland.</label>
+                            <label class="mcq-option" style="display:block; padding:6px 8px; cursor:pointer;"><input type="radio" name="q40" value="D"> <strong>D</strong>&nbsp;&nbsp;showing how commercial profit can be made from ecological ventures.</label>
+                        </div>
+                    </div>
+                </div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Arrows -->
+    <div class="nav-arrows">
+        <button class="nav-arrow" onclick="previousQuestion()" id="prevBtn">‹</button>
+        <button class="nav-arrow" onclick="nextQuestion()" id="nextBtn">›</button>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="nav-row perScorableItem" aria-label="Questions">
+        <div class="footer__questionWrapper___1tZ46 multiple" role="tablist">
+            <button role="tab" class="footer__questionNo___3WNct" onclick="switchToPart(1)">
+                <span>
+                    <span aria-hidden="true" class="section-prefix">Part </span>
+                    <span class="sectionNr" aria-hidden="true">1</span>
+                    <span class="attemptedCount" aria-hidden="true">0 of 13</span>
+                </span>
+            </button>
+            <div class="footer__subquestionWrapper___9GgoP">
+                <button class="subQuestion scorable-item" onclick="goToQuestion(1)"><span class="sr-only">Question 1</span><span aria-hidden="true">1</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(2)"><span class="sr-only">Question 2</span><span aria-hidden="true">2</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(3)"><span class="sr-only">Question 3</span><span aria-hidden="true">3</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(4)"><span class="sr-only">Question 4</span><span aria-hidden="true">4</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(5)"><span class="sr-only">Question 5</span><span aria-hidden="true">5</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(6)"><span class="sr-only">Question 6</span><span aria-hidden="true">6</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(7)"><span class="sr-only">Question 7</span><span aria-hidden="true">7</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(8)"><span class="sr-only">Question 8</span><span aria-hidden="true">8</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(9)"><span class="sr-only">Question 9</span><span aria-hidden="true">9</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(10)"><span class="sr-only">Question 10</span><span aria-hidden="true">10</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(11)"><span class="sr-only">Question 11</span><span aria-hidden="true">11</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(12)"><span class="sr-only">Question 12</span><span aria-hidden="true">12</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(13)"><span class="sr-only">Question 13</span><span aria-hidden="true">13</span></button>
+            </div>
+        </div>
+        
+        <div class="footer__questionWrapper___1tZ46 selected multiple" role="tablist">
+            <button role="tab" class="footer__questionNo___3WNct" onclick="switchToPart(2)">
+                <span>
+                    <span aria-hidden="true" class="section-prefix">Part </span>
+                    <span class="sectionNr" aria-hidden="true">2</span>
+                    <span class="attemptedCount" aria-hidden="true">0 of 13</span>
+                </span>
+            </button>
+            <div class="footer__subquestionWrapper___9GgoP">
+                <button class="subQuestion scorable-item" onclick="goToQuestion(14)"><span class="sr-only">Question 14</span><span aria-hidden="true">14</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(15)"><span class="sr-only">Question 15</span><span aria-hidden="true">15</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(16)"><span class="sr-only">Question 16</span><span aria-hidden="true">16</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(17)"><span class="sr-only">Question 17</span><span aria-hidden="true">17</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(18)"><span class="sr-only">Question 18</span><span aria-hidden="true">18</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(19)"><span class="sr-only">Question 19</span><span aria-hidden="true">19</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(20)"><span class="sr-only">Question 20</span><span aria-hidden="true">20</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(21)"><span class="sr-only">Question 21</span><span aria-hidden="true">21</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(22)"><span class="sr-only">Question 22</span><span aria-hidden="true">22</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(23)"><span class="sr-only">Question 23</span><span aria-hidden="true">23</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(24)"><span class="sr-only">Question 24</span><span aria-hidden="true">24</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(25)"><span class="sr-only">Question 25</span><span aria-hidden="true">25</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(26)"><span class="sr-only">Question 26</span><span aria-hidden="true">26</span></button>
+            </div>
+        </div>
+        
+        <div class="footer__questionWrapper___1tZ46 multiple" role="tablist">
+            <button role="tab" class="footer__questionNo___3WNct" onclick="switchToPart(3)">
+                <span>
+                    <span aria-hidden="true" class="section-prefix">Part </span>
+                    <span class="sectionNr" aria-hidden="true">3</span>
+                    <span class="attemptedCount" aria-hidden="true">0 of 14</span>
+                </span>
+            </button>
+            <div class="footer__subquestionWrapper___9GgoP">
+                <button class="subQuestion scorable-item" onclick="goToQuestion(27)"><span class="sr-only">Question 27</span><span aria-hidden="true">27</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(28)"><span class="sr-only">Question 28</span><span aria-hidden="true">28</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(29)"><span class="sr-only">Question 29</span><span aria-hidden="true">29</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(30)"><span class="sr-only">Question 30</span><span aria-hidden="true">30</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(31)"><span class="sr-only">Question 31</span><span aria-hidden="true">31</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(32)"><span class="sr-only">Question 32</span><span aria-hidden="true">32</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(33)"><span class="sr-only">Question 33</span><span aria-hidden="true">33</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(34)"><span class="sr-only">Question 34</span><span aria-hidden="true">34</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(35)"><span class="sr-only">Question 35</span><span aria-hidden="true">35</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(36)"><span class="sr-only">Question 36</span><span aria-hidden="true">36</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(37)"><span class="sr-only">Question 37</span><span aria-hidden="true">37</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(38)"><span class="sr-only">Question 38</span><span aria-hidden="true">38</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(39)"><span class="sr-only">Question 39</span><span aria-hidden="true">39</span></button>
+                <button class="subQuestion scorable-item" onclick="goToQuestion(40)"><span class="sr-only">Question 40</span><span aria-hidden="true">40</span></button>
+            </div>
+        </div>
+<div id="completion-modal" class="completion-modal-overlay hidden">
+        <div class="completion-modal-content">
+            <h2 id="completion-message">Test section finished.</h2>
+            <button id="next-section-btn">Move to next section</button>
+        </div>
+    </div>
+        
+        <button id="deliver-button" aria-label="Submit Answers" class="footer__deliverButton___3FM07" onclick="submitReadingSection()">Submit Answers</button>
+    </nav>
+
+    <!-- Context Menu -->
+    <div id="contextMenu" class="context-menu">
+        <div id="menu-highlight" class="context-menu-item" onclick="highlightText()">
+            Highlight
+        </div>
+        <div id="menu-note" class="context-menu-item" onclick="addNote()">
+            Note
+        </div>
+        <div id="menu-clear" class="context-menu-item" onclick="clearHighlight()">
+            Clear
+        </div>
+        <div id="menu-clear-all" class="context-menu-item" onclick="clearAllHighlights()">
+            Clear All
+        </div>
+    </div>
+
+
+
+    <div id="completion-modal" class="completion-modal-overlay hidden">
+        <div class="completion-modal-content">
+            <h2 id="completion-message">Test section finished.</h2>
+            <button id="next-section-btn">Move to next section</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- LOGIN STATE VARIABLES ---
+        const CORRECT_PASSWORD = '1234'; // You can change this password
+        let candidateId = '';
+        let isAuthenticated = false;
+        let sessionStartTime = null;
+        const SESSION_TIMEOUT = 4 * 60 * 60 * 1000; // 4 hours in milliseconds
+
+        // --- STATE VARIABLES ---
+        let currentPassage = 1;
+        let currentQuestion = 1;
+        let selectedRange = null;
+        let timeInSeconds = 3600; // 60 minutes = 3600 seconds
+        let timerInterval;
+        let draggedItem = null;
+        let activeQuestionElement = null;
+        let selectedDragItem = null;
+        let testCompleted = false; // Track if test has been completed
+        let resultsDownloaded = false; // Track if results have been downloaded
+
+        // --- DOM ELEMENTS ---
+        const timerDisplay = document.querySelector('.timer-display');
+        const resizer = document.getElementById('resizer');
+        const passagePanel = document.getElementById('passage-panel');
+        const questionsPanel = document.getElementById('questions-panel');
+        const contextMenu = document.getElementById('contextMenu');
+
+
+        // --- ANSWERS ---2
+        const correctAnswers = {
+            '1': 'FALSE',
+            '2': 'NOT GIVEN',
+            '3': 'TRUE',
+            '4': 'FALSE',
+            '5': 'NOT GIVEN',
+            '6': 'TRUE',
+            '7': 'FALSE',
+            '8': 'brick',
+            '9': 'shape',
+            '10': 'countryside',
+            '11': 'statues',
+            '12': 'tunnel',
+            '13': 'pollution',
+            '14': 'vii',
+            '15': 'viii',
+            '16': 'iv',
+            '17': 'v',
+            '18': 'i',
+            '19': 'iii',
+            '20': 'A',
+            '21': 'D',
+            '22': 'C',
+            '23': 'B',
+            '24': 'attire',
+            '25': 'rates',
+            '26': 'recognition',
+            '27': 'J',
+            '28': 'E',
+            '29': 'F',
+            '30': 'B',
+            '31': 'G',
+            '32': 'NO',
+            '33': 'NO',
+            '34': 'YES',
+            '35': 'NOT GIVEN',
+            '36': 'YES',
+            '37': 'C',
+            '38': 'A',
+            '39': 'D',
+            '40': 'C'
+        };
+
+        // --- LOGIN FUNCTIONS ---
+        function initializeLogin() {
+            // Prevent browser back/forward navigation
+            window.history.pushState(null, null, window.location.href);
+            window.addEventListener('popstate', function() {
+                window.history.pushState(null, null, window.location.href);
+            });
+            
+            // Prevent right-click context menu
+            document.addEventListener('contextmenu', function(e) {
+                if (isAuthenticated) {
+                    e.preventDefault();
+                }
+            });
+
+            // Prevent keyboard shortcuts that could be used for cheating
+            document.addEventListener('keydown', function(e) {
+                if (isAuthenticated && !testCompleted) {
+                    // Prevent F12, Ctrl+Shift+I, Ctrl+U (view source), Ctrl+Shift+C
+                    if (e.key === 'F12' || 
+                        (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+                        (e.ctrlKey && e.shiftKey && e.key === 'C') ||
+                        (e.ctrlKey && e.key === 'u') ||
+                        (e.ctrlKey && e.key === 'U') ||
+                        (e.ctrlKey && e.key === 's') ||
+                        (e.ctrlKey && e.key === 'S')) {
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+            });
+
+            // Additional security: Prevent developer tools
+            setInterval(() => {
+                if (isAuthenticated && !testCompleted) {
+                    const devtools = /./;
+                    devtools.toString = function() {
+                        this.opened = true;
+                    }
+                    console.log('%c', devtools);
+                    
+                }
+            }, 1000);
+
+            // Prevent text selection during test (except for highlighting feature)
+            document.addEventListener('selectstart', function(e) {
+                if (isAuthenticated && !testCompleted) {
+                    // Allow selection only in specific areas for highlighting
+                    const target = e.target;
+                    if (!target.closest('.reading-passage, .question')) {
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+            });
+
+            // Prevent leaving the page during test
+            window.addEventListener('beforeunload', function(e) {
+                if (isAuthenticated && !testCompleted) {
+                    e.preventDefault();
+                    e.returnValue = 'Are you sure you want to leave? Your test progress will be lost.';
+                    return 'Are you sure you want to leave? Your test progress will be lost.';
+                }
+            });
+            
+            // Login form submission
+            document.getElementById('login-form').addEventListener('submit', handleLogin);
+            
+            // Candidate form submission
+            document.getElementById('candidate-form').addEventListener('submit', handleCandidateId);
+            
+            // Back button functionality
+            document.getElementById('back-to-login').addEventListener('click', () => {
+                document.getElementById('candidate-screen').style.display = 'none';
+                document.getElementById('login-screen').style.display = 'flex';
+                document.getElementById('password').value = '';
+                document.getElementById('login-error').style.display = 'none';
+            });
+
+            // Enter key support for password field
+            document.getElementById('password').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    handleLogin(e);
+                }
+            });
+
+            // Enter key support for candidate ID field
+            document.getElementById('candidate-id').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    handleCandidateId(e);
+                }
+            });
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const password = document.getElementById('password').value;
+            const errorElement = document.getElementById('login-error');
+            const loginBtn = document.getElementById('login-btn');
+            
+            // Add loading state
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Verifying...';
+            loginBtn.classList.add('loading');
+            
+            // Simulate a small delay for better UX
+            setTimeout(() => {
+                if (password === CORRECT_PASSWORD) {
+                    errorElement.style.display = 'none';
+                    document.getElementById('login-screen').style.display = 'none';
+                    document.getElementById('candidate-screen').style.display = 'flex';
+                    document.getElementById('candidate-id').focus();
+                } else {
+                    errorElement.style.display = 'block';
+                    document.getElementById('password').value = '';
+                    document.getElementById('password').focus();
+                    document.getElementById('login-screen').classList.add('shake');
+                    setTimeout(() => {
+                        document.getElementById('login-screen').classList.remove('shake');
+                    }, 500);
+                }
+                
+                // Reset button state
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Login';
+                loginBtn.classList.remove('loading');
+            }, 500);
+        }
+
+        function handleCandidateId(e) {
+            e.preventDefault();
+            const candidateIdInput = document.getElementById('candidate-id').value.trim();
+            const errorElement = document.getElementById('candidate-error');
+            const candidateBtn = document.getElementById('candidate-btn');
+            
+            // Add loading state
+            candidateBtn.disabled = true;
+            candidateBtn.textContent = 'Verifying...';
+            candidateBtn.classList.add('loading');
+            
+            // Simulate a small delay for better UX
+            setTimeout(() => {
+                if (candidateIdInput.length >= 3) {
+                    candidateId = candidateIdInput;
+                    isAuthenticated = true;
+                    sessionStartTime = Date.now();
+                    errorElement.style.display = 'none';
+                    document.getElementById('candidate-screen').style.display = 'none';
+                    document.getElementById('start-screen').style.display = 'flex';
+                    
+                    // Update start screen with candidate ID
+                    const startContent = document.querySelector('.start-content');
+                    const candidateInfo = document.createElement('div');
+                    candidateInfo.style.cssText = 'background: rgb(232 243 253 / 26%); padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #6c757d;';
+                    candidateInfo.innerHTML = `<strong>Candidate ID:</strong> ${candidateId}`;
+                    startContent.insertBefore(candidateInfo, startContent.firstChild);
+                    
+                    // Start session timeout check
+                    setInterval(checkSessionTimeout, 60000); // Check every minute
+                } else {
+                    errorElement.style.display = 'block';
+                    document.getElementById('candidate-id').focus();
+                    document.getElementById('candidate-screen').classList.add('shake');
+                    setTimeout(() => {
+                        document.getElementById('candidate-screen').classList.remove('shake');
+                    }, 500);
+                }
+                
+                // Reset button state
+                candidateBtn.disabled = false;
+                candidateBtn.textContent = 'Continue';
+                candidateBtn.classList.remove('loading');
+            }, 500);
+        }
+
+        function checkSessionTimeout() {
+            if (sessionStartTime && (Date.now() - sessionStartTime) > SESSION_TIMEOUT) {
+                alert('Session expired. Please login again.');
+                logout();
+            }
+        }
+
+        function logout() {
+            // Reset authentication state
+            isAuthenticated = false;
+            candidateId = '';
+            sessionStartTime = null;
+            
+            // Clear timer
+            clearInterval(timerInterval);
+            
+            // Hide all content
+            document.querySelector('.header').style.display = 'none';
+            document.querySelector('.main-container').style.display = 'none';
+            document.querySelector('.nav-arrows').style.display = 'none';
+            document.querySelector('.nav-row').style.display = 'none';
+            document.getElementById('start-screen').style.display = 'none';
+            
+            // Show login screen
+            document.getElementById('login-screen').style.display = 'flex';
+            document.getElementById('password').value = '';
+            document.getElementById('candidate-id').value = '';
+            document.getElementById('login-error').style.display = 'none';
+            document.getElementById('candidate-error').style.display = 'none';
+            
+            // Clear candidate info from start screen
+            const candidateInfo = document.querySelector('.start-content div[style*="background: #e8f4fd"]');
+            if (candidateInfo) {
+                candidateInfo.remove();
+            }
+        }
+
+        // --- INITIALIZATION ---
+        function initialize() {
+            // Initialize login system first
+            initializeLogin();
+            
+            // Hide all content initially except login screen
+            document.querySelector('.header').style.display = 'none';
+            document.querySelector('.main-container').style.display = 'none';
+            document.querySelector('.nav-arrows').style.display = 'none';
+            document.querySelector('.nav-row').style.display = 'none';
+            document.getElementById('start-screen').style.display = 'none';
+            
+            // Add logout functionality
+            document.getElementById('logout-btn').addEventListener('click', () => {
+                if (confirm('Are you sure you want to logout? This will end your test session.')) {
+                    logout();
+                }
+            });
+
+            // Add Test All functionality (fills all answers with correct ones)
+            // Test All feature removed
+
+            // Add start button functionality
+            document.getElementById('start-test-btn').addEventListener('click', () => {
+                // Security check - ensure user is authenticated
+                if (!isAuthenticated || !candidateId) {
+                    alert('Authentication required. Please login with password and enter candidate ID.');
+                    document.getElementById('start-screen').style.display = 'none';
+                    document.getElementById('login-screen').style.display = 'flex';
+                    return;
+                }
+                
+                // Hide start screen
+                document.getElementById('start-screen').style.display = 'none';
+                
+                // Show main content
+                document.querySelector('.header').style.display = 'flex';
+                document.querySelector('.main-container').style.display = 'flex';
+                document.querySelector('.nav-arrows').style.display = 'flex';
+                document.querySelector('.nav-row').style.display = 'flex';
+                
+                // Update header with candidate ID
+                document.getElementById('header-candidate-id').textContent = candidateId;
+                
+                // Start the test
+                startTimer();
+                initializeDragAndDrop();
+                setupCheckboxLimits();
+                setupExampleHeading();
+                switchToPart(1); // Also calls goToQuestion(1) and updateNavigation
+            });
+
+            // (Testing button removed)
+
+            // Submit button functionality moved to explicit handler submitReadingSection()
+            
+            document.body.addEventListener('input', updateAllIndicators);
+            document.body.addEventListener('change', updateAllIndicators);
+            // Click handling for matrix selection (Q33-38)
+            document.body.addEventListener('click', (e) => {
+                const cell = e.target.closest('.matrix-table td.selectable');
+                if (!cell) return;
+                const q = cell.getAttribute('data-q');
+                if (!q) return;
+                document.querySelectorAll(`.matrix-table td.selectable[data-q="${q}"]`).forEach(td => td.classList.remove('matrix-selected'));
+                cell.classList.add('matrix-selected');
+                updateAllIndicators();
+            });
+            
+            // Timer now updates automatically in real-time, no hover needed
+
+            // Add click listeners to question containers for navigation
+            document.querySelectorAll('[data-q-start]').forEach(el => {
+                el.addEventListener('click', (e) => {
+                    // Don't navigate if clicking on specific question elements (tf-question, multi-choice-question, etc.)
+                    if (e.target.closest('.tf-question, .multi-choice-question, .matching-question-item, .tf-question-line, .tf-question-text, .tf-options, input, select, label')) {
+                        return;
+                    }
+                    
+                    const qNum = parseInt(el.dataset.qStart, 10);
+                    if (currentQuestion !== qNum) {
+                        goToQuestion(qNum);
+                    }
+                });
+            });
+
+            resizer.addEventListener('mousedown', initResize, false);
+            initializeContextMenu();
+        }
+
+        // --- CORE TEST LOGIC ---
+
+        function downloadResultsAsPdf(score, totalQuestions, resultsData) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            const currentSection = getCurrentTestSection().replace('.html', '');
+            const filename = `IELTS_${currentSection.charAt(0).toUpperCase() + currentSection.slice(1)}_Results_${candidateId}.pdf`;
+            
+            let y = 20;
+            doc.setFontSize(18);
+            const sectionTitle = currentSection.charAt(0).toUpperCase() + currentSection.slice(1);
+            doc.text(`IELTS ${sectionTitle} Test Results`, 10, y);
+            y += 15;
+
+            // Score summary
+            doc.setFontSize(14);
+            doc.text(`Final Score: ${score} / ${totalQuestions}`, 10, y);
+            y += 10;
+            doc.text(`IELTS Band Score: ${calculateBandScore(score)}`, 10, y);
+            y += 15;
+
+            // Candidate info
+            doc.setFontSize(10);
+            doc.text(`Candidate ID: ${candidateId}`, 10, y);
+            y += 5;
+            doc.text(`Date: ${new Date().toLocaleDateString()}`, 10, y);
+            y += 5;
+            doc.text(`Time: ${new Date().toLocaleTimeString()}`, 10, y);
+            y += 15;
+
+            // Create table header
+            const tableHeaders = ['Q#', 'Your Answer', 'Correct Answer', 'Result'];
+            const columnWidths = [15, 60, 60, 30];
+            const startX = 10;
+            
+            // Draw table header
+            doc.setFillColor(34, 139, 34); // Dark green background
+            doc.setTextColor(255, 255, 255); // White text
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'bold');
+            
+            let currentX = startX;
+            tableHeaders.forEach((header, index) => {
+                doc.rect(currentX, y, columnWidths[index], 8, 'F');
+                doc.text(header, currentX + 2, y + 6);
+                currentX += columnWidths[index];
+            });
+            y += 8;
+
+            // Draw table data
+            doc.setTextColor(0, 0, 0); // Black text
+            doc.setFont(undefined, 'normal');
+            
+            for (let i = 1; i <= totalQuestions; i++) {
+                const result = resultsData[i];
+                if (result) {
+                    // Check if we need a new page
+                    if (y > 280) {
+                        doc.addPage();
+                        y = 10;
+                        
+                        // Redraw header on new page
+                        doc.setFillColor(34, 139, 34);
+                        doc.setTextColor(255, 255, 255);
+                        doc.setFont(undefined, 'bold');
+                        currentX = startX;
+                        tableHeaders.forEach((header, index) => {
+                            doc.rect(currentX, y, columnWidths[index], 8, 'F');
+                            doc.text(header, currentX + 2, y + 6);
+                            currentX += columnWidths[index];
+                        });
+                        y += 8;
+                        doc.setTextColor(0, 0, 0);
+                        doc.setFont(undefined, 'normal');
+                    }
+
+                    // Alternate row colors
+                    const isEvenRow = i % 2 === 0;
+                    if (isEvenRow) {
+                        doc.setFillColor(240, 240, 240); // Light grey
+                        doc.rect(startX, y, columnWidths.reduce((a, b) => a + b, 0), 8, 'F');
+                    }
+
+                    // Draw row data
+                    currentX = startX;
+                    
+                    // Question number
+                    doc.text(i.toString(), currentX + 2, y + 6);
+                    currentX += columnWidths[0];
+                    
+                    // Your answer
+                    const userAnswer = result.userAnswer === 'Not Answered' ? 'No Answer' : result.userAnswer;
+                    doc.text(userAnswer, currentX + 2, y + 6);
+                    currentX += columnWidths[1];
+                    
+                    // Correct answer
+                    doc.text(result.correctAnswer, currentX + 2, y + 6);
+                    currentX += columnWidths[2];
+                    
+                    // Result
+                    const resultText = result.isCorrect ? 'Correct' : 'Incorrect';
+                    doc.text(resultText, currentX + 2, y + 6);
+                    
+                    y += 8;
+                }
+            }
+            
+            doc.save(filename);
+            resultsDownloaded = true;
+        }
+
+        function submitReadingSection(){
+            if (!confirm('Are you sure you want to finish Reading? This will submit your answers, download your results as PDF, and move to Writing.')) return;
+            try {
+                // If checkAnswers computes and then triggers downloadResultsAsPdf internally, call it; else compute then call downloadResultsAsPdf
+                if (typeof checkAnswers === 'function') {
+                    checkAnswers();
+                }
+            } catch(e){
+                console.error('Reading submission failed:', e);
+            }
+            setTimeout(()=>{ window.location.href = 'Writing.html'; }, 800);
+        }
+
+        function handleTimeExpiration() {
+            if (testCompleted) return; // Prevent multiple executions
+            
+            testCompleted = true;
+            clearInterval(timerInterval);
+            
+            // Disable all inputs immediately
+            disableAllInputs();
+            
+            // Show time expiration message
+            showTimeExpirationMessage();
+            
+            // Ensure all parts are rendered
+            try { switchToPart(1); switchToPart(2); switchToPart(3); } catch (e) {}
+            
+            // Automatically check answers and download results
+            setTimeout(() => {
+                const results = checkAnswersAndGetResults();
+                downloadResultsAsPdf(results.score, results.totalQuestions, results.resultsData);
+                
+                // Show completion interface after download
+                setTimeout(() => {
+                    showCompletionInterface();
+                }, 1000);
+            }, 1200);
+        }
+
+        function disableAllInputs() {
+            // Disable all form inputs
+            document.querySelectorAll('input, select, textarea').forEach(input => {
+                input.disabled = true;
+                input.style.pointerEvents = 'none';
+            });
+            
+            // Disable drag and drop
+            document.querySelectorAll('.drag-item').forEach(item => {
+                item.setAttribute('draggable', 'false');
+                item.style.pointerEvents = 'none';
+            });
+            
+            document.querySelectorAll('.drop-zone, .summary-drop-zone').forEach(zone => {
+                zone.style.pointerEvents = 'none';
+            });
+            
+            // Disable navigation buttons
+            document.querySelectorAll('.nav-arrow, .subQuestion, .footer__questionNo___3WNct').forEach(btn => {
+                btn.style.pointerEvents = 'none';
+            });
+        }
+
+        function showTimeExpirationMessage() {
+            // Create and show time expiration overlay
+            const overlay = document.createElement('div');
+            overlay.id = 'time-expiration-overlay';
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                z-index: 10000;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: white;
+                font-family: Arial, sans-serif;
+            `;
+            
+            overlay.innerHTML = `
+                <div style="text-align: center; padding: 40px; background: #333; border-radius: 10px; max-width: 500px;">
+                    <h2 style="color: #ff6b6b; margin-bottom: 20px;">Time's Up!</h2>
+                    <p style="font-size: 18px; margin-bottom: 20px;">Your reading test time has expired.</p>
+                    <p style="font-size: 16px; margin-bottom: 30px;">Your results are being processed and will be downloaded automatically.</p>
+                    <div style="display: flex; justify-content: center;">
+                        <div style="width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                    </div>
+                </div>
+                <style>
+                    @keyframes spin {
+                        0% { transform: rotate(0deg); }
+                        100% { transform: rotate(360deg); }
+                    }
+                </style>
+            `;
+            
+            document.body.appendChild(overlay);
+        }
+
+        function checkAnswersAndGetResults() {
+            let score = 0;
+            const totalQuestions = 40;
+            const resultsData = {};
+
+            for (let i = 1; i <= totalQuestions; i++) {
+                const questionKey = String(i);
+                const correctAnswer = correctAnswers[questionKey];
+                let userAnswer = '';
+                let isCorrect = false;
+                
+                let userAnswerDisplay = 'Not Answered';
+                const correctAnswerText = Array.isArray(correctAnswer) ? correctAnswer.join(' / ') : correctAnswer;
+
+                const textInput = document.getElementById(`q${i}`);
+                const radioGroup = document.querySelectorAll(`input[name="q${i}"][type="radio"]`);
+                
+                // Handle Questions 21-22 (support legacy grouped-checkbox UI if present)
+                if ((i === 21 || i === 22) && document.querySelectorAll('input[name="q21-22"]').length > 0) {
+                    const checkboxes = document.querySelectorAll(`input[name="q21-22"]:checked`);
+                    const userAnswers = Array.from(checkboxes).map(cb => cb.value);
+                    const groupCorrect = ['B', 'D'];
+                    userAnswerDisplay = userAnswers.length > 0 ? userAnswers.join(', ') : 'Not Answered';
+                    // partial credit if any correct chosen
+                    isCorrect = userAnswers.some(userAns => groupCorrect.includes(userAns));
+                    if (isCorrect && i === 21) score++;
+                }
+                // Handle Questions 27-32 (Drag and drop headings in passage)
+                else if (i >= 27 && i <= 32 && !textInput && radioGroup.length === 0) {
+                    const dropZone = document.querySelector(`.drop-zone[data-q-start="${i}"]`);
+                    if (dropZone) {
+                        const droppedItem = dropZone.querySelector('.drag-item');
+                        if (droppedItem) {
+                            userAnswer = droppedItem.dataset.value;
+                            userAnswerDisplay = userAnswer;
+                            isCorrect = userAnswer === correctAnswer;
+                            if (isCorrect) score++;
+                        }
+                    }
+                }
+                // (14-20 are standard inputs/radios in this test; handled below)
+                // Handle Questions 33-38 (Matrix table selections)
+                else if (i >= 33 && i <= 38 && !textInput && radioGroup.length === 0) {
+                    const selectedCell = document.querySelector(`.matrix-table td.matrix-selected[data-q="${i}"]`);
+                    if (selectedCell) {
+                        userAnswer = selectedCell.getAttribute('data-val');
+                            userAnswerDisplay = userAnswer;
+                            isCorrect = userAnswer === correctAnswer;
+                            if (isCorrect) score++;
+                    }
+                }
+                // Handle Text and Select Inputs
+                else if (textInput && (textInput.tagName === 'INPUT' || textInput.tagName === 'SELECT')) {
+                    userAnswer = textInput.value.trim();
+                    userAnswerDisplay = userAnswer || 'Not Answered';
+                    isCorrect = Array.isArray(correctAnswer) ?
+                        correctAnswer.some(ans => userAnswer.toLowerCase() === ans.toLowerCase()) :
+                        userAnswer.toLowerCase() === correctAnswer.toLowerCase();
+                    if (isCorrect) score++;
+                }
+                // Handle Radio Button Inputs (T/F, MCQs)
+                else if (radioGroup.length > 0) {
+                    const checkedRadio = document.querySelector(`input[name="q${i}"]:checked`);
+                    if (checkedRadio) {
+                        userAnswer = checkedRadio.value;
+                        userAnswerDisplay = userAnswer;
+                        isCorrect = userAnswer === correctAnswer;
+                        if (isCorrect) score++;
+                    }
+                }
+                 
+                // Store results data for download
+                resultsData[i] = {
+                    isCorrect: isCorrect,
+                    userAnswer: userAnswerDisplay,
+                    correctAnswer: correctAnswerText
+                };
+            }
+
+            return { score, totalQuestions, resultsData };
+        }
+
+        function showCompletionInterface() {
+            // Remove time expiration overlay
+            const overlay = document.getElementById('time-expiration-overlay');
+            if (overlay) {
+                overlay.remove();
+            }
+            
+            // Create completion interface with white background
+            const completionOverlay = document.createElement('div');
+            completionOverlay.id = 'completion-overlay';
+            completionOverlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: #ffffff;
+                z-index: 10000;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-family: Arial, sans-serif;
+            `;
+            
+            const currentSection = getCurrentTestSection();
+            let message = '';
+            let buttonText = '';
+            
+            if (currentSection === 'Listening.html') {
+                message = 'Listening test is now finished.';
+                buttonText = 'Move to Reading Section';
+            } else if (currentSection === 'Reading.html') {
+                message = 'Reading test is now finished.';
+                buttonText = 'Move to Writing Section';
+            } else if (currentSection === 'Writing.html') {
+                message = 'Writing test is now finished.';
+                buttonText = 'Close';
+            }
+            
+            completionOverlay.innerHTML = `
+                <div style="text-align: center; padding: 40px; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; color: #333;">
+                    <div style="margin-bottom: 30px; color: #667eea;">
+                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 12l2 2 4-4"></path>
+                            <path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"></path>
+                        </svg>
+                    </div>
+                    <p style="font-size: 32px; font-weight: 600; margin-bottom: 40px; color: #333; line-height: 1.4;">${message}</p>
+                    <button id="next-section-btn" onclick="
+                        if('${currentSection}' === 'Listening.html') { 
+                            window.location.href='Reading.html'; 
+                        }
+                        else if('${currentSection}' === 'Reading.html') { 
+                            window.location.href='Writing.html'; 
+                        }
+                        else if('${currentSection}' === 'Writing.html') { 
+                            document.getElementById('completion-overlay').remove(); 
+                        }
+                    " style="
+                        background: #667eea;
+                        color: white !important;
+                        border: none;
+                        padding: 16px 32px;
+                        font-size: 18px;
+                        border-radius: 8px;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                        font-weight: 600;
+                        min-width: 200px;
+                        text-align: center;
+                        display: inline-block;
+                        line-height: 1.2;
+                    ">${buttonText}</button>
+                </div>
+            `;
+            
+            document.body.appendChild(completionOverlay);
+        }
+
+        function checkAnswers() {
+            // This function is now only used for manual submission
+            if (testCompleted) return; // Prevent multiple executions
+            
+            testCompleted = true;
+            clearInterval(timerInterval);
+            
+            // Disable all inputs
+            disableAllInputs();
+            
+            // Get results and download PDF (without showing to user)
+            const results = checkAnswersAndGetResults();
+            downloadResultsAsPdf(results.score, results.totalQuestions, results.resultsData);
+            
+            // Show completion interface
+            setTimeout(() => {
+                showCompletionInterface();
+            }, 1000);
+        }
+
+        function calculateBandScore(score) {
+            if (score >= 39) return '9.0';
+            const mapping = {
+                40: 9.0, 39: 9.0, 38: 8.5, 37: 8.5, 36: 8.0, 35: 8.0, 34: 7.5,
+                33: 7.5, 32: 7.0, 31: 7.0, 30: 7.0, 29: 6.5, 28: 6.5, 27: 6.5,
+                26: 6.0, 25: 6.0, 24: 6.0, 23: 5.5, 22: 5.5, 21: 5.5, 20: 5.5,
+                19: 5.0, 18: 5.0, 17: 5.0, 16: 5.0, 15: 5.0, 14: 4.5, 13: 4.5,
+                12: 4.0, 11: 4.0, 10: 4.0, 9: 3.5, 8: 3.5, 7: 3.0, 6: 3.0,
+                5: 2.5, 4: 2.5
+            };
+            if (score <= 0) return 0.0;
+            if (score === 1) return 1.0;
+            if (score <= 3) return 2.0;
+            if (score <= 5) return 2.5;
+            return mapping[score] || 0.0;
+        }
+
+        function getUserAnswer(qNum) {
+            const textInput = document.getElementById(`q${qNum}`);
+            const radioInput = document.querySelector(`input[name="q${qNum}"]:checked, input[name="q21-22"]:checked`);
+            const dropZone = document.querySelector(`.drop-zone[data-q-start="${qNum}"]`);
+
+            if (textInput) { // Handles <input type="text"> and <select>
+                return { value: textInput.value, text: textInput.value || 'N/A' };
+            }
+            // Matrix answers for 33-38
+            if (qNum >= 33 && qNum <= 38 && !radioInput) {
+                const selectedCell = document.querySelector(`.matrix-table td.matrix-selected[data-q="${qNum}"]`);
+                const val = selectedCell ? selectedCell.getAttribute('data-val') : null;
+                return { value: val, text: val || 'N/A' };
+            }
+            if (radioInput) {
+                return { value: radioInput.value, text: radioInput.value };
+            }
+            if (dropZone) {
+                const droppedItem = dropZone.querySelector('.drag-item');
+                return {
+                    value: droppedItem ? droppedItem.dataset.value : null,
+                    text: droppedItem ? droppedItem.dataset.value : 'N/A'
+                };
+            }
+            return { value: null, text: 'N/A' };
+        }
+
+
+        
+        function findQuestionElement(qNum) {
+             return document.querySelector(`[data-q-start="${qNum}"]`);
+        }
+
+
+        
+        // This function is replaced by disableAllInputs() which is more comprehensive
+
+        function checkValue(userValue, correctValue) {
+            if (userValue === null || userValue === undefined) return false;
+            const formattedUserValue = userValue.trim().toLowerCase();
+            if (Array.isArray(correctValue)) {
+                return correctValue.map(v => v.toLowerCase()).includes(formattedUserValue);
+            } else {
+                return formattedUserValue === String(correctValue).toLowerCase();
+            }
+        }
+
+
+
+        // This function is no longer needed as we use showCompletionInterface() instead
+
+        function switchToPart(partNumber) {
+            currentPassage = partNumber;
+
+            // Hide all passages and questions
+            document.querySelectorAll('.reading-passage, .question-set, .part-header').forEach(el => {
+                el.classList.add('hidden');
+            });
+
+            // Show the correct passage, questions, and header
+            document.getElementById(`passage-text-${partNumber}`).classList.remove('hidden');
+            document.getElementById(`questions-${partNumber}`).classList.remove('hidden');
+            document.getElementById(`part-header-${partNumber}`).classList.remove('hidden');
+
+            // Update bottom navigation 'selected' state
+            document.querySelectorAll('.footer__questionWrapper___1tZ46').forEach((wrapper, index) => {
+                wrapper.classList.toggle('selected', (index + 1) === partNumber);
+            });
+
+            // Go to the first question of the part
+            const firstQuestionOfPart = {1: 1, 2: 14, 3: 27}[partNumber];
+            goToQuestion(firstQuestionOfPart);
+        }
+        
+        function goToQuestion(questionNumber) {
+            currentQuestion = questionNumber;
+
+            let passageNumber = 1;
+            if (questionNumber >= 14 && questionNumber <= 26) passageNumber = 2;
+            else if (questionNumber >= 27) passageNumber = 3;
+            
+            if (currentPassage !== passageNumber) {
+                switchToPart(passageNumber);
+                return; 
+            }
+
+            if (activeQuestionElement) {
+                activeQuestionElement.classList.remove('active-question', 'active-input');
+            }
+
+            // Look for specific question elements first (tf-question, multi-choice-question, etc.)
+            let targetEl = document.querySelector(`.tf-question[data-q-start="${questionNumber}"], .multi-choice-question[data-q-start="${questionNumber}"], .matching-question-item[data-q-start="${questionNumber}"]`);
+            
+            // If not found, look for input elements
+            if (!targetEl) {
+                targetEl = document.getElementById(`q${questionNumber}`);
+            }
+            
+            // If still not found, look for any element with data-q-start
+            if (!targetEl) {
+                targetEl = document.querySelector(`[data-q-start="${questionNumber}"]`);
+            }
+
+            if (targetEl) {
+                activeQuestionElement = targetEl;
+                 if (targetEl.matches('input[type="text"]') || targetEl.matches('select')) {
+                     targetEl.classList.add('active-input');
+                 } else {
+                     targetEl.classList.add('active-question');
+                 }
+                 scrollIntoViewIfNeeded(targetEl);
+            } else {
+                 const pMatch = document.querySelector(`.paragraph-matching-question select[id="q${questionNumber}"]`);
+                 if(pMatch) {
+                    activeQuestionElement = pMatch;
+                    pMatch.classList.add('active-input');
+                    scrollIntoViewIfNeeded(pMatch);
+                 }
+            }
+
+            updateNavigation();
+        }
+        
+        // --- UI & NAVIGATION ---
+
+        function updateNavigation() {
+            const navButtons = document.querySelectorAll('.subQuestion');
+            navButtons.forEach(btn => btn.classList.remove('active'));
+            const activeNav = document.querySelector(`.subQuestion[onclick="goToQuestion(${currentQuestion})"]`);
+            if (activeNav) {
+                activeNav.classList.add('active');
+            }
+
+            const inputs = document.querySelectorAll('.answer-input, .drop-zone.filled, .summary-drop-zone.filled');
+            inputs.forEach(input => input.classList.remove('active-input'));
+            
+            const activeInput = document.getElementById(`q${currentQuestion}`);
+            if (activeInput) {
+                activeInput.classList.add('active-input');
+                if (typeof activeInput.focus === 'function') {
+                    activeInput.focus();
+                }
+            } else {
+                const activeQuestionBlock = document.querySelector(`[data-q-start="${currentQuestion}"]`);
+                if (activeQuestionBlock) {
+                    const firstInput = activeQuestionBlock.querySelector('input, select');
+                    if(firstInput) {
+                        firstInput.classList.add('active-input');
+                         if (typeof firstInput.focus === 'function') {
+                            firstInput.focus();
+                        }
+                    }
+                }
+            }
+        }
+        
+        function selectDragItem(item) {
+            if (selectedDragItem) {
+                selectedDragItem.classList.remove('selected');
+            }
+            selectedDragItem = item;
+            if (selectedDragItem) {
+                selectedDragItem.classList.add('selected');
+            }
+        }
+        
+        window.nextQuestion = () => currentQuestion < 40 && goToQuestion(currentQuestion + 1);
+        window.previousQuestion = () => currentQuestion > 1 && goToQuestion(currentQuestion - 1);
+
+        function updateAllIndicators() {
+            updateAttemptedCount(1, 1, 13);
+            updateAttemptedCount(2, 14, 26);
+            updateAttemptedCount(3, 27, 40);
+            updateAnsweredNav();
+        }
+        
+        function updateAnsweredNav() {
+            const navButtons = document.querySelectorAll('.subQuestion');
+            navButtons.forEach(btn => {
+                const qNum = parseInt(btn.textContent, 10);
+                if (isQuestionAnswered(qNum)) {
+                    btn.classList.add('answered');
+                } else {
+                    btn.classList.remove('answered');
+                }
+            });
+        }
+        
+        function isQuestionAnswered(qNum) {
+            const textInput = document.getElementById(`q${qNum}`);
+            if (textInput && textInput.value.trim() !== '') {
+                return true;
+            }
+            const radio = document.querySelector(`input[name="q${qNum}"]:checked`);
+            if (radio) {
+                return true;
+            }
+            if (qNum >= 33 && qNum <= 38) {
+                const sel = document.querySelector(`.matrix-table td.matrix-selected[data-q="${qNum}"]`);
+                if (sel) return true;
+            }
+            // Handle checkbox groups
+            if (qNum >= 21 && qNum <= 22) {
+                const checkboxes = document.querySelectorAll(`input[name="q21-22"]:checked`);
+                return checkboxes.length > 0;
+            }
+            if (qNum >= 38 && qNum <= 40) {
+                const checkboxes = document.querySelectorAll(`input[name="q38-40"]:checked`);
+                return checkboxes.length > 0;
+            }
+            // Handle drag-and-drop questions
+            if (qNum >= 14 && qNum <= 20) {
+                const dropZone = document.querySelector(`.drop-zone[data-q-start="${qNum}"]`);
+                return dropZone && dropZone.querySelector('.drag-item');
+            }
+            if (qNum >= 33 && qNum <= 37) {
+                const dropZone = document.querySelector(`.summary-drop-zone[data-q-start="${qNum}"]`);
+                return dropZone && dropZone.querySelector('.drag-item');
+            }
+            if (qNum >= 38 && qNum <= 40) {
+                const dropZone = document.querySelector(`.summary-drop-zone[data-q-start="${qNum}"]`);
+                return dropZone && dropZone.querySelector('.drag-item');
+            }
+            const checkbox = document.querySelector(`input[name="q${qNum}"]:checked`);
+            if (checkbox) {
+                return true;
+            }
+            const dropZone = document.querySelector(`.drop-zone[data-q-start="${qNum}"]`);
+            if (dropZone && dropZone.querySelector('.drag-item')) {
+                return true;
+            }
+            return false;
+        }
+
+        function scrollIntoViewIfNeeded(element) {
+            const panel = element.closest('.questions-panel, .passage-panel');
+            const panelRect = panel.getBoundingClientRect();
+            const elementRect = element.getBoundingClientRect();
+            if (elementRect.top < panelRect.top || elementRect.bottom > panelRect.bottom) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+        
+        // --- DRAG AND DROP ---
+        
+        function initializeDragAndDrop() {
+            document.querySelectorAll('.drag-item').forEach(item => {
+                item.addEventListener('dragstart', handleDragStart);
+                item.addEventListener('dragend', handleDragEnd);
+                item.addEventListener('click', () => selectDragItem(item));
+            });
+            document.querySelectorAll('.drop-zone, .summary-drop-zone, .drag-options-container').forEach(zone => {
+                zone.addEventListener('dragover', handleDragOver);
+                zone.addEventListener('dragleave', handleDragLeave);
+                zone.addEventListener('drop', handleDrop);
+            });
+        }
+
+        function handleDragStart(e) {
+            draggedItem = e.target;
+            setTimeout(() => e.target.classList.add('dragging'), 0);
+        }
+
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+            draggedItem = null;
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            const targetZone = e.currentTarget;
+            if (draggedItem && draggedItem.dataset.dndGroup === targetZone.dataset.dndGroup) {
+                targetZone.classList.add('drag-over');
+            }
+        }
+
+        function handleDragLeave(e) {
+            e.currentTarget.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            const targetZone = e.currentTarget;
+            targetZone.classList.remove('drag-over');
+
+            if (!draggedItem || draggedItem.dataset.dndGroup !== targetZone.dataset.dndGroup) {
+                return;
+            }
+
+            const sourceZone = draggedItem.parentElement;
+            if (sourceZone === targetZone) return; // Prevent dropping on itself
+
+            const existingItemInTarget = targetZone.classList.contains('drop-zone') || targetZone.classList.contains('summary-drop-zone')
+                ? targetZone.querySelector('.drag-item') 
+                : null;
+
+            // First, clear the target drop-zone of any text (like question numbers) before adding the new item.
+            if (targetZone.classList.contains('drop-zone') || targetZone.classList.contains('summary-drop-zone')) {
+                Array.from(targetZone.childNodes).forEach(node => {
+                    if (node.nodeType === Node.TEXT_NODE) {
+                        node.remove();
+                    }
+                });
+            }
+
+            // Move the item that was in the target (if any) to the source zone.
+            if (existingItemInTarget) {
+                sourceZone.appendChild(existingItemInTarget);
+            }
+            
+            // Finally, move the dragged item to the target zone.
+            targetZone.appendChild(draggedItem);
+            targetZone.classList.add('filled');
+
+            // After the move, clean up the source zone if it's a drop-zone and is now empty.
+            if ((sourceZone.classList.contains('drop-zone') || sourceZone.classList.contains('summary-drop-zone')) && !sourceZone.querySelector('.drag-item')) {
+                 sourceZone.classList.remove('filled');
+                 const qNum = sourceZone.dataset.qStart;
+                 sourceZone.innerText = qNum; // Restore the question number
+            }
+            
+            updateAllIndicators();
+        }
+
+        // Test All / Auto-fill functionality removed
+        
+        // --- MISC HELPERS ---
+        
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval); // Ensure no multiple intervals
+            
+            // Update timer display immediately
+            updateTimerDisplay();
+            
+            timerInterval = setInterval(() => {
+                timeInSeconds--;
+                updateTimerDisplay();
+                
+                if (timeInSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    timerDisplay.textContent = "Time's up!";
+                    timerDisplay.parentElement.classList.remove('warning');
+                    // Handle time expiration with automated system
+                    handleTimeExpiration();
+                }
+            }, 1000);
+        }
+        
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeInSeconds / 60);
+            const seconds = timeInSeconds % 60;
+            const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            timerDisplay.textContent = timeString;
+            
+            // Add warning color when 5 minutes (300 seconds) or less remain
+            if (timeInSeconds <= 300) {
+                timerDisplay.parentElement.classList.add('warning');
+            } else {
+                timerDisplay.parentElement.classList.remove('warning');
+            }
+        }
+
+        
+        function setupCheckboxLimits() {
+            const checkboxGroups = [
+                { name: 'q21-22', limit: 2 },
+                { name: 'q38-40', limit: 3 }
+            ];
+            checkboxGroups.forEach(group => {
+                const checkboxes = document.querySelectorAll(`input[name="${group.name}"]`);
+                checkboxes.forEach(checkbox => {
+                    checkbox.addEventListener('change', () => {
+                        const checkedCount = document.querySelectorAll(`input[name="${group.name}"]:checked`).length;
+                        if (checkedCount > group.limit) checkbox.checked = false;
+                        updateAllIndicators();
+                    });
+                });
+            });
+        }
+
+        function setupExampleHeading() {
+            const exampleBox = document.querySelector('.example-box');
+            if(exampleBox){
+                const title = document.createElement('p');
+                title.style.fontWeight = 'bold';
+                title.textContent = 'List of Statements';
+                // exampleBox.insertBefore(title, exampleBox.firstChild);
+            }
+        }
+        
+        function initResize(e) {
+            e.preventDefault();
+            const startX = e.clientX;
+            const startWidth = passagePanel.offsetWidth;
+            
+            const doDrag = (e) => {
+                const newWidth = startWidth + e.clientX - startX;
+                if (newWidth > 200 && (document.body.clientWidth - newWidth - resizer.offsetWidth) > 200) {
+                    passagePanel.style.flex = `0 0 ${newWidth}px`;
+                }
+            };
+            const stopDrag = () => {
+                window.removeEventListener('mousemove', doDrag, false);
+                window.removeEventListener('mouseup', stopDrag, false);
+            };
+            
+            window.addEventListener('mousemove', doDrag, false);
+            window.addEventListener('mouseup', stopDrag, false);
+        }
+        
+        // --- CONTEXT MENU (Highlighting) ---
+        
+        function initializeContextMenu() {
+            const panels = [passagePanel, questionsPanel];
+            let targetElementForClear = null;
+
+            // This listener simply tracks the last valid text selection in either panel.
+            document.addEventListener('selectionchange', () => {
+                const selection = window.getSelection();
+                if (selection && !selection.isCollapsed && selection.toString().trim().length > 0) {
+                    const range = selection.getRangeAt(0);
+                    if (panels.some(panel => panel.contains(range.commonAncestorContainer))) {
+                        selectedRange = range;
+                        targetElementForClear = null; // New selection overrides clearing a specific element
+                    }
+                }
+            });
+
+            const showContextMenu = (e) => {
+                const target = e.target;
+                const isClickOnHighlight = target.closest('.highlight, .comment-highlight');
+                const isSelectionActive = selectedRange && selectedRange.toString().trim().length > 0;
+                
+                let showMenu = false;
+
+                if (isClickOnHighlight) {
+                    document.getElementById('menu-highlight').style.display = 'none';
+                    document.getElementById('menu-note').style.display = 'none';
+                    document.getElementById('menu-clear').style.display = 'block';
+                    document.getElementById('menu-clear-all').style.display = 'block';
+                    contextMenu.targetElementForClear = isClickOnHighlight;
+                    showMenu = true;
+                } else if (isSelectionActive && panels.some(panel => panel.contains(selectedRange.commonAncestorContainer))) {
+                    document.getElementById('menu-highlight').style.display = 'flex';
+                    document.getElementById('menu-note').style.display = 'flex';
+                    document.getElementById('menu-clear').style.display = 'none';
+                    document.getElementById('menu-clear-all').style.display = 'block'; // Always show clear all
+                    showMenu = true;
+                }
+
+                if (showMenu) {
+                    e.preventDefault();
+                    contextMenu.style.display = 'block';
+                    const menuHeight = contextMenu.offsetHeight;
+                    const menuWidth = contextMenu.offsetWidth;
+                    let left = e.pageX;
+                    let top = e.pageY;
+                    if (left + menuWidth > window.innerWidth) left = window.innerWidth - menuWidth - 5;
+                    if (top + menuHeight > window.innerHeight) top = e.pageY - menuHeight - 5;
+                    else top = e.pageY - menuHeight - 5;
+                    
+                    contextMenu.style.left = `${left}px`;
+                    contextMenu.style.top = `${top}px`;
+                }
+            };
+
+            panels.forEach(panel => {
+                panel.addEventListener('contextmenu', showContextMenu);
+            });
+
+            document.addEventListener('click', (e) => {
+                if (contextMenu.style.display === 'block' && !contextMenu.contains(e.target)) {
+                    closeContextMenu();
+                }
+            });
+        }
+
+        function closeContextMenu() {
+            contextMenu.style.display = 'none';
+            selectedRange = null; // Clear range after menu closes
+        }
+
+        function unwrapElement(element) {
+            const parent = element.parentNode;
+            if (!parent) return;
+            while (element.firstChild) {
+                parent.insertBefore(element.firstChild, element);
+            }
+            parent.removeChild(element);
+            parent.normalize();
+        }
+
+        window.highlightText = () => {
+            if (selectedRange && !selectedRange.collapsed) {
+                const span = document.createElement('span');
+                span.className = 'highlight';
+                span.appendChild(selectedRange.extractContents());
+                selectedRange.insertNode(span);
+            }
+            closeContextMenu();
+            window.getSelection().removeAllRanges();
+        };
+
+        window.addNote = () => {
+            const note = prompt('Enter your note:');
+            if (note && selectedRange && !selectedRange.collapsed) {
+                const span = document.createElement('span');
+                span.className = 'comment-highlight';
+                const tooltip = document.createElement('span');
+                tooltip.className = 'comment-tooltip';
+                tooltip.textContent = note;
+                span.appendChild(selectedRange.extractContents());
+                span.appendChild(tooltip);
+                selectedRange.insertNode(span);
+            }
+            closeContextMenu();
+            window.getSelection().removeAllRanges();
+        };
+
+        window.clearHighlight = () => {
+             const elementToClear = contextMenu.targetElementForClear;
+             if (elementToClear) {
+                 unwrapElement(elementToClear);
+             }
+             closeContextMenu();
+             window.getSelection().removeAllRanges();
+        };
+        
+        window.clearAllHighlights = () => {
+            document.querySelectorAll('.highlight, .comment-highlight').forEach(unwrapElement);
+            closeContextMenu();
+            window.getSelection().removeAllRanges();
+        };
+
+        function updateAttemptedCount(part, startQ, endQ) {
+            let answeredCount = 0;
+            for (let i = startQ; i <= endQ; i++) {
+                if (isQuestionAnswered(i)) {
+                    answeredCount++;
+                }
+            }
+            const partHeader = document.querySelector(`.footer__questionNo___3WNct[onclick="switchToPart(${part})"]`);
+            if (partHeader) {
+                const countSpan = partHeader.querySelector('.attemptedCount');
+                if (countSpan) {
+                     countSpan.textContent = `${answeredCount} of ${endQ - startQ + 1}`;
+                }
+            }
+        }
+
+        // --- TEST FLOW MANAGEMENT ---
+        function getCurrentTestSection() {
+            const currentFile = window.location.pathname.split('/').pop();
+            return currentFile;
+        }
+
+        function getNextSection() {
+            const currentSection = getCurrentTestSection();
+            const sectionFlow = {
+                'Listening.html': 'Reading.html',
+                'Reading.html': 'Writing.html',
+                'Writing.html': null // End of test
+            };
+            return sectionFlow[currentSection] || null;
+        }
+
+        function isLastSection() {
+            return getCurrentTestSection() === 'Writing.html';
+        }
+
+        function showFinalCompletionMessage() {
+            const finalMessage = document.createElement('div');
+            finalMessage.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                z-index: 10001;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-family: Arial, sans-serif;
+                color: white;
+            `;
+            
+            finalMessage.innerHTML = `
+                <div style="text-align: center; padding: 40px; background: rgba(255, 255, 255, 0.1); border-radius: 15px; backdrop-filter: blur(10px); max-width: 600px;">
+                    <h1 style="font-size: 36px; margin-bottom: 20px;">🎉 Congratulations!</h1>
+                    <p style="font-size: 20px; margin-bottom: 15px;">You have completed the IELTS Practice Test</p>
+                    <p style="font-size: 16px; margin-bottom: 30px; opacity: 0.9;">
+                        All your results have been automatically downloaded as PDF files.<br>
+                        Thank you for using our practice test system.
+                    </p>
+                    <div style="font-size: 14px; opacity: 0.8;">
+                        <p>Candidate ID: ${candidateId}</p>
+                        <p>Completion Date: ${new Date().toLocaleDateString()}</p>
+                        <p>Completion Time: ${new Date().toLocaleTimeString()}</p>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(finalMessage);
+        }
+
+        // --- SUBMIT FUNCTION ---
+        window.submitReadingSection = function() {
+            if (testCompleted) {
+                return; // Prevent multiple submissions
+            }
+            
+            // Show confirmation dialog
+            const confirmed = confirm('Are you sure you want to submit your answers? You cannot change them after submission.');
+            if (!confirmed) {
+                return;
+            }
+            
+            // Call the existing checkAnswers function
+            checkAnswers();
+        };
+
+        // --- GLOBAL FUNCTION EXPOSURE ---
+        window.nextQuestion = nextQuestion;
+        window.previousQuestion = previousQuestion;
+        window.goToQuestion = goToQuestion;
+        window.switchToPart = switchToPart;
+        window.highlightText = highlightText;
+        window.addNote = addNote;
+        window.clearHighlight = clearHighlight;
+        window.clearAllHighlights = clearAllHighlights;
+        
+
+
+        // --- START THE APP ---
+        initialize();
+    });
+    </script>
+</body>
+</html>

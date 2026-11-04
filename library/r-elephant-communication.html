@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading – Elephant Communication</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background-color: #ffffff; line-height: 1.4; font-size: 16px; }
+
+        /* HEADER */
+        .header {
+            background-color: #ffffff; padding: 12px 20px; border-bottom: 1px solid #e0e0e0;
+            display: flex; justify-content: space-between; align-items: center;
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 60px;
+        }
+        .telegram-link {
+            color: #0088cc; text-decoration: none; font-weight: 700; font-size: 16px;
+            display: flex; align-items: center; gap: 8px; padding: 6px 12px;
+            border: 2px solid #3e3e3e; border-radius: 9999px; background-color: #ffffff; line-height: 1;
+        }
+        .telegram-link:hover { text-decoration: underline; }
+        .telegram-link::before {
+            content: ''; display: inline-block; width: 20px; height: 20px;
+            background-color: currentColor;
+            -webkit-mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.78 18.65l.28-4.23l7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3L3.64 12c-.88-.25-.89-1.37.2-1.64l16.56-6.4c.75-.29 1.4.22 1.2.94l-2.67 12.61c-.22.95-1.13 1.18-1.78.73l-4.5-3.32l-2.23 2.15c-.47.44-1.29.21-1.48-.37z"/></svg>');
+            mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.78 18.65l.28-4.23l7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3L3.64 12c-.88-.25-.89-1.37.2-1.64l16.56-6.4c.75-.29 1.4.22 1.2.94l-2.67 12.61c-.22.95-1.13 1.18-1.78.73l-4.5-3.32l-2.23 2.15c-.47.44-1.29.21-1.48-.37z"/></svg>');
+            background-size: contain; background-repeat: no-repeat;
+        }
+        .dark-mode-toggle {
+            background: none; border: 2px solid #3e3e3e; border-radius: 9999px; padding: 6px 12px;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            margin-left: 10px; transition: all 0.3s ease; background-color: #ffffff;
+        }
+        .dark-mode-toggle:hover { background-color: #f0f0f0; transform: scale(1.05); }
+        .dark-mode-toggle svg { width: 20px; height: 20px; }
+
+        /* DARK MODE */
+        body.dark-mode { background-color: #1a1a1a; color: #e0e0e0; }
+        body.dark-mode .header { background-color: #2d2d2d; border-bottom-color: #404040; }
+        body.dark-mode .dark-mode-toggle { background-color: #2d2d2d; border-color: #4a90e2; }
+        body.dark-mode .dark-mode-toggle:hover { background-color: #404040; }
+        body.dark-mode .sun-icon { display: none; }
+        body.dark-mode .moon-icon { display: block !important; }
+        body:not(.dark-mode) .sun-icon { display: block; }
+        body:not(.dark-mode) .moon-icon { display: none; }
+        body.dark-mode .telegram-link { background-color: #2d2d2d; border-color: #4a90e2; color: #4db8f5; }
+        body.dark-mode .timer-container { color: #e0e0e0; }
+        body.dark-mode .timer-controls button { background-color: #404040; border-color: #555; }
+        body.dark-mode .timer-controls button svg { fill: #e0e0e0; }
+        body.dark-mode .main-container { background-color: #1a1a1a; }
+        body.dark-mode .part-header { background-color: #2d2d2d; border-color: #404040; color: #e0e0e0; }
+        body.dark-mode .questions-panel { border-left-color: #404040; background-color: #1a1a1a; }
+        body.dark-mode .passage-panel { background-color: #1a1a1a; color: #e0e0e0; }
+        body.dark-mode .reading-passage h4 { color: #e0e0e0; }
+        body.dark-mode .reading-passage p { color: #d0d0d0; }
+        body.dark-mode .question-prompt p { color: #e0e0e0; }
+        body.dark-mode .answer-input { background-color: #2d2d2d; border-color: #555; color: #e0e0e0; }
+        body.dark-mode .answer-input:focus { border-color: #4a90e2; }
+        body.dark-mode .multi-choice-option { background-color: #2d2d2d; color: #e0e0e0; border: 1px solid #404040; }
+        body.dark-mode .multi-choice-option:hover { background-color: #404040; }
+        body.dark-mode .resizer { background-color: #2d2d2d; }
+        body.dark-mode .nav-row { background-color: #2d2d2d; border-top: 1px solid #404040; }
+        body.dark-mode .subQuestion { background-color: #2d2d2d; border-color: #404040; color: #e0e0e0; }
+        body.dark-mode .subQuestion:hover { background-color: #404040; }
+        body.dark-mode .subQuestion.active { background-color: #4a90e2; color: white; }
+        body.dark-mode .subQuestion.answered { background-color: #404040; }
+        body.dark-mode .footer__deliverButton___3FM07 { background-color: #2d2d2d; border-color: #404040; color: #e0e0e0; }
+        body.dark-mode .footer__deliverButton___3FM07:hover { background-color: #404040; }
+        body.dark-mode .attemptedCount { color: #999; }
+        body.dark-mode .footer__questionNo___3WNct { color: #e0e0e0; }
+        body.dark-mode .diagram-box { background-color: #2a2a2a; border-color: #555; }
+        body.dark-mode .diagram-label { color: #ccc; }
+        body.dark-mode .summary-box { background-color: #2a2a2a; border-color: #555; }
+
+        /* HIGHLIGHT */
+        .highlight { background-color: #ffff00 !important; padding: 2px; border-radius: 2px; }
+        .highlight-yellow { background-color: #ffff00 !important; padding: 2px; border-radius: 2px; }
+
+        /* LAYOUT */
+        .main-container { margin-top: 60px; display: flex; flex-direction: column; background: #ffffff; height: calc(100vh - 60px); position: relative; }
+        .panels-container { display: flex; flex: 1; overflow: hidden; }
+        .passage-panel { flex: 1; padding: 20px 20px 100px; overflow-y: auto; min-width: 200px; }
+        .questions-panel { flex: 1; padding: 20px 20px 100px; overflow-y: auto; min-width: 200px; border-left: 1px solid #e0e0e0; }
+        .resizer {
+            width: 10px; cursor: col-resize; background-color: #f0f0f0;
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="30" viewBox="0 0 10 30"><path d="M4 11h2v2H4zM4 15h2v2H4zM4 19h2v2H4z" fill="%23888"/></svg>');
+            background-repeat: no-repeat; background-position: center; flex-shrink: 0; flex-grow: 0;
+        }
+
+        /* PASSAGE */
+        .reading-passage h4 { font-size: 20px; font-weight: bold; margin-bottom: 15px; text-align: center; }
+        .reading-passage p { margin-bottom: 1.2em; }
+
+        /* PART HEADER */
+        .part-header { background-color: #f1f2ec; padding: 15px 20px; border: 1px solid #e0e0e0; margin: 10px 20px; border-radius: 5px; }
+        .part-header p { margin: 0; }
+        .part-header p:first-child { margin-bottom: 5px; }
+
+        /* QUESTIONS */
+        .question { margin-bottom: 40px; }
+        .question p { margin-bottom: 10px; }
+        .question-prompt { margin-bottom: 20px; }
+
+        /* ANSWER INPUT */
+        .answer-input {
+            border: 1px solid #bfbfbf; border-radius: 4px; background-color: #fff;
+            padding: 2px 8px; font-size: 15px; font-weight: 700;
+            margin: 0 4px; height: 28px; min-width: 140px;
+            transition: border-color 0.2s ease;
+            z-index: 10; position: relative; pointer-events: auto;
+        }
+        .answer-input:focus { border-color: #3581d8; border-width: 2px; outline: none; }
+        .answer-input::placeholder { color: #999; font-weight: 400; }
+        .answer-input.correct { border-color: #28a745; background-color: #e9f7ef; }
+        .answer-input.incorrect { border-color: #dc3545; background-color: #f8d7da; color: #721c24; }
+        .correct-answer-display { font-weight: bold; color: #28a745; margin-left: 6px; font-size: 14px; }
+        .correct-answer-highlight-text { color: #28a745; font-weight: bold; }
+
+        /* DIAGRAM (Q28-31) */
+        .diagram-box {
+            position: relative;
+            background: #f9f9f9;
+            border: 1.5px solid #ddd;
+            border-radius: 10px;
+            padding: 24px 16px 16px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .elephant-diagram {
+            width: 100%;
+            max-width: 420px;
+            position: relative;
+            margin: 0 auto;
+        }
+        .elephant-diagram svg {
+            width: 100%;
+            height: auto;
+        }
+        .diagram-labels {
+            width: 100%;
+            max-width: 420px;
+            margin-top: 16px;
+        }
+        .diagram-label-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            font-size: 15px;
+            flex-wrap: wrap;
+        }
+        .diagram-label-row .lbl-text { color: #555; }
+        body.dark-mode .diagram-label-row .lbl-text { color: #bbb; }
+        .q-badge {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 26px; height: 26px; background: #4a90e2; color: white;
+            border-radius: 50%; font-size: 13px; font-weight: bold; flex-shrink: 0;
+        }
+
+        /* SUMMARY BOX */
+        .summary-box {
+            background: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 6px;
+            padding: 18px 16px; font-size: 15px; line-height: 2.8;
+        }
+        body.dark-mode .summary-box { background: #2a2a2a; border-color: #444; }
+
+        /* MCQ */
+        .multi-choice-question { margin-bottom: 24px; padding: 10px; border-radius: 4px; border: 3px solid transparent; }
+        .multi-choice-option { padding: 10px 12px; background-color: #fff; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 6px; cursor: pointer; transition: background-color 0.2s ease; }
+        .multi-choice-option:hover { background-color: #f1f7ff; border-color: #c6dcfb; }
+        .multi-choice-option:has(input:checked) { background-color: #cfe3f9; border-color: #7db3f5; }
+        .multi-choice-option.correct { background-color: #d4edda !important; border-color: #28a745 !important; }
+        .multi-choice-option.incorrect { background-color: #f8d7da !important; border-color: #dc3545 !important; }
+        .multi-choice-option.correct-answer-highlight { background-color: #d4edda !important; border-color: #28a745 !important; }
+        .multi-choice-option label { display: flex; align-items: flex-start; cursor: pointer; font-size: 15px; gap: 10px; }
+        .multi-choice-option input[type="radio"] { margin-top: 3px; flex-shrink: 0; transform: scale(1.2); accent-color: #4a90e2; }
+        body.results-mode .multi-choice-option:has(input:checked) { box-shadow: none; }
+
+        /* TIMER */
+        .timer-container { display: flex; color: #333; font-size: 16px; font-weight: 500; align-items: center; }
+        .timer-controls { display: flex; align-items: center; gap: 8px; margin-left: 15px; }
+        .timer-controls button { background: #f0f0f0; border: 1px solid #ccc; border-radius: 50%; padding: 0; cursor: pointer; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s; }
+        .timer-controls button:hover { background: #e0e0e0; }
+        .timer-controls button svg { width: 20px; height: 20px; fill: #333; }
+
+        /* BOTTOM NAV */
+        .nav-row { position: fixed; bottom: 0; left: 0; right: 0; background: #ffffff; display: flex; align-items: center; height: 80px; z-index: 100; border-top: 1px solid #e0e0e0; }
+        .footer__questionWrapper___1tZ46 { display: flex; align-items: center; margin-right: 20px; }
+        .footer__questionNo___3WNct { background: none; border: none; padding: 10px 15px; font-size: 16px; font-weight: 600; color: #333; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: background-color 0.2s; }
+        .footer__questionNo___3WNct:hover { background-color: #f8f9fa; }
+        .attemptedCount { font-size: 14px; color: #666; margin-left: 5px; font-weight: 400; }
+        @media (max-width: 768px) { .attemptedCount { display: none; } }
+        .footer__questionWrapper___1tZ46.selected .attemptedCount { display: none; }
+        .footer__subquestionWrapper___9GgoP { display: none; gap: 2px; margin-left: 10px; }
+        .footer__questionWrapper___1tZ46.selected .footer__subquestionWrapper___9GgoP { display: flex; }
+        .subQuestion { width: 32px; height: 32px; border: 1px solid #ccc; background: white; color: #333; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; border-radius: 2px; }
+        .subQuestion.answered { background-color: #e9ecef; border-color: #ddd; }
+        .subQuestion.correct { background-color: #28a745; color: white; border-color: #28a745; }
+        .subQuestion.incorrect { background-color: #dc3545; color: white; border-color: #dc3545; }
+        .subQuestion:hover { background-color: #f0f0f0; border-color: #999; }
+        .subQuestion.active { background-color: #4a90e2; color: white; border-color: #4a90e2; }
+        .footer__deliverButton___3FM07 { margin-left: auto; margin-right: 20px; background-color: #f3f4f6; color: #111827; border: 1px solid #d1d5db; padding: 10px 16px; font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; transition: transform 0.08s ease, background-color 0.2s ease; min-width: 160px; justify-content: center; }
+        .footer__deliverButton___3FM07:hover { background-color: #ebedf0; }
+        .footer__deliverButton___3FM07:active { transform: translateY(1px); }
+        .footer__deliverButton___3FM07:disabled { background: #eef0f3; color: #9ca3af; cursor: not-allowed; }
+        .sectionNr { font-size: 16px; font-weight: bold; }
+        .section-prefix { font-size: 16px; }
+
+        /* MODAL */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(17,24,39,0.6); backdrop-filter: blur(3px); z-index: 2000; display: flex; justify-content: center; align-items: center; }
+        .modal-overlay.hidden { display: none; }
+        .modal-content { background: #ffffff; padding: 24px; border-radius: 14px; width: 92%; max-width: 780px; max-height: 86vh; display: flex; flex-direction: column; position: relative; border: 1px solid #e5e7eb; box-shadow: 0 20px 60px rgba(0,0,0,0.25); }
+        .modal-close-btn { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 28px; cursor: pointer; color: #666; }
+        .modal-content h2 { text-align: center; margin-bottom: 18px; color: #111827; }
+        .results-summary { display: flex; gap: 12px; justify-content: center; margin-bottom: 16px; text-align: center; border-bottom: 1px solid #eef2f7; padding-bottom: 12px; }
+        .results-summary p { margin: 0; font-size: 14px; color: #374151; }
+        .results-summary p span { display: inline-block; padding: 4px 10px; margin-left: 6px; border-radius: 999px; background: #f3f4f6; font-weight: 700; color: #111827; }
+        .results-details-container { overflow-y: auto; padding-right: 10px; border-radius: 8px; }
+        .result-row { display: grid; grid-template-columns: 56px 1fr 1fr 120px; gap: 12px; padding: 10px 8px; border-bottom: 1px solid #eef2f7; font-size: 15px; align-items: center; }
+        .result-row.correct { background-color: #f3faf5; }
+        .result-row.incorrect { background-color: #fff5f5; }
+        .result-row .q-num { font-weight: 700; color: #111827; background: #fff; border: 1px solid #d1d5db; border-radius: 8px; width: 42px; height: 30px; display: inline-flex; align-items: center; justify-content: center; }
+        .result-row .user-ans { color: #374151; background: #f9fafb; border: 1px solid #e5e7eb; padding: 4px 8px; border-radius: 6px; }
+        .result-row .correct-ans { color: #065f46; font-weight: 600; background: #ecfdf5; border: 1px solid #a7f3d0; padding: 4px 8px; border-radius: 6px; }
+        .status-badge { justify-self: end; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; border: 1px solid transparent; }
+        .status-badge.ok { background: #ecfdf5; color: #065f46; border-color: #a7f3d0; }
+        .status-badge.bad { background: #fff5f5; color: #7f1d1d; border-color: #f5c6cb; }
+
+        /* NAV ARROWS */
+        .nav-arrows { position: fixed; bottom: 100px; right: 20px; display: flex; gap: 6px; z-index: 101; }
+        .nav-arrow { width: 48px; height: 48px; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700; color: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.25); transition: transform 0.1s ease; }
+        .nav-arrow.prev { background-color: #4b5563; }
+        .nav-arrow.next { background-color: #000000; }
+        .nav-arrow:hover { transform: translateY(-1px); }
+
+        .hidden { display: none !important; }
+        .submit-btn-wrap { margin: 40px 0 20px; text-align: center; }
+        .submit-btn-main { background-color: #1a1a2e; color: #fff; border: none; padding: 14px 40px; border-radius: 8px; font-size: 17px; font-weight: 700; cursor: pointer; transition: background-color 0.2s; }
+        .submit-btn-main:hover { background-color: #16213e; }
+    </style>
+</head>
+<body>
+
+<!-- Highlight Toolbar -->
+<div id="highlight-toolbar" style="display:none; position:absolute; background:white; border:1px solid #ccc; padding:5px; border-radius:4px; box-shadow:0 2px 5px rgba(0,0,0,0.2); z-index:1000;">
+    <button id="highlight-yellow-btn" style="background:#ffff00; border:none; padding:5px 10px; cursor:pointer; border-radius:3px;">Highlight</button>
+</div>
+<div id="remove-highlight-toolbar" style="display:none; position:absolute; background:white; border:1px solid #ccc; padding:5px; border-radius:4px; box-shadow:0 2px 5px rgba(0,0,0,0.2); z-index:1000;">
+    <button id="remove-highlight-btn" style="background:#ff4444; color:white; border:none; padding:5px 10px; cursor:pointer; border-radius:3px;">Remove Highlight</button>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="timer-container">
+        <span class="timer-display">20:00</span>
+        <div class="timer-controls">
+            <button id="timer-toggle-btn" title="Pause/Resume Timer">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M8 5v14l11-7L8 5z"/></svg>
+            </button>
+            <button id="timer-reset-btn" title="Reset Timer">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+            </button>
+        </div>
+    </div>
+    <button id="dark-mode-toggle" class="dark-mode-toggle" title="Toggle Dark Mode">
+        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor">
+            <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>
+        </svg>
+        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor" style="display:none;">
+            <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>
+        </svg>
+    </button>
+    <a href="https://t.me/ieltswithkhmdv" target="_blank" class="telegram-link">@ieltswithkhmdv</a>
+</div>
+
+<!-- MAIN -->
+<div class="main-container">
+    <div>
+        <div class="part-header">
+            <p><strong>Reading Passage 3</strong></p>
+            <p>You should spend about 20 minutes on Questions 28–40, which are based on the Reading Passage below.</p>
+        </div>
+    </div>
+
+    <div class="panels-container">
+        <!-- PASSAGE -->
+        <div class="passage-panel" id="passage-panel">
+            <div class="reading-passage">
+                <h4>Elephant Communication</h4>
+
+                <p>A postdoctoral fellow at Stanford University, O'Connell-Rodwell has come to Namibia's premiere wildlife sanctuary to explore the mysterious and complex world of elephant communication. She and her colleagues are part of a scientific revolution that began nearly two decades ago with the stunning revelation that elephants communicate over long distances using low-frequency sounds, also called infrasounds, that are too deep to be heard by most humans.</p>
+
+                <p>As might be expected, the African elephant's ability to sense seismic sound may begin in the ears. The hammer bone of the elephant's inner ear is proportionally very large for a mammal, but typical for animals that use vibrational signals. It may, therefore, be a sign that elephants can communicate with seismic sounds. Also, the elephant and its relative the manatee are unique among mammals in having reverted to a reptilian-like cochlear structure in the inner ear. The cochlea of reptiles facilitates a keen sensitivity to vibrations and may do the same in elephants.</p>
+
+                <p>But other aspects of elephant anatomy also support that ability. First, their enormous bodies, which allow them to generate low-frequency sounds almost as powerful as those of a jet takeoff, provide ideal frames for receiving ground vibrations and conducting them to the inner ear. Second, the elephant's toe bones rest on a fatty pad that might help focus vibrations from the ground into the bone. Finally, the elephant's enormous brain lies in the cranial cavity behind the eyes in line with the auditory canal. The front of the skull is riddled with sinus cavities that may function as resonating chambers for vibrations from the ground.</p>
+
+                <p>How the elephants sense these vibrations is still unknown, but O'Connell-Rodwell who just earned a graduate degree in entomology at the University of Hawaii at Manoa, suspects the pachyderms are "listening" with their trunks and feet. The trunk may be the most versatile appendage in nature. Its uses include drinking, bathing, smelling, feeding and scratching. Both trunk and feet contain two kinds of pressure-sensitive nerve endings – one that detects infrasonic vibrations and another that responds to vibrations with slightly higher frequencies. For O'Connell-Rodwell, the future of the research is boundless and unpredictable: "Our work is really at the interface of geophysics, neurophysiology and ecology," she says. "We're asking questions that no one has really dealt with before."</p>
+
+                <p>Scientists have long known that seismic communication is common in small animals, including spiders, scorpions, insects and a number of vertebrate species such as white-lipped frogs, blind mole rats, kangaroo rats and golden moles. They also have found evidence of seismic sensitivity in elephant seals – 2-ton marine mammals that are not related to elephants. But O'Connell-Rodwell was the first to suggest that a large land animal also is sending and receiving seismic messages. O'Connell-Rodwell noticed something about the freezing behavior of Etosha's six-ton bulls that reminded her of the tiny insects back in her lab. "I did my masters thesis on seismic communication in planthoppers," she says. "I'd put a male planthopper on a stem and playback a female call, and the male would do the same thing the elephants were doing: He would freeze, then press down on his legs, go forward a little bit, then freeze again. It was just so fascinating to me, and it's what got me to think, maybe there's something else going on other than acoustic communication."</p>
+
+                <p>Scientists have determined that an elephant's ability to communicate over long distances is essential for its survival, particularly in a place like Etosha, where more than 2,400 savanna elephants range over an area larger than New Jersey. The difficulty of finding a mate in this vast wilderness is compounded by elephant reproductive biology. Females breed only when in estrus – a period of sexual arousal that occurs every two years and lasts just a few days. "Females in estrus make these very low, long calls that bulls home in on, because it's such a rare event," O'Connell-Rodwell says. These powerful estrus calls carry more than two miles in the air and may be accompanied by long-distance seismic signals, she adds. Breeding herds also use low-frequency vocalizations to warn of predators. Adult bulls and cows have no enemies, except for humans, but young elephants are susceptible to attacks by lions and hyenas. When a predator appears, older members of the herd emit intense warning calls that prompt the rest of the herd to clump together for protection, then flee. In 1994, O'Connell-Rodwell recorded the dramatic cries of a breeding herd threatened by lions at Mushara. "The elephants got really scared, and the matriarch made these very powerful warning calls, and then the herd took off screaming and trumpeting," she recalls. "Since then, every time we've played that particular call at the water hole, we get the same response – the elephants take off."</p>
+
+                <p>Reacting to a warning call played in the air is one thing, but could the elephants detect calls transmitted only through the ground? To find out, the research team in 2002 devised an experiment using electronic equipment that allowed them to send signals through the ground at Mushara. "The results of our 2002 study showed us that elephants do indeed detect warning calls played through the ground," O'Connell-Rodwell observes. "We expected them to clump up into tight groups and leave the area, and that's in fact what they did. But since we only played back one type of call, we couldn't really say whether they were interpreting it correctly. Maybe they thought it was a vehicle or something strange instead of a predator warning."</p>
+
+                <p>An experiment last year was designed to solve that problem by using three different recordings – the 1994 warning call from Mushara, an anti-predator call recorded by scientist Joyce Poole in Kenya and an artificial warble tone. Although still analyzing data from this experiment, O'Connell-Rodwell is able to make a few preliminary observations: "The data I've seen so far suggest that the elephants were responding as I had expected. When the '94 warning call was played back, they tended to clump together and leave the water hole sooner. But what's really interesting is that the unfamiliar anti-predator call from Kenya also caused them to clump up, get nervous and aggressively rumble – but they didn't necessarily leave. I didn't think it was going to be that clear cut."</p>
+            </div>
+        </div>
+
+        <!-- RESIZER -->
+        <div class="resizer" id="resizer"></div>
+
+        <!-- QUESTIONS -->
+        <div class="questions-panel" id="questions-panel">
+            <div class="questions-container">
+
+                <!-- Q28-31: Diagram labelling -->
+                <div class="question" id="question-container-28">
+                    <div class="question-prompt">
+                        <p><strong>Questions 28–31</strong></p>
+                        <p>Complete the following summary of the paragraphs of Reading Passage.</p>
+                        <p>Using <strong>NO MORE THAN THREE WORDS</strong> from the Reading Passage for each answer.</p>
+                        <p>Write your answers in boxes 28–31 on your answer sheet.</p>
+                    </div>
+
+                    <!-- Elephant diagram (SVG) with labels -->
+                    <div class="diagram-box">
+                    <!-- Real elephant diagram image -->
+                    <div style="width:100%; max-width:520px; margin:0 auto; position:relative;">
+                        <img src="data:image/png;base64,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
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH/2Q==" alt="Elephant diagram for questions 28-31" style="width:100%; height:auto; display:block;">
+                    </div>
+
+                        <!-- Input boxes for Q28-31 -->
+                        <div class="diagram-labels" style="margin-top:18px; width:100%; max-width:520px; margin-left:auto; margin-right:auto;">
+                            <div class="diagram-label-row">
+                                <span class="q-badge">28</span>
+                                <span class="lbl-text">_______ bones in inner ear &nbsp;</span>
+                                <input type="text" id="q28" class="answer-input" placeholder="Q28" oninput="triggerAnswerCheck()" style="min-width:120px;">
+                            </div>
+                            <div class="diagram-label-row">
+                                <span class="q-badge">29</span>
+                                <span class="lbl-text">an extremely large &nbsp;</span>
+                                <input type="text" id="q29" class="answer-input" placeholder="Q29" oninput="triggerAnswerCheck()" style="min-width:120px;">
+                            </div>
+                            <div class="diagram-label-row">
+                                <span class="q-badge">30</span>
+                                <span class="lbl-text">toe bones rest on a fatty &nbsp;</span>
+                                <input type="text" id="q30" class="answer-input" placeholder="Q30" oninput="triggerAnswerCheck()" style="min-width:120px;">
+                            </div>
+                            <div class="diagram-label-row">
+                                <span class="q-badge">31</span>
+                                <span class="lbl-text">big-sized brain skull with many &nbsp;</span>
+                                <input type="text" id="q31" class="answer-input" placeholder="Q31" oninput="triggerAnswerCheck()" style="min-width:150px;">
+                            </div>
+                        </div>
+                </div>
+
+                <!-- Q32-38: Summary Completion -->
+                <div class="question" id="question-container-32">
+                    <div class="question-prompt">
+                        <p><strong>Questions 32–38</strong></p>
+                        <p>Complete the following summary of the paragraphs of Reading Passage.</p>
+                        <p>Using <strong>NO MORE THAN THREE WORDS OR A NUMBER</strong> from the Reading Passage for each answer.</p>
+                    </div>
+
+                    <div class="summary-box">
+                        <p>How the elephants sense these sound vibrations is still unknown, but O'Connell-Rodwell, a fresh graduate in entomology at the University of Hawaii, proposes that the elephants are "listening" with their
+                        <strong>32</strong>&nbsp;<input type="text" id="q32" class="answer-input" placeholder="Q32" oninput="triggerAnswerCheck()" style="min-width:160px;">,
+                        by two kinds of nerve endings – that responds to vibrations with both
+                        <strong>33</strong>&nbsp;<input type="text" id="q33" class="answer-input" placeholder="Q33" oninput="triggerAnswerCheck()" style="min-width:130px;">
+                        frequency and slightly higher frequencies. O'Connell-Rodwell's work is at the combination of geophysics, neurophysiology and
+                        <strong>34</strong>&nbsp;<input type="text" id="q34" class="answer-input" placeholder="Q34" oninput="triggerAnswerCheck()" style="min-width:120px;">,
+                        and it also was the first to indicate that a large land animal also is sending and receiving
+                        <strong>35</strong>&nbsp;<input type="text" id="q35" class="answer-input" placeholder="Q35" oninput="triggerAnswerCheck()" style="min-width:160px;">.
+                        O'Connell-Rodwell noticed the freezing behavior by putting a male planthopper — a communicative approach other than
+                        <strong>36</strong>&nbsp;<input type="text" id="q36" class="answer-input" placeholder="Q36" oninput="triggerAnswerCheck()" style="min-width:190px;">.
+                        Scientists have determined that an elephant's ability to communicate over long distances is essential, especially when elephant herds are finding a
+                        <strong>37</strong>&nbsp;<input type="text" id="q37" class="answer-input" placeholder="Q37" oninput="triggerAnswerCheck()" style="min-width:100px;">,
+                        or are warning of predators. Finally, the results of the 2002 study showed that elephants can detect warning calls played through the
+                        <strong>38</strong>&nbsp;<input type="text" id="q38" class="answer-input" placeholder="Q38" oninput="triggerAnswerCheck()" style="min-width:110px;">.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Q39-40: MCQ -->
+                <div class="question" id="question-container-39">
+                    <div class="question-prompt">
+                        <p><strong>Questions 39–40</strong></p>
+                        <p>Choose the correct letter, <strong>A, B, C</strong> or <strong>D</strong>.</p>
+                        <p>Write your answers in boxes 39–40 on your answer sheet.</p>
+                    </div>
+
+                    <!-- Q39 -->
+                    <div class="multi-choice-question" id="mcq-q39">
+                        <div class="question-prompt">
+                            <p><strong>39</strong>&nbsp; According to the passage, it is determined that an elephant needs to communicate over long distances for its survival:</p>
+                        </div>
+                        <div class="multi-choice-option"><label><input type="radio" name="q39" value="A" onchange="triggerAnswerCheck()"> <span><strong>A</strong>&nbsp; When a threatening predator appears.</span></label></div>
+                        <div class="multi-choice-option"><label><input type="radio" name="q39" value="B" onchange="triggerAnswerCheck()"> <span><strong>B</strong>&nbsp; When young elephants meet humans.</span></label></div>
+                        <div class="multi-choice-option"><label><input type="radio" name="q39" value="C" onchange="triggerAnswerCheck()"> <span><strong>C</strong>&nbsp; When older members of the herd want to flee from the group.</span></label></div>
+                        <div class="multi-choice-option"><label><input type="radio" name="q39" value="D" onchange="triggerAnswerCheck()"> <span><strong>D</strong>&nbsp; When a male elephant is in estrus.</span></label></div>
+                    </div>
+
+                    <!-- Q40 -->
+                    <div class="multi-choice-question" id="mcq-q40">
+                        <div class="question-prompt">
+                            <p><strong>40</strong>&nbsp; What is the author's attitude toward the experiment using three different recordings?</p>
+                        </div>
+                        <div class="multi-choice-option"><label><input type="radio" name="q40" value="A" onchange="triggerAnswerCheck()"> <span><strong>A</strong>&nbsp; The outcome is definitely out of the original expectation.</span></label></div>
+                        <div class="multi-choice-option"><label><input type="radio" name="q40" value="B" onchange="triggerAnswerCheck()"> <span><strong>B</strong>&nbsp; The data cannot be very clearly obtained.</span></label></div>
+                        <div class="multi-choice-option"><label><input type="radio" name="q40" value="C" onchange="triggerAnswerCheck()"> <span><strong>C</strong>&nbsp; The result can be somewhat undecided or inaccurate.</span></label></div>
+                        <div class="multi-choice-option"><label><input type="radio" name="q40" value="D" onchange="triggerAnswerCheck()"> <span><strong>D</strong>&nbsp; The result can be unfamiliar to the public.</span></label></div>
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <div class="submit-btn-wrap">
+                    <button class="submit-btn-main" id="deliver-button" onclick="checkAnswers()">Submit Answers</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- NAV ARROWS -->
+<div class="nav-arrows">
+    <button class="nav-arrow prev" onclick="navigateQuestion(-1)">&#8592;</button>
+    <button class="nav-arrow next" onclick="navigateQuestion(1)">&#8594;</button>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="nav-row">
+    <div class="footer__questionWrapper___1tZ46 selected">
+        <button class="footer__questionNo___3WNct">
+            <span class="section-prefix">Questions </span>
+            <span class="sectionNr">28–40</span>
+            <span class="attemptedCount" id="attempted-count">0/13 answered</span>
+        </button>
+        <div class="footer__subquestionWrapper___9GgoP" id="subquestion-wrapper"></div>
+    </div>
+    <button class="footer__deliverButton___3FM07" id="deliver-button-footer" onclick="checkAnswers()">
+        <span>Submit</span>
+        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M4 15l8 8 8-8-1.41-1.41L13 19.17V2h-2v17.17l-6.58-6.59L4 15z"/></svg>
+    </button>
+</div>
+
+<!-- RESULTS MODAL -->
+<div class="modal-overlay hidden" id="results-modal">
+    <div class="modal-content">
+        <button class="modal-close-btn" onclick="document.getElementById('results-modal').classList.add('hidden')">×</button>
+        <h2>Your Results</h2>
+        <div class="results-summary">
+            <p>Score: <span id="results-score">0</span> / 13</p>
+            <p>Band: <span id="results-band">–</span></p>
+        </div>
+        <div class="results-details-container">
+            <div class="result-row" style="font-weight:bold; background:#f8f9fa;">
+                <span>Q#</span><span>Your Answer</span><span>Correct Answer</span><span style="justify-self:end;">Result</span>
+            </div>
+            <div id="results-details"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+// ===== ANSWERS =====
+const correctAnswers = {
+    '28': 'hammer',
+    '29': 'body',
+    '30': 'pad',
+    '31': 'sinus cavities',   // also accept: cavities
+    '32': 'trunks and feet',
+    '33': 'infrasonic',
+    '34': 'ecology',
+    '35': 'seismic messages',
+    '36': 'acoustic communication',
+    '37': 'mate',
+    '38': 'ground',
+    '39': 'A',
+    '40': 'C'
+};
+
+// Alt accepted answers
+const altAnswers = {
+    '31': ['sinus cavities', 'cavities'],
+    '36': ['acoustic communication', 'acoustic communications']
+};
+
+const questionNumbers = [28,29,30,31,32,33,34,35,36,37,38,39,40];
+
+// ===== TIMER =====
+let timeInSeconds = 20*60, timerInterval, timerRunning = false;
+const timerDisplay = document.querySelector('.timer-display');
+const timerToggleBtn = document.getElementById('timer-toggle-btn');
+const timerResetBtn = document.getElementById('timer-reset-btn');
+const playIcon = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M8 5v14l11-7L8 5z"/></svg>';
+const pauseIcon = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+function updateTimerDisplay() {
+    const m = Math.floor(timeInSeconds/60).toString().padStart(2,'0');
+    const s = (timeInSeconds%60).toString().padStart(2,'0');
+    timerDisplay.textContent = `${m}:${s}`;
+    timerDisplay.style.color = timeInSeconds <= 60 ? '#dc3545' : '';
+}
+function startTimer() {
+    if (timerRunning) return; timerRunning = true; timerToggleBtn.innerHTML = pauseIcon;
+    timerInterval = setInterval(() => { if (timeInSeconds > 0) { timeInSeconds--; updateTimerDisplay(); } else { clearInterval(timerInterval); timerRunning = false; } }, 1000);
+}
+function toggleTimer() { if (timerRunning) { clearInterval(timerInterval); timerRunning = false; timerToggleBtn.innerHTML = playIcon; } else startTimer(); }
+function resetTimer() { clearInterval(timerInterval); timerRunning = false; timeInSeconds = 20*60; timerToggleBtn.innerHTML = playIcon; updateTimerDisplay(); }
+timerToggleBtn.addEventListener('click', toggleTimer);
+timerResetBtn.addEventListener('click', resetTimer);
+updateTimerDisplay(); startTimer();
+
+// ===== DARK MODE =====
+const darkToggle = document.getElementById('dark-mode-toggle');
+if (localStorage.getItem('darkMode') === 'enabled') document.body.classList.add('dark-mode');
+darkToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode') ? 'enabled' : 'disabled');
+});
+
+// ===== RESIZER =====
+const resizer = document.getElementById('resizer');
+const passagePanel = document.getElementById('passage-panel');
+const questionsPanel = document.getElementById('questions-panel');
+let isResizing = false;
+resizer.addEventListener('mousedown', () => {
+    isResizing = true;
+    document.addEventListener('mousemove', onResize);
+    document.addEventListener('mouseup', () => { isResizing = false; document.removeEventListener('mousemove', onResize); });
+});
+function onResize(e) {
+    if (!isResizing) return;
+    const c = document.querySelector('.panels-container'), rect = c.getBoundingClientRect();
+    const pct = Math.max(20, Math.min(80, ((e.clientX - rect.left) / (rect.width - resizer.offsetWidth)) * 100));
+    passagePanel.style.flex = `0 0 ${pct}%`; questionsPanel.style.flex = `0 0 ${100-pct}%`;
+}
+
+// ===== NAV BUTTONS =====
+function buildNavButtons() {
+    const wrapper = document.getElementById('subquestion-wrapper');
+    wrapper.innerHTML = '';
+    questionNumbers.forEach(n => {
+        const btn = document.createElement('button');
+        btn.className = 'subQuestion'; btn.textContent = n; btn.id = `nav-btn-${n}`;
+        btn.onclick = () => scrollToQuestion(n);
+        wrapper.appendChild(btn);
+    });
+}
+buildNavButtons();
+
+function scrollToQuestion(n) {
+    let el;
+    if (n >= 39) el = document.getElementById(`mcq-q${n}`);
+    else el = document.getElementById(`q${n}`);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    document.querySelectorAll('.subQuestion').forEach(b => b.classList.remove('active'));
+    const btn = document.getElementById(`nav-btn-${n}`);
+    if (btn) btn.classList.add('active');
+}
+
+// ===== ANSWER TRACKING =====
+function isAnswered(n) {
+    if (n >= 39) return !!document.querySelector(`input[name="q${n}"]:checked`);
+    const el = document.getElementById(`q${n}`);
+    return el && el.value.trim() !== '';
+}
+function triggerAnswerCheck() {
+    let count = 0;
+    questionNumbers.forEach(n => {
+        const answered = isAnswered(n);
+        const btn = document.getElementById(`nav-btn-${n}`);
+        if (btn) answered ? btn.classList.add('answered') : btn.classList.remove('answered');
+        if (answered) count++;
+    });
+    document.getElementById('attempted-count').textContent = `${count}/13 answered`;
+}
+questionNumbers.forEach(n => {
+    if (n >= 39) document.querySelectorAll(`input[name="q${n}"]`).forEach(r => r.addEventListener('change', triggerAnswerCheck));
+    else { const el = document.getElementById(`q${n}`); if (el) el.addEventListener('input', triggerAnswerCheck); }
+});
+
+// ===== NAV ARROWS =====
+let currentFocus = 0;
+function navigateQuestion(dir) {
+    currentFocus = Math.max(0, Math.min(questionNumbers.length - 1, currentFocus + dir));
+    scrollToQuestion(questionNumbers[currentFocus]);
+}
+
+// ===== HIGHLIGHT =====
+(function() {
+    const ht = document.getElementById('highlight-toolbar');
+    const hyb = document.getElementById('highlight-yellow-btn');
+    const rt = document.getElementById('remove-highlight-toolbar');
+    const rb = document.getElementById('remove-highlight-btn');
+    let lastRange = null;
+    document.addEventListener('mouseup', function() {
+        setTimeout(() => {
+            const sel = window.getSelection();
+            if (sel && sel.rangeCount > 0 && !sel.isCollapsed) {
+                const range = sel.getRangeAt(0);
+                if (inArea(range.commonAncestorContainer)) { lastRange = range.cloneRange(); show(ht, range.getBoundingClientRect(), 10); }
+                else ht.style.display = 'none';
+            } else ht.style.display = 'none';
+        }, 0);
+    });
+    hyb.addEventListener('click', () => applyHL('#ffff00', 'highlight-yellow'));
+    function applyHL(color, cls) {
+        if (!lastRange) return;
+        const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(lastRange);
+        const span = document.createElement('span');
+        span.className = 'highlight ' + cls; span.style.backgroundColor = color;
+        span.setAttribute('tabindex', '0');
+        span.addEventListener('click', function(e) { e.stopPropagation(); show(rt, e.target.getBoundingClientRect(), 10); rb.onclick = () => { e.target.replaceWith(...e.target.childNodes); rt.style.display = 'none'; }; });
+        try { lastRange.surroundContents(span); } catch(e) {}
+        sel.removeAllRanges(); ht.style.display = 'none';
+    }
+    document.addEventListener('mousedown', function(e) {
+        if (!ht.contains(e.target)) ht.style.display = 'none';
+        if (!rt.contains(e.target)) rt.style.display = 'none';
+    });
+    function show(tb, rect, off) { tb.style.display = 'block'; tb.style.left = (window.scrollX + rect.left + rect.width/2 - 50) + 'px'; tb.style.top = (window.scrollY + rect.top - tb.offsetHeight - off) + 'px'; }
+    function inArea(node) { while (node) { if (node.classList && (node.classList.contains('reading-passage') || node.classList.contains('questions-container'))) return true; node = node.parentNode; } return false; }
+})();
+
+// ===== CHECK ANSWERS =====
+function checkAnswers() {
+    clearInterval(timerInterval);
+    document.querySelectorAll('input').forEach(el => el.disabled = true);
+
+    const container = document.getElementById('results-details');
+    container.innerHTML = ''; let score = 0;
+    const normalize = s => (s||'').toString().toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\s+/g,' ').trim();
+
+    questionNumbers.forEach(i => {
+        const key = String(i);
+        const correct = correctAnswers[key];
+        let userAnswer = '', isCorrect = false;
+
+        if (i >= 39) {
+            const checked = document.querySelector(`input[name="q${i}"]:checked`);
+            userAnswer = checked ? checked.value : '';
+            isCorrect = userAnswer === correct;
+            const qContainer = document.getElementById(`mcq-q${i}`);
+            if (checked) { const lbl = checked.closest('.multi-choice-option'); if (lbl) lbl.classList.add(isCorrect ? 'correct' : 'incorrect'); }
+            if (!isCorrect) {
+                const correctInput = qContainer ? qContainer.querySelector(`input[value="${correct}"]`) : null;
+                if (correctInput) { const lbl = correctInput.closest('.multi-choice-option'); if (lbl) lbl.classList.add('correct-answer-highlight'); }
+            }
+        } else {
+            const el = document.getElementById(`q${i}`);
+            userAnswer = el ? el.value.trim() : '';
+            const alts = altAnswers[key];
+            if (alts) isCorrect = alts.some(a => normalize(a) === normalize(userAnswer));
+            else isCorrect = normalize(correct) === normalize(userAnswer);
+            if (el) {
+                el.classList.add(isCorrect ? 'correct' : 'incorrect');
+                if (!isCorrect) {
+                    const span = document.createElement('span');
+                    span.className = 'correct-answer-display';
+                    span.innerHTML = `&nbsp;➜ <span class="correct-answer-highlight-text">${correct}</span>`;
+                    el.parentNode.insertBefore(span, el.nextSibling);
+                }
+            }
+        }
+
+        if (isCorrect) score++;
+        const navBtn = document.getElementById(`nav-btn-${i}`);
+        if (navBtn) { navBtn.classList.remove('answered','active'); navBtn.classList.add(isCorrect ? 'correct' : 'incorrect'); }
+
+        container.innerHTML += `
+            <div class="result-row ${isCorrect ? 'correct' : 'incorrect'}">
+                <span class="q-num">${i}</span>
+                <span class="user-ans">${userAnswer || 'Not Answered'}</span>
+                <span class="correct-ans">${correct}</span>
+                <span class="status-badge ${isCorrect ? 'ok' : 'bad'}">${isCorrect ? 'Correct ✓' : 'Incorrect ✗'}</span>
+            </div>`;
+    });
+
+    document.getElementById('results-score').textContent = score;
+    document.getElementById('results-band').textContent = calcBand(score);
+    document.getElementById('results-modal').classList.remove('hidden');
+    document.body.classList.add('results-mode');
+
+    ['deliver-button','deliver-button-footer'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) { btn.innerHTML = '<span>My Result</span>'; btn.style.backgroundColor = '#4CAF50'; btn.style.color = 'white'; btn.style.borderColor = '#4CAF50'; btn.disabled = false; btn.style.cursor = 'pointer'; btn.onclick = () => document.getElementById('results-modal').classList.remove('hidden'); }
+    });
+}
+
+function calcBand(score) {
+    const pct = score / 13;
+    if (pct >= 0.95) return '9.0'; if (pct >= 0.88) return '8.5'; if (pct >= 0.80) return '8.0';
+    if (pct >= 0.73) return '7.5'; if (pct >= 0.65) return '7.0'; if (pct >= 0.58) return '6.5';
+    if (pct >= 0.50) return '6.0'; if (pct >= 0.42) return '5.5'; if (pct >= 0.35) return '5.0';
+    if (pct >= 0.27) return '4.5'; return '4.0';
+}
+
+triggerAnswerCheck();
+</script>
+</body>
+</html>

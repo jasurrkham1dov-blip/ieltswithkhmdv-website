@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>IELTS Listening Practice Test</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f9f9f9;
+            color: #000;
+            margin: 0;
+            padding: 0;
+            line-height: 1.48;
+            font-size: 15.5px;
+        }
+        .header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: white;
+            border-bottom: 2px solid #004080;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+        }
+        .channel-link {
+            color: #0066cc;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .channel-link:hover { text-decoration: underline; }
+        .container {
+            max-width: 960px;
+            margin: 90px auto 160px;
+            padding: 0 20px;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #003366;
+            margin: 35px 0 16px;
+        }
+        .question-title {
+            font-weight: bold;
+            margin: 18px 0 10px;
+        }
+        .instruction {
+            font-style: italic;
+            color: #444;
+            margin: 10px 0 18px;
+        }
+        .question-block {
+            background: white;
+            padding: 22px 26px;
+            margin-bottom: 35px;
+            border: 1px solid #d8d8d8;
+            border-radius: 6px;
+        }
+        .underline-input {
+            border: none;
+            border-bottom: 2px dotted #000;
+            font-size: 15px;
+            font-weight: bold;
+            width: 140px;
+            text-align: center;
+            padding: 1px 0;
+            margin: 0 3px;
+        }
+        .underline-input:focus {
+            outline: none;
+            border-bottom: 2px solid #0066cc;
+        }
+        .underline-input.correct   { border-bottom-color: #28a745; background: #f0fff4; }
+        .underline-input.incorrect { border-bottom-color: #dc3545; background: #fff5f5; }
+        .correct-hint {
+            color: #28a745;
+            font-weight: bold;
+            margin-left: 10px;
+            font-size: 14px;
+        }
+        label.radio-label {
+            display: block;
+            margin: 6px 0;
+        }
+        table.match-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        table.match-table td, table.match-table th {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        table.match-table th { background: #f0f4f8; }
+        .nav-bar {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: white;
+            border-top: 2px solid #004080;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            z-index: 99;
+            box-shadow: 0 -2px 6px rgba(0,0,0,0.08);
+        }
+        .nav-btn {
+            padding: 10px 20px;
+            background: #f0f4f8;
+            border: 1px solid #b0c4de;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .nav-btn.active {
+            background: #004080;
+            color: white;
+            border-color: #004080;
+        }
+        #submit-btn {
+            padding: 12px 28px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        #result-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: white;
+            padding: 28px;
+            border-radius: 10px;
+            max-width: 860px;
+            width: 92%;
+            max-height: 88vh;
+            overflow-y: auto;
+        }
+        .close-modal {
+            float: right;
+            font-size: 32px;
+            cursor: pointer;
+            color: #555;
+        }
+        table.result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table.result-table th, table.result-table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        table.result-table th { background: #f5f5f5; }
+        .green { color: #28a745; font-weight: bold; }
+        .red   { color: #dc3545; font-weight: bold; }
+        .footer {
+            text-align: center;
+            margin: 60px 0 120px;
+            color: #555;
+            font-size: 14px;
+        }
+        .footer a {
+            color: #0066cc;
+            font-weight: bold;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div style="font-size:17px; font-weight:bold;">IELTS Listening Practice Test</div>
+    <a href="https://t.me/ieltswithkhmdv" target="_blank" class="channel-link">@ieltswithkhmdv</a>
+</div>
+
+<div class="container">
+
+    <!-- SECTION 1 -->
+    <div id="part-1" class="question-part">
+        <div class="section-title">SECTION 1</div>
+        <div class="instruction">
+            Questions 1–10<br>
+            Complete the form below.<br>
+            Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.
+        </div>
+
+        <div class="question-block">
+            <strong>Fearnley Sports Center</strong><br>
+            <strong>Lifeguard Application Form</strong>
+
+            <div style="margin-top:20px;">
+                <strong>Personal details</strong><br><br>
+
+                Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Peter Smith<br>
+                Home address:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;130 South Main Street, Lake <input type="text" id="q1" class="underline-input"><br>
+                Contact number:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="q2" class="underline-input"> (cell phone)<br><br>
+
+                <strong>Present occupation:</strong><br>
+                • has temporary job as a part-time <input type="text" id="q3" class="underline-input"><br>
+                • is studying PE<br>
+                • wants to be a high school <input type="text" id="q4" class="underline-input"> coach<br><br>
+
+                <strong>Qualifications</strong><br>
+                Already holds:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;water safety certificate<br>
+                Certificate expires in : <input type="text" id="q5" class="underline-input"><br><br>
+
+                <strong>Relevant work experience</strong><br>
+                Lifeguard at:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the <input type="text" id="q6" class="underline-input"> in Fearnley<br>
+                Additional relevant skills: <input type="text" id="q7" class="underline-input"><br><br>
+
+                <strong>Other Information:</strong><br>
+                • is happy to work on <input type="text" id="q8" class="underline-input"> mornings<br>
+                • start at <input type="text" id="q9" class="underline-input"> o'clock<br><br>
+
+                How did the applicant find out about this Job?<br>
+                on the <input type="text" id="q10" class="underline-input">
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div id="part-2" class="question-part" style="display:none;">
+        <div class="section-title">SECTION 2</div>
+
+        <div class="question-block">
+            <strong>Questions 11–16</strong><br>
+            Choose the correct answer.<br><br>
+
+            <strong>Becoming a millionaire</strong><br><br>
+
+            11 Arthur feels that when starting a business, mistakes should be<br>
+            <label class="radio-label"><input type="radio" name="q11" value="A"> seen as an opportunity to learn.</label>
+            <label class="radio-label"><input type="radio" name="q11" value="B"> predicted and minimised.</label>
+            <label class="radio-label"><input type="radio" name="q11" value="C"> avoided at all costs</label>
+
+            12 Recent American studies found that confidence will<br>
+            <label class="radio-label"><input type="radio" name="q12" value="A"> sometimes reduce people's chances of success.</label>
+            <label class="radio-label"><input type="radio" name="q12" value="B"> be increased by reading self-help books.</label>
+            <label class="radio-label"><input type="radio" name="q12" value="C"> ensure good results on business courses.</label>
+
+            13 The American studies recommended that new entrepreneurs<br>
+            <label class="radio-label"><input type="radio" name="q13" value="A"> listen to their colleagues' advice.</label>
+            <label class="radio-label"><input type="radio" name="q13" value="B"> get professional help when things go wrong.</label>
+            <label class="radio-label"><input type="radio" name="q13" value="C"> remain concentrated on their aims.</label>
+
+            14 What does Arthur say about his own experience of marketing?<br>
+            <label class="radio-label"><input type="radio" name="q14" value="A"> He relied on what he already knew.</label>
+            <label class="radio-label"><input type="radio" name="q14" value="B"> He hired an expert to take care of it.</label>
+            <label class="radio-label"><input type="radio" name="q14" value="C"> He realised its importance too late.</label>
+
+            15 What does Arthur think is an important quality shared by good leaders?<br>
+            <label class="radio-label"><input type="radio" name="q15" value="A"> They are ambitious for their company.</label>
+            <label class="radio-label"><input type="radio" name="q15" value="B"> They can deal with difficult people.</label>
+            <label class="radio-label"><input type="radio" name="q15" value="C"> They earn the respect of their workforce.</label>
+
+            16 What does Arthur say about taking risks?<br>
+            <label class="radio-label"><input type="radio" name="q16" value="A"> He advises being cautious.</label>
+            <label class="radio-label"><input type="radio" name="q16" value="B"> He favours a long-term view.</label>
+            <label class="radio-label"><input type="radio" name="q16" value="C"> He believes it is financially advantageous.</label>
+        </div>
+
+        <div class="question-block">
+            <strong>Questions 17–18</strong><br>
+            Choose TWO correct answers.<br><br>
+            Which TWO things does Arthur say people should focus on<br>
+            when developing their business idea?<br><br>
+
+            <label class="radio-label"><input type="checkbox" name="q17-18" value="A"> making sure the idea is original</label>
+            <label class="radio-label"><input type="checkbox" name="q17-18" value="B"> offering a better deal than competitors</label>
+            <label class="radio-label"><input type="checkbox" name="q17-18" value="C"> being committed to it</label>
+            <label class="radio-label"><input type="checkbox" name="q17-18" value="D"> paying attention to detail</label>
+            <label class="radio-label"><input type="checkbox" name="q17-18" value="E"> fixing realistic prices</label>
+        </div>
+
+        <div class="question-block">
+            <strong>Questions 19–20</strong><br>
+            Choose TWO correct answers.<br><br>
+            Which TWO things does Arthur say helped him get his business started?<br><br>
+
+            <label class="radio-label"><input type="checkbox" name="q19-20" value="A"> family support</label>
+            <label class="radio-label"><input type="checkbox" name="q19-20" value="B"> getting a loan from a bank</label>
+            <label class="radio-label"><input type="checkbox" name="q19-20" value="C"> good business advice</label>
+            <label class="radio-label"><input type="checkbox" name="q19-20" value="D"> a favourable economic climate</label>
+            <label class="radio-label"><input type="checkbox" name="q19-20" value="E"> an effective approach to business</label>
+        </div>
+    </div>
+
+    <!-- SECTION 3 -->
+    <div id="part-3" class="question-part" style="display:none;">
+        <div class="section-title">SECTION 3</div>
+        <div class="instruction">
+            Questions 21–30<br>
+            Read the text and answer questions 21–30
+        </div>
+
+        <div class="question-block">
+            <strong>Questions 21–26</strong><br>
+            Choose the correct answer.<br><br>
+
+            <strong>Feedback on second year of Performance Arts Course</strong><br><br>
+
+            21 Gina chose to study performance arts at this university because the course<br>
+            <label class="radio-label"><input type="radio" name="q21" value="A"> has a very good reputation.</label>
+            <label class="radio-label"><input type="radio" name="q21" value="B"> has links with various theatres.</label>
+            <label class="radio-label"><input type="radio" name="q21" value="C"> has an international flavour.</label>
+
+            22 Which of the options they chose have Gina and Charlie both found useful?<br>
+            <label class="radio-label"><input type="radio" name="q22" value="A"> Movement Analysis</label>
+            <label class="radio-label"><input type="radio" name="q22" value="B"> Dance and Drama</label>
+            <label class="radio-label"><input type="radio" name="q22" value="C"> The Body in Dance</label>
+
+            23 What did Charlie do during his work experience?<br>
+            <label class="radio-label"><input type="radio" name="q23" value="A"> He worked in a costume department.</label>
+            <label class="radio-label"><input type="radio" name="q23" value="B"> He performed with a ballet company.</label>
+            <label class="radio-label"><input type="radio" name="q23" value="C"> He helped out at a dance school for children.</label>
+
+            24 What does Gina say she learnt from her work experience?<br>
+            <label class="radio-label"><input type="radio" name="q24" value="A"> how to organise her time better</label>
+            <label class="radio-label"><input type="radio" name="q24" value="B"> how to work better in a team</label>
+            <label class="radio-label"><input type="radio" name="q24" value="C"> how to cope when under pressure</label>
+
+            25 What does Charlie say about his dissertation topic?<br>
+            <label class="radio-label"><input type="radio" name="q25" value="A"> He wanted it to be different from those of other students.</label>
+            <label class="radio-label"><input type="radio" name="q25" value="B"> He had already done an assignment in this area.</label>
+            <label class="radio-label"><input type="radio" name="q25" value="C"> He was inspired to choose it by a performance he saw.</label>
+
+            26 Which aspect of writing a dissertation is Gina worried about?<br>
+            <label class="radio-label"><input type="radio" name="q26" value="A"> finding enough to say</label>
+            <label class="radio-label"><input type="radio" name="q26" value="B"> doing the background reading</label>
+            <label class="radio-label"><input type="radio" name="q26" value="C"> presenting it in an appropriate way</label>
+        </div>
+
+        <div class="question-block">
+            <strong>Questions 27–30</strong><br>
+            What do the students say about each of the following types of careers in performance arts?<br>
+            Choose FOUR correct answers, A–F, next to questions 27–30.<br><br>
+
+            <table class="match-table">
+                <tr>
+                    <th>Types of careers</th>
+                    <th style="width:80px; text-align:center;">Answer</th>
+                </tr>
+                <tr>
+                    <td>Performance</td>
+                    <td style="text-align:center;">
+                        <select id="q27">
+                            <option value=""></option>
+                            <option>A</option><option>B</option><option>C</option>
+                            <option>D</option><option>E</option><option>F</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Education</td>
+                    <td style="text-align:center;">
+                        <select id="q28">
+                            <option value=""></option>
+                            <option>A</option><option>B</option><option>C</option>
+                            <option>D</option><option>E</option><option>F</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Theatre management</td>
+                    <td style="text-align:center;">
+                        <select id="q29">
+                            <option value=""></option>
+                            <option>A</option><option>B</option><option>C</option>
+                            <option>D</option><option>E</option><option>F</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Marketing</td>
+                    <td style="text-align:center;">
+                        <select id="q30">
+                            <option value=""></option>
+                            <option>A</option><option>B</option><option>C</option>
+                            <option>D</option><option>E</option><option>F</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+
+            <div style="margin-top:20px;">
+                <strong>Comments</strong><br>
+                A The pay can be low.<br>
+                B There is a lot of competition.<br>
+                C An additional qualification is required<br>
+                D Good communication skills are required<br>
+                E People with experience feel very positive about it.<br>
+                F It is a relatively unpopular choice.
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 4 -->
+    <div id="part-4" class="question-part" style="display:none;">
+        <div class="section-title">SECTION 4</div>
+        <div class="instruction">
+            Questions 31–40<br>
+            Complete the notes below.<br>
+            Write ONE WORD ONLY for each answer.
+        </div>
+
+        <div class="question-block">
+            <strong>Sea lion tracking study (Western Australia)</strong><br><br>
+
+            <strong>Reason for the study</strong><br>
+            • The Australian sea lion is an endangered species.<br>
+            • Until 1892, numbers were affected by hunting.<br>
+            • Sea lions are now affected by nets used to control <input type="text" id="q31" class="underline-input"><br><br>
+
+            <strong>Animal tracking systems</strong><br>
+            • Considerations when choosing a tracking method include <input type="text" id="q32" class="underline-input"> and ease of use.<br>
+            • Plastic tags: the animal must be easy to <input type="text" id="q33" class="underline-input"><br>
+            • GPS tracking will not work in the <input type="text" id="q34" class="underline-input"><br>
+            • In isolated regions, some animals are tracked by <input type="text" id="q35" class="underline-input"><br>
+            • Some animals are identified by markings (e.g. the dolphin is identified by its scars),<br><br>
+
+            <strong>Challenges of tracking sea lions</strong><br>
+            • Perth study: the sea lions lost their tags. (They rubbed against <input type="text" id="q36" class="underline-input"> to remove them.)<br>
+            • Californian researchers used <input type="text" id="q37" class="underline-input"> to identify sea lions. (This was unreliable due to regular loss of fur.)<br><br>
+
+            <strong>Our study</strong><br>
+            <strong>Aims:</strong><br>
+            i) to find out if sea lions' whiskers can be used to identify them<br>
+            ii) to create a <input type="text" id="q38" class="underline-input"> to use as a guide<br><br>
+
+            <strong>Methods:</strong><br>
+            i) contacting <input type="text" id="q39" class="underline-input"> in Australia for photographs<br>
+            ii) asking the <input type="text" id="q40" class="underline-input"> to get involved
+        </div>
+    </div>
+
+</div>
+
+<div class="nav-bar">
+    <button class="nav-btn active" onclick="switchSection(1)">Section 1</button>
+    <button class="nav-btn" onclick="switchSection(2)">Section 2</button>
+    <button class="nav-btn" onclick="switchSection(3)">Section 3</button>
+    <button class="nav-btn" onclick="switchSection(4)">Section 4</button>
+    <button id="submit-btn">Submit & Check Answers</button>
+</div>
+
+<div id="result-modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="document.getElementById('result-modal').style.display='none'">×</span>
+        <h2>Your Results</h2>
+        <div id="score-display" style="font-size:19px; font-weight:bold; margin:20px 0;"></div>
+        <table class="result-table" id="result-table"></table>
+    </div>
+</div>
+
+<div class="footer">
+    Prepared by <a href="https://t.me/ieltswithkhmdv" target="_blank">@ieltswithkhmdv</a> • IELTS listening practice
+</div>
+
+<script>
+    const correctAnswers = {
+        q1: "Elsinore",
+        q2: "077896245",
+        q3: "waiter",
+        q4: "baseball",
+        q5: "October",
+        q6: "beach",
+        q7: "diving",
+        q8: "Saturday",
+        q9: ["six", "6"],
+        q10: "radio",
+        q11: "A",
+        q12: "A",
+        q13: "C",
+        q14: "B",
+        q15: "C",
+        q16: "A",
+        "q17-18": ["B", "C"],
+        "q19-20": ["A", "E"],
+        q21: "B",
+        q22: "A",
+        q23: "A",
+        q24: "B",
+        q25: "C",
+        q26: "B",
+        q27: "E",
+        q28: "C",
+        q29: "A",
+        q30: "F",
+        q31: "sharks",
+        q32: "cost",
+        q33: "catch",
+        q34: "ocean",
+        q35: "helicopter",
+        q36: "rocks",
+        q37: "paint",
+        q38: "diagram",
+        q39: "zoos",
+        q40: "public"
+    };
+
+    function switchSection(n) {
+        document.querySelectorAll('.question-part').forEach(el => el.style.display = 'none');
+        document.getElementById('part-' + n).style.display = 'block';
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.nav-btn')[n-1].classList.add('active');
+    }
+
+    document.getElementById('submit-btn').onclick = function() {
+        let score = 0;
+        let rows = '<tr><th>Question</th><th>Your Answer</th><th>Correct</th><th>Result</th></tr>';
+
+        for (let i = 1; i <= 40; i++) {
+            let key = 'q' + i;
+            let user = '';
+            let corr = correctAnswers[key] || (i>=17&&i<=18 ? correctAnswers["q17-18"] : i>=19&&i<=20 ? correctAnswers["q19-20"] : null);
+            let isCorrect = false;
+
+            if (i <= 10 || i >= 31) {
+                let el = document.getElementById(key);
+                user = el ? el.value.trim().toLowerCase() : '';
+                let expected = Array.isArray(corr) ? corr.map(v=>v.toLowerCase()) : [corr ? corr.toLowerCase() : ''];
+                isCorrect = expected.some(v => user === v);
+                if (el) {
+                    el.classList.add(isCorrect ? 'correct' : 'incorrect');
+                    if (!isCorrect && corr) {
+                        let hint = document.createElement('span');
+                        hint.className = 'correct-hint';
+                        hint.textContent = Array.isArray(corr) ? corr.join(' / ') : corr;
+                        el.parentNode.insertBefore(hint, el.nextSibling);
+                    }
+                }
+            } else if ((i >= 11 && i <= 16) || (i >= 21 && i <= 26)) {
+                let selected = document.querySelector(`input[name="${key}"]:checked`);
+                user = selected ? selected.value : '';
+                isCorrect = user === corr;
+                if (selected) selected.parentElement.style.color = isCorrect ? '#28a745' : '#dc3545';
+            } else if (i === 17 || i === 18) {
+                let checked = Array.from(document.querySelectorAll('input[name="q17-18"]:checked')).map(cb => cb.value).sort();
+                user = checked.join(', ');
+                let expected = correctAnswers["q17-18"].sort();
+                isCorrect = checked.length === expected.length && expected.every(v => checked.includes(v));
+                document.querySelectorAll('input[name="q17-18"]').forEach(cb => {
+                    let lbl = cb.parentElement;
+                    if (checked.includes(cb.value)) lbl.style.color = isCorrect ? '#28a745' : '#dc3545';
+                    else if (correctAnswers["q17-18"].includes(cb.value)) lbl.style.color = '#28a745';
+                });
+                key = "17-18";
+            } else if (i === 19 || i === 20) {
+                let checked = Array.from(document.querySelectorAll('input[name="q19-20"]:checked')).map(cb => cb.value).sort();
+                user = checked.join(', ');
+                let expected = correctAnswers["q19-20"].sort();
+                isCorrect = checked.length === expected.length && expected.every(v => checked.includes(v));
+                document.querySelectorAll('input[name="q19-20"]').forEach(cb => {
+                    let lbl = cb.parentElement;
+                    if (checked.includes(cb.value)) lbl.style.color = isCorrect ? '#28a745' : '#dc3545';
+                    else if (correctAnswers["q19-20"].includes(cb.value)) lbl.style.color = '#28a745';
+                });
+                key = "19-20";
+            } else if (i >= 27 && i <= 30) {
+                let el = document.getElementById(key);
+                user = el ? el.value : '';
+                isCorrect = user === corr;
+                if (el) {
+                    el.classList.add(isCorrect ? 'correct' : 'incorrect');
+                    if (!isCorrect && corr) {
+                        let hint = document.createElement('span');
+                        hint.className = 'correct-hint';
+                        hint.textContent = corr;
+                        el.parentNode.insertBefore(hint, el.nextSibling);
+                    }
+                }
+            }
+
+            if (isCorrect) score++;
+
+            rows += `<tr>
+                <td>${key}</td>
+                <td>${user || '—'}</td>
+                <td>${Array.isArray(correctAnswers[key]) ? correctAnswers[key].join(' / ') : correctAnswers[key] || '—'}</td>
+                <td class="${isCorrect ? 'green' : 'red'}">${isCorrect ? 'Correct' : 'Incorrect'}</td>
+            </tr>`;
+        }
+
+        const band = (s) => {
+            if (s >= 39) return 9.0;
+            if (s >= 37) return 8.5;
+            if (s >= 35) return 8.0;
+            if (s >= 32) return 7.5;
+            if (s >= 30) return 7.0;
+            if (s >= 26) return 6.5;
+            if (s >= 23) return 6.0;
+            if (s >= 18) return 5.5;
+            if (s >= 16) return 5.0;
+            if (s >= 13) return 4.5;
+            if (s >= 10) return 4.0;
+            if (s >= 8)  return 3.5;
+            if (s >= 6)  return 3.0;
+            if (s >= 4)  return 2.5;
+            if (s >= 2)  return 2.0;
+            if (s === 1) return 1.5;
+            return 0.0;
+        };
+
+        document.getElementById('score-display').innerHTML = `Score: ${score} / 40 → Band ${band(score)}`;
+        document.getElementById('result-table').innerHTML = rows;
+        document.getElementById('result-modal').style.display = 'flex';
+
+        document.querySelectorAll('.underline-input, input[type="radio"], input[type="checkbox"], select').forEach(el => el.disabled = true);
+    };
+
+    // Show Section 1 by default
+    document.getElementById('part-1').style.display = 'block';
+</script>
+</body>
+</html>

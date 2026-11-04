@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IELTS Reading Test - Bar Code History</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      overflow: hidden;
+      color: #1e293b;
+    }
+    .test-wrapper { display:flex; flex-direction:column; height:100vh; }
+    .test-container { display:flex; flex:1; overflow:hidden; }
+
+    /* Header */
+    .header{
+      background:#ffffff;
+      border-bottom:1px solid #cbd5e1;
+      padding:1rem 2rem;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      box-shadow:0 4px 12px rgba(0,0,0,.08);
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .header__logo { display:flex; align-items:center; gap: .75rem; }
+    .header__title { font-size:1.1rem; font-weight:600; color:#1e293b; flex:1; min-width:300px; }
+    .header__timer{
+      font-size:1.25rem;
+      font-weight:600;
+      color:#dc2305;
+      background:#fef3c7;
+      padding:.5rem 1.5rem;
+      border-radius:9999px;
+      border:1px solid #fcd34d;
+      transition:all .3s ease;
+      white-space: nowrap;
+    }
+    .header__icons{ display:flex; gap:1.25rem; align-items:center; }
+    .header__icon{
+      font-size:1.5rem;
+      color:#64748b;
+      cursor:pointer;
+      transition:all .3s ease;
+    }
+    .header__icon:hover { color:#d97706; transform:scale(1.15); }
+    
+    /* Telegram Link */
+    .header__telegram{
+      display:flex;
+      align-items:center;
+      gap:0.5rem;
+      padding:0.5rem 1.2rem;
+      background:linear-gradient(90deg, #0369a1, #0284c7);
+      color:#fff;
+      border-radius:9999px;
+      text-decoration:none;
+      font-weight:600;
+      font-size:0.9rem;
+      transition:all .3s ease;
+      border:1px solid #0c4a6e;
+    }
+    .header__telegram:hover{
+      transform:translateY(-2px);
+      box-shadow:0 4px 12px rgba(2, 132, 199, 0.5);
+    }
+
+    /* Answer Indicators */
+    .answer-indicators{
+      display:flex;
+      gap:0.5rem;
+      flex-wrap:wrap;
+      padding:1rem 2rem;
+      background:#f1f5f9;
+      border-bottom:1px solid #cbd5e1;
+      align-items:center;
+      font-size: 0.8rem;
+    }
+    .indicator-label{
+      font-weight:600;
+      color:#475569;
+      margin-right:0.5rem;
+    }
+    .answer-circle{
+      width:2.2rem;
+      height:2.2rem;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      color:#fff;
+      cursor:default;
+      transition:all .3s ease;
+      border:2px solid #cbd5e1;
+      background:#cbd5e1;
+      color:#64748b;
+      font-size:0.7rem;
+    }
+    .answer-circle.answered{
+      background:#10b981;
+      border-color:#059669;
+      box-shadow:0 0 8px rgba(16, 185, 129, 0.4);
+    }
+    .answer-circle.unanswered{
+      background:#ef4444;
+      border-color:#dc2626;
+      box-shadow:0 0 8px rgba(239, 68, 68, 0.4);
+    }
+
+    /* Rubric */
+    .sectionRubric{
+      margin:1.5rem;
+      padding:1.25rem;
+      background:#ffffff;
+      border:1px solid #cbd5e1;
+      border-radius:.75rem;
+      box-shadow:0 4px 12px rgba(0,0,0,.05);
+    }
+    .sectionRubric h2{ font-size:1.25rem; color:#d97706; margin-bottom:.5rem; }
+    .sectionRubric p{ margin:0.5rem 0; color:#475569; font-size:0.95rem; }
+
+    /* Panels */
+    .passage-container{
+      width:45%;
+      height:100%;
+      overflow-y:auto;
+      padding:1.5rem;
+      box-sizing:border-box;
+      background:#fafafa;
+      border-right:1px solid #cbd5e1;
+      position:relative;
+      user-select:text;
+      -webkit-user-select:text;
+    }
+    .questions-container{
+      flex:1;
+      height:100%;
+      overflow-y:auto;
+      padding:1.5rem;
+      box-sizing:border-box;
+      background:#fafafa;
+      position:relative;
+      user-select:text;
+      -webkit-user-select:text;
+    }
+    .passage-container::-webkit-scrollbar,
+    .questions-container::-webkit-scrollbar{ width:8px; }
+    .passage-container::-webkit-scrollbar-track,
+    .questions-container::-webkit-scrollbar-track{ background:#f1f5f9; }
+    .passage-container::-webkit-scrollbar-thumb,
+    .questions-container::-webkit-scrollbar-thumb{ background:#cbd5e1; border-radius:4px; }
+    .passage-container::-webkit-scrollbar-thumb:hover,
+    .questions-container::-webkit-scrollbar-thumb:hover{ background:#94a3b8; }
+
+    /* Divider */
+    .divider{ width:14px; background:#cbd5e1; cursor:col-resize; position:relative; }
+    .divider-handle{
+      width:6px;height:60px;background:#94a3b8;border-radius:4px;
+      position:absolute; top:50%; left:4px; transform:translateY(-50%);
+    }
+
+    /* Highlight */
+    .highlight{ border-radius:.25rem; padding:0 .15rem; }
+    .highlight.yellow{ background:rgba(234, 179, 8, 0.6); }
+    .highlight.green{ background:rgba(34, 197, 94, 0.6); }
+    .highlight.pink{ background:rgba(236, 72, 153, 0.6); }
+    .highlight.blue{ background:rgba(59, 130, 246, 0.6); }
+    .highlight.purple{ background:rgba(147, 51, 234, 0.6); }
+    .highlight.red{ background:rgba(239, 68, 68, 0.6); }
+
+    .highlight-toolbar{
+      position:fixed;
+      background:#ffffff;
+      border:1px solid #cbd5e1;
+      border-radius:.5rem;
+      box-shadow:0 8px 16px rgba(0,0,0,.15);
+      display:none;
+      z-index:2000;
+      padding:.5rem;
+      transform:translate(-50%,-100%);
+      margin-top:-.5rem;
+      gap:.35rem;
+      align-items:center;
+      flex-direction: row;
+    }
+    .highlight-toolbar button{
+      background:none;
+      border:none;
+      width:2rem; height:2rem;
+      cursor:pointer;
+      border-radius:.25rem;
+      transition:all .2s ease;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .highlight-toolbar button:hover{ background:#f1f5f9; transform:scale(1.08); }
+    .highlight-toolbar button.remove{ color:#ef4444; width:auto; padding:0 .5rem; gap:.35rem; }
+    .highlight-color{
+      width:1.5rem;height:1.5rem;border-radius:9999px;border:2px solid #cbd5e1;
+    }
+    .highlight-color.yellow{ background:#eab308; }
+    .highlight-color.green{ background:#22c55e; }
+    .highlight-color.pink{ background:#ec4899; }
+    .highlight-color.blue{ background:#3b82f6; }
+    .highlight-color.purple{ background:#9333ea; }
+    .highlight-color.red{ background:#ef4444; }
+
+    /* Passage text */
+    #passageContent{ line-height:1.8; font-size:1.05rem; color:#1e293b; }
+    #passageContent h2{ margin:1rem 0 0.5rem; line-height:1.2; color:#d97706; font-size: 1.1rem; }
+    #passageContent p{ margin:0.8rem 0; text-align:justify; }
+
+    /* Question cards */
+    .question{
+      margin-bottom:2rem;
+      background:#ffffff;
+      padding:1.5rem;
+      border-radius:.75rem;
+      border:1px solid #e2e8f0;
+      box-shadow:0 4px 12px rgba(0,0,0,.05);
+      transition:transform .2s ease, box-shadow .2s ease;
+    }
+    .question:hover{ transform:translateY(-2px); box-shadow:0 6px 16px rgba(217, 119, 6, 0.1); }
+    .question-rubric{ margin-bottom:1rem; font-weight:600; color:#1e293b; }
+    .question-rubric h3{ margin:0 0 .5rem; color:#d97706; font-size: 1rem; }
+    .question-text{ margin-bottom:1rem; color:#475569; line-height:1.6; }
+
+    /* Multiple choice */
+    .choice-item{
+      margin:0.8rem 0;
+      display:flex;
+      align-items:flex-start;
+      gap:0.75rem;
+      cursor:pointer;
+      padding:0.75rem;
+      border-radius:.5rem;
+      transition:background .2s ease;
+    }
+    .choice-item:hover{ background:#f1f5f9; }
+    .choice-item input[type="radio"], .choice-item input[type="text"]{
+      margin-top:0.25rem;
+      cursor:pointer;
+      accent-color:#d97706;
+    }
+    .choice-item input[type="text"]{
+      background:#ffffff;
+      color:#1e293b;
+      border:1px solid #cbd5e1;
+      border-radius: 0.25rem;
+      padding: 0.5rem;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .choice-item input[type="text"]:focus{
+      outline:none;
+      border-color:#d97706;
+      box-shadow:0 0 0 3px rgba(217, 119, 6, 0.1);
+    }
+    .choice-item label{
+      flex:1;
+      cursor:pointer;
+      margin:0;
+      color:#475569;
+    }
+
+    /* Notes section */
+    .notes-section{
+      background: #f0fdf4;
+      border: 2px solid #22c55e;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      margin: 1rem 0;
+    }
+    .notes-title{
+      font-weight: 700;
+      color: #166534;
+      margin-bottom: 1rem;
+    }
+    .notes-item{
+      margin: 1rem 0;
+      padding: 0.75rem;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.5rem;
+      line-height: 1.8;
+      color: #475569;
+    }
+
+    /* Submission Modal */
+    .submission-modal{
+      display:none;
+      position:fixed; inset:0;
+      background:rgba(0,0,0,.5);
+      z-index:1000;
+      justify-content:center;
+      align-items:center;
+    }
+    .submission-content{
+      background:#ffffff;
+      width:90%;
+      max-width:50rem;
+      border-radius:1rem;
+      box-shadow:0 10px 25px rgba(0,0,0,.2);
+      animation:slideIn .4s ease-out;
+      overflow:hidden;
+      border:1px solid #cbd5e1;
+    }
+    @keyframes slideIn { from{transform:translateY(-3rem);opacity:0;} to{transform:translateY(0);opacity:1;} }
+    .submission-header{
+      padding:2rem;
+      background:linear-gradient(90deg, #b45309, #d97706);
+      color:#fff;
+      text-align:center;
+    }
+    .submission-header h2{ margin:0; font-size:1.5rem; }
+    .submission-body{ padding:2rem; text-align:center; max-height:70vh; overflow-y:auto; background:#ffffff; }
+    .submission-score{ font-size:2.5rem; font-weight:700; color:#d97706; margin:1rem 0; }
+    .submission-buttons{
+      display:flex;
+      gap:1rem;
+      justify-content:center;
+      margin-top:2rem;
+    }
+    .submission-buttons button{
+      padding:0.75rem 2rem;
+      border:none;
+      border-radius:.5rem;
+      font-size:1rem;
+      font-weight:600;
+      cursor:pointer;
+      transition:all .2s ease;
+    }
+    .btn-secondary{
+      background:#e2e8f0;
+      color:#1e293b;
+    }
+    .btn-secondary:hover{ background:#cbd5e1; }
+
+    /* Results display */
+    .result-item{
+      margin:1rem 0;
+      padding:1rem;
+      border-radius:.5rem;
+      text-align:left;
+      background:#f8fafc;
+      border:1px solid #cbd5e1;
+    }
+    .result-item.correct{
+      background:#f0fdf4;
+      border-left:4px solid #22c55e;
+      border-color:#22c55e;
+    }
+    .result-item.incorrect{
+      background:#fef2f2;
+      border-left:4px solid #ef4444;
+      border-color:#ef4444;
+    }
+    .result-item strong{
+      display:block;
+      margin-bottom:0.5rem;
+      font-size:1.05rem;
+      color:#1e293b;
+    }
+    .result-item .detail{
+      font-size:0.95rem;
+      color:#475569;
+    }
+    .result-item.correct .detail{ color:#166534; }
+    .result-item.incorrect .detail{ color:#7f1d1d; }
+
+    /* Submit button */
+    .submit-btn{
+      margin:2rem 0;
+      width:100%;
+      padding:1rem;
+      background:linear-gradient(90deg, #b45309, #d97706);
+      color:#fff;
+      border:none;
+      border-radius:.75rem;
+      font-size:1.1rem;
+      font-weight:600;
+      cursor:pointer;
+      transition:all .3s ease;
+    }
+    .submit-btn:hover{ transform:translateY(-2px); box-shadow:0 6px 16px rgba(217, 119, 6, 0.4); }
+    .submit-btn:disabled{ opacity:0.5; cursor:not-allowed; }
+
+    /* High contrast mode */
+    body.high-contrast{
+      background:#000;
+      color:#fff;
+    }
+    body.high-contrast .passage-container,
+    body.high-contrast .questions-container{
+      background:#000;
+      color:#fff;
+    }
+    body.high-contrast .question,
+    body.high-contrast .sectionRubric,
+    body.high-contrast .notes-section{
+      background:#1a1a1a;
+      border-color:#444;
+      color:#fff;
+    }
+    body.high-contrast .header{
+      background:#1a1a1a;
+      border-bottom-color:#444;
+      color:#fff;
+    }
+    body.high-contrast .answer-indicators{
+      background:#1a1a1a;
+      border-bottom-color:#444;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-wrapper">
+    <!-- Header -->
+    <div class="header">
+      <div class="header__logo">
+        <i class="fas fa-book" style="font-size:1.75rem; color:#d97706;"></i>
+        <div class="header__title">IELTS Reading Test - History of the Bar Code</div>
+      </div>
+      <div class="header__timer">
+        <i class="fas fa-hourglass-start"></i> <span id="timerDisplay">00:00</span>
+      </div>
+      <div class="header__icons">
+        <a href="https://t.me/ieltswithkhmdv" target="_blank" class="header__telegram" title="Join our Telegram channel">
+          <i class="fab fa-telegram"></i>
+          <span>Join Channel</span>
+        </a>
+        <i class="fas fa-adjust header__icon" id="contrastToggle" title="High Contrast"></i>
+        <i class="fas fa-text-height header__icon" id="textSizeToggle" title="Increase Text Size"></i>
+        <i class="fas fa-check-circle header__icon" id="submitBtn" title="Submit Answers"></i>
+      </div>
+    </div>
+
+    <!-- Answer Indicators -->
+    <div class="answer-indicators">
+      <span class="indicator-label">Progress:</span>
+      <div class="answer-circle unanswered" data-question="1">1</div>
+      <div class="answer-circle unanswered" data-question="2">2</div>
+      <div class="answer-circle unanswered" data-question="3">3</div>
+      <div class="answer-circle unanswered" data-question="4">4</div>
+      <div class="answer-circle unanswered" data-question="5">5</div>
+      <div class="answer-circle unanswered" data-question="6">6</div>
+      <div class="answer-circle unanswered" data-question="7">7</div>
+      <div class="answer-circle unanswered" data-question="8">8</div>
+      <div class="answer-circle unanswered" data-question="9">9</div>
+      <div class="answer-circle unanswered" data-question="10">10</div>
+      <div class="answer-circle unanswered" data-question="11">11</div>
+      <div class="answer-circle unanswered" data-question="12">12</div>
+      <div class="answer-circle unanswered" data-question="13">13</div>
+    </div>
+
+    <!-- Test Container -->
+    <div class="test-container">
+      <!-- Passage Panel -->
+      <div class="passage-container">
+        <div id="passageContent">
+          <h2 style="color:#d97706; text-align:center; margin-bottom:1.5rem;">THE HISTORY OF THE BAR CODE</h2>
+          
+          <h2><strong>A</strong></h2>
+          <p>The first step toward today's bar codes came in 1948, when Bernard Silver, a graduate student in the USA, overheard a conversation in the halls of Philadelphia's Drexel Institute of Technology. The president of a food chain was pleading with a professor to undertake research on a method of capturing product information automatically at store checkouts. The professor turned down the request, but Bernard Silver mentioned the conversation to his friend Norman Woodland, a twenty-seven-year-old teacher at Drexel.</p>
+
+          <h2><strong>B</strong></h2>
+          <p>The problem fascinated the two friends, and they set about thinking of a solution. Their first idea was to use patterns printed with an ink that would glow under ultraviolet light, and they built a device to test the concept. It worked, but the printing costs were high and the patterns faded over time. Nonetheless, they were convinced they had a workable idea. After several months of work they came up with the linear bar code, using elements from two established technologies: Morse code, in which letters and numbers are coded into a system of dots and dashes, and the method used to record soundtracks in movies. Silver and Woodland patented the idea in 1952, describing their invention as 'article classification... through the medium of identifying patterns'. But the cost, together with the fact that their scanning equipment was rather unreliable, made the idea a non-starter at that time.</p>
+
+          <h2><strong>C</strong></h2>
+          <p>Scanning systems made little progress until the 1970s, when lasers became affordable. Following this, various systems came into use around the world in stores, libraries, factories, and the like, each with its own proprietary code, but there was no standardization. A consortium of grocery manufacturers and retailers therefore set up a committee to look into bar codes, and to standardize what became known formally as the Universal Product Code (UPC). At the heart of the committee's guidelines were a few basic principles. To make life easier for the cashier, bar codes would have to be readable from almost any angle and at a range of distances. Because they would be reproduced by the million, the labels would have to be cheap and easy to print. And to be affordable, automated checkout systems would have to pay for themselves in two and a half years.</p>
+
+          <h2><strong>D</strong></h2>
+          <p>The committee considered more than a dozen versions of bar codes, including one based on multi-colored dots and another using a circular bull's eye design with lines radiating from a central point. On April 1, 1973, they unanimously agreed on a standardized UPC, a combination of black and white lines and numbers, based on Woodland and Silver's idea but developed by George Laurer at IBM. Alan Haberman, who headed the subcommittee as president of First National Stores, described the bar code as a kind of world language that worked for everyone. He recalls proudly. 'We showed that it could be done on a massive scale, that cooperation… was possible for the common good, and that business didn't need the government to shove them in the right direction.'</p>
+
+          <h2><strong>E</strong></h2>
+          <p>The investment involved in the bar-code revolution was huge. Each of the tens of thousands of grocery outlets in the US had to spend at least $200,000 on new scanning equipment. Chains had to install new data processing centers and retrain their employees. Printers had to develop the new types of ink, plates, and other technology to reproduce the code with the exact tolerances it requires, and manufacturers had to spend millions of dollars a year on the labels.</p>
+
+          <h2><strong>F</strong></h2>
+          <p>On June 26,1974, all the tests were done, all the proposals were complete, all the standards were set, and at a supermarket in Ohio, a single pack of Juicy Fruit chewing gum became the first retail product sold with the help of a bar-code scanner. Decades of schemes and billions of dollars in investment now became a practical reality. The bar code on any product could be read and understood in every suitably equipped store.</p>
+
+          <h2><strong>G</strong></h2>
+          <p>The advantages of the system were not clear immediately, as wholesalers, retailers and customers remained suspicious. Some customers believed bar codes were a form of surveillance. During the early weeks Business Week magazine ran the headline 'The Supermarket Scanner That Failed'. However, the benefits eventually became apparent. 'It turns out there were massive savings in labor and other areas,' Haberman says. These included checking out items at twice the speed compared to using traditional equipment, which meant shorter lines. And it did not take supermarkets too long to see that, as well as vastly improving customer service, the bar code could hugely reduce the amount of time spent checking inventory.</p>
+
+          <h2><strong>H</strong></h2>
+          <p>Now, every day more than 5 billion bar codes are scanned in retail outlets throughout the world. Passengers' luggage is tagged with bar codes by airlines. Staff attach them to babies to ensure the right babies go home from hospitals with the right mothers. Runners in major marathons set off with bar codes on their vests, and librarians rely on them. Tiny bar codes have even been mounted on bees by researchers to track their movements.</p>
+
+          <h2><strong>I</strong></h2>
+          <p>As for that original pack of Juicy Fruit, it is now, unchewed and unopened, in the Smithsonian Institution National Museum of American History in Washington.</p>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="divider" id="divider">
+        <div class="divider-handle"></div>
+      </div>
+
+      <!-- Questions Panel -->
+      <div class="questions-container" id="questions-container">
+        <div id="questionsContent">
+
+          <!-- Questions 1-8: Note Completion -->
+          <div class="sectionRubric">
+            <h2>Questions 1–8</h2>
+            <p>Complete the notes below. Write ONE WORD ONLY from the passage for each answer.</p>
+          </div>
+
+          <div class="notes-section">
+            <div class="notes-title">History of the bar code</div>
+            
+            <div class="notes-item">
+              <strong>1948 – 1952</strong><br>
+              Methods of recording information automatically were developed by Silver and Woodland.<br><br>
+              <strong>1st system:</strong><br>
+              ◦ used ultraviolet light and a special type of <input type="text" class="answer-input" data-question="1" style="padding:0.3rem; border:1px solid #cbd5e1; border-radius:0.25rem; width:120px; box-sizing:border-box;" placeholder="answer"><br>
+              ◦ problems: expensive and not permanent<br><br>
+              <strong>2nd system:</strong><br>
+              ◦ based on technology used in Morse Code and also for the <input type="text" class="answer-input" data-question="2" style="padding:0.3rem; border:1px solid #cbd5e1; border-radius:0.25rem; width:120px; box-sizing:border-box;" placeholder="answer"> of films<br>
+              ◦ problems: <input type="text" class="answer-input" data-question="3" style="padding:0.3rem; border:1px solid #cbd5e1; border-radius:0.25rem; width:120px; box-sizing:border-box;" placeholder="answer"> and expensive
+            </div>
+
+            <div class="notes-item">
+              <strong>1970s</strong><br>
+              Availability of cheaper <input type="text" class="answer-input" data-question="4" style="padding:0.3rem; border:1px solid #cbd5e1; border-radius:0.25rem; width:120px; box-sizing:border-box;" placeholder="answer"> meant scanning technology spread more widely<br>
+              Problem: lack of <input type="text" class="answer-input" data-question="5" style="padding:0.3rem; border:1px solid #cbd5e1; border-radius:0.25rem; width:120px; box-sizing:border-box;" placeholder="answer"> in code systems
+            </div>
+
+            <div class="notes-item">
+              <strong>April 1973:</strong> committee agreed on one universal product code (UPC)<br>
+              <strong>June 1974:</strong> pack of Juicy Fruit chewing gum sold with bar-code scanner
+            </div>
+
+            <div class="notes-item">
+              <strong>Advantages of bar-code system:</strong><br>
+              ◦ supermarkets needed to spend less on labour<br>
+              ◦ the <input type="text" class="answer-input" data-question="6" style="padding:0.3rem; border:1px solid #cbd5e1; border-radius:0.25rem; width:120px; box-sizing:border-box;" placeholder="answer"> of checkouts increased<br>
+              ◦ doing inventories was much cheaper
+            </div>
+
+            <div class="notes-item">
+              <strong>Present day</strong><br>
+              Users of bar codes include:<br>
+              ◦ retail companies<br>
+              ◦ airlines<br>
+              ◦ staff in hospitals<br>
+              ◦ participants in <input type="text" class="answer-input" data-question="7" style="padding:0.3rem; border:1px solid #cbd5e1; border-radius:0.25rem; width:120px; box-sizing:border-box;" placeholder="answer"><br>
+              ◦ scientists studying <input type="text" class="answer-input" data-question="8" style="padding:0.3rem; border:1px solid #cbd5e1; border-radius:0.25rem; width:120px; box-sizing:border-box;" placeholder="answer">
+            </div>
+          </div>
+
+          <!-- Questions 9-13: True/False/Not Given -->
+          <div class="sectionRubric">
+            <h2>Questions 9–13</h2>
+            <p>Choose TRUE if the statement agrees with the information given in the text, choose FALSE if it contradicts, or choose NOT GIVEN if there is no information.</p>
+          </div>
+
+          <div class="question">
+            <div class="question-rubric"><h3>Question 9</h3></div>
+            <div class="question-text">Bernard Silver was invited to develop a system for capturing product information by the president of a food chain.</div>
+            <div class="choice-item">
+              <input type="radio" id="q9-T" name="q9" value="TRUE" class="answer-input" data-question="9">
+              <label for="q9-T"><strong>TRUE</strong></label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q9-F" name="q9" value="FALSE" class="answer-input" data-question="9">
+              <label for="q9-F"><strong>FALSE</strong></label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q9-NG" name="q9" value="NOT GIVEN" class="answer-input" data-question="9">
+              <label for="q9-NG"><strong>NOT GIVEN</strong></label>
+            </div>
+          </div>
+
+          <div class="question">
+            <div class="question-rubric"><h3>Question 10</h3></div>
+            <div class="question-text">A committee set up in the 1970s said bar codes should be easy to use and not too expensive.</div>
+            <div class="choice-item">
+              <input type="radio" id="q10-T" name="q10" value="TRUE" class="answer-input" data-question="10">
+              <label for="q10-T"><strong>TRUE</strong></label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q10-F" name="q10" value="FALSE" class="answer-input" data-question="10">
+              <label for="q10-F"><strong>FALSE</strong></label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q10-NG" name="q10" value="NOT GIVEN" class="answer-input" data-question="10">
+              <label for="q10-NG"><strong>NOT GIVEN</strong></label>
+            </div>
+          </div>
+
+          <div class="question">
+            <div class="question-rubric"><h3>Question 11</h3></div>
+            <div class="question-text">Alan Haberman disagreed with government policies on business matters.</div>
+            <div class="choice-item">
+              <input type="radio" id="q11-T" name="q11" value="TRUE" class="answer-input" data-question="11">
+              <label for="q11-T"><strong>TRUE</strong></label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q11-F" name="q11" value="FALSE" class="answer-input" data-question="11">
+              <label for="q11-F"><strong>FALSE</strong></label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q11-NG" name="q11" value="NOT GIVEN" class="answer-input" data-question="11">
+              <label for="q11-NG"><strong>NOT GIVEN</strong></label>
+            </div>
+          </div>
+
+          <div class="question">
+            <div class="question-rubric"><h3>Question 12</h3></div>
+            <div class="question-text">Many grocery outlets were unable to afford the necessary scanning equipment.</div>
+            <div class="choice-item">
+              <input type="radio" id="q12-T" name="q12" value="TRUE" class="answer-input" data-question="12">
+              <label for="q12-T"><strong>TRUE</strong></label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q12-F" name="q12" value="FALSE" class="answer-input" data-question="12">
+              <label for="q12-F"><strong>FALSE</strong></label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q12-NG" name="q12" value="NOT GIVEN" class="answer-input" data-question="12">
+              <label for="q12-NG"><strong>NOT GIVEN</strong></label>
+            </div>
+          </div>
+
+          <div class="question">
+            <div class="question-rubric"><h3>Question 13</h3></div>
+            <div class="question-text">The advantages of the new bar-code scanner took some time to be accepted by users.</div>
+            <div class="choice-item">
+              <input type="radio" id="q13-T" name="q13" value="TRUE" class="answer-input" data-question="13">
+              <label for="q13-T"><strong>TRUE</strong></label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q13-F" name="q13" value="FALSE" class="answer-input" data-question="13">
+              <label for="q13-F"><strong>FALSE</strong></label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q13-NG" name="q13" value="NOT GIVEN" class="answer-input" data-question="13">
+              <label for="q13-NG"><strong>NOT GIVEN</strong></label>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button class="submit-btn" id="submitBtn2">Submit All Answers</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Submission Modal (Results) -->
+  <div class="submission-modal" id="submissionModal">
+    <div class="submission-content">
+      <div class="submission-header">
+        <h2>Test Results</h2>
+      </div>
+      <div class="submission-body">
+        <p style="font-size:1.1rem;">Your test has been submitted successfully!</p>
+        <div class="submission-score" id="scoreDisplay">0 / 13</div>
+        <p id="feedbackMessage" style="color:#475569; margin:1rem 0; font-size:1.05rem;"></p>
+        <div id="detailedResults" style="text-align:left; margin:1.5rem 0;"></div>
+        <div class="submission-buttons">
+          <button class="btn-secondary" id="closeResultsBtn">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Highlight Toolbar -->
+  <div class="highlight-toolbar" id="highlightToolbar">
+    <button data-color="yellow" title="Yellow"><span class="highlight-color yellow"></span></button>
+    <button data-color="green" title="Green"><span class="highlight-color green"></span></button>
+    <button data-color="pink" title="Pink"><span class="highlight-color pink"></span></button>
+    <button data-color="blue" title="Blue"><span class="highlight-color blue"></span></button>
+    <button data-color="purple" title="Purple"><span class="highlight-color purple"></span></button>
+    <button data-color="red" title="Red"><span class="highlight-color red"></span></button>
+    <button class="remove" title="Remove highlight"><i class="fas fa-trash-alt"></i> Remove</button>
+  </div>
+
+  <script>
+    /******************************************************************
+     * ANSWER KEY
+     ******************************************************************/
+    const ANSWER_KEY = {
+      '1': 'ink',
+      '2': 'soundtracks',
+      '3': 'unreliable',
+      '4': 'lasers',
+      '5': 'standardisation',
+      '6': 'speed',
+      '7': 'marathons',
+      '8': 'bees',
+      '9': 'FALSE',
+      '10': 'TRUE',
+      '11': 'NOT GIVEN',
+      '12': 'NOT GIVEN',
+      '13': 'TRUE'
+    };
+
+    let timeElapsed = 0;
+    let testSubmitted = false;
+    let lastSelectionRange = null;
+    const textSizes = ['1.05rem', '1.2rem', '1.35rem'];
+    let textSizeIndex = 0;
+
+    /******************************************************************
+     * TIMER
+     ******************************************************************/
+    function updateTimer(){
+      const mins = Math.floor(timeElapsed / 60);
+      const secs = timeElapsed % 60;
+      document.getElementById('timerDisplay').textContent = 
+        String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+      
+      timeElapsed++;
+      setTimeout(updateTimer, 1000);
+    }
+    updateTimer();
+
+    /******************************************************************
+     * ANSWER INDICATOR CIRCLES
+     ******************************************************************/
+    function updateAnswerIndicators(){
+      for (let q = 1; q <= 13; q++){
+        const circle = document.querySelector(`.answer-circle[data-question="${q}"]`);
+        let answered = false;
+
+        if (q >= 9 && q <= 13){
+          // Radio buttons
+          const selected = document.querySelector(`input[name="q${q}"]:checked`);
+          answered = selected !== null;
+        } else {
+          // Text inputs (1-8)
+          const input = document.querySelector(`input[data-question="${q}"]`);
+          answered = input && input.value.trim() !== '';
+        }
+
+        if(circle){
+          if(answered){
+            circle.classList.remove('unanswered');
+            circle.classList.add('answered');
+          } else {
+            circle.classList.remove('answered');
+            circle.classList.add('unanswered');
+          }
+        }
+      }
+    }
+
+    document.querySelectorAll('.answer-input').forEach(input => {
+      input.addEventListener('change', updateAnswerIndicators);
+      input.addEventListener('input', updateAnswerIndicators);
+    });
+
+    /******************************************************************
+     * HIGHLIGHTING SYSTEM
+     ******************************************************************/
+    const highlightToolbar = document.getElementById('highlightToolbar');
+    const HIGHLIGHT_ROOTS = [
+      document.getElementById('passageContent')
+    ];
+
+    function isSelectionInAllowedRoots(sel){
+      if (!sel || sel.rangeCount === 0) return false;
+      const r = sel.getRangeAt(0);
+      if (r.collapsed) return false;
+
+      const sc = r.startContainer.nodeType === 1 ? r.startContainer : r.startContainer.parentElement;
+      const ec = r.endContainer.nodeType === 1 ? r.endContainer : r.endContainer.parentElement;
+      if ((sc && sc.closest && sc.closest('input,select,textarea,button')) ||
+          (ec && ec.closest && ec.closest('input,select,textarea,button'))) {
+        return false;
+      }
+
+      return HIGHLIGHT_ROOTS.some(root => root.contains(r.commonAncestorContainer));
+    }
+
+    function getRangeRect(range){
+      const rects = range.getClientRects();
+      if (rects && rects.length) return rects[0];
+      return range.getBoundingClientRect();
+    }
+
+    document.addEventListener('mouseup', () => {
+      if (testSubmitted) return;
+      const sel = window.getSelection();
+      if (!sel || sel.rangeCount === 0) { hideToolbar(); return; }
+      if (!isSelectionInAllowedRoots(sel)) { hideToolbar(); return; }
+
+      const r = sel.getRangeAt(0);
+      const text = sel.toString().trim();
+      if (!text.length) { hideToolbar(); return; }
+
+      lastSelectionRange = r.cloneRange();
+      const rect = getRangeRect(r);
+      showToolbar(rect);
+    });
+
+    document.addEventListener('scroll', () => {
+      if (highlightToolbar.style.display === 'flex') hideToolbar();
+    }, true);
+
+    function showToolbar(rect){
+      highlightToolbar.style.display = 'flex';
+      highlightToolbar.style.top = `${rect.top + window.scrollY - 12}px`;
+      highlightToolbar.style.left = `${rect.left + window.scrollX + (rect.width / 2)}px`;
+    }
+
+    function hideToolbar(){
+      highlightToolbar.style.display = 'none';
+      lastSelectionRange = null;
+    }
+
+    highlightToolbar.querySelectorAll('button[data-color]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const color = btn.dataset.color;
+        if (!lastSelectionRange) return;
+        applyHighlight(lastSelectionRange, color);
+        window.getSelection()?.removeAllRanges();
+        hideToolbar();
+      });
+    });
+
+    highlightToolbar.querySelector('button.remove').addEventListener('click', () => {
+      if (!lastSelectionRange) return;
+      removeHighlightsInRange(lastSelectionRange);
+      window.getSelection()?.removeAllRanges();
+      hideToolbar();
+    });
+
+    function applyHighlight(range, color){
+      const root = HIGHLIGHT_ROOTS.find(r => r.contains(range.commonAncestorContainer)) || HIGHLIGHT_ROOTS[0];
+      const textNodes = getTextNodesIntersectingRange(root, range);
+      if (!textNodes.length) return;
+
+      textNodes.forEach(node => {
+        const { startOffset, endOffset } = getOffsetsForTextNode(node, range);
+        if (startOffset === endOffset) return;
+        const selectedNode = splitTextNode(node, startOffset, endOffset);
+
+        const span = document.createElement('span');
+        span.className = `highlight ${color}`;
+        selectedNode.parentNode.insertBefore(span, selectedNode);
+        span.appendChild(selectedNode);
+
+        mergeAdjacentHighlights(span);
+      });
+    }
+
+    function removeHighlightsInRange(range){
+      const root = HIGHLIGHT_ROOTS.find(r => r.contains(range.commonAncestorContainer)) || HIGHLIGHT_ROOTS[0];
+      const spans = Array.from(root.querySelectorAll('span.highlight'));
+      spans.forEach(sp => { if (rangeIntersectsNode(range, sp)) unwrapHighlightSpan(sp); });
+    }
+
+    function unwrapHighlightSpan(span){
+      const parent = span.parentNode;
+      while (span.firstChild) parent.insertBefore(span.firstChild, span);
+      parent.removeChild(span);
+      parent.normalize();
+    }
+
+    function mergeAdjacentHighlights(span){
+      const prev = span.previousSibling;
+      if (prev && prev.nodeType === 1 && prev.classList.contains('highlight') && prev.className === span.className){
+        while (span.firstChild) prev.appendChild(span.firstChild);
+        span.remove();
+        span = prev;
+      }
+      const next = span.nextSibling;
+      if (next && next.nodeType === 1 && next.classList.contains('highlight') && next.className === span.className){
+        while (next.firstChild) span.appendChild(next.firstChild);
+        next.remove();
+      }
+    }
+
+    function getTextNodesIntersectingRange(root, range){
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+        acceptNode: (node) => {
+          if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+          const parentEl = node.parentElement;
+          if (parentEl && parentEl.closest && parentEl.closest('script,style')) return NodeFilter.FILTER_REJECT;
+          if (parentEl && parentEl.closest && parentEl.closest('input,select,textarea,button')) return NodeFilter.FILTER_REJECT;
+          return rangeIntersectsNode(range, node) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+        }
+      });
+      const nodes = [];
+      let n;
+      while (n = walker.nextNode()) nodes.push(n);
+      return nodes;
+    }
+
+    function rangeIntersectsNode(range, node){
+      const nodeRange = document.createRange();
+      try { nodeRange.selectNodeContents(node); } catch { return false; }
+      return (
+        range.compareBoundaryPoints(Range.END_TO_START, nodeRange) < 0 &&
+        range.compareBoundaryPoints(Range.START_TO_END, nodeRange) > 0
+      );
+    }
+
+    function getOffsetsForTextNode(textNode, range){
+      let startOffset = 0;
+      let endOffset = textNode.nodeValue.length;
+
+      if (range.startContainer === textNode) startOffset = range.startOffset;
+      else {
+        const r = document.createRange(); r.selectNodeContents(textNode);
+        if (range.compareBoundaryPoints(Range.START_TO_END, r) >= 0) startOffset = endOffset;
+      }
+
+      if (range.endContainer === textNode) endOffset = range.endOffset;
+      else {
+        const r = document.createRange(); r.selectNodeContents(textNode);
+        if (range.compareBoundaryPoints(Range.END_TO_START, r) <= 0) endOffset = startOffset;
+      }
+
+      startOffset = Math.max(0, Math.min(startOffset, textNode.nodeValue.length));
+      endOffset = Math.max(0, Math.min(endOffset, textNode.nodeValue.length));
+      if (endOffset < startOffset) endOffset = startOffset;
+
+      return { startOffset, endOffset };
+    }
+
+    function splitTextNode(textNode, startOffset, endOffset){
+      let node = textNode;
+      if (endOffset < node.nodeValue.length) node.splitText(endOffset);
+      if (startOffset > 0) node = node.splitText(startOffset);
+      return node;
+    }
+
+    /******************************************************************
+     * SUBMISSION & SCORING
+     ******************************************************************/
+    function getAllAnswers(){
+      const answers = {};
+      
+      for (let q = 1; q <= 13; q++){
+        if (q >= 9 && q <= 13){
+          // Radio buttons
+          const selected = document.querySelector(`input[name="q${q}"]:checked`);
+          answers[q] = selected ? selected.value : '';
+        } else {
+          // Text inputs (1-8)
+          const input = document.querySelector(`input[data-question="${q}"]`);
+          answers[q] = input ? input.value.trim().toLowerCase() : '';
+        }
+      }
+      
+      return answers;
+    }
+
+    function checkAnswer(questionNum, userAnswer){
+      const correctAnswer = ANSWER_KEY[questionNum];
+      return userAnswer.toLowerCase().trim() === correctAnswer.toLowerCase().trim();
+    }
+
+    function submitAnswers(){
+      if (testSubmitted) return;
+      testSubmitted = true;
+
+      const answers = getAllAnswers();
+      let correct = 0;
+      const results = {};
+
+      for (const [q, answer] of Object.entries(answers)){
+        const isCorrect = checkAnswer(q, answer);
+        if (isCorrect) correct++;
+        results[q] = { answer, isCorrect };
+      }
+
+      // Disable all inputs
+      document.querySelectorAll('.answer-input').forEach(el => {
+        el.disabled = true;
+      });
+
+      // Show results
+      showResults(correct, results);
+    }
+
+    function showResults(correct, results){
+      const submissionModal = document.getElementById('submissionModal');
+      const scoreDisplay = document.getElementById('scoreDisplay');
+      const feedbackMessage = document.getElementById('feedbackMessage');
+      const detailedResults = document.getElementById('detailedResults');
+
+      const totalQuestions = 13;
+      scoreDisplay.textContent = `${correct} / ${totalQuestions}`;
+      const percentage = Math.round((correct / totalQuestions) * 100);
+      feedbackMessage.textContent = `You got ${percentage}% of the questions correct. Time elapsed: ${String(Math.floor(timeElapsed / 60)).padStart(2, '0')}:${String(timeElapsed % 60).padStart(2, '0')}`;
+
+      let resultsHTML = '';
+      for (const [q, result] of Object.entries(results)){
+        const correctAnswer = ANSWER_KEY[q];
+        const isCorrect = result.isCorrect;
+        const icon = isCorrect ? '✓' : '✗';
+        
+        const resultClass = isCorrect ? 'correct' : 'incorrect';
+        resultsHTML += `<div class="result-item ${resultClass}">
+          <strong>Q${q}: ${icon}</strong>
+          <div class="detail"><strong>Your answer:</strong> ${result.answer || '(empty)'}</div>
+          <div class="detail"><strong>Correct answer:</strong> ${correctAnswer}</div>
+        </div>`;
+      }
+      detailedResults.innerHTML = resultsHTML;
+      submissionModal.style.display = 'flex';
+    }
+
+    document.getElementById('submitBtn').addEventListener('click', submitAnswers);
+    document.getElementById('submitBtn2').addEventListener('click', submitAnswers);
+    document.getElementById('closeResultsBtn').addEventListener('click', () => {
+      document.getElementById('submissionModal').style.display = 'none';
+    });
+
+    /******************************************************************
+     * DIVIDER RESIZING
+     ******************************************************************/
+    const divider = document.getElementById('divider');
+    const passagePanel = document.querySelector('.passage-container');
+    const questionsPanel = document.querySelector('.questions-container');
+    const testContainer = document.querySelector('.test-container');
+
+    let isResizing = false;
+
+    divider.addEventListener('mousedown', () => { isResizing = true; });
+    document.addEventListener('mouseup', () => { isResizing = false; });
+    document.addEventListener('mousemove', (e) => {
+      if (!isResizing) return;
+      
+      const container = testContainer.getBoundingClientRect();
+      const newPassageWidth = e.clientX - container.left;
+      const minWidth = 250;
+      const maxWidth = container.width - 250;
+
+      if (newPassageWidth > minWidth && newPassageWidth < maxWidth){
+        passagePanel.style.width = newPassageWidth + 'px';
+      }
+    });
+
+    /******************************************************************
+     * CONTRAST AND TEXT SIZE TOGGLES
+     ******************************************************************/
+    document.getElementById('contrastToggle').addEventListener('click', () => {
+      document.body.classList.toggle('high-contrast');
+    });
+
+    document.getElementById('textSizeToggle').addEventListener('click', () => {
+      textSizeIndex = (textSizeIndex + 1) % textSizes.length;
+      document.getElementById('passageContent').style.fontSize = textSizes[textSizeIndex];
+      document.getElementById('questionsContent').style.fontSize = textSizes[textSizeIndex];
+    });
+  </script>
+</body>
+</html>

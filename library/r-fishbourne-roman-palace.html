@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IELTS Reading Test - Fishbourne Roman Palace (Q1-13)</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      overflow: hidden;
+      color: #1e293b;
+    }
+    .test-wrapper { display:flex; flex-direction:column; height:100vh; }
+    .test-container { display:flex; flex:1; overflow:hidden; }
+
+    /* Header */
+    .header{
+      background:#ffffff;
+      border-bottom:1px solid #cbd5e1;
+      padding:1rem 2rem;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      box-shadow:0 4px 12px rgba(0,0,0,.08);
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .header__logo { display:flex; align-items:center; gap: .75rem; }
+    .header__title { font-size:1.1rem; font-weight:600; color:#1e293b; flex:1; min-width:300px; }
+    .header__timer{
+      font-size:1.25rem;
+      font-weight:600;
+      color:#dc2305;
+      background:#fef3c7;
+      padding:.5rem 1.5rem;
+      border-radius:9999px;
+      border:1px solid #fcd34d;
+      transition:all .3s ease;
+      white-space: nowrap;
+    }
+    .header__icons{ display:flex; gap:1.25rem; align-items:center; }
+    .header__icon{
+      font-size:1.5rem;
+      color:#64748b;
+      cursor:pointer;
+      transition:all .3s ease;
+    }
+    .header__icon:hover { color:#d97706; transform:scale(1.15); }
+    
+    /* Telegram Link */
+    .header__telegram{
+      display:flex;
+      align-items:center;
+      gap:0.5rem;
+      padding:0.5rem 1.2rem;
+      background:linear-gradient(90deg, #0369a1, #0284c7);
+      color:#fff;
+      border-radius:9999px;
+      text-decoration:none;
+      font-weight:600;
+      font-size:0.9rem;
+      transition:all .3s ease;
+      border:1px solid #0c4a6e;
+    }
+    .header__telegram:hover{
+      transform:translateY(-2px);
+      box-shadow:0 4px 12px rgba(2, 132, 199, 0.5);
+    }
+
+    /* Answer Indicators */
+    .answer-indicators{
+      display:flex;
+      gap:0.5rem;
+      flex-wrap:wrap;
+      padding:1rem 2rem;
+      background:#f1f5f9;
+      border-bottom:1px solid #cbd5e1;
+      align-items:center;
+      font-size: 0.8rem;
+    }
+    .indicator-label{
+      font-weight:600;
+      color:#475569;
+      margin-right:0.5rem;
+    }
+    .answer-circle{
+      width:2.2rem;
+      height:2.2rem;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      color:#fff;
+      cursor:default;
+      transition:all .3s ease;
+      border:2px solid #cbd5e1;
+      background:#cbd5e1;
+      color:#64748b;
+      font-size:0.7rem;
+    }
+    .answer-circle.answered{
+      background:#10b981;
+      border-color:#059669;
+      box-shadow:0 0 8px rgba(16, 185, 129, 0.4);
+    }
+    .answer-circle.unanswered{
+      background:#ef4444;
+      border-color:#dc2626;
+      box-shadow:0 0 8px rgba(239, 68, 68, 0.4);
+    }
+
+    /* Rubric */
+    .sectionRubric{
+      margin:1.5rem;
+      padding:1.25rem;
+      background:#ffffff;
+      border:1px solid #cbd5e1;
+      border-radius:.75rem;
+      box-shadow:0 4px 12px rgba(0,0,0,.05);
+    }
+    .sectionRubric h2{ font-size:1.25rem; color:#d97706; margin-bottom:.5rem; }
+    .sectionRubric p{ margin:0.5rem 0; color:#475569; font-size:0.95rem; }
+
+    /* Panels */
+    .passage-container{
+      width:45%;
+      height:100%;
+      overflow-y:auto;
+      padding:1.5rem;
+      box-sizing:border-box;
+      background:#fafafa;
+      border-right:1px solid #cbd5e1;
+      position:relative;
+      user-select:text;
+      -webkit-user-select:text;
+    }
+    .questions-container{
+      flex:1;
+      height:100%;
+      overflow-y:auto;
+      padding:1.5rem;
+      box-sizing:border-box;
+      background:#fafafa;
+      position:relative;
+      user-select:text;
+      -webkit-user-select:text;
+    }
+    .passage-container::-webkit-scrollbar,
+    .questions-container::-webkit-scrollbar{ width:8px; }
+    .passage-container::-webkit-scrollbar-track,
+    .questions-container::-webkit-scrollbar-track{ background:#f1f5f9; }
+    .passage-container::-webkit-scrollbar-thumb,
+    .questions-container::-webkit-scrollbar-thumb{ background:#cbd5e1; border-radius:4px; }
+    .passage-container::-webkit-scrollbar-thumb:hover,
+    .questions-container::-webkit-scrollbar-thumb:hover{ background:#94a3b8; }
+
+    /* Divider */
+    .divider{ width:14px; background:#cbd5e1; cursor:col-resize; position:relative; }
+    .divider-handle{
+      width:6px;height:60px;background:#94a3b8;border-radius:4px;
+      position:absolute; top:50%; left:4px; transform:translateY(-50%);
+    }
+
+    /* Highlight */
+    .highlight{ border-radius:.25rem; padding:0 .15rem; }
+    .highlight.yellow{ background:rgba(234, 179, 8, 0.6); }
+    .highlight.green{ background:rgba(34, 197, 94, 0.6); }
+    .highlight.pink{ background:rgba(236, 72, 153, 0.6); }
+    .highlight.blue{ background:rgba(59, 130, 246, 0.6); }
+    .highlight.purple{ background:rgba(147, 51, 234, 0.6); }
+    .highlight.red{ background:rgba(239, 68, 68, 0.6); }
+
+    .highlight-toolbar{
+      position:fixed;
+      background:#ffffff;
+      border:1px solid #cbd5e1;
+      border-radius:.5rem;
+      box-shadow:0 8px 16px rgba(0,0,0,.15);
+      display:none;
+      z-index:2000;
+      padding:.5rem;
+      transform:translate(-50%,-100%);
+      margin-top:-.5rem;
+      gap:.35rem;
+      align-items:center;
+      flex-direction: row;
+    }
+    .highlight-toolbar button{
+      background:none;
+      border:none;
+      width:2rem; height:2rem;
+      cursor:pointer;
+      border-radius:.25rem;
+      transition:all .2s ease;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .highlight-toolbar button:hover{ background:#f1f5f9; transform:scale(1.08); }
+    .highlight-toolbar button.remove{ color:#ef4444; width:auto; padding:0 .5rem; gap:.35rem; }
+    .highlight-color{
+      width:1.5rem;height:1.5rem;border-radius:9999px;border:2px solid #cbd5e1;
+    }
+    .highlight-color.yellow{ background:#eab308; }
+    .highlight-color.green{ background:#22c55e; }
+    .highlight-color.pink{ background:#ec4899; }
+    .highlight-color.blue{ background:#3b82f6; }
+    .highlight-color.purple{ background:#9333ea; }
+    .highlight-color.red{ background:#ef4444; }
+
+    /* Passage text */
+    #passageContent{ line-height:1.8; font-size:1.05rem; color:#1e293b; }
+    #passageContent p{ margin:0.8rem 0; text-align:justify; }
+
+    /* Question cards */
+    .question{
+      background:#ffffff;
+      padding:1.5rem;
+      margin-bottom:1.5rem;
+      border:1px solid #cbd5e1;
+      border-radius:.75rem;
+      box-shadow:0 2px 8px rgba(0,0,0,.04);
+      transition:all .3s ease;
+    }
+    .question:hover{ box-shadow:0 4px 12px rgba(0,0,0,.08); border-color:#94a3b8; }
+    .question.answered{ border-left:4px solid #10b981; }
+    .question.unanswered{ border-left:4px solid #ef4444; }
+
+    .question-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:start;
+      margin-bottom:0.75rem;
+    }
+    .question-title{
+      font-weight:700;
+      font-size:1rem;
+      color:#1e293b;
+    }
+    .question-text{
+      font-size:0.95rem;
+      color:#475569;
+      margin:0.5rem 0 1rem 0;
+      line-height:1.6;
+    }
+
+    /* Options */
+    .options-group{
+      display:flex;
+      flex-direction:column;
+      gap:0.5rem;
+    }
+    .option{
+      display:flex;
+      align-items:center;
+      padding:0.75rem;
+      background:#f8fafc;
+      border:1px solid #cbd5e1;
+      border-radius:.5rem;
+      cursor:pointer;
+      transition:all .2s ease;
+    }
+    .option:hover{
+      background:#f1f5f9;
+      border-color:#94a3b8;
+    }
+    .option input[type="radio"]{
+      margin-right:0.75rem;
+      cursor:pointer;
+      accent-color:#0284c7;
+    }
+    .option.selected{
+      background:#dbeafe;
+      border-color:#0284c7;
+    }
+
+    /* Text Input */
+    .text-input{
+      padding:0.75rem;
+      border:1px solid #cbd5e1;
+      border-radius:.5rem;
+      font-size:0.95rem;
+      width:100%;
+      box-sizing:border-box;
+      transition:all .2s ease;
+    }
+    .text-input:focus{
+      outline:none;
+      border-color:#0284c7;
+      box-shadow:0 0 0 3px rgba(2, 132, 199, 0.1);
+    }
+
+    /* Submit and Footer */
+    .footer{
+      display:flex;
+      gap:1rem;
+      padding:1.5rem;
+      background:#ffffff;
+      border-top:1px solid #cbd5e1;
+      justify-content:center;
+    }
+    .submit-btn{
+      padding:0.75rem 2rem;
+      background:linear-gradient(135deg, #0284c7, #0369a1);
+      color:#fff;
+      border:none;
+      border-radius:.5rem;
+      font-weight:600;
+      cursor:pointer;
+      transition:all .3s ease;
+      font-size:1rem;
+    }
+    .submit-btn:hover{
+      transform:translateY(-2px);
+      box-shadow:0 4px 12px rgba(2, 132, 199, 0.4);
+    }
+
+    /* Modal */
+    #submissionModal{
+      display:none;
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background:rgba(0,0,0,.5);
+      align-items:center;
+      justify-content:center;
+      z-index:3000;
+    }
+    .modal-content{
+      background:#ffffff;
+      border-radius:1rem;
+      padding:2rem;
+      max-width:600px;
+      max-height:80vh;
+      overflow-y:auto;
+      box-shadow:0 25px 50px rgba(0,0,0,.15);
+    }
+    .modal-content h2{
+      font-size:1.5rem;
+      font-weight:700;
+      margin-bottom:1rem;
+      color:#1e293b;
+    }
+    .score-display{
+      font-size:3rem;
+      font-weight:700;
+      color:#0284c7;
+      text-align:center;
+      margin:1rem 0;
+    }
+    .feedback-message{
+      text-align:center;
+      font-size:1rem;
+      color:#475569;
+      margin:1rem 0;
+      line-height:1.6;
+    }
+    #detailedResults{
+      margin-top:1.5rem;
+    }
+    .result-item{
+      padding:1rem;
+      margin-bottom:0.75rem;
+      border-radius:.5rem;
+      border-left:4px solid #cbd5e1;
+    }
+    .result-item.correct{
+      background:#ecfdf5;
+      border-left-color:#10b981;
+      color:#065f46;
+    }
+    .result-item.incorrect{
+      background:#fef2f2;
+      border-left-color:#ef4444;
+      color:#7f1d1d;
+    }
+    .result-item strong{
+      font-weight:700;
+      display:block;
+      margin-bottom:0.5rem;
+    }
+    .detail{
+      font-size:0.9rem;
+      margin:0.25rem 0;
+    }
+    .close-results-btn{
+      margin-top:1.5rem;
+      width:100%;
+      padding:0.75rem;
+      background:#cbd5e1;
+      border:none;
+      border-radius:.5rem;
+      cursor:pointer;
+      font-weight:600;
+      transition:all .2s ease;
+    }
+    .close-results-btn:hover{
+      background:#94a3b8;
+    }
+
+    /* High Contrast */
+    body.high-contrast {
+      background: #000;
+      color: #fff;
+    }
+    body.high-contrast .header,
+    body.high-contrast .sectionRubric,
+    body.high-contrast .question,
+    body.high-contrast .modal-content {
+      background: #1a1a1a;
+      color: #fff;
+      border-color: #fff;
+    }
+    body.high-contrast .passage-container,
+    body.high-contrast .questions-container {
+      background: #1a1a1a;
+      color: #fff;
+    }
+
+    .info-note{
+      background:#e0f2fe;
+      border:1px solid #0284c7;
+      padding:0.75rem;
+      border-radius:.5rem;
+      margin-bottom:1rem;
+      font-size:0.9rem;
+      color:#0c4a6e;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-wrapper">
+    <!-- Header -->
+    <div class="header">
+      <div class="header__logo">
+        <i class="fas fa-book" style="font-size:1.5rem; color:#0284c7;"></i>
+        <div class="header__title">IELTS Reading Test - Fishbourne Roman Palace (Q1-13)</div>
+      </div>
+      <div class="header__timer">
+        <span id="timerDisplay">00:00</span>
+      </div>
+      <div class="header__icons">
+        <a href="https://t.me/ieltswithkhmdv" target="_blank" class="header__telegram">
+          <i class="fab fa-telegram"></i>
+          <span>Join Channel</span>
+        </a>
+        <button id="contrastToggle" title="Toggle high contrast" style="background:none; border:none; cursor:pointer;">
+          <i class="fas fa-adjust header__icon"></i>
+        </button>
+        <button id="textSizeToggle" title="Increase text size" style="background:none; border:none; cursor:pointer;">
+          <i class="fas fa-text-height header__icon"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Answer Indicators -->
+    <div class="answer-indicators">
+      <span class="indicator-label">Question Status:</span>
+      <div id="answerIndicators" style="display:flex; gap:0.5rem; flex-wrap:wrap;"></div>
+    </div>
+
+    <!-- Test Container -->
+    <div class="test-container">
+      <!-- Passage Panel -->
+      <div class="passage-container">
+        <div class="sectionRubric">
+          <h2>Reading Passage 1</h2>
+          <p><strong>Fishbourne Roman Palace</strong></p>
+        </div>
+        <div id="passageContent">
+          <p>Fishbourne Roman Palace is in the village of Fishbourne in West Sussex, England. This large palace was built in the 1st century AD, around thirty years after the Roman conquest of Britain, on the site of Roman army grain stores which had been established after the invasion, in the reign of the Roman Emperor Claudius in 43 AD. The rectangular palace was built around formal gardens, the northern half of which have been reconstructed. There were extensive alterations in the 2nd and 3rd centuries AD, with many of the original black and white mosaic floors being overlaid with more sophisticated coloured ones, including a perfectly preserved mosaic of a dolphin in the north wing. More alterations were in progress when the palace burnt down in around 270AD, after which it was abandoned.</p>
+
+          <p>Local people had long believed that a Roman palace once existed in the area. However, it was not until 1960 that the archaeologist Barry Cunliffe, of Oxford University, first systematically excavated the site, after workmen had accidentally uncovered a wall while they were laying a water main. The Roman villa excavated by Cunliffe's team was so grand that it became known as Fishbourne Roman Palace, and a museum was erected to preserve some of the remains. This is administered by the Sussex Archaeological Society.</p>
+
+          <p>In its day, the completed palace would have comprised four large wings with colonnaded fronts. The north and east wings consisted of suites of private rooms built around courtyards, with a monumental entrance in the middle of the east wing. In the north-east corner there was an assembly hall. The west wing contained state rooms, a large ceremonial reception room, and a gallery. The south wing contained the owner's private apartments. The palace included as many as 50 mosaic floors, under-floor central heating and a bathhouse. In size, Fishbourne Palace would have been approximately equivalent to some of the great Roman palaces of Italy, and was by far the largest known Roman residence north of the European Alps, at about 500 feet (150m) square. A team of volunteers and professional archaeologists are involved in an ongoing archaeological excavation on the site of nearby, possibly military, buildings.</p>
+
+          <p>The first buildings to be erected on the site were constructed in the early part of the conquest in 43 AD. Later, two timber buildings were constructed, one with clay and mortar floors and plaster walls, which appears to have been a house of some comfort. These buildings were demolished in the 60s AD and replaced by a substantial stone house, which included colonnades, and a bath suite. It has been suggested that the palace itself, incorporating the previous house in its south-east corner, was constructed around 73-75 AD. However, Dr Miles Russell, of Bournemouth University, reinterpreted the ground plan and the collection of objects found and has suggested that, given the extremely close parallels with the imperial palace of Domitian in Rome, its construction may more plausibly date to after 92 AD.</p>
+
+          <p>With regard to who lived in Fishbourne Palace, there are a number of theories; for example, one proposed by Professor Cunliffe is that, in its early phase, the palace was the residence of Tiberius Claudius Cogidubnus, a local chieftain who supported the Romans, and who may have been installed as king of a number of territories following the first stage of the conquest. Cogidubnus is known from a reference to his loyalty in Agricola, a work by the Roman writer Tacitus, and from an inscription commemorating a temple dedicated to the gods Neptune and Minerva found in the nearby city of Chichester. Another theory is that it was built for Sallustius Lucullus, a Roman governor of Britain of the late 1st century, who may have been the son of the British prince Adminius. Two inscriptions recording the presence of Lucullus have been found in Chichester, and the redating by Miles Russell of the palace was designed for Lucullus, then it may have only been in use for a few years, as the Roman historian Suetonius records that Lucullus was executed by the Emperor Domitian in or shortly after 93 AD.</p>
+
+          <p>Additional theories suggest that either Verica, a British king of the Roman Empire in the years preceding the Claudian invasion, was owner of the palace, or Tiberius Claudius Catuarus, following the recent discovery of a gold ring belonging to him. The palace outlasted the original owner, whoever he was, and was extensively re-planned early in the 2nd century AD, and subdivided into a series of lesser apartments. Further redevelopment was begun in the late 3rd century AD, but these alterations were incomplete when the north wing was destroyed in a fire in around 270 AD. The damage was too great to repair, and the palace was abandoned and later dismantled.</p>
+
+          <p>A modern museum had been built by the Sussex Archaeological Society, incorporating most of the visible remains, including one wing of the palace. The gardens have been re-planted using authentic plants from the Roman period.</p>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="divider" id="divider">
+        <div class="divider-handle"></div>
+      </div>
+
+      <!-- Questions Panel -->
+      <div class="questions-container">
+        <div id="questionsContent">
+          <!-- Section Rubric -->
+          <div class="sectionRubric">
+            <h2>Questions 1-13</h2>
+            <p>Answer all 13 questions based on the passage above.</p>
+          </div>
+
+          <!-- Q1-6: True/False/Not Given -->
+          <div style="margin-bottom:2rem;">
+            <div class="info-note">
+              <strong>Questions 1-6: True / False / Not Given</strong><br>
+              Do the following statements agree with the information given in Reading Passage 1?
+            </div>
+
+            <div class="question">
+              <div class="question-label">1</div>
+              <div class="question-text">Fishbourne Palace was the first structure to be built on its site.</div>
+              <div class="options-group">
+                <label class="option">
+                  <input type="radio" name="q1" value="TRUE"> TRUE
+                </label>
+                <label class="option">
+                  <input type="radio" name="q1" value="FALSE"> FALSE
+                </label>
+                <label class="option">
+                  <input type="radio" name="q1" value="NG"> NOT GIVEN
+                </label>
+              </div>
+            </div>
+
+            <div class="question">
+              <div class="question-label">2</div>
+              <div class="question-text">Fishbourne Palace was renovated more than once.</div>
+              <div class="options-group">
+                <label class="option">
+                  <input type="radio" name="q2" value="TRUE"> TRUE
+                </label>
+                <label class="option">
+                  <input type="radio" name="q2" value="FALSE"> FALSE
+                </label>
+                <label class="option">
+                  <input type="radio" name="q2" value="NG"> NOT GIVEN
+                </label>
+              </div>
+            </div>
+
+            <div class="question">
+              <div class="question-label">3</div>
+              <div class="question-text">Fishbourne Palace was large in comparison with Roman palaces in Italy.</div>
+              <div class="options-group">
+                <label class="option">
+                  <input type="radio" name="q3" value="TRUE"> TRUE
+                </label>
+                <label class="option">
+                  <input type="radio" name="q3" value="FALSE"> FALSE
+                </label>
+                <label class="option">
+                  <input type="radio" name="q3" value="NG"> NOT GIVEN
+                </label>
+              </div>
+            </div>
+
+            <div class="question">
+              <div class="question-label">4</div>
+              <div class="question-text">Research is continuing in the area close to Fishbourne Palace.</div>
+              <div class="options-group">
+                <label class="option">
+                  <input type="radio" name="q4" value="TRUE"> TRUE
+                </label>
+                <label class="option">
+                  <input type="radio" name="q4" value="FALSE"> FALSE
+                </label>
+                <label class="option">
+                  <input type="radio" name="q4" value="NG"> NOT GIVEN
+                </label>
+              </div>
+            </div>
+
+            <div class="question">
+              <div class="question-label">5</div>
+              <div class="question-text">Researchers agree on the identity of the person for whom Fishbourne Palace was constructed.</div>
+              <div class="options-group">
+                <label class="option">
+                  <input type="radio" name="q5" value="TRUE"> TRUE
+                </label>
+                <label class="option">
+                  <input type="radio" name="q5" value="FALSE"> FALSE
+                </label>
+                <label class="option">
+                  <input type="radio" name="q5" value="NG"> NOT GIVEN
+                </label>
+              </div>
+            </div>
+
+            <div class="question">
+              <div class="question-label">6</div>
+              <div class="question-text">Fishbourne Palace was burnt down by local people.</div>
+              <div class="options-group">
+                <label class="option">
+                  <input type="radio" name="q6" value="TRUE"> TRUE
+                </label>
+                <label class="option">
+                  <input type="radio" name="q6" value="FALSE"> FALSE
+                </label>
+                <label class="option">
+                  <input type="radio" name="q6" value="NG"> NOT GIVEN
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Q7-13: Fill in the Blank -->
+          <div>
+            <div class="info-note">
+              <strong>Questions 7-13: Complete the Notes</strong><br>
+              Choose NO MORE THAN TWO WORDS AND/OR A NUMBER from the passage for each answer.
+            </div>
+
+            <div class="question">
+              <div class="question-label">7</div>
+              <div class="question-text">The first buildings on the site contained food for the .....................</div>
+              <input type="text" name="q7" class="text-input" placeholder="Enter answer (max 2 words/number)">
+            </div>
+
+            <div class="question">
+              <div class="question-label">8</div>
+              <div class="question-text">The palace building surrounded .....................</div>
+              <input type="text" name="q8" class="text-input" placeholder="Enter answer (max 2 words/number)">
+            </div>
+
+            <div class="question">
+              <div class="question-label">9</div>
+              <div class="question-text">In the 2nd and 3rd centuries colour was added to the ..................... of the palace.</div>
+              <input type="text" name="q9" class="text-input" placeholder="Enter answer (max 2 words/number)">
+            </div>
+
+            <div class="question">
+              <div class="question-label">10</div>
+              <div class="question-text">The first part of the palace to be found was part of a .....................</div>
+              <input type="text" name="q10" class="text-input" placeholder="Enter answer (max 2 words/number)">
+            </div>
+
+            <div class="question">
+              <div class="question-label">11</div>
+              <div class="question-text">Sallustius Lucullus - he may have lived there until approximately ..................... AD</div>
+              <input type="text" name="q11" class="text-input" placeholder="Enter answer (max 2 words/number)">
+            </div>
+
+            <div class="question">
+              <div class="question-label">12</div>
+              <div class="question-text">Catuarus - his ..................... was found there</div>
+              <input type="text" name="q12" class="text-input" placeholder="Enter answer (max 2 words/number)">
+            </div>
+
+            <div class="question">
+              <div class="question-label">13</div>
+              <div class="question-text">A ..................... has been built on the site to help protect it.</div>
+              <input type="text" name="q13" class="text-input" placeholder="Enter answer (max 2 words/number)">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <button class="submit-btn" id="submitBtn">Submit Answers</button>
+    </div>
+  </div>
+
+  <!-- Submission Modal -->
+  <div id="submissionModal">
+    <div class="modal-content">
+      <h2>Results</h2>
+      <div class="score-display" id="scoreDisplay">0 / 13</div>
+      <div class="feedback-message" id="feedbackMessage">Loading results...</div>
+      <div id="detailedResults"></div>
+      <button class="close-results-btn" id="closeResultsBtn">Close</button>
+    </div>
+  </div>
+
+  <script>
+    /******************************************************************
+     * CONSTANTS
+     ******************************************************************/
+    const ANSWER_KEY = {
+      1: 'FALSE',
+      2: 'TRUE',
+      3: 'FALSE',
+      4: 'TRUE',
+      5: 'FALSE',
+      6: 'NG',
+      7: 'Roman army',
+      8: 'formal gardens',
+      9: 'mosaic floors',
+      10: 'wall',
+      11: '93',
+      12: 'gold ring',
+      13: 'modern museum'
+    };
+
+    let timeElapsed = 0;
+    let testSubmitted = false;
+    let textSizeIndex = 0;
+    const textSizes = ['1.05rem', '1.2rem', '1.35rem', '1.5rem'];
+
+    /******************************************************************
+     * TIMER
+     ******************************************************************/
+    setInterval(() => {
+      if (!testSubmitted) {
+        timeElapsed++;
+        const minutes = String(Math.floor(timeElapsed / 60)).padStart(2, '0');
+        const seconds = String(timeElapsed % 60).padStart(2, '0');
+        document.getElementById('timerDisplay').textContent = `${minutes}:${seconds}`;
+      }
+    }, 1000);
+
+    /******************************************************************
+     * ANSWER INDICATORS
+     ******************************************************************/
+    function updateAnswerIndicators(){
+      const container = document.getElementById('answerIndicators');
+      container.innerHTML = '';
+      
+      for (let i = 1; i <= 13; i++) {
+        const answered = isQuestionAnswered(i);
+        const circle = document.createElement('div');
+        circle.className = `answer-circle ${answered ? 'answered' : 'unanswered'}`;
+        circle.textContent = i;
+        container.appendChild(circle);
+      }
+    }
+
+    function isQuestionAnswered(q){
+      if (q >= 1 && q <= 6) {
+        return document.querySelector(`input[name="q${q}"]:checked`) ? true : false;
+      } else {
+        const input = document.querySelector(`input[name="q${q}"]`);
+        return input && input.value.trim().length > 0;
+      }
+    }
+
+    document.querySelectorAll('input[type="radio"], input[type="text"]').forEach(input => {
+      input.addEventListener('change', updateAnswerIndicators);
+      input.addEventListener('input', updateAnswerIndicators);
+    });
+
+    updateAnswerIndicators();
+
+    /******************************************************************
+     * HIGHLIGHT FUNCTIONALITY
+     ******************************************************************/
+    const HIGHLIGHT_ROOTS = [document.getElementById('passageContent')];
+    const highlightToolbar = document.createElement('div');
+    highlightToolbar.className = 'highlight-toolbar';
+    const colors = ['yellow', 'green', 'pink', 'blue', 'purple', 'red'];
+    colors.forEach(color => {
+      const btn = document.createElement('button');
+      btn.innerHTML = `<div class="highlight-color ${color}"></div>`;
+      btn.addEventListener('click', () => { applyHighlight(color); highlightToolbar.style.display = 'none'; });
+      highlightToolbar.appendChild(btn);
+    });
+    const removeBtn = document.createElement('button');
+    removeBtn.className = 'remove';
+    removeBtn.innerHTML = '<i class="fas fa-trash"></i> Remove';
+    removeBtn.addEventListener('click', () => { removeHighlights(); highlightToolbar.style.display = 'none'; });
+    highlightToolbar.appendChild(removeBtn);
+    document.body.appendChild(highlightToolbar);
+
+    HIGHLIGHT_ROOTS.forEach(root => {
+      root.addEventListener('mouseup', () => {
+        const selection = window.getSelection();
+        if (selection.toString().length > 0){
+          const range = selection.getRangeAt(0);
+          const rect = range.getBoundingClientRect();
+          highlightToolbar.style.left = rect.left + rect.width / 2 + 'px';
+          highlightToolbar.style.top = rect.top + 'px';
+          highlightToolbar.style.display = 'flex';
+        } else {
+          highlightToolbar.style.display = 'none';
+        }
+      });
+    });
+
+    function applyHighlight(color){
+      const selection = window.getSelection();
+      if (!selection.rangeCount || selection.isCollapsed) return;
+      const range = selection.getRangeAt(0);
+      removeHighlightsInRange(range);
+      const root = HIGHLIGHT_ROOTS.find(r => r.contains(range.commonAncestorContainer)) || HIGHLIGHT_ROOTS[0];
+      const textNodes = getTextNodesIntersectingRange(root, range);
+      if (!textNodes.length) return;
+      textNodes.forEach(node => {
+        const { startOffset, endOffset } = getOffsetsForTextNode(node, range);
+        if (startOffset === endOffset) return;
+        const selectedNode = splitTextNode(node, startOffset, endOffset);
+        const span = document.createElement('span');
+        span.className = `highlight ${color}`;
+        selectedNode.parentNode.insertBefore(span, selectedNode);
+        span.appendChild(selectedNode);
+        mergeAdjacentHighlights(span);
+      });
+    }
+
+    function removeHighlights(){
+      const selection = window.getSelection();
+      if (!selection.rangeCount || selection.isCollapsed) return;
+      const range = selection.getRangeAt(0);
+      removeHighlightsInRange(range);
+    }
+
+    function removeHighlightsInRange(range){
+      const root = HIGHLIGHT_ROOTS.find(r => r.contains(range.commonAncestorContainer)) || HIGHLIGHT_ROOTS[0];
+      const spans = Array.from(root.querySelectorAll('span.highlight'));
+      spans.forEach(sp => { if (rangeIntersectsNode(range, sp)) unwrapHighlightSpan(sp); });
+    }
+
+    function unwrapHighlightSpan(span){
+      const parent = span.parentNode;
+      while (span.firstChild) parent.insertBefore(span.firstChild, span);
+      parent.removeChild(span);
+      parent.normalize();
+    }
+
+    function mergeAdjacentHighlights(span){
+      const prev = span.previousSibling;
+      if (prev && prev.nodeType === 1 && prev.classList.contains('highlight') && prev.className === span.className){
+        while (span.firstChild) prev.appendChild(span.firstChild);
+        span.remove();
+        span = prev;
+      }
+      const next = span.nextSibling;
+      if (next && next.nodeType === 1 && next.classList.contains('highlight') && next.className === span.className){
+        while (next.firstChild) span.appendChild(next.firstChild);
+        next.remove();
+      }
+    }
+
+    function getTextNodesIntersectingRange(root, range){
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+        acceptNode: (node) => {
+          if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+          const parentEl = node.parentElement;
+          if (parentEl && parentEl.closest && parentEl.closest('script,style')) return NodeFilter.FILTER_REJECT;
+          if (parentEl && parentEl.closest && parentEl.closest('input,select,textarea,button')) return NodeFilter.FILTER_REJECT;
+          return rangeIntersectsNode(range, node) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+        }
+      });
+      const nodes = [];
+      let n;
+      while (n = walker.nextNode()) nodes.push(n);
+      return nodes;
+    }
+
+    function rangeIntersectsNode(range, node){
+      const nodeRange = document.createRange();
+      try { nodeRange.selectNodeContents(node); } catch { return false; }
+      return (
+        range.compareBoundaryPoints(Range.END_TO_START, nodeRange) < 0 &&
+        range.compareBoundaryPoints(Range.START_TO_END, nodeRange) > 0
+      );
+    }
+
+    function getOffsetsForTextNode(textNode, range){
+      let startOffset = 0;
+      let endOffset = textNode.nodeValue.length;
+
+      if (range.startContainer === textNode) startOffset = range.startOffset;
+      else {
+        const r = document.createRange(); r.selectNodeContents(textNode);
+        if (range.compareBoundaryPoints(Range.START_TO_END, r) >= 0) startOffset = endOffset;
+      }
+
+      if (range.endContainer === textNode) endOffset = range.endOffset;
+      else {
+        const r = document.createRange(); r.selectNodeContents(textNode);
+        if (range.compareBoundaryPoints(Range.END_TO_START, r) <= 0) endOffset = startOffset;
+      }
+
+      startOffset = Math.max(0, Math.min(startOffset, textNode.nodeValue.length));
+      endOffset = Math.max(0, Math.min(endOffset, textNode.nodeValue.length));
+      if (endOffset < startOffset) endOffset = startOffset;
+
+      return { startOffset, endOffset };
+    }
+
+    function splitTextNode(textNode, startOffset, endOffset){
+      let node = textNode;
+      if (endOffset < node.nodeValue.length) node.splitText(endOffset);
+      if (startOffset > 0) node = node.splitText(startOffset);
+      return node;
+    }
+
+    /******************************************************************
+     * SUBMISSION & SCORING
+     ******************************************************************/
+    function getAllAnswers(){
+      const answers = {};
+      
+      for (let i = 1; i <= 13; i++){
+        if (i >= 1 && i <= 6) {
+          const selected = document.querySelector(`input[name="q${i}"]:checked`);
+          answers[i] = selected ? selected.value : '';
+        } else {
+          const input = document.querySelector(`input[name="q${i}"]`);
+          answers[i] = input ? input.value.trim().toLowerCase() : '';
+        }
+      }
+      
+      return answers;
+    }
+
+    function checkAnswer(questionNum, userAnswer){
+      const correctAnswer = ANSWER_KEY[questionNum];
+      if (!correctAnswer) return false;
+      
+      return userAnswer.toUpperCase().trim() === correctAnswer.toUpperCase().trim();
+    }
+
+    function submitAnswers(){
+      if (testSubmitted) return;
+      testSubmitted = true;
+
+      const answers = getAllAnswers();
+      let correct = 0;
+      const results = {};
+
+      for (let i = 1; i <= 13; i++){
+        const isCorrect = checkAnswer(i, answers[i]);
+        if (isCorrect) correct++;
+        results[i] = { answer: answers[i], isCorrect };
+      }
+
+      showResults(correct, results);
+    }
+
+    function showResults(correct, results){
+      const submissionModal = document.getElementById('submissionModal');
+      const scoreDisplay = document.getElementById('scoreDisplay');
+      const feedbackMessage = document.getElementById('feedbackMessage');
+      const detailedResults = document.getElementById('detailedResults');
+
+      const totalQuestions = 13;
+      scoreDisplay.textContent = `${correct} / ${totalQuestions}`;
+      const percentage = Math.round((correct / totalQuestions) * 100);
+      feedbackMessage.textContent = `You got ${percentage}% correct. Time elapsed: ${String(Math.floor(timeElapsed / 60)).padStart(2, '0')}:${String(timeElapsed % 60).padStart(2, '0')}`;
+
+      let resultsHTML = '';
+      for (let i = 1; i <= 13; i++){
+        const result = results[i];
+        const correctAnswer = ANSWER_KEY[i];
+        const isCorrect = result.isCorrect;
+        const icon = isCorrect ? '✓' : '✗';
+        const resultClass = isCorrect ? 'correct' : 'incorrect';
+        
+        resultsHTML += `<div class="result-item ${resultClass}">
+          <strong>Q${i}: ${icon}</strong>
+          <div class="detail"><strong>Your answer:</strong> ${result.answer || '(empty)'}</div>
+          <div class="detail"><strong>Correct answer:</strong> ${correctAnswer}</div>
+        </div>`;
+      }
+      detailedResults.innerHTML = resultsHTML;
+      submissionModal.style.display = 'flex';
+    }
+
+    document.getElementById('submitBtn').addEventListener('click', submitAnswers);
+    document.getElementById('closeResultsBtn').addEventListener('click', () => {
+      document.getElementById('submissionModal').style.display = 'none';
+    });
+
+    /******************************************************************
+     * DIVIDER RESIZING
+     ******************************************************************/
+    const divider = document.getElementById('divider');
+    const passagePanel = document.querySelector('.passage-container');
+    const testContainer = document.querySelector('.test-container');
+
+    let isResizing = false;
+
+    divider.addEventListener('mousedown', () => { isResizing = true; });
+    document.addEventListener('mouseup', () => { isResizing = false; });
+    document.addEventListener('mousemove', (e) => {
+      if (!isResizing) return;
+      const container = testContainer.getBoundingClientRect();
+      const newPassageWidth = e.clientX - container.left;
+      const minWidth = 250;
+      const maxWidth = container.width - 250;
+
+      if (newPassageWidth > minWidth && newPassageWidth < maxWidth){
+        passagePanel.style.width = newPassageWidth + 'px';
+      }
+    });
+
+    /******************************************************************
+     * CONTRAST AND TEXT SIZE TOGGLES
+     ******************************************************************/
+    document.getElementById('contrastToggle').addEventListener('click', () => {
+      document.body.classList.toggle('high-contrast');
+    });
+
+    document.getElementById('textSizeToggle').addEventListener('click', () => {
+      textSizeIndex = (textSizeIndex + 1) % textSizes.length;
+      document.getElementById('passageContent').style.fontSize = textSizes[textSizeIndex];
+      document.getElementById('questionsContent').style.fontSize = textSizes[textSizeIndex];
+    });
+  </script>
+</body>
+</html>

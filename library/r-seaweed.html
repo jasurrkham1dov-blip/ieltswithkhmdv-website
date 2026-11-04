@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading – Seaweed</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #e6f3fa;
+            --panel-bg: #e6f3fa;
+            --header-bg: #ffffff;
+            --card-bg: #ffffff;
+            --border: #cccccc;
+            --text: #333333;
+            --subtext: #555555;
+            --accent: #0066cc;
+            --accent-hover: #0055aa;
+            --timer-bg: #d0e7f5;
+            --input-bg: #d0e7f5;
+            --footer-bg: #f5f5f5;
+            --chip-bg: #f0f0f0;
+            --chip-border: #cccccc;
+            --chip-color: #555555;
+            --chip-attempted-bg: #0066cc;
+            --chip-attempted-color: #ffffff;
+            --chip-correct-bg: #28a745;
+            --chip-incorrect-bg: #dc3545;
+            --summary-input-bg: #d0e7f5;
+        }
+        body.dark-mode {
+            --bg: #1a1a2e;
+            --panel-bg: #1a1a2e;
+            --header-bg: #16213e;
+            --card-bg: #16213e;
+            --border: #444466;
+            --text: #e0e0e0;
+            --subtext: #aaaaaa;
+            --accent: #4da6ff;
+            --accent-hover: #3395ff;
+            --timer-bg: #0f3460;
+            --input-bg: #0f3460;
+            --footer-bg: #16213e;
+            --chip-bg: #0f3460;
+            --chip-border: #444466;
+            --chip-color: #cccccc;
+            --summary-input-bg: #0f3460;
+        }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0; padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            overflow: hidden;
+            background-color: var(--bg);
+            color: var(--text);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .test-wrapper { display: flex; flex-direction: column; height: 100vh; }
+        .test-container { display: flex; flex: 1; overflow: hidden; }
+
+        .header {
+            background-color: var(--header-bg);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .header__logo { display: flex; align-items: center; gap: 10px; }
+        .header__logo h4 { font-weight: bold; margin: 0; color: var(--text); font-size: 0.95rem; }
+        .tg-link {
+            display: inline-flex; align-items: center; gap: 6px;
+            text-decoration: none; color: var(--accent);
+            font-size: 0.85rem; font-weight: bold;
+            background: rgba(0,102,204,0.08);
+            border: 1px solid var(--accent);
+            border-radius: 20px; padding: 3px 10px;
+            transition: background 0.2s;
+        }
+        .tg-link:hover { background: rgba(0,102,204,0.18); }
+        .tg-link svg { width: 16px; height: 16px; }
+
+        .header__center { display: flex; align-items: center; gap: 8px; }
+        .header__timer {
+            font-size: 1.2rem; font-weight: bold; color: var(--text);
+            background-color: var(--timer-bg);
+            padding: 5px 15px; border-radius: 20px;
+            border: 1px solid var(--border);
+            min-width: 80px; text-align: center;
+        }
+        .header__timer.expired { color: #dc3545; border-color: #dc3545; background: #fde8ea; }
+        .timer-btn {
+            background: var(--chip-bg); border: 1px solid var(--border);
+            border-radius: 50%; width: 28px; height: 28px;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            color: var(--subtext);
+        }
+        .timer-btn:hover { background: var(--timer-bg); color: var(--accent); }
+        .header__icons { display: flex; gap: 15px; align-items: center; }
+        .header__icon { font-size: 1.2rem; color: var(--subtext); cursor: pointer; }
+        .header__icon:hover { color: var(--accent); }
+
+        .sectionRubric {
+            margin: 0.6em 1em;
+            padding: 0.5em 1em;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        .sectionRubric h2, .sectionRubric p { margin: 0; color: var(--text); }
+
+        .passage-container {
+            width: 45%; height: 100%; overflow-y: auto;
+            padding: 20px; background-color: var(--panel-bg);
+            position: relative;
+        }
+        .questions-container {
+            flex: 1; overflow-y: auto; padding: 20px;
+            background-color: var(--panel-bg);
+        }
+        .divider {
+            width: 10px; background: var(--border); cursor: col-resize; position: relative; flex-shrink: 0;
+        }
+        .divider-handle {
+            width: 4px; height: 40px; background: #888; border-radius: 2px;
+            position: absolute; top: 50%; left: 3px; transform: translateY(-50%);
+        }
+
+        #passageContent h2 { text-align: center; color: var(--text); border-bottom: 2px solid var(--accent); padding-bottom: 8px; }
+        #passageContent p { line-height: 1.7; color: var(--text); text-align: justify; }
+        #passageContent strong { color: var(--accent); }
+
+        /* Highlight Toolbar */
+        .highlight-toolbar {
+            position: fixed; background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: none; z-index: 1000; padding: 6px;
+            transform: translate(-50%, -100%); margin-top: -5px;
+        }
+        .highlight-toolbar button {
+            background: none; border: none; width: 28px; height: 28px;
+            cursor: pointer; margin: 0 2px; border-radius: 4px;
+        }
+        .highlight-toolbar button:hover { background: rgba(0,0,0,0.1); }
+        .highlight-color { width: 22px; height: 22px; border-radius: 50%; display: inline-block; border: 1px solid #999; }
+        .highlight-color.yellow { background-color: #ffff00; }
+        .highlight-color.green  { background-color: #00ff00; }
+        .highlight-color.pink   { background-color: #ff69b4; }
+        .highlight-color.blue   { background-color: #00bfff; }
+        .highlight { position: relative; border-radius: 3px; padding: 0 2px; margin: 0 -2px; }
+        .highlight.yellow { background-color: rgba(255,255,0,0.4); }
+        .highlight.green  { background-color: rgba(0,255,0,0.3); }
+        .highlight.pink   { background-color: rgba(255,105,180,0.3); }
+        .highlight.blue   { background-color: rgba(0,191,255,0.3); }
+
+        /* Questions */
+        .question {
+            margin-bottom: 30px; background: var(--card-bg);
+            padding: 20px; border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .question-rubric { margin-bottom: 18px; border-left: 4px solid var(--accent); padding-left: 15px; }
+        .question-rubric h3 { color: var(--accent); margin: 0 0 8px 0; }
+        .question-rubric p { color: var(--subtext); margin: 4px 0; font-size: 0.9rem; }
+        .question-number { font-weight: bold; color: var(--accent); margin-right: 10px; background: rgba(0,102,204,0.1); padding: 2px 8px; border-radius: 20px; font-size: 0.85rem; display: inline-block; }
+        .question-item { margin-bottom: 16px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+        .question-item p { margin: 0 0 10px 0; font-weight: 500; }
+
+        /* TRUE/FALSE/NOT GIVEN buttons */
+        .tf-option { display: inline-flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+        .tf-btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 8px 20px; border-radius: 40px;
+            background: var(--mc-option-bg, #f8f9fa); border: 1px solid var(--border);
+            cursor: pointer; transition: all 0.2s; font-weight: 500;
+            color: var(--text);
+        }
+        .tf-btn input { display: none; }
+        .tf-btn.selected { background: var(--accent); color: white; border-color: var(--accent); }
+        .tf-btn.correct-highlight { background: #28a745; color: white; border-color: #28a745; }
+        .tf-btn.incorrect-highlight { background: #dc3545; color: white; border-color: #dc3545; }
+
+        /* Summary inputs */
+        .summary-input {
+            width: 160px; padding: 8px 12px;
+            border: 2px dashed var(--border); border-radius: 8px;
+            margin: 0 6px; font-size: 14px;
+            background-color: var(--summary-input-bg); color: var(--text);
+        }
+        .summary-input:focus { outline: none; border-color: var(--accent); border-style: solid; }
+        .summary-input.correct { border-color: #28a745; background: #e9f7ef; border-style: solid; }
+        .summary-input.incorrect { border-color: #dc3545; background: #f8d7da; border-style: solid; }
+        .summary-feedback { margin-left: 8px; font-size: 13px; font-weight: bold; }
+        .summary-feedback.correct { color: #28a745; }
+        .summary-feedback.incorrect { color: #dc3545; }
+
+        /* Floating Nav */
+        .floating-nav {
+            position: fixed; right: 16px; bottom: 70px;
+            display: flex; flex-direction: column; gap: 8px; z-index: 900;
+        }
+        .floating-nav button {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: var(--accent); color: white; border: none;
+            cursor: pointer; font-size: 1.2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+            transition: transform 0.2s;
+        }
+        .floating-nav button:hover { background: var(--accent-hover); transform: scale(1.05); }
+
+        /* Footer Chips */
+        .footer { background: var(--footer-bg); border-top: 1px solid var(--border); padding: 8px 12px; flex-shrink: 0; }
+        .nav-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px; }
+        .footer__subquestionWrapper { display: flex; flex-wrap: wrap; gap: 6px; }
+        .subQuestion {
+            width: 36px; height: 36px; border-radius: 50%;
+            border: 1px solid var(--chip-border);
+            background: var(--chip-bg); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--chip-color); font-size: 14px; font-weight: bold;
+            transition: all 0.2s;
+        }
+        .subQuestion:hover { background: var(--accent); color: white; transform: scale(1.05); }
+        .subQuestion.attempted { background: var(--chip-attempted-bg); color: white; }
+        .subQuestion.correct { background: var(--chip-correct-bg)!important; color: white!important; }
+        .subQuestion.incorrect { background: var(--chip-incorrect-bg)!important; color: white!important; }
+
+        .footer__deliverButton {
+            background: var(--accent); color: white; border: none;
+            padding: 10px 24px; border-radius: 40px; cursor: pointer;
+            font-weight: bold; transition: all 0.2s;
+        }
+        .footer__deliverButton:hover { background: var(--accent-hover); transform: scale(1.02); }
+
+        /* Modal */
+        .submission-modal {
+            display: none; position: fixed; inset: 0;
+            background-color: rgba(0,0,0,0.85);
+            z-index: 2000; justify-content: center; align-items: center;
+        }
+        .submission-content {
+            background-color: var(--card-bg); width: 90%; max-width: 850px;
+            border-radius: 20px; padding: 28px 32px;
+            max-height: 88vh; overflow-y: auto;
+        }
+        .score-number { font-size: 3.5rem; font-weight: bold; color: var(--accent); }
+        .answer-item {
+            padding: 12px; margin-bottom: 8px; border-radius: 8px;
+            border-left: 4px solid var(--border);
+            background: var(--panel-bg); display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+        }
+        .answer-item.correct { border-left-color: #28a745; background: rgba(40,167,69,0.05); }
+        .answer-item.incorrect { border-left-color: #dc3545; background: rgba(220,53,69,0.05); }
+        .status-icon.ok { color: #28a745; font-weight: bold; }
+        .status-icon.bad { color: #dc3545; font-weight: bold; }
+        .submission-buttons .confirm { background: var(--accent); color: white; border: none; padding: 10px 24px; border-radius: 40px; cursor: pointer; }
+    </style>
+</head>
+<body>
+<div class="test-wrapper">
+    <header class="header">
+        <div class="header__logo"><h4>REAL EXAM PASSAGE</h4><a class="tg-link" href="https://t.me/ieltswithkhmdv" target="_blank"><svg viewBox="0 0 24 24" fill="var(--accent)" width="16" height="16"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.19 13.737l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.958.822z"/></svg>@ieltswithkhmdv</a></div>
+        <div class="header__center"><button class="timer-btn" id="pauseBtn"><i class="fas fa-pause"></i></button><div class="header__timer" id="testTimer">20:00</div><button class="timer-btn" id="resetBtn"><i class="fas fa-redo"></i></button></div>
+        <div class="header__icons"><i class="fas fa-moon header__icon" id="darkModeToggle"></i><i class="fas fa-cog header__icon"></i></div>
+    </header>
+    <div class="sectionRubric"><h2>Passage 1</h2><p>Read the text and answer questions 1–13.</p></div>
+    <div class="test-container">
+        <div class="passage-container" id="passage-container">
+            <div class="highlight-toolbar" id="highlightToolbar">
+                <button class="highlight-color yellow" data-color="yellow"></button>
+                <button class="highlight-color green" data-color="green"></button>
+                <button class="highlight-color pink" data-color="pink"></button>
+                <button class="highlight-color blue" data-color="blue"></button>
+                <button class="remove"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="passageContent">
+                <h2>Seaweed</h2>
+                <p>Seaweed, a common plant that grows in the sea, has been an important food, fuel, and fertilizer since prehistoric times. For example, it has supplemented the diet of sheep in the Orkneys, islands off the coast of Scotland, since Neolithic times, roughly 5000 years ago. In the early part of the 8th century in Japan, seaweed was already such a key part of people's regular diet that legislation was introduced giving people the right to pay their taxes to the Emperor in the form of seaweed.</p>
+                <p>The oldest evidence of seaweed use was found in South America, dating from 12,500 years ago. The remains of red seaweed mixed with a medicinal herb were discovered on the floor of a medicine hut at Monte Verde, Chile, one of the oldest human habitation sites in the Americas. The Monte Verde findings led to a re-evaluation of the importance of plants to the communities of that region. It was previously believed that their diet was predominantly meat-based, and therefore reliant on the hunting skills of men. However, these findings suggest that women, known to be responsible for the gathering of plants such as seaweed, also played an important part in the provision of food.</p>
+                <p>The first recorded commercial use of seaweed in Europe was in the 17th century in France and Norway. Coastal populations, mainly farmers, gathered and burnt seaweed to produce potash, a substance which is used in the production of glass and soap. In 1800, Norway exported 1500 tonnes of potash.</p>
+                <p>Simple seaweed cultivation techniques were first developed in Japan in the mid-17th century and became increasingly popular over the next three centuries. In 1948, however, a series of typhoons combined with increased pollution in coastal waters led to a total collapse in Japanese production of nori, the type of seaweed used to make sushi. And because almost nothing was known about its life cycle, no one could figure out how to grow new plants from scratch to repopulate the depleted seaweed beds. The country's nori industry ground to a halt, and many farmers lost their livelihoods. It was a British scientist, Dr Kathleen Drew-Baker, who was credited with saving Japan's seaweed farming industry. Based at Manchester University in the 1940s, she was studying a seaweed called laver, which is the Welsh equivalent of nori. In 1949, she published a paper outlining her discovery that certain tiny algae were actually baby seaweed, rather than an entirely separate species, as had previously been thought. After reading her research, Japanese scientists quickly developed methods for seeding these tiny algae artificially so that new plants could be grown. This made the mass production of nori possible. Although hardly anyone has heard of Dr Drew-Baker in the UK, she is known as the "Mother of the Sea" in Japan, and a statue of her can be found in the Japanese city of Osaka.</p>
+                <p>In the United States, Professor Charles Yarish of the University of Connecticut should probably be called the "Father of the Sea" for his work on kelp, a large brown seaweed. The renowned scientist, who has been studying the biology of seaweed since the early 1970s, recently turned his attention to the development of revolutionary techniques for the harvesting of this species. Yarish has helped make it an economically viable crop for the New England fishermen whose livelihoods were threatened by a combination of overfishing, pollution, and warming waters.</p>
+                <p>As the world population grows and the climate changes, there is increased interest from businesses and development organizations in the use of seaweed for food and energy. Seaweed, which can grow rapidly and efficiently, provides plant-based proteins, and could also be used as a source of biofuels to replace fossil fuels. Its ability to absorb a number of environmentally unfriendly chemicals discharged by farms, factories and wastewater treatment plants also makes it valuable as a means of reducing pollution. Seaweed cultivation in Asia has grown from the late 1950s into an industry offering sustainable employment in developing and emerging economies in many countries, notably Indonesia and China. However, seaweed farming is not very well developed in Europe and the industry still relies on the harvesting, either manually or mechanically, of wild seaweed. The main constraints on the development of seaweed farming in Europe have been the lack of markets and the relative expense of European production compared to Asian production.</p>
+                <p>A 2016 report from the World Bank estimates that annual global seaweed production could reach 500 million dry tons by 2050 if the industry is able to increase its harvest by 14% per year. Hitting that 500 million mark would boost the world's food supply by 10% from the current level, generating 50 million jobs in the process. As a biofuel for vehicles, it could also replace about 1.5% of the fossil fuels used today.</p>
+            </div>
+        </div>
+        <div class="divider" id="divider"><div class="divider-handle"></div></div>
+        <div class="questions-container" id="questions-container">
+            <!-- Q1-5 TRUE/FALSE/NOT GIVEN -->
+            <div class="question">
+                <div class="question-rubric"><h3>Questions 1–5</h3><p>Choose TRUE, FALSE, or NOT GIVEN.</p></div>
+                <div class="question-content" id="tf-section"></div>
+            </div>
+
+            <!-- Q6-13 Table Completion -->
+            <div class="question">
+                <div class="question-rubric"><h3>Questions 6–13</h3><p>Complete the table. Write <strong>ONE WORD ONLY</strong> from the passage.</p></div>
+                <div class="question-content">
+                    <div class="question-item"><p><span class="question-number">6</span> Japanese seaweed industry was destroyed by <input type="text" class="summary-input" id="q6" placeholder="Answer"> and increased pollution</p></div>
+                    <div class="question-item"><p><span class="question-number">7</span> recovered as a result of Drew-Baker's research into <input type="text" class="summary-input" id="q7" placeholder="Answer">, a seaweed species similar to nori</p></div>
+                    <div class="question-item"><p><span class="question-number">8</span> new methods have resulted in the type of seaweed called <input type="text" class="summary-input" id="q8" placeholder="Answer"> becoming a successful crop</p></div>
+                    <div class="question-item"><p><span class="question-number">9</span> has provided an alternative source of income for <input type="text" class="summary-input" id="q9" placeholder="Answer"></p></div>
+                    <div class="question-item"><p><span class="question-number">10</span> may be used to minimise the harmful effects of various <input type="text" class="summary-input" id="q10" placeholder="Answer"> produced by different industries</p></div>
+                    <div class="question-item"><p><span class="question-number">11</span> the cost of production and shortage of <input type="text" class="summary-input" id="q11" placeholder="Answer"> preventing growth of the industry in Europe</p></div>
+                    <div class="question-item"><p><span class="question-number">12</span> could create very large numbers of new <input type="text" class="summary-input" id="q12" placeholder="Answer"></p></div>
+                    <div class="question-item"><p><span class="question-number">13</span> could be used instead of oil to power a small percentage of <input type="text" class="summary-input" id="q13" placeholder="Answer"></p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="floating-nav"><button id="scrollUpBtn"><i class="fas fa-chevron-up"></i></button><button id="scrollDownBtn"><i class="fas fa-chevron-down"></i></button></div>
+    <footer class="footer"><nav class="nav-row"><div class="footer__subquestionWrapper" id="chipContainer"></div><button id="deliver-button" class="footer__deliverButton"><i class="fas fa-check"></i> Submit</button></nav></footer>
+</div>
+<div class="submission-modal" id="submissionModal"><div class="submission-content"><h2>Test Results</h2><div class="score-display"><div>Your Score</div><div class="score-number" id="userScore">0</div><div class="score-total">out of 13</div><div class="band-score" id="bandScore">Band: –</div><div class="performance-rating" id="performanceRating"></div></div><div class="time-spent" id="timeSpent"></div><div class="answers-section"><h3>Answer Breakdown</h3><div id="answersList"></div></div><div class="submission-buttons"><button class="confirm" id="closeSubmission">Close &amp; Review</button></div></div></div>
+
+<script>
+// ANSWER KEY
+const ANSWERS = {
+    1: "TRUE", 2: "FALSE", 3: "TRUE", 4: "NOT GIVEN", 5: "TRUE",
+    6: ["typhoons"], 7: ["laver"], 8: ["kelp"], 9: ["fishermen"], 10: ["chemicals"],
+    11: ["markets"], 12: ["jobs"], 13: ["vehicles"]
+};
+function normalise(s){ return s.trim().toLowerCase().replace(/\s+/g,' '); }
+function checkText(user, arr){ let u=normalise(user); return arr.some(a=>normalise(a)===u); }
+
+// Build TRUE/FALSE/NOT GIVEN UI
+const tfStatements = [
+    "Seaweed has been used to feed animals on some Scottish islands for thousands of years.",
+    "In the 8th century in Japan, eating seaweed was reserved for special occasions.",
+    "The findings at Monte Verde revealed new information about the significance of women's roles in prehistoric times.",
+    "Potash was Norway's largest export in the 1800s.",
+    "Dr Kathleen Drew-Baker is more famous in Japan than she is in the UK."
+];
+const tfContainer = document.getElementById('tf-section');
+const tfValues = {};
+for(let i=0; i<tfStatements.length; i++){
+    let qNum = 1+i;
+    let div = document.createElement('div'); div.className = 'question-item';
+    div.innerHTML = `<p><span class="question-number">${qNum}</span> ${tfStatements[i]}</p><div class="tf-option" id="tf-group-${qNum}"></div>`;
+    tfContainer.appendChild(div);
+    let group = div.querySelector(`.tf-option`);
+    ["TRUE","FALSE","NOT GIVEN"].forEach(opt => {
+        let btn = document.createElement('div'); btn.className = 'tf-btn'; btn.setAttribute('data-val', opt);
+        btn.innerHTML = `<input type="radio" name="tf_${qNum}" value="${opt}"><span>${opt}</span>`;
+        btn.onclick = (e) => {
+            let radio = btn.querySelector('input');
+            radio.checked = true;
+            document.querySelectorAll(`#tf-group-${qNum} .tf-btn`).forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            tfValues[qNum] = opt;
+            let chip = chipFor(qNum); if(chip && !chip.classList.contains('correct')&&!chip.classList.contains('incorrect')) chip.classList.add('attempted');
+        };
+        group.appendChild(btn);
+    });
+}
+
+// Chips 1-13
+const chipContainer = document.getElementById('chipContainer');
+function chipFor(n){ return document.querySelector(`.subQuestion[data-num="${n}"]`); }
+for(let i=1;i<=13;i++){
+    let btn = document.createElement('button'); btn.className = 'subQuestion'; btn.setAttribute('data-num', i); btn.textContent = i;
+    btn.onclick = () => { let idx = i<=5 ? 0 : 1; document.querySelectorAll('.question')[idx]?.scrollIntoView({behavior:'smooth',block:'start'}); };
+    chipContainer.appendChild(btn);
+}
+for(let i=1;i<=5;i++){ window[`updateChip${i}`]=()=>{ let chip=chipFor(i); if(chip&&!chip.classList.contains('correct')&&!chip.classList.contains('incorrect')) chip.classList.toggle('attempted',!!tfValues[i]); }; }
+for(let i=6;i<=13;i++){ document.getElementById(`q${i}`).addEventListener('input',function(){ let chip=chipFor(i); if(chip&&!chip.classList.contains('correct')&&!chip.classList.contains('incorrect')) chip.classList.toggle('attempted',this.value.trim()!==''); }); }
+
+// Timer, Dark, Divider, Highlight (working)
+let totalSeconds=20*60, timerRunning=true, testSubmitted=false;
+const timerEl=document.getElementById('testTimer'), pauseBtn=document.getElementById('pauseBtn'), resetBtn=document.getElementById('resetBtn');
+function fmtTime(s){let m=Math.floor(s/60),sec=s%60; return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;}
+function updateTimer(){if(!timerRunning||testSubmitted) return; if(totalSeconds<=0){timerEl.textContent='00:00';timerEl.classList.add('expired');timerRunning=false;return;}totalSeconds--;timerEl.textContent=fmtTime(totalSeconds);}
+let timerInterval=setInterval(updateTimer,1000);
+pauseBtn.onclick=()=>{if(!testSubmitted){timerRunning=!timerRunning;pauseBtn.innerHTML=timerRunning?'<i class="fas fa-pause"></i>':'<i class="fas fa-play"></i>';}};
+resetBtn.onclick=()=>{if(!testSubmitted){totalSeconds=20*60;timerEl.textContent=fmtTime(totalSeconds);timerEl.classList.remove('expired');timerRunning=true;pauseBtn.innerHTML='<i class="fas fa-pause"></i>';}};
+const darkToggle=document.getElementById('darkModeToggle');
+if(localStorage.getItem('ielts-dark')==='1'){document.body.classList.add('dark-mode');darkToggle.classList.replace('fa-moon','fa-sun');}
+darkToggle.onclick=()=>{const dark=document.body.classList.toggle('dark-mode');darkToggle.classList.toggle('fa-moon',!dark);darkToggle.classList.toggle('fa-sun',dark);localStorage.setItem('ielts-dark',dark?'1':'0');};
+const divider=document.getElementById('divider'),passageContainer=document.getElementById('passage-container');
+let isDragging=false,startX,startPW;
+divider.addEventListener('mousedown',e=>{isDragging=true;startX=e.clientX;startPW=parseInt(getComputedStyle(passageContainer).width,10);document.body.style.cursor='col-resize';document.addEventListener('mousemove',onMove);document.addEventListener('mouseup',onUp);e.preventDefault();});
+function onMove(e){if(!isDragging)return;const cw=document.querySelector('.test-container').offsetWidth;let nw=startPW+e.clientX-startX;if(nw>=cw*0.25&&nw<=cw*0.75)passageContainer.style.width=nw+'px';}
+function onUp(){isDragging=false;document.body.style.cursor='';document.removeEventListener('mousemove',onMove);document.removeEventListener('mouseup',onUp);}
+document.getElementById('scrollUpBtn').onclick=()=>document.getElementById('questions-container').scrollBy({top:-300,behavior:'smooth'});
+document.getElementById('scrollDownBtn').onclick=()=>document.getElementById('questions-container').scrollBy({top:300,behavior:'smooth'});
+
+// HIGHLIGHT TOOLBAR - FULLY WORKING
+const highlightToolbar = document.getElementById('highlightToolbar');
+let selectedRange = null;
+function isInPassage(sel) { if (!sel.rangeCount) return false; return document.getElementById('passageContent').contains(sel.getRangeAt(0).commonAncestorContainer); }
+function handleSelection() { const sel = window.getSelection(); if (sel.toString().trim() && isInPassage(sel)) { selectedRange = sel.getRangeAt(0); const rect = selectedRange.getBoundingClientRect(); highlightToolbar.style.display = 'block'; highlightToolbar.style.top = `${rect.top + window.scrollY - 45}px`; highlightToolbar.style.left = `${rect.left + window.scrollX + rect.width/2}px`; } else { highlightToolbar.style.display = 'none'; } }
+document.addEventListener('mouseup', handleSelection);
+document.addEventListener('mousedown', e => { if (!highlightToolbar.contains(e.target)) highlightToolbar.style.display = 'none'; });
+document.querySelectorAll('.highlight-color').forEach(btn => { btn.addEventListener('click', () => { if (selectedRange) { try { let span = document.createElement('span'); span.className = `highlight ${btn.dataset.color}`; selectedRange.surroundContents(span); } catch(e) {} window.getSelection().removeAllRanges(); highlightToolbar.style.display = 'none'; } }); });
+document.querySelector('.highlight-toolbar .remove').addEventListener('click', () => { if (selectedRange) { const r = selectedRange; const frag = r.extractContents(); const dest = document.createDocumentFragment(); const flatten = (src, dest) => { src.childNodes.forEach(node => { if (node.nodeType === Node.TEXT_NODE) dest.appendChild(document.createTextNode(node.nodeValue)); else if (node.nodeType === Node.ELEMENT_NODE && node.classList.contains('highlight')) flatten(node, dest); else { const clone = node.cloneNode(false); flatten(node, clone); dest.appendChild(clone); } }); }; flatten(frag, dest); r.insertNode(dest); window.getSelection().removeAllRanges(); } highlightToolbar.style.display = 'none'; });
+
+// Submit
+const startTime=new Date(); let resultsShown=false;
+document.getElementById('deliver-button').addEventListener('click',()=>{if(resultsShown){document.getElementById('submissionModal').style.display='flex';return;}if(testSubmitted)return;if(!confirm('Submit test?'))return;clearInterval(timerInterval);timerRunning=false;testSubmitted=true;document.querySelectorAll('input, select').forEach(el=>el.disabled=true);document.getElementById('deliver-button').innerHTML='<i class="fas fa-eye"></i> Show Results';showResults();});
+document.getElementById('closeSubmission').addEventListener('click',()=>{document.getElementById('submissionModal').style.display='none';applyChipColors();applyInlineHighlights();});
+function showResults(){
+    let list=document.getElementById('answersList'); list.innerHTML=''; let score=0;
+    for(let i=1;i<=5;i++){ let user=tfValues[i]||''; let ok=user===ANSWERS[i]; if(ok)score++; let div=document.createElement('div');div.className=`answer-item ${user===''?'':ok?'correct':'incorrect'}`;div.innerHTML=`<span class="q-label">Q${i}</span><span class="user-ans">${user||'—'}</span>${ok?`<span class="correct-ans">✓ ${ANSWERS[i]}</span>`:`<span class="wrong-ans">✗ ${ANSWERS[i]}</span>`}<span class="status-icon ${ok?'ok':'bad'}">${ok?'✓':'✗'}</span>`;list.appendChild(div);}
+    for(let i=6;i<=13;i++){ let user=document.getElementById(`q${i}`).value; let ok=checkText(user,ANSWERS[i]); if(ok)score++; let div=document.createElement('div');div.className=`answer-item ${user.trim()===''?'':ok?'correct':'incorrect'}`;div.innerHTML=`<span class="q-label">Q${i}</span><span class="user-ans">${user.trim()||'—'}</span>${ok?`<span class="correct-ans">✓ ${ANSWERS[i][0]}</span>`:`<span class="wrong-ans">✗ ${ANSWERS[i][0]}</span>`}<span class="status-icon ${ok?'ok':'bad'}">${ok?'✓':'✗'}</span>`;list.appendChild(div);}
+    document.getElementById('userScore').textContent=score;
+    let band= (score/13)>=0.9?9.0:(score/13)>=0.8?8.0:(score/13)>=0.7?7.0:(score/13)>=0.6?6.0:5.0;
+    document.getElementById('bandScore').textContent=`Band: ${band.toFixed(1)}`;
+    let ratingText=score>=12?'Excellent!':score>=10?'Very Good':score>=8?'Good':'Fair';
+    document.getElementById('performanceRating').textContent=ratingText;
+    let elapsed=Math.round((new Date()-startTime)/1000); let em=Math.floor(elapsed/60), es=elapsed%60;
+    document.getElementById('timeSpent').textContent=`Time spent: ${em}m ${es}s`;
+    document.getElementById('submissionModal').style.display='flex'; resultsShown=true;
+}
+function applyChipColors(){
+    for(let i=1;i<=5;i++){ let val=tfValues[i]; let ok=val===ANSWERS[i]; let chip=chipFor(i); if(chip){chip.classList.remove('attempted'); if(val)chip.classList.add(ok?'correct':'incorrect');}}
+    for(let i=6;i<=13;i++){ let inp=document.getElementById(`q${i}`); let ok=checkText(inp.value,ANSWERS[i]); let chip=chipFor(i); if(chip){chip.classList.remove('attempted'); if(inp.value.trim()!=='')chip.classList.add(ok?'correct':'incorrect');}}
+}
+function applyInlineHighlights(){
+    for(let i=1;i<=5;i++){ let group=document.getElementById(`tf-group-${i}`); if(!group)continue; let selected=group.querySelector('.tf-btn.selected'); if(selected){ let val=selected.getAttribute('data-val'); let ok=val===ANSWERS[i]; selected.classList.add(ok?'correct-highlight':'incorrect-highlight'); let fb=document.createElement('span');fb.className=`dropdown-feedback ${ok?'correct':'incorrect'}`;fb.textContent=ok?'✓':`✗ ${ANSWERS[i]}`;group.parentNode.appendChild(fb);}}
+    for(let i=6;i<=13;i++){ let inp=document.getElementById(`q${i}`); if(inp.value.trim()==='')continue; let ok=checkText(inp.value,ANSWERS[i]); inp.classList.add(ok?'correct':'incorrect'); if(!inp.nextElementSibling?.classList.contains('summary-feedback')){let fb=document.createElement('span');fb.className=`summary-feedback ${ok?'correct':'incorrect'}`;fb.textContent=ok?'✓':`✗ ${ANSWERS[i][0]}`;inp.insertAdjacentElement('afterend',fb);}}
+}
+</script>
+</body>
+</html>

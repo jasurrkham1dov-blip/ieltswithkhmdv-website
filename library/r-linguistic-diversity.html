@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading – Linguistic Diversity</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background-color: #ffffff; line-height: 1.4; font-size: 16px; }
+        .header { background-color: #ffffff; padding: 12px 20px; border-bottom: 1px solid #e0e0e0; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 60px; }
+        .telegram-link { color: #0088cc; text-decoration: none; font-weight: 700; font-size: 16px; display: flex; align-items: center; gap: 8px; padding: 6px 12px; border: 2px solid #3e3e3e; border-radius: 9999px; background-color: #ffffff; line-height: 1; }
+        .telegram-link:hover { text-decoration: underline; }
+        .telegram-link::before { content: ''; display: inline-block; width: 20px; height: 20px; background-color: currentColor; -webkit-mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.78 18.65l.28-4.23l7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3L3.64 12c-.88-.25-.89-1.37.2-1.64l16.56-6.4c.75-.29 1.4.22 1.2.94l-2.67 12.61c-.22.95-1.13 1.18-1.78.73l-4.5-3.32l-2.23 2.15c-.47.44-1.29.21-1.48-.37z"/></svg>'); mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.78 18.65l.28-4.23l7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3L3.64 12c-.88-.25-.89-1.37.2-1.64l16.56-6.4c.75-.29 1.4.22 1.2.94l-2.67 12.61c-.22.95-1.13 1.18-1.78.73l-4.5-3.32l-2.23 2.15c-.47.44-1.29.21-1.48-.37z"/></svg>'); background-size: contain; background-repeat: no-repeat; }
+        .dark-mode-toggle { background: none; border: 2px solid #3e3e3e; border-radius: 9999px; padding: 6px 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; margin-left: 10px; transition: all 0.3s ease; background-color: #ffffff; }
+        .dark-mode-toggle:hover { background-color: #f0f0f0; }
+        .dark-mode-toggle svg { width: 20px; height: 20px; }
+        body.dark-mode { background-color: #1a1a1a; color: #e0e0e0; }
+        body.dark-mode .header { background-color: #2d2d2d; border-bottom-color: #404040; }
+        body.dark-mode .dark-mode-toggle { background-color: #2d2d2d; border-color: #4a90e2; }
+        body.dark-mode .sun-icon { display: none; }
+        body.dark-mode .moon-icon { display: block !important; }
+        body:not(.dark-mode) .sun-icon { display: block; }
+        body:not(.dark-mode) .moon-icon { display: none; }
+        body.dark-mode .telegram-link { background-color: #2d2d2d; border-color: #4a90e2; color: #4db8f5; }
+        body.dark-mode .timer-container { color: #e0e0e0; }
+        body.dark-mode .timer-controls button { background-color: #404040; border-color: #555; }
+        body.dark-mode .timer-controls button svg { fill: #e0e0e0; }
+        body.dark-mode .main-container { background-color: #1a1a1a; }
+        body.dark-mode .part-header { background-color: #2d2d2d; border-color: #404040; color: #e0e0e0; }
+        body.dark-mode .questions-panel { border-left-color: #404040; background-color: #1a1a1a; }
+        body.dark-mode .passage-panel { background-color: #1a1a1a; color: #e0e0e0; }
+        body.dark-mode .reading-passage h4, body.dark-mode .reading-passage p { color: #d0d0d0; }
+        body.dark-mode .tf-option { background-color: #2d2d2d; color: #e0e0e0; border: 1px solid #404040; }
+        body.dark-mode .tf-option:hover { background-color: #404040; }
+        body.dark-mode .mcq-option { background-color: #2d2d2d; color: #e0e0e0; border: 1px solid #404040; }
+        body.dark-mode .mcq-option:hover { background-color: #404040; }
+        body.dark-mode .word-bank-box { background-color: #2a2a2a; border-color: #555; color: #d0d0d0; }
+        body.dark-mode .summary-box { background-color: #2a2a2a; border-color: #555; color: #d0d0d0; }
+        body.dark-mode .text-input { background-color: #2d2d2d; border-color: #555; color: #e0e0e0; }
+        body.dark-mode .resizer { background-color: #2d2d2d; }
+        body.dark-mode .nav-row { background-color: #2d2d2d; border-top: 1px solid #404040; }
+        body.dark-mode .subQuestion { background-color: #2d2d2d; border-color: #404040; color: #e0e0e0; }
+        body.dark-mode .subQuestion:hover { background-color: #404040; }
+        body.dark-mode .subQuestion.active { background-color: #4a90e2; color: white; }
+        body.dark-mode .subQuestion.answered { background-color: #404040; }
+        body.dark-mode .footer__deliverButton___3FM07 { background-color: #2d2d2d; border-color: #404040; color: #e0e0e0; }
+        body.dark-mode .attemptedCount { color: #999; }
+        body.dark-mode .footer__questionNo___3WNct { color: #e0e0e0; }
+        .highlight { background-color: #ffff00 !important; padding: 2px; border-radius: 2px; }
+        .main-container { margin-top: 60px; display: flex; flex-direction: column; background: #ffffff; height: calc(100vh - 60px); }
+        .panels-container { display: flex; flex: 1; overflow: hidden; }
+        .passage-panel { flex: 1; padding: 20px 20px 100px; overflow-y: auto; min-width: 200px; }
+        .questions-panel { flex: 1; padding: 20px 20px 100px; overflow-y: auto; min-width: 200px; border-left: 1px solid #e0e0e0; }
+        .resizer { width: 10px; cursor: col-resize; background-color: #f0f0f0; background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="30" viewBox="0 0 10 30"><path d="M4 11h2v2H4zM4 15h2v2H4zM4 19h2v2H4z" fill="%23888"/></svg>'); background-repeat: no-repeat; background-position: center; flex-shrink: 0; }
+        .reading-passage h4 { font-size: 20px; font-weight: bold; margin-bottom: 16px; text-align: center; }
+        .reading-passage p { margin-bottom: 1.2em; }
+        .part-header { background-color: #f1f2ec; padding: 15px 20px; border: 1px solid #e0e0e0; margin: 10px 20px; border-radius: 5px; }
+        .part-header p { margin: 0; }
+        .part-header p:first-child { margin-bottom: 5px; }
+        .question { margin-bottom: 40px; }
+        .question p { margin-bottom: 10px; }
+        .question-prompt { margin-bottom: 20px; }
+        /* YES/NO/NOT GIVEN */
+        .tf-question { margin-bottom: 24px; }
+        .tf-question-line { display: flex; align-items: flex-start; margin-bottom: 10px; }
+        .tf-question-number { border: 2px solid #ccc; padding: 2px 8px; margin-right: 10px; border-radius: 3px; font-weight: bold; display: inline-block; flex-shrink: 0; margin-top: 2px; }
+        .tf-question-text { line-height: 1.5; }
+        .tf-options { padding-left: 5px; display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+        .tf-option { display: flex; align-items: center; padding: 8px 14px; background-color: #fff; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; transition: background-color 0.2s; font-size: 15px; }
+        .tf-option:hover { background-color: #f1f7ff; border-color: #c6dcfb; }
+        .tf-option:has(input:checked) { background-color: #cfe3f9; border-color: #7db3f5; }
+        .tf-option.correct { background-color: #d4edda !important; border-color: #28a745 !important; }
+        .tf-option.incorrect { background-color: #f8d7da !important; border-color: #dc3545 !important; }
+        .tf-option.correct-answer-highlight { background-color: #d4edda !important; border-color: #28a745 !important; }
+        .tf-option input[type="radio"] { margin-right: 8px; transform: scale(1.2); accent-color: #4a90e2; }
+        /* Word bank summary */
+        .word-bank-box { background: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 6px; padding: 14px 16px; margin-bottom: 14px; font-size: 14px; line-height: 1.8; }
+        .word-bank-box span { margin-right: 12px; }
+        .summary-box { background: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 6px; padding: 16px; font-size: 15px; line-height: 2.8; }
+        .text-input { border: 1px solid #bfbfbf; border-radius: 4px; background-color: #fff; padding: 2px 6px; font-size: 15px; font-weight: 700; height: 32px; width: 56px; cursor: text; vertical-align: middle; margin: 0 3px; text-align: center; }
+        .text-input:focus { border-color: #3581d8; border-width: 2px; outline: none; }
+        .text-input.correct { border-color: #28a745; background-color: #e9f7ef; }
+        .text-input.incorrect { border-color: #dc3545; background-color: #f8d7da; }
+        .q-label { border: 2px solid #ccc; padding: 1px 7px; border-radius: 3px; font-weight: bold; display: inline-block; margin-right: 3px; font-size: 14px; }
+        /* MCQ */
+        .mcq-block { margin-bottom: 24px; }
+        .mcq-question-line { display: flex; align-items: flex-start; margin-bottom: 10px; }
+        .mcq-q-number { border: 2px solid #ccc; padding: 2px 8px; margin-right: 10px; border-radius: 3px; font-weight: bold; display: inline-block; flex-shrink: 0; margin-top: 2px; }
+        .mcq-option { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; border-radius: 6px; border: 1px solid #ddd; margin-bottom: 8px; cursor: pointer; transition: background-color 0.2s; font-size: 15px; line-height: 1.5; background-color: #fff; }
+        .mcq-option:hover { background-color: #f1f7ff; border-color: #c6dcfb; }
+        .mcq-option:has(input:checked) { background-color: #cfe3f9; border-color: #7db3f5; }
+        .mcq-option.correct { background-color: #d4edda !important; border-color: #28a745 !important; }
+        .mcq-option.incorrect { background-color: #f8d7da !important; border-color: #dc3545 !important; }
+        .mcq-option.correct-answer-highlight { background-color: #d4edda !important; border-color: #28a745 !important; }
+        .mcq-option input[type="radio"] { margin-top: 3px; transform: scale(1.2); accent-color: #4a90e2; flex-shrink: 0; }
+        /* Timer */
+        .timer-container { display: flex; color: #333; font-size: 16px; font-weight: 500; align-items: center; }
+        .timer-controls { display: flex; align-items: center; gap: 8px; margin-left: 15px; }
+        .timer-controls button { background: #f0f0f0; border: 1px solid #ccc; border-radius: 50%; padding: 0; cursor: pointer; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; }
+        .timer-controls button:hover { background: #e0e0e0; }
+        .timer-controls button svg { width: 20px; height: 20px; fill: #333; }
+        .nav-row { position: fixed; bottom: 0; left: 0; right: 0; background: #ffffff; display: flex; align-items: center; height: 80px; z-index: 100; border-top: 1px solid #e0e0e0; }
+        .footer__questionWrapper___1tZ46 { display: flex; align-items: center; margin-right: 20px; }
+        .footer__questionNo___3WNct { background: none; border: none; padding: 10px 15px; font-size: 16px; font-weight: 600; color: #333; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+        .attemptedCount { font-size: 14px; color: #666; margin-left: 5px; font-weight: 400; }
+        .footer__questionWrapper___1tZ46.selected .attemptedCount { display: none; }
+        .footer__subquestionWrapper___9GgoP { display: none; gap: 2px; margin-left: 10px; }
+        .footer__questionWrapper___1tZ46.selected .footer__subquestionWrapper___9GgoP { display: flex; flex-wrap: wrap; }
+        .subQuestion { width: 32px; height: 32px; border: 1px solid #ccc; background: white; color: #333; font-size: 13px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; border-radius: 2px; }
+        .subQuestion.answered { background-color: #e9ecef; border-color: #ddd; }
+        .subQuestion.correct { background-color: #28a745; color: white; border-color: #28a745; }
+        .subQuestion.incorrect { background-color: #dc3545; color: white; border-color: #dc3545; }
+        .subQuestion:hover { background-color: #f0f0f0; }
+        .subQuestion.active { background-color: #4a90e2; color: white; border-color: #4a90e2; }
+        .footer__deliverButton___3FM07 { margin-left: auto; margin-right: 20px; background-color: #f3f4f6; color: #111827; border: 1px solid #d1d5db; padding: 10px 16px; font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; min-width: 160px; justify-content: center; }
+        .footer__deliverButton___3FM07:hover { background-color: #ebedf0; }
+        .sectionNr { font-size: 16px; font-weight: bold; }
+        .section-prefix { font-size: 16px; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(17,24,39,0.6); backdrop-filter: blur(3px); z-index: 2000; display: flex; justify-content: center; align-items: center; }
+        .modal-overlay.hidden { display: none; }
+        .modal-content { background: #ffffff; padding: 24px; border-radius: 14px; width: 92%; max-width: 780px; max-height: 86vh; display: flex; flex-direction: column; position: relative; border: 1px solid #e5e7eb; box-shadow: 0 20px 60px rgba(0,0,0,0.25); }
+        .modal-close-btn { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 28px; cursor: pointer; color: #666; }
+        .modal-content h2 { text-align: center; margin-bottom: 18px; color: #111827; }
+        .results-summary { display: flex; gap: 12px; justify-content: center; margin-bottom: 16px; text-align: center; border-bottom: 1px solid #eef2f7; padding-bottom: 12px; }
+        .results-summary p { margin: 0; font-size: 14px; color: #374151; }
+        .results-summary p span { display: inline-block; padding: 4px 10px; margin-left: 6px; border-radius: 999px; background: #f3f4f6; font-weight: 700; color: #111827; }
+        .results-details-container { overflow-y: auto; padding-right: 10px; }
+        .result-row { display: grid; grid-template-columns: 56px 1fr 1fr 120px; gap: 12px; padding: 10px 8px; border-bottom: 1px solid #eef2f7; font-size: 15px; align-items: center; }
+        .result-row.correct { background-color: #f3faf5; }
+        .result-row.incorrect { background-color: #fff5f5; }
+        .result-row .q-num { font-weight: 700; color: #111827; background: #fff; border: 1px solid #d1d5db; border-radius: 8px; width: 42px; height: 30px; display: inline-flex; align-items: center; justify-content: center; }
+        .result-row .user-ans { color: #374151; background: #f9fafb; border: 1px solid #e5e7eb; padding: 4px 8px; border-radius: 6px; }
+        .result-row .correct-ans { color: #065f46; font-weight: 600; background: #ecfdf5; border: 1px solid #a7f3d0; padding: 4px 8px; border-radius: 6px; }
+        .status-badge { justify-self: end; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; border: 1px solid transparent; }
+        .status-badge.ok { background: #ecfdf5; color: #065f46; border-color: #a7f3d0; }
+        .status-badge.bad { background: #fff5f5; color: #7f1d1d; border-color: #f5c6cb; }
+        .nav-arrows { position: fixed; bottom: 100px; right: 20px; display: flex; gap: 6px; z-index: 101; }
+        .nav-arrow { width: 48px; height: 48px; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700; color: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.25); }
+        .nav-arrow.prev { background-color: #4b5563; }
+        .nav-arrow.next { background-color: #000000; }
+        .nav-arrow:hover { transform: translateY(-1px); }
+        .hidden { display: none !important; }
+        .submit-btn-wrap { margin: 40px 0 20px; text-align: center; }
+        .submit-btn-main { background-color: #1a1a2e; color: #fff; border: none; padding: 14px 40px; border-radius: 8px; font-size: 17px; font-weight: 700; cursor: pointer; }
+        .submit-btn-main:hover { background-color: #16213e; }
+    </style>
+</head>
+<body>
+<div id="highlight-toolbar" style="display:none;position:absolute;background:white;border:1px solid #ccc;padding:5px;border-radius:4px;box-shadow:0 2px 5px rgba(0,0,0,0.2);z-index:1000;">
+    <button id="highlight-yellow-btn" style="background:#ffff00;border:none;padding:5px 10px;cursor:pointer;border-radius:3px;">Highlight</button>
+</div>
+<div id="remove-highlight-toolbar" style="display:none;position:absolute;background:white;border:1px solid #ccc;padding:5px;border-radius:4px;box-shadow:0 2px 5px rgba(0,0,0,0.2);z-index:1000;">
+    <button id="remove-highlight-btn" style="background:#ff4444;color:white;border:none;padding:5px 10px;cursor:pointer;border-radius:3px;">Remove Highlight</button>
+</div>
+
+<div class="header">
+    <div class="timer-container">
+        <span class="timer-display">20:00</span>
+        <div class="timer-controls">
+            <button id="timer-toggle-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M8 5v14l11-7L8 5z"/></svg></button>
+            <button id="timer-reset-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg></button>
+        </div>
+    </div>
+    <button id="dark-mode-toggle" class="dark-mode-toggle">
+        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/></svg>
+        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor" style="display:none;"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>
+    </button>
+    <a href="https://t.me/ieltswithkhmdv" target="_blank" class="telegram-link">@ieltswithkhmdv</a>
+</div>
+
+<div class="main-container">
+    <div><div class="part-header"><p><strong>Reading Passage 3</strong></p><p>You should spend about 20 minutes on Questions 27–40, which are based on Reading Passage 3 below.</p></div></div>
+    <div class="panels-container">
+
+        <!-- PASSAGE -->
+        <div class="passage-panel" id="passage-panel">
+            <div class="reading-passage">
+                <h4>Linguistic Diversity</h4>
+
+                <p>More than half of the world's languages are at risk, but an unlikely saviour is at hand. What is an endangered language? As a rough guide, any language with fewer than 10,000 speakers is in danger. However, the total number of speakers is not always a clear indication of the health of a language. In the South Andaman Islands, for example, fewer than 100 people speak Onge, but it is the primary language of those who do, and, critically, the first language of all the islands' children. Consequently, it would be considered less threatened than a language such as Chipewyan in Canada, where more than 4,000 belong to the ethnic group that uses the language, but there is little use among the new generation.</p>
+
+                <p>It could be argued that in today's globalised world, we would be better off all speaking the same language, be it Chinese, English or Spanish. It might bring us closer together, and we would certainly be more likely to make our ideas comprehensible. The majority of linguists argue, however, that when it comes to language, diversity matters.</p>
+
+                <p>"People's understanding of themselves, and their relationship with their environment are all framed in terms of concepts expressed in their own languages," says Marcus Colchester, director of the Forest Peoples Programme. "Many indigenous peoples derive their identities from the way they live off their land. Day-to-day activities such as hunting, fishing and farming are directly connected to the spirits and mythic beings whose stories make these people who they are."</p>
+
+                <p>Louisa Maffi of Terralingua, an organisation that protects cultural and biological diversity, believes linguistic diversity is of immense value to humanity as a whole. As we lose each language, we lose a repository of knowledge, values and beliefs that, in many cases, provide alternative solutions to human problems; we diminish that pool of creativity and inventiveness, and our ability to adapt to changing circumstances.</p>
+
+                <p>Nicholas Ostler, chairman of the Foundation for Endangered Languages, points out the scientific interest in maintaining linguistic diversity. To lose diversity will mean losing awareness of the many and varied features of human language — what part of our vocal tract we use for communication, the different ways we use words to reflect meaning, and so on.</p>
+
+                <p>Historically, colonial governments practised policies of compelling minority cultures to speak the majority language. But even where there was little or no forced assimilation, imperialism still took its toll. Ostler cites the example of the ancient Roman Empire, which had no specific policy of forcing subjects to speak Latin, but still greatly reduced linguistic diversity across Europe. There was some prestige associated with the language — it was the medium of trade and administration — and people who wanted to get on in life tended to learn it. And similar processes are threatening minority languages today, says Ostler. "The Romans succeeded in making people live in larger communities, what we now call urbanisation. And nowadays people move from the countryside to cities where regional languages aren't maintained. The new generation grows up with their lives focused on the wider community. It may take several generations for the traditional language to fall out of use completely."</p>
+
+                <p>"Many nation states see cultural diversity as a threat to national unity," says Maffi, "so monolingualism is promoted in specific contexts, particularly schools, where there is no multilingual education offered, and in government, where politics is only conducted in the national language. Such implicit endorsement of monolingualism conspires to place pressure on minority peoples to assimilate. There is essentially a misconceived either/or ideology: either you maintain your mother tongue, in which case you can't participate in national life, or you forget your mother tongue and learn the majority language."</p>
+
+                <p>In recent decades, the mass media have reinforced this process further and extended the penetration of metropolitan languages like English and Spanish beyond urban centres into smaller communities. The pervasive influence of the media has effectively created a cultural divide between the generations, Ostler continues, where young people speak their traditional language with their elders, but English among themselves. Maffi describes similar trends among indigenous minority groups worldwide. "All of the images children see in the media are of the glamorised lifestyle of the majority, and that lifestyle is communicated in the majority language. So it becomes very difficult for them to find a reason to value their own language."</p>
+
+                <p>When the internet first took off during the mid-1990s, many feared it represented the end of the road for endangered languages. Because it was only available to English-speakers, it would only serve to continue the decline. However, these fears proved to be unfounded, as the diversity of languages on the web increased rapidly in the years that followed. Peter Austin, of London's School of Oriental and African Studies, attributes this to the lack of control on the internet. "Unlike most TV or radio, the web isn't in the hands of big media corporations. All you need is an internet account and a little technology, and you can produce information, news, videos, and so on, as much as you want." Minority groups around the world — in Hawaii, Mexico, Siberia, and many other places — are now taking advantage of this autonomy to document their language in written, audio and visual format. And, crucially, it is in a form which appeals to young people. It seems that the mass media could, after all, be the salvation of the world's most threatened languages.</p>
+            </div>
+        </div>
+
+        <div class="resizer" id="resizer"></div>
+
+        <!-- QUESTIONS -->
+        <div class="questions-panel" id="questions-panel">
+            <div class="questions-container">
+
+                <!-- Q27–31: YES / NO / NOT GIVEN -->
+                <div class="question" id="question-container-27">
+                    <div class="question-prompt">
+                        <p><strong>Questions 27–31</strong></p>
+                        <p>Do the following statements agree with the views of the writer in Reading Passage 3?</p>
+                        <p>In boxes 27–31 on your answer sheet, write:</p>
+                        <p><strong>YES</strong> &nbsp;if the statement agrees with the views of the writer</p>
+                        <p><strong>NO</strong> &nbsp;if the statement contradicts the views of the writer</p>
+                        <p><strong>NOT GIVEN</strong> &nbsp;if it is impossible to say what the writer thinks about this</p>
+                    </div>
+                    <div class="tf-question" id="tf-q27">
+                        <div class="tf-question-line"><span class="tf-question-number">27</span><span class="tf-question-text">The total number of speakers is a reliable guide to the health of a language.</span></div>
+                        <div class="tf-options"><label class="tf-option"><input type="radio" name="q27" value="YES" onchange="tac()"> YES</label><label class="tf-option"><input type="radio" name="q27" value="NO" onchange="tac()"> NO</label><label class="tf-option"><input type="radio" name="q27" value="NOT GIVEN" onchange="tac()"> NOT GIVEN</label></div>
+                    </div>
+                    <div class="tf-question" id="tf-q28">
+                        <div class="tf-question-line"><span class="tf-question-number">28</span><span class="tf-question-text">A global language could help people to understand each other better.</span></div>
+                        <div class="tf-options"><label class="tf-option"><input type="radio" name="q28" value="YES" onchange="tac()"> YES</label><label class="tf-option"><input type="radio" name="q28" value="NO" onchange="tac()"> NO</label><label class="tf-option"><input type="radio" name="q28" value="NOT GIVEN" onchange="tac()"> NOT GIVEN</label></div>
+                    </div>
+                    <div class="tf-question" id="tf-q29">
+                        <div class="tf-question-line"><span class="tf-question-number">29</span><span class="tf-question-text">The majority of linguists believe that a single global language is desirable.</span></div>
+                        <div class="tf-options"><label class="tf-option"><input type="radio" name="q29" value="YES" onchange="tac()"> YES</label><label class="tf-option"><input type="radio" name="q29" value="NO" onchange="tac()"> NO</label><label class="tf-option"><input type="radio" name="q29" value="NOT GIVEN" onchange="tac()"> NOT GIVEN</label></div>
+                    </div>
+                    <div class="tf-question" id="tf-q30">
+                        <div class="tf-question-line"><span class="tf-question-number">30</span><span class="tf-question-text">The Roman Empire forced all its subjects to speak Latin.</span></div>
+                        <div class="tf-options"><label class="tf-option"><input type="radio" name="q30" value="YES" onchange="tac()"> YES</label><label class="tf-option"><input type="radio" name="q30" value="NO" onchange="tac()"> NO</label><label class="tf-option"><input type="radio" name="q30" value="NOT GIVEN" onchange="tac()"> NOT GIVEN</label></div>
+                    </div>
+                    <div class="tf-question" id="tf-q31">
+                        <div class="tf-question-line"><span class="tf-question-number">31</span><span class="tf-question-text">The Roman Empire urbanised Europe, which damaged regional languages.</span></div>
+                        <div class="tf-options"><label class="tf-option"><input type="radio" name="q31" value="YES" onchange="tac()"> YES</label><label class="tf-option"><input type="radio" name="q31" value="NO" onchange="tac()"> NO</label><label class="tf-option"><input type="radio" name="q31" value="NOT GIVEN" onchange="tac()"> NOT GIVEN</label></div>
+                    </div>
+                </div>
+
+                <!-- Q32–35: Word bank summary -->
+                <div class="question" id="question-container-32">
+                    <div class="question-prompt">
+                        <p><strong>Questions 32–35</strong></p>
+                        <p>Complete the summary below using the list of words, <strong>A–I</strong>, below.</p>
+                        <p>Write the correct letter, <strong>A–I</strong>, in boxes 32–35 on your answer sheet.</p>
+                    </div>
+                    <div class="word-bank-box">
+                        <p style="font-weight:bold;margin-bottom:8px;">Word Bank</p>
+                        <p>
+                            <strong>A</strong> ideas &nbsp;&nbsp; <strong>B</strong> histories &nbsp;&nbsp; <strong>C</strong> backgrounds &nbsp;&nbsp; <strong>D</strong> surroundings &nbsp;&nbsp; <strong>E</strong> populations
+                        </p>
+                        <p>
+                            <strong>F</strong> occupations &nbsp;&nbsp; <strong>G</strong> communities &nbsp;&nbsp; <strong>H</strong> differences &nbsp;&nbsp; <strong>I</strong> misunderstandings
+                        </p>
+                    </div>
+                    <div class="summary-box">
+                        According to Marcus Colchester, minority languages are crucial because they prevent <span class="q-label">32</span><input type="text" id="q32" class="text-input" placeholder="32" onchange="tac()" oninput="tac()"> among indigenous groups. This is because these languages express how their speakers interact with their <span class="q-label">33</span><input type="text" id="q33" class="text-input" placeholder="33" onchange="tac()" oninput="tac()"> and describe their daily <span class="q-label">34</span><input type="text" id="q34" class="text-input" placeholder="34" onchange="tac()" oninput="tac()">. Louisa Maffi states that human knowledge is stored in language diversity, giving people different ways to look at life and discover unique <span class="q-label">35</span><input type="text" id="q35" class="text-input" placeholder="35" onchange="tac()" oninput="tac()"> to their problems.
+                    </div>
+                </div>
+
+                <!-- Q36–40: MCQ A/B/C/D -->
+                <div class="question" id="question-container-36">
+                    <div class="question-prompt">
+                        <p><strong>Questions 36–40</strong></p>
+                        <p>Choose the correct letter, <strong>A</strong>, <strong>B</strong>, <strong>C</strong> or <strong>D</strong>.</p>
+                    </div>
+
+                    <div class="mcq-block" id="mcq-q36">
+                        <div class="mcq-question-line"><span class="mcq-q-number">36</span><span class="tf-question-text">In the sixth paragraph, what reason does the writer give for the spread of Latin in the Roman Empire?</span></div>
+                        <label class="mcq-option"><input type="radio" name="q36" value="A" onchange="tac()"><span><strong>A</strong>&nbsp; People preferred to use it because of its high status.</span></label>
+                        <label class="mcq-option"><input type="radio" name="q36" value="B" onchange="tac()"><span><strong>B</strong>&nbsp; It was the only language permitted in schools.</span></label>
+                        <label class="mcq-option"><input type="radio" name="q36" value="C" onchange="tac()"><span><strong>C</strong>&nbsp; Colonial governments strictly enforced it.</span></label>
+                        <label class="mcq-option"><input type="radio" name="q36" value="D" onchange="tac()"><span><strong>D</strong>&nbsp; It was structurally simpler than other languages.</span></label>
+                    </div>
+
+                    <div class="mcq-block" id="mcq-q37">
+                        <div class="mcq-question-line"><span class="mcq-q-number">37</span><span class="tf-question-text">Why does Louisa Maffi criticize some modern nation states?</span></div>
+                        <label class="mcq-option"><input type="radio" name="q37" value="A" onchange="tac()"><span><strong>A</strong>&nbsp; They try to isolate minority groups from neighbouring states.</span></label>
+                        <label class="mcq-option"><input type="radio" name="q37" value="B" onchange="tac()"><span><strong>B</strong>&nbsp; They push minority groups to integrate by favouring a single language.</span></label>
+                        <label class="mcq-option"><input type="radio" name="q37" value="C" onchange="tac()"><span><strong>C</strong>&nbsp; They refuse to provide basic infrastructure to rural communities.</span></label>
+                        <label class="mcq-option"><input type="radio" name="q37" value="D" onchange="tac()"><span><strong>D</strong>&nbsp; They ban minority groups from holding traditional events.</span></label>
+                    </div>
+
+                    <div class="mcq-block" id="mcq-q38">
+                        <div class="mcq-question-line"><span class="mcq-q-number">38</span><span class="tf-question-text">What is the main effect of mass media on minority languages mentioned in the text?</span></div>
+                        <label class="mcq-option"><input type="radio" name="q38" value="A" onchange="tac()"><span><strong>A</strong>&nbsp; It educates old people about international trends.</span></label>
+                        <label class="mcq-option"><input type="radio" name="q38" value="B" onchange="tac()"><span><strong>B</strong>&nbsp; It forces governments to fund language preservation programs.</span></label>
+                        <label class="mcq-option"><input type="radio" name="q38" value="C" onchange="tac()"><span><strong>C</strong>&nbsp; It improves communication between urban and rural centres.</span></label>
+                        <label class="mcq-option"><input type="radio" name="q38" value="D" onchange="tac()"><span><strong>D</strong>&nbsp; It creates a generation gap where children prefer the majority language.</span></label>
+                    </div>
+
+                    <div class="mcq-block" id="mcq-q39">
+                        <div class="mcq-question-line"><span class="mcq-q-number">39</span><span class="tf-question-text">What did people initially expect the internet to do to endangered languages?</span></div>
+                        <label class="mcq-option"><input type="radio" name="q39" value="A" onchange="tac()"><span><strong>A</strong>&nbsp; Accelerate their disappearance due to English dominance.</span></label>
+                        <label class="mcq-option"><input type="radio" name="q39" value="B" onchange="tac()"><span><strong>B</strong>&nbsp; Help instantly revive them across all communities.</span></label>
+                        <label class="mcq-option"><input type="radio" name="q39" value="C" onchange="tac()"><span><strong>C</strong>&nbsp; Allow big corporations to strictly regulate language use.</span></label>
+                        <label class="mcq-option"><input type="radio" name="q39" value="D" onchange="tac()"><span><strong>D</strong>&nbsp; Have no noticeable impact on linguistic diversity.</span></label>
+                    </div>
+
+                    <div class="mcq-block" id="mcq-q40">
+                        <div class="mcq-question-line"><span class="mcq-q-number">40</span><span class="tf-question-text">According to Peter Austin, why has the internet become a "saviour" for threatened languages?</span></div>
+                        <label class="mcq-option"><input type="radio" name="q40" value="A" onchange="tac()"><span><strong>A</strong>&nbsp; It is heavily subsidised by international educational organisations.</span></label>
+                        <label class="mcq-option"><input type="radio" name="q40" value="B" onchange="tac()"><span><strong>B</strong>&nbsp; It gives minority groups the independence to create youth-friendly digital content.</span></label>
+                        <label class="mcq-option"><input type="radio" name="q40" value="C" onchange="tac()"><span><strong>C</strong>&nbsp; It blocks major media corporations from publishing content.</span></label>
+                        <label class="mcq-option"><input type="radio" name="q40" value="D" onchange="tac()"><span><strong>D</strong>&nbsp; It requires very high-level computer programming skills to use.</span></label>
+                    </div>
+                </div>
+
+                <div class="submit-btn-wrap"><button class="submit-btn-main" id="deliver-button" onclick="checkAnswers()">Submit Answers</button></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="nav-arrows">
+    <button class="nav-arrow prev" onclick="nq(-1)">&#8592;</button>
+    <button class="nav-arrow next" onclick="nq(1)">&#8594;</button>
+</div>
+
+<div class="nav-row">
+    <div class="footer__questionWrapper___1tZ46 selected">
+        <button class="footer__questionNo___3WNct"><span class="section-prefix">Questions </span><span class="sectionNr">27–40</span><span class="attemptedCount" id="ac">0/14 answered</span></button>
+        <div class="footer__subquestionWrapper___9GgoP" id="sqw"></div>
+    </div>
+    <button class="footer__deliverButton___3FM07" id="dfb" onclick="checkAnswers()"><span>Submit</span><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M4 15l8 8 8-8-1.41-1.41L13 19.17V2h-2v17.17l-6.58-6.59L4 15z"/></svg></button>
+</div>
+
+<div class="modal-overlay hidden" id="results-modal">
+    <div class="modal-content">
+        <button class="modal-close-btn" onclick="document.getElementById('results-modal').classList.add('hidden')">×</button>
+        <h2>Your Results</h2>
+        <div class="results-summary"><p>Score: <span id="rs">0</span> / 14</p><p>Band: <span id="rb">–</span></p></div>
+        <div class="results-details-container"><div class="result-row" style="font-weight:bold;background:#f8f9fa;"><span>Q#</span><span>Your Answer</span><span>Correct Answer</span><span style="justify-self:end;">Result</span></div><div id="rd"></div></div>
+    </div>
+</div>
+
+<script>
+const ca={'27':'NO','28':'YES','29':'NO','30':'NO','31':'NOT GIVEN','32':'I','33':'D','34':'F','35':'A','36':'A','37':'B','38':'D','39':'A','40':'B'};
+const navOrder=[27,28,29,30,31,32,33,34,35,36,37,38,39,40];
+
+let ts=20*60,ti,tr=false;
+const td=document.querySelector('.timer-display'),ttb=document.getElementById('timer-toggle-btn'),trb=document.getElementById('timer-reset-btn');
+const pi='<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M8 5v14l11-7L8 5z"/></svg>';
+const pai='<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+function utd(){const m=Math.floor(ts/60).toString().padStart(2,'0'),s=(ts%60).toString().padStart(2,'0');td.textContent=`${m}:${s}`;td.style.color=ts<=60?'#dc3545':'';}
+function st(){if(tr)return;tr=true;ttb.innerHTML=pai;ti=setInterval(()=>{ts>0?(ts--,utd()):(clearInterval(ti),tr=false)},1000);}
+ttb.addEventListener('click',()=>{tr?(clearInterval(ti),tr=false,ttb.innerHTML=pi):st();});
+trb.addEventListener('click',()=>{clearInterval(ti);tr=false;ts=20*60;ttb.innerHTML=pi;utd();});
+utd();st();
+
+const dmt=document.getElementById('dark-mode-toggle');
+if(localStorage.getItem('darkMode')==='enabled')document.body.classList.add('dark-mode');
+dmt.addEventListener('click',()=>{document.body.classList.toggle('dark-mode');localStorage.setItem('darkMode',document.body.classList.contains('dark-mode')?'enabled':'disabled');});
+
+const rz=document.getElementById('resizer'),pp=document.getElementById('passage-panel'),qp=document.getElementById('questions-panel');
+let ir=false;
+rz.addEventListener('mousedown',()=>{ir=true;document.addEventListener('mousemove',or);document.addEventListener('mouseup',()=>{ir=false;document.removeEventListener('mousemove',or);});});
+function or(e){if(!ir)return;const c=document.querySelector('.panels-container'),r=c.getBoundingClientRect(),p=Math.max(20,Math.min(80,((e.clientX-r.left)/(r.width-rz.offsetWidth))*100));pp.style.flex=`0 0 ${p}%`;qp.style.flex=`0 0 ${100-p}%`;}
+
+function buildNav(){const w=document.getElementById('sqw');w.innerHTML='';navOrder.forEach(n=>{const b=document.createElement('button');b.className='subQuestion';b.textContent=n;b.id=`nb-${n}`;b.onclick=()=>sq(n);w.appendChild(b);});}
+buildNav();
+
+function sq(n){
+    let el=null;
+    if(n>=27&&n<=31) el=document.getElementById(`tf-q${n}`);
+    else if(n>=32&&n<=35) el=document.getElementById(`q${n}`);
+    else el=document.getElementById(`mcq-q${n}`);
+    if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+    document.querySelectorAll('.subQuestion').forEach(b=>b.classList.remove('active'));
+    const b=document.getElementById(`nb-${n}`);if(b)b.classList.add('active');
+}
+
+function ia(n){
+    if(n>=27&&n<=31) return!!document.querySelector(`input[name="q${n}"]:checked`);
+    if(n>=32&&n<=35){const el=document.getElementById(`q${n}`);return el?el.value.trim()!=='':false;}
+    return!!document.querySelector(`input[name="q${n}"]:checked`);
+}
+
+function tac(){let c=0;navOrder.forEach(n=>{const a=ia(n),b=document.getElementById(`nb-${n}`);if(b)a?b.classList.add('answered'):b.classList.remove('answered');if(a)c++;});document.getElementById('ac').textContent=`${c}/14 answered`;}
+
+let cf=0;
+function nq(d){cf=Math.max(0,Math.min(navOrder.length-1,cf+d));sq(navOrder[cf]);}
+
+(function(){const ht=document.getElementById('highlight-toolbar'),hyb=document.getElementById('highlight-yellow-btn'),rt=document.getElementById('remove-highlight-toolbar'),rb=document.getElementById('remove-highlight-btn');let lr=null;document.addEventListener('mouseup',function(){setTimeout(()=>{const s=window.getSelection();if(s&&s.rangeCount>0&&!s.isCollapsed){const r=s.getRangeAt(0);if(inA(r.commonAncestorContainer)){lr=r.cloneRange();sh(ht,r.getBoundingClientRect(),10);}else ht.style.display='none';}else ht.style.display='none';},0);});hyb.addEventListener('click',()=>ah());function ah(){if(!lr)return;const s=window.getSelection();s.removeAllRanges();s.addRange(lr);const sp=document.createElement('span');sp.className='highlight';sp.style.backgroundColor='#ffff00';sp.setAttribute('tabindex','0');sp.addEventListener('click',function(e){e.stopPropagation();sh(rt,e.target.getBoundingClientRect(),10);rb.onclick=()=>{e.target.replaceWith(...e.target.childNodes);rt.style.display='none';};});try{lr.surroundContents(sp);}catch(e){}s.removeAllRanges();ht.style.display='none';}document.addEventListener('mousedown',function(e){if(!ht.contains(e.target))ht.style.display='none';if(!rt.contains(e.target))rt.style.display='none';});function sh(tb,r,o){tb.style.display='block';tb.style.left=(window.scrollX+r.left+r.width/2-50)+'px';tb.style.top=(window.scrollY+r.top-tb.offsetHeight-o)+'px';}function inA(node){while(node){if(node.classList&&(node.classList.contains('reading-passage')||node.classList.contains('questions-container')))return true;node=node.parentNode;}return false;}})();
+
+function checkAnswers(){
+    clearInterval(ti);
+    document.querySelectorAll('input').forEach(el=>el.disabled=true);
+    const c=document.getElementById('rd');c.innerHTML='';let sc=0;
+
+    navOrder.forEach(i=>{
+        const cor=ca[String(i)];let ua='',ok=false;
+
+        if(i>=27&&i<=31){
+            const ch=document.querySelector(`input[name="q${i}"]:checked`);
+            ua=ch?ch.value:'Not Answered';ok=ua===cor;
+            const qc=document.getElementById(`tf-q${i}`);
+            if(ch){const lbl=ch.closest('.tf-option');if(lbl)lbl.classList.add(ok?'correct':'incorrect');}
+            if(!ok&&qc){const ci=qc.querySelector(`input[value="${cor}"]`);if(ci){const lbl=ci.closest('.tf-option');if(lbl)lbl.classList.add('correct-answer-highlight');}}
+        } else if(i>=32&&i<=35){
+            const el=document.getElementById(`q${i}`);
+            ua=el?el.value.trim():'';
+            ok=ua.toUpperCase()===cor;
+            if(el)el.classList.add(ok?'correct':'incorrect');
+            if(!ua)ua='Not Answered';
+        } else {
+            const ch=document.querySelector(`input[name="q${i}"]:checked`);
+            ua=ch?ch.value:'Not Answered';ok=ua===cor;
+            const mcqEl=document.getElementById(`mcq-q${i}`);
+            if(mcqEl){mcqEl.querySelectorAll('.mcq-option').forEach(lbl=>{const inp=lbl.querySelector('input');if(!inp)return;if(inp.checked&&inp.value!==cor)lbl.classList.add('incorrect');if(inp.value===cor)lbl.classList.add('correct-answer-highlight');});}
+        }
+
+        if(ok)sc++;
+        const nb=document.getElementById(`nb-${i}`);if(nb){nb.classList.remove('answered','active');nb.classList.add(ok?'correct':'incorrect');}
+        c.innerHTML+=`<div class="result-row ${ok?'correct':'incorrect'}"><span class="q-num">${i}</span><span class="user-ans">${ua}</span><span class="correct-ans">${cor}</span><span class="status-badge ${ok?'ok':'bad'}">${ok?'Correct ✓':'Incorrect ✗'}</span></div>`;
+    });
+
+    document.getElementById('rs').textContent=sc;
+    document.getElementById('rb').textContent=cb(sc);
+    document.getElementById('results-modal').classList.remove('hidden');
+    ['deliver-button','dfb'].forEach(id=>{const b=document.getElementById(id);if(b){b.innerHTML='<span>My Result</span>';b.style.backgroundColor='#4CAF50';b.style.color='white';b.style.borderColor='#4CAF50';b.disabled=false;b.style.cursor='pointer';b.onclick=()=>document.getElementById('results-modal').classList.remove('hidden');}});
+}
+function cb(s){const p=s/14;if(p>=.95)return'9.0';if(p>=.88)return'8.5';if(p>=.80)return'8.0';if(p>=.73)return'7.5';if(p>=.65)return'7.0';if(p>=.58)return'6.5';if(p>=.50)return'6.0';if(p>=.42)return'5.5';if(p>=.35)return'5.0';if(p>=.27)return'4.5';return'4.0';}
+tac();
+</script>
+</body>
+</html>

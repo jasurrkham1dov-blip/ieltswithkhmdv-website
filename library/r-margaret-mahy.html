@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IELTS Reading Test - Margaret Mahy</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #fefce8, #fef3c7);
+      overflow: hidden;
+      color: #1f2937;
+    }
+    .test-wrapper { display:flex; flex-direction:column; height:100vh; }
+    .test-container { display:flex; flex:1; overflow:hidden; }
+
+    /* Header */
+    .header{
+      background:#fff;
+      border-bottom:1px solid #d1d5db;
+      padding:1rem 2rem;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      box-shadow:0 4px 12px rgba(0,0,0,.05);
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .header__logo { display:flex; align-items:center; gap: .75rem; }
+    .header__title { font-size:1.1rem; font-weight:600; color:#1f2937; flex:1; min-width:300px; }
+    .header__timer{
+      font-size:1.25rem;
+      font-weight:600;
+      color:#d97706;
+      background:#fffbeb;
+      padding:.5rem 1.5rem;
+      border-radius:9999px;
+      border:1px solid #fbbf24;
+      white-space: nowrap;
+    }
+    .header__icons{ display:flex; gap:1.25rem; align-items:center; }
+    .header__icon{
+      font-size:1.5rem;
+      color:#4b5563;
+      cursor:pointer;
+      transition:all .3s ease;
+    }
+    .header__icon:hover { color:#d97706; transform:scale(1.15); }
+    
+    /* Telegram Link */
+    .header__telegram{
+      display:flex;
+      align-items:center;
+      gap:0.5rem;
+      padding:0.5rem 1.2rem;
+      background:linear-gradient(90deg, #0088cc, #00a8e8);
+      color:#fff;
+      border-radius:9999px;
+      text-decoration:none;
+      font-weight:600;
+      font-size:0.9rem;
+      border:1px solid #0077b6;
+    }
+    .header__telegram:hover{
+      transform:translateY(-2px);
+      box-shadow:0 4px 12px rgba(0, 136, 204, 0.3);
+    }
+
+    /* Answer Indicators */
+    .answer-indicators{
+      display:flex;
+      gap:0.5rem;
+      flex-wrap:wrap;
+      padding:1rem 2rem;
+      background:#f9fafb;
+      border-bottom:1px solid #d1d5db;
+      align-items:center;
+    }
+    .indicator-label{
+      font-weight:600;
+      color:#4b5563;
+      margin-right:0.5rem;
+    }
+    .answer-circle{
+      width:2.5rem;
+      height:2.5rem;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      color:#fff;
+      cursor:default;
+      transition:all .3s ease;
+      border:2px solid #e5e7eb;
+      background:#e5e7eb;
+      color:#9ca3af;
+      font-size:0.85rem;
+    }
+    .answer-circle.answered{
+      background:#10b981;
+      border-color:#10b981;
+      box-shadow:0 0 8px rgba(16, 185, 129, 0.4);
+    }
+    .answer-circle.unanswered{
+      background:#ef4444;
+      border-color:#ef4444;
+      box-shadow:0 0 8px rgba(239, 68, 68, 0.4);
+    }
+
+    /* Settings Modal */
+    .settings-modal{
+      display:none;
+      position:fixed; inset:0;
+      background:rgba(0,0,0,.75);
+      z-index:1000;
+      justify-content:center;
+      align-items:center;
+    }
+    .settings-content{
+      background:#fff;
+      width:90%;
+      max-width:32rem;
+      border-radius:1rem;
+      box-shadow:0 10px 25px rgba(0,0,0,.2);
+      overflow:hidden;
+    }
+    .settings-header{
+      display:flex; justify-content:space-between; align-items:center;
+      padding:1rem 2rem;
+      background:linear-gradient(90deg,#fbbf24,#d97706);
+      color:#fff;
+    }
+    .settings-header h2{ margin:0; font-size:1.25rem; }
+    .settings-close{
+      background:none;border:none;
+      font-size:1.75rem;cursor:pointer;color:#fff;
+    }
+    .settings-body{ padding:1.5rem; background:#f9fafb; }
+    .settings-option{
+      display:flex; align-items:center;
+      padding:1rem 0;
+      border-bottom:1px solid #e5e7eb;
+      cursor:pointer;
+    }
+    .settings-option:last-child{ border-bottom:none; }
+    .settings-option i{
+      margin-right:.75rem;
+      color:#d97706;
+    }
+
+    /* Rubric */
+    .sectionRubric{
+      margin:1.5rem;
+      padding:1.25rem;
+      background:#fff;
+      border:1px solid #d1d5db;
+      border-radius:.75rem;
+      box-shadow:0 4px 12px rgba(0,0,0,.05);
+    }
+    .sectionRubric h2{ font-size:1.25rem; color:#d97706; margin-bottom:.5rem; }
+    .sectionRubric p{ margin:0.5rem 0; color:#4b5563; font-size:0.95rem; }
+
+    /* Panels */
+    .passage-container{
+      width:45%;
+      height:100%;
+      overflow-y:auto;
+      padding:1.5rem;
+      box-sizing:border-box;
+      background:#fefce8;
+      border-right:1px solid #d1d5db;
+      position:relative;
+      user-select:text;
+    }
+    .questions-container{
+      flex:1;
+      height:100%;
+      overflow-y:auto;
+      padding:1.5rem;
+      box-sizing:border-box;
+      background:#fefce8;
+      position:relative;
+      user-select:text;
+    }
+    .passage-container::-webkit-scrollbar,
+    .questions-container::-webkit-scrollbar{ width:8px; }
+    .passage-container::-webkit-scrollbar-track,
+    .questions-container::-webkit-scrollbar-track{ background:#e5e7eb; }
+    .passage-container::-webkit-scrollbar-thumb,
+    .questions-container::-webkit-scrollbar-thumb{ background:#6b7280; border-radius:4px; }
+
+    /* Divider */
+    .divider{ width:14px; background:#e5e7eb; cursor:col-resize; position:relative; }
+    .divider-handle{
+      width:6px;height:60px;background:#6b7280;border-radius:4px;
+      position:absolute; top:50%; left:4px; transform:translateY(-50%);
+    }
+
+    /* Highlight - DARKER COLORS */
+    .highlight{ border-radius:.25rem; padding:0 .15rem; }
+    .highlight.yellow{ background:rgba(217, 119, 6, 0.45); }
+    .highlight.green{ background:rgba(22, 163, 74, 0.45); }
+    .highlight.pink{ background:rgba(219, 39, 119, 0.45); }
+    .highlight.blue{ background:rgba(37, 99, 235, 0.45); }
+
+    .highlight-toolbar{
+      position:fixed;
+      background:#fff;
+      border:1px solid #d1d5db;
+      border-radius:.5rem;
+      box-shadow:0 4px 12px rgba(0,0,0,.15);
+      display:none;
+      z-index:2000;
+      padding:.5rem;
+      transform:translate(-50%,-100%);
+      margin-top:-.5rem;
+      gap:.35rem;
+      align-items:center;
+    }
+    .highlight-toolbar button{
+      background:none;
+      border:none;
+      width:2rem; height:2rem;
+      cursor:pointer;
+      border-radius:.25rem;
+      transition:all .2s ease;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .highlight-toolbar button:hover{ background:#fffbeb; transform:scale(1.08); }
+    .highlight-toolbar button.remove{ color:#ef4444; width:auto; padding:0 .5rem; gap:.35rem; }
+    .highlight-color{
+      width:1.5rem;height:1.5rem;border-radius:9999px;border:1px solid #d1d5db;
+    }
+    .highlight-color.yellow{ background:#d97706; }
+    .highlight-color.green{ background:#16a34a; }
+    .highlight-color.pink{ background:#db2777; }
+    .highlight-color.blue{ background:#2563eb; }
+
+    /* Passage text */
+    #passageContent{ line-height:1.7; font-size:1.05rem; }
+    #passageContent h2{ margin:1rem 0; line-height:1.2; }
+    #passageContent p{ margin:1rem 0; text-align:justify; }
+    .paragraph-label{ font-weight:700; color:#d97706; display:inline-block; margin-right:0.5rem; }
+
+    /* Question cards */
+    .question{
+      margin-bottom:2rem;
+      background:#fff;
+      padding:1.5rem;
+      border-radius:.75rem;
+      border:1px solid #e5e7eb;
+      box-shadow:0 4px 12px rgba(0,0,0,.05);
+      transition:transform .2s ease, box-shadow .2s ease;
+    }
+    .question:hover{ transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,.10); }
+    .question-rubric{ margin-bottom:1rem; font-weight:600; color:#1f2937; }
+    .question-rubric h3{ margin:0 0 .5rem; color:#d97706; }
+    .question-text{ margin-bottom:1rem; color:#4b5563; line-height:1.6; }
+
+    /* Multiple choice */
+    .choice-item{
+      margin:1rem 0;
+      display:flex;
+      align-items:flex-start;
+      gap:0.75rem;
+      cursor:pointer;
+      padding:0.75rem;
+      border-radius:.5rem;
+      transition:background .2s ease;
+    }
+    .choice-item:hover{ background:#fffbeb; }
+    .choice-item input[type="radio"]{
+      margin-top:0.25rem;
+      cursor:pointer;
+      width:1.25rem;
+      height:1.25rem;
+      accent-color:#d97706;
+    }
+    .choice-item label{
+      flex:1;
+      cursor:pointer;
+      margin:0;
+    }
+
+    /* Submission Modal */
+    .submission-modal{
+      display:none;
+      position:fixed; inset:0;
+      background:rgba(0,0,0,.75);
+      z-index:1000;
+      justify-content:center;
+      align-items:center;
+    }
+    .submission-content{
+      background:#fff;
+      width:90%;
+      max-width:50rem;
+      border-radius:1rem;
+      box-shadow:0 10px 25px rgba(0,0,0,.2);
+      overflow:hidden;
+    }
+    .submission-header{
+      padding:2rem;
+      background:linear-gradient(90deg,#fbbf24,#d97706);
+      color:#fff;
+      text-align:center;
+    }
+    .submission-header h2{ margin:0; font-size:1.5rem; }
+    .submission-body{ padding:2rem; text-align:center; max-height:70vh; overflow-y:auto; }
+    .submission-score{ font-size:2.5rem; font-weight:700; color:#d97706; margin:1rem 0; }
+    .submission-buttons{
+      display:flex;
+      gap:1rem;
+      justify-content:center;
+      margin-top:2rem;
+    }
+    .submission-buttons button{
+      padding:0.75rem 2rem;
+      border:none;
+      border-radius:.5rem;
+      font-size:1rem;
+      font-weight:600;
+      cursor:pointer;
+    }
+    .btn-secondary{
+      background:#e5e7eb;
+      color:#1f2937;
+    }
+    .btn-secondary:hover{ background:#d1d5db; }
+
+    /* Results display */
+    .result-item{
+      margin:1rem 0;
+      padding:1rem;
+      border-radius:.5rem;
+      text-align:left;
+    }
+    .result-item.correct{
+      background:#f0fdf4;
+      border-left:4px solid #22c55e;
+    }
+    .result-item.incorrect{
+      background:#fef2f2;
+      border-left:4px solid #ef4444;
+    }
+    .result-item strong{
+      display:block;
+      margin-bottom:0.5rem;
+      font-size:1.05rem;
+    }
+    .result-item .detail{
+      font-size:0.95rem;
+      color:#4b5563;
+    }
+    .result-item.correct .detail{ color:#166534; }
+    .result-item.incorrect .detail{ color:#7f1d1d; }
+
+    /* Submit button */
+    .submit-btn{
+      margin:2rem 0;
+      width:100%;
+      padding:1rem;
+      background:linear-gradient(90deg,#fbbf24,#d97706);
+      color:#fff;
+      border:none;
+      border-radius:.75rem;
+      font-size:1.1rem;
+      font-weight:600;
+      cursor:pointer;
+    }
+    .submit-btn:hover{ transform:translateY(-2px); box-shadow:0 6px 16px rgba(217,119,6,.3); }
+
+    /* High contrast mode */
+    body.high-contrast{
+      background:#000;
+      color:#fff;
+    }
+    body.high-contrast .passage-container,
+    body.high-contrast .questions-container{
+      background:#000;
+      color:#fff;
+    }
+    body.high-contrast .question,
+    body.high-contrast .sectionRubric{
+      background:#1a1a1a;
+      border-color:#444;
+      color:#fff;
+    }
+    body.high-contrast .header{
+      background:#1a1a1a;
+      border-bottom-color:#444;
+      color:#fff;
+    }
+    body.high-contrast .answer-indicators{
+      background:#1a1a1a;
+      border-bottom-color:#444;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-wrapper">
+    <!-- Header -->
+    <div class="header">
+      <div class="header__logo">
+        <i class="fas fa-book" style="font-size:1.75rem; color:#d97706;"></i>
+        <div class="header__title">IELTS Reading Test - Margaret Mahy</div>
+      </div>
+      <div class="header__timer">
+        <i class="fas fa-hourglass-start"></i> <span id="timerDisplay">00:00</span>
+      </div>
+      <div class="header__icons">
+        <a href="https://t.me/ieltswithkhmdv" target="_blank" class="header__telegram" title="Join our Telegram channel">
+          <i class="fab fa-telegram"></i> Join Channel
+        </a>
+        <i class="fas fa-adjust header__icon" id="contrastToggle" title="High Contrast"></i>
+        <i class="fas fa-text-height header__icon" id="textSizeToggle" title="Text Size"></i>
+        <i class="fas fa-check-circle header__icon" id="submitBtn" title="Submit"></i>
+      </div>
+    </div>
+
+    <!-- Answer Indicators -->
+    <div class="answer-indicators">
+      <span class="indicator-label">Progress:</span>
+      <div class="answer-circle unanswered" data-question="27">27</div>
+      <div class="answer-circle unanswered" data-question="28">28</div>
+      <div class="answer-circle unanswered" data-question="29">29</div>
+      <div class="answer-circle unanswered" data-question="30">30</div>
+      <div class="answer-circle unanswered" data-question="31">31</div>
+      <div class="answer-circle unanswered" data-question="32">32</div>
+      <div class="answer-circle unanswered" data-question="33">33</div>
+      <div class="answer-circle unanswered" data-question="34">34</div>
+      <div class="answer-circle unanswered" data-question="35">35</div>
+      <div class="answer-circle unanswered" data-question="36">36</div>
+      <div class="answer-circle unanswered" data-question="37">37</div>
+      <div class="answer-circle unanswered" data-question="38">38</div>
+      <div class="answer-circle unanswered" data-question="39">39</div>
+      <div class="answer-circle unanswered" data-question="40">40</div>
+    </div>
+
+    <!-- Test Container -->
+    <div class="test-container">
+      <!-- Passage Panel -->
+      <div class="passage-container">
+        <div id="passageContent">
+          <h2 style="color:#d97706; text-align:center; margin-bottom:1.5rem;">THE NEW ZEALAND WRITER MARGARET MAHY</h2>
+          
+          <p><span class="paragraph-label">A</span>In a career spanning some fifty years, Margaret Mahy has come to occupy a unique place in New Zealand writing with innovative fiction and original characterisation. In our solidly realist tradition, the linguistic fireworks of Mahy's children's fiction and the explorations of human behaviour at the heart of her supernatural teenage fiction stand gloriously alone. Mahy's clearest heir, I have always thought, is Elizabeth Knox – and maybe the true inheritance there is sheer singularity. Just as there is no one else like Knox in New Zealand writing, Mahy, too, has ventured into imaginative territory unknown to other local writers. So it was with great pleasure that I visited Mahy recently at her Governor's Bay home to talk about her new book. As with all journalists, she is generous to a fault with her time and attention; and, as always – despite her careful consideration of questions and thoughtful answers – I'm reminded she isn't truly comfortable making herself or her life the heart of any conversation.</p>
+
+          <p><span class="paragraph-label">B</span>Certainly, any consideration of the style of Mahy's novels and picture books throws up some irresistible theories. As a writer committed to supporting herself through her art, she has seldom had the time for formal research. Rather, it has been a matter of going out and finding inspiration from her immediate environment: the writing on the side of a bus; a spelling mistake in a note to herself; the similarity between a cat and a fur hat. But despite these sometimes mundane origins, the settings for her stories are delightfully varied, as these books celebrate the dramatic plot twists and unpredictability of adventures on the high seas or in Antarctica, and also in quite unassuming places like the library or even down the back of a chair at home. Mahy has a lifelong affection for characters who are agents of upheaval and disturbance. Her junior and picture books are peppered with pirates, robbers and lions, though they appear alongside librarians, mothers and children, working against comfortable stereotype. Her fictions often have at their heart a young adult burdened with special powers, such as the ability to cast spells in order to transform their world in supernatural and fantastical ways. Another common feature is that, while the conclusions of her tales are usually predictable, they leave the reader feeling absolutely complete, the moral questions resulting from our hero's powers having been resolved.</p>
+
+          <p><span class="paragraph-label">C</span>Many of these themes can be found in her new novel, The Magician of Hoad. The book was begun more than 15 years ago and envisioned as an 'entire' fantasy – one set in a fully imagined world with detailed history and complex tribal interrelationships, a classical hero quest at its heart. The story ballooned at one point to 800 pages and has been through at least two substantial rewrites. Now half its original size, it is a fascinating read – an adventure, a romance, and a gold mine of Mahy literary preoccupations.</p>
+
+          <p><span class="paragraph-label">D</span>The other splendid Mahy publication this year is a re-issue of Bubble Trouble in a now beautifully illustrated edition. This tongue-twister tale first appeared in 1991, was included in 100 New Zealand Poems (1993) and has been recited by Mahy at countless private and public functions. Perhaps more than any other work, Bubble Trouble is the Mahy that New Zealand children and their parents know so well, the rollicking story of a clown who serves up a joyous torrent of word play and unexpected rhyme.</p>
+
+          <p><span class="paragraph-label">E</span>Those connections are four or five deep now. I read The Lion in the Meadow in the School Journal in the late 1960s; my stepdaughter listened to The Boy Who Was Followed Home over and over in the 1970s; my own children sat very still mouthing The Great White Man-Eating Shark in the 80s and 90s; now in the 21st century, my grandchildren have heard Down the Dragon's Tongue, A Summery Saturday Morning and Dashing D many times.</p>
+
+          <p><span class="paragraph-label">F</span>Of course, readers are important to any working writer, but Mahy's espousal of the act of reading goes beyond that: a book is not properly finished, she has often said, until it has been read, because a reader brings something important to the book. So, doubtless out of need to build a market – she's not ignorant of her popularity – but also out of genuine care for that other dynamic part of the author-reader relationship, Mahy has, until recently, kept up a punishing schedule of public appearances.</p>
+
+          <p><span class="paragraph-label">G</span>Private conversation with Mahy has always been a wild ride – marvellous, in the true sense of the word, the product of a hungry head and an infinite capacity to be astonished. She races away at one stage to consult an encyclopaedia for L M Montgomery's date of death, and speculates about the 'real' Montgomery, creator of the ever-popular Anne of Green Gables. Although I'd come to talk about her new book, I couldn't help but be captivated by her infectious curiosity.</p>
+
+          <p><span class="paragraph-label">H</span>A few years ago, the writer David Hill told a funny story. Though his writing was, he conceded, very different from Mahy's, he had been affected by her peculiarly alert way of looking at the world, particularly the mad, slippery life of language. Once, Hill said, in a motel room, a sign on a door caught his eye: 'This door is alarmed.' Mahy would like that, thought Hill. She would enjoy the comedy just below the surface of the formal warning; she would leap immediately to the possibilities for story and language play: 'Yes, and this window is concerned, this light fitting is irritated.' His story was a wonderful comment on Mahy's vision.</p>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="divider" id="divider">
+        <div class="divider-handle"></div>
+      </div>
+
+      <!-- Questions Panel -->
+      <div class="questions-container" id="questions-container">
+        <div id="questionsContent">
+
+          <!-- Questions 27-31: Yes/No/Not Given -->
+          <div class="sectionRubric">
+            <h2>Questions 27–31</h2>
+            <p>Do the following statements agree with the views of the writer?</p>
+            <p style="font-size:0.9rem;"><strong>YES</strong> | <strong>NO</strong> | <strong>NOT GIVEN</strong></p>
+          </div>
+
+          <div class="question">
+            <div class="question-rubric"><h3>Question 27</h3></div>
+            <div class="question-text">Mahy and Knox have sometimes criticised each other's work.</div>
+            <div class="choice-item">
+              <input type="radio" id="q27yes" name="q27" value="YES" class="answer-input" data-question="27">
+              <label for="q27yes">YES</label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q27no" name="q27" value="NO" class="answer-input" data-question="27">
+              <label for="q27no">NO</label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q27ng" name="q27" value="NOT GIVEN" class="answer-input" data-question="27">
+              <label for="q27ng">NOT GIVEN</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <div class="question-rubric"><h3>Question 28</h3></div>
+            <div class="question-text">Mahy explores the traditional themes of New Zealand literature.</div>
+            <div class="choice-item">
+              <input type="radio" id="q28yes" name="q28" value="YES" class="answer-input" data-question="28">
+              <label for="q28yes">YES</label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q28no" name="q28" value="NO" class="answer-input" data-question="28">
+              <label for="q28no">NO</label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q28ng" name="q28" value="NOT GIVEN" class="answer-input" data-question="28">
+              <label for="q28ng">NOT GIVEN</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <div class="question-rubric"><h3>Question 29</h3></div>
+            <div class="question-text">Mahy's children's books have been more popular than her teenage books.</div>
+            <div class="choice-item">
+              <input type="radio" id="q29yes" name="q29" value="YES" class="answer-input" data-question="29">
+              <label for="q29yes">YES</label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q29no" name="q29" value="NO" class="answer-input" data-question="29">
+              <label for="q29no">NO</label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q29ng" name="q29" value="NOT GIVEN" class="answer-input" data-question="29">
+              <label for="q29ng">NOT GIVEN</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <div class="question-rubric"><h3>Question 30</h3></div>
+            <div class="question-text">Mahy is welcoming to interviewers.</div>
+            <div class="choice-item">
+              <input type="radio" id="q30yes" name="q30" value="YES" class="answer-input" data-question="30">
+              <label for="q30yes">YES</label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q30no" name="q30" value="NO" class="answer-input" data-question="30">
+              <label for="q30no">NO</label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q30ng" name="q30" value="NOT GIVEN" class="answer-input" data-question="30">
+              <label for="q30ng">NOT GIVEN</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <div class="question-rubric"><h3>Question 31</h3></div>
+            <div class="question-text">Mahy is at ease speaking about her experiences.</div>
+            <div class="choice-item">
+              <input type="radio" id="q31yes" name="q31" value="YES" class="answer-input" data-question="31">
+              <label for="q31yes">YES</label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q31no" name="q31" value="NO" class="answer-input" data-question="31">
+              <label for="q31no">NO</label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q31ng" name="q31" value="NOT GIVEN" class="answer-input" data-question="31">
+              <label for="q31ng">NOT GIVEN</label>
+            </div>
+          </div>
+
+          <!-- Questions 32-35: Summary Completion -->
+          <div class="sectionRubric">
+            <h2>Questions 32–35</h2>
+            <p>Complete the summary using the list of words and phrases, A–I.</p>
+            <p style="font-size:0.9rem; background:#f3f4f6; padding:0.75rem; border-radius:0.5rem;">
+              <strong>A</strong> disruptive and unpredictable | <strong>B</strong> everyday | <strong>C</strong> loveable | <strong>D</strong> controversial | <strong>E</strong> exotic and ordinary | <strong>F</strong> unsatisfying but surprising | <strong>G</strong> unconfident | <strong>H</strong> unsurprising but satisfying | <strong>I</strong> magical
+            </p>
+          </div>
+
+          <div class="question">
+            <div class="question-text">Mahy's determination to earn a living from writing has encouraged her to find the ideas for her work in <strong>32. <select class="answer-input" data-question="32" style="padding:0.5rem; border:1px solid #d1d5db; border-radius:0.25rem; width:100px;">
+              <option value="">-- Select --</option>
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+              <option value="E">E</option>
+              <option value="F">F</option>
+              <option value="G">G</option>
+              <option value="H">H</option>
+              <option value="I">I</option>
+            </select></strong> places.</div>
+          </div>
+
+          <div class="question">
+            <div class="question-text">The stories themselves are set in locations that are <strong>33. <select class="answer-input" data-question="33" style="padding:0.5rem; border:1px solid #d1d5db; border-radius:0.25rem; width:100px;">
+              <option value="">-- Select --</option>
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+              <option value="E">E</option>
+              <option value="F">F</option>
+              <option value="G">G</option>
+              <option value="H">H</option>
+              <option value="I">I</option>
+            </select></strong> .</div>
+          </div>
+
+          <div class="question">
+            <div class="question-text">In terms of characterisation, almost all of her books feature unruly people, and very often an adolescent who possesses <strong>34. <select class="answer-input" data-question="34" style="padding:0.5rem; border:1px solid #d1d5db; border-radius:0.25rem; width:100px;">
+              <option value="">-- Select --</option>
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+              <option value="E">E</option>
+              <option value="F">F</option>
+              <option value="G">G</option>
+              <option value="H">H</option>
+              <option value="I">I</option>
+            </select></strong> abilities.</div>
+          </div>
+
+          <div class="question">
+            <div class="question-text">Finally, the endings of the stories tend to be <strong>35. <select class="answer-input" data-question="35" style="padding:0.5rem; border:1px solid #d1d5db; border-radius:0.25rem; width:100px;">
+              <option value="">-- Select --</option>
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+              <option value="E">E</option>
+              <option value="F">F</option>
+              <option value="G">G</option>
+              <option value="H">H</option>
+              <option value="I">I</option>
+            </select></strong> .</div>
+          </div>
+
+          <!-- Questions 36-40: Multiple Choice -->
+          <div class="sectionRubric">
+            <h2>Questions 36–40</h2>
+            <p>Choose the correct letter, A, B, C or D.</p>
+          </div>
+
+          <div class="question">
+            <div class="question-rubric"><h3>Question 36</h3></div>
+            <div class="question-text">What does the writer say about The Magician of Hoad?</div>
+            <div class="choice-item">
+              <input type="radio" id="q36a" name="q36" value="A" class="answer-input" data-question="36">
+              <label for="q36a"><strong>A</strong> It is partly based on true history.</label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q36b" name="q36" value="B" class="answer-input" data-question="36">
+              <label for="q36b"><strong>B</strong> It was restructured in the writing process.</label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q36c" name="q36" value="C" class="answer-input" data-question="36">
+              <label for="q36c"><strong>C</strong> It is quite different from conventional stories.</label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q36d" name="q36" value="D" class="answer-input" data-question="36">
+              <label for="q36d"><strong>D</strong> It does not reflect the usual themes of Mahy's work.</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <div class="question-rubric"><h3>Question 37</h3></div>
+            <div class="question-text">According to the writer, Bubble Trouble</div>
+            <div class="choice-item">
+              <input type="radio" id="q37a" name="q37" value="A" class="answer-input" data-question="37">
+              <label for="q37a"><strong>A</strong> was first illustrated in 1991.</label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q37b" name="q37" value="B" class="answer-input" data-question="37">
+              <label for="q37b"><strong>B</strong> is written in plain language.</label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q37c" name="q37" value="C" class="answer-input" data-question="37">
+              <label for="q37c"><strong>C</strong> is an old favourite for many families.</label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q37d" name="q37" value="D" class="answer-input" data-question="37">
+              <label for="q37d"><strong>D</strong> has not been read aloud by Mahy before.</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <div class="question-rubric"><h3>Question 38</h3></div>
+            <div class="question-text">The writer's purpose in the fifth paragraph is to</div>
+            <div class="choice-item">
+              <input type="radio" id="q38a" name="q38" value="A" class="answer-input" data-question="38">
+              <label for="q38a"><strong>A</strong> show how Mahy's style has changed through generations.</label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q38b" name="q38" value="B" class="answer-input" data-question="38">
+              <label for="q38b"><strong>B</strong> criticise Mahy's children's stories for being repetitive.</label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q38c" name="q38" value="C" class="answer-input" data-question="38">
+              <label for="q38c"><strong>C</strong> describe how new media have changed entertainment.</label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q38d" name="q38" value="D" class="answer-input" data-question="38">
+              <label for="q38d"><strong>D</strong> illustrate Mahy's popularity with generations of children.</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <div class="question-rubric"><h3>Question 39</h3></div>
+            <div class="question-text">According to the sixth paragraph, which of the following is true?</div>
+            <div class="choice-item">
+              <input type="radio" id="q39a" name="q39" value="A" class="answer-input" data-question="39">
+              <label for="q39a"><strong>A</strong> Readers sometimes do not finish Mahy's books.</label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q39b" name="q39" value="B" class="answer-input" data-question="39">
+              <label for="q39b"><strong>B</strong> Mahy actively encourages feedback from readers.</label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q39c" name="q39" value="C" class="answer-input" data-question="39">
+              <label for="q39c"><strong>C</strong> Readers are necessary in order to complete a book.</label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q39d" name="q39" value="D" class="answer-input" data-question="39">
+              <label for="q39d"><strong>D</strong> Mahy does not realise how important she is to some readers.</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <div class="question-rubric"><h3>Question 40</h3></div>
+            <div class="question-text">What is the writer doing in the final paragraph?</div>
+            <div class="choice-item">
+              <input type="radio" id="q40a" name="q40" value="A" class="answer-input" data-question="40">
+              <label for="q40a"><strong>A</strong> illustrating Mahy's view of the world</label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q40b" name="q40" value="B" class="answer-input" data-question="40">
+              <label for="q40b"><strong>B</strong> comparing Mahy with another writer</label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q40c" name="q40" value="C" class="answer-input" data-question="40">
+              <label for="q40c"><strong>C</strong> correcting a misconception about Mahy</label>
+            </div>
+            <div class="choice-item">
+              <input type="radio" id="q40d" name="q40" value="D" class="answer-input" data-question="40">
+              <label for="q40d"><strong>D</strong> suggesting reasons for Mahy's approach</label>
+            </div>
+          </div>
+
+          <button class="submit-btn" id="submitBtn2">Submit All Answers</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="settings-modal" id="settingsModal">
+    <div class="settings-content">
+      <div class="settings-header">
+        <h2>Settings</h2>
+        <button class="settings-close" id="settingsClose">✕</button>
+      </div>
+      <div class="settings-body">
+        <div class="settings-option" id="contrastOption">
+          <i class="fas fa-eye"></i> <span>Toggle High Contrast</span>
+        </div>
+        <div class="settings-option" id="textSizeOption">
+          <i class="fas fa-text-height"></i> <span>Toggle Text Size</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Submission Modal -->
+  <div class="submission-modal" id="submissionModal">
+    <div class="submission-content">
+      <div class="submission-header">
+        <h2>Test Results</h2>
+      </div>
+      <div class="submission-body">
+        <p style="font-size:1.1rem;">Your test has been submitted successfully!</p>
+        <div class="submission-score" id="scoreDisplay">0 / 14</div>
+        <p id="feedbackMessage" style="color:#4b5563; margin:1rem 0; font-size:1.05rem;"></p>
+        <div id="detailedResults" style="text-align:left; margin:1.5rem 0;"></div>
+        <div class="submission-buttons">
+          <button class="btn-secondary" id="closeResultsBtn">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Highlight Toolbar -->
+  <div class="highlight-toolbar" id="highlightToolbar">
+    <button data-color="yellow" title="Yellow"><span class="highlight-color yellow"></span></button>
+    <button data-color="green" title="Green"><span class="highlight-color green"></span></button>
+    <button data-color="pink" title="Pink"><span class="highlight-color pink"></span></button>
+    <button data-color="blue" title="Blue"><span class="highlight-color blue"></span></button>
+    <button class="remove" title="Remove"><i class="fas fa-trash-alt"></i> Remove</button>
+  </div>
+
+  <script>
+    const ANSWER_KEY = {
+      '27': 'NOT GIVEN', '28': 'NO', '29': 'NOT GIVEN', '30': 'YES', '31': 'NO',
+      '32': 'B', '33': 'E', '34': 'I', '35': 'H',
+      '36': 'B', '37': 'C', '38': 'D', '39': 'C', '40': 'A'
+    };
+
+    let timeElapsed = 0, testSubmitted = false, lastSelectionRange = null, textSizeIndex = 0;
+    const textSizes = ['1.05rem', '1.2rem', '1.35rem'];
+
+    // Timer
+    function updateTimer(){
+      const mins = Math.floor(timeElapsed / 60);
+      const secs = timeElapsed % 60;
+      document.getElementById('timerDisplay').textContent = 
+        String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+      timeElapsed++;
+      setTimeout(updateTimer, 1000);
+    }
+    updateTimer();
+
+    // Answer Indicators
+    function updateAnswerIndicators(){
+      ['27','28','29','30','31','32','33','34','35','36','37','38','39','40'].forEach(q => {
+        const circle = document.querySelector(`.answer-circle[data-question="${q}"]`);
+        let answered = false;
+        if (q <= '31') {
+          answered = !!document.querySelector(`input[name="q${q}"]:checked`);
+        } else if (q <= '35') {
+          const sel = document.querySelector(`select[data-question="${q}"]`);
+          answered = sel && sel.value !== '';
+        } else {
+          answered = !!document.querySelector(`input[name="q${q}"]:checked`);
+        }
+        circle.classList.toggle('answered', answered);
+        circle.classList.toggle('unanswered', !answered);
+      });
+    }
+
+    document.querySelectorAll('.answer-input').forEach(input => {
+      input.addEventListener('change', updateAnswerIndicators);
+    });
+
+    // Text Size & Contrast
+    document.getElementById('textSizeToggle').addEventListener('click', () => {
+      textSizeIndex = (textSizeIndex + 1) % textSizes.length;
+      document.querySelectorAll('#passageContent, .question').forEach(el => 
+        el.style.fontSize = textSizes[textSizeIndex]);
+    });
+
+    document.getElementById('contrastToggle').addEventListener('click', () => {
+      document.body.classList.toggle('high-contrast');
+    });
+
+    // Settings
+    const settingsModal = document.getElementById('settingsModal');
+    document.getElementById('contrastToggle').addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      settingsModal.style.display = 'flex';
+    });
+    document.getElementById('settingsClose').addEventListener('click', () => settingsModal.style.display = 'none');
+    window.addEventListener('click', (e) => { 
+      if (e.target === settingsModal) settingsModal.style.display = 'none'; 
+    });
+    document.getElementById('contrastOption').addEventListener('click', () => document.getElementById('contrastToggle').click());
+    document.getElementById('textSizeOption').addEventListener('click', () => document.getElementById('textSizeToggle').click());
+
+    // Highlighting
+    const highlightToolbar = document.getElementById('highlightToolbar');
+    const HIGHLIGHT_ROOTS = [document.getElementById('passageContent'), document.getElementById('questions-container')];
+
+    function isSelectionInAllowedRoots(sel){
+      if (!sel || sel.rangeCount === 0) return false;
+      const r = sel.getRangeAt(0);
+      if (r.collapsed) return false;
+      const sc = r.startContainer.nodeType === 1 ? r.startContainer : r.startContainer.parentElement;
+      const ec = r.endContainer.nodeType === 1 ? r.endContainer : r.endContainer.parentElement;
+      if ((sc && sc.closest && sc.closest('input,select,textarea,button')) ||
+          (ec && ec.closest && ec.closest('input,select,textarea,button'))) {
+        return false;
+      }
+      return HIGHLIGHT_ROOTS.some(root => root.contains(r.commonAncestorContainer));
+    }
+
+    function getRangeRect(range){
+      const rects = range.getClientRects();
+      return rects && rects.length ? rects[0] : range.getBoundingClientRect();
+    }
+
+    document.addEventListener('mouseup', () => {
+      if (testSubmitted) return;
+      const sel = window.getSelection();
+      if (!sel || sel.rangeCount === 0) { highlightToolbar.style.display = 'none'; return; }
+      if (!isSelectionInAllowedRoots(sel)) { highlightToolbar.style.display = 'none'; return; }
+      const r = sel.getRangeAt(0);
+      const text = sel.toString().trim();
+      if (!text.length) { highlightToolbar.style.display = 'none'; return; }
+      lastSelectionRange = r.cloneRange();
+      const rect = getRangeRect(r);
+      highlightToolbar.style.display = 'flex';
+      highlightToolbar.style.top = `${rect.top + window.scrollY - 12}px`;
+      highlightToolbar.style.left = `${rect.left + window.scrollX + (rect.width / 2)}px`;
+    });
+
+    document.addEventListener('scroll', () => {
+      if (highlightToolbar.style.display === 'flex') highlightToolbar.style.display = 'none';
+    }, true);
+
+    highlightToolbar.querySelectorAll('button[data-color]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const color = btn.dataset.color;
+        if (!lastSelectionRange) return;
+        applyHighlight(lastSelectionRange, color);
+        window.getSelection()?.removeAllRanges();
+        highlightToolbar.style.display = 'none';
+      });
+    });
+
+    highlightToolbar.querySelector('button.remove').addEventListener('click', () => {
+      if (!lastSelectionRange) return;
+      removeHighlightsInRange(lastSelectionRange);
+      window.getSelection()?.removeAllRanges();
+      highlightToolbar.style.display = 'none';
+    });
+
+    function applyHighlight(range, color){
+      const root = HIGHLIGHT_ROOTS.find(r => r.contains(range.commonAncestorContainer)) || HIGHLIGHT_ROOTS[0];
+      const textNodes = getTextNodesIntersectingRange(root, range);
+      if (!textNodes.length) return;
+      textNodes.forEach(node => {
+        const { startOffset, endOffset } = getOffsetsForTextNode(node, range);
+        if (startOffset === endOffset) return;
+        const selectedNode = splitTextNode(node, startOffset, endOffset);
+        const span = document.createElement('span');
+        span.className = `highlight ${color}`;
+        selectedNode.parentNode.insertBefore(span, selectedNode);
+        span.appendChild(selectedNode);
+        mergeAdjacentHighlights(span);
+      });
+    }
+
+    function removeHighlightsInRange(range){
+      const root = HIGHLIGHT_ROOTS.find(r => r.contains(range.commonAncestorContainer)) || HIGHLIGHT_ROOTS[0];
+      const spans = Array.from(root.querySelectorAll('span.highlight'));
+      spans.forEach(sp => { if (rangeIntersectsNode(range, sp)) unwrapHighlightSpan(sp); });
+    }
+
+    function unwrapHighlightSpan(span){
+      const parent = span.parentNode;
+      while (span.firstChild) parent.insertBefore(span.firstChild, span);
+      parent.removeChild(span);
+      parent.normalize();
+    }
+
+    function mergeAdjacentHighlights(span){
+      const prev = span.previousSibling;
+      if (prev && prev.nodeType === 1 && prev.classList.contains('highlight') && prev.className === span.className){
+        while (span.firstChild) prev.appendChild(span.firstChild);
+        span.remove();
+        span = prev;
+      }
+      const next = span.nextSibling;
+      if (next && next.nodeType === 1 && next.classList.contains('highlight') && next.className === span.className){
+        while (next.firstChild) span.appendChild(next.firstChild);
+        next.remove();
+      }
+    }
+
+    function getTextNodesIntersectingRange(root, range){
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+        acceptNode: (node) => {
+          if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+          const parentEl = node.parentElement;
+          if (parentEl && parentEl.closest && parentEl.closest('script,style')) return NodeFilter.FILTER_REJECT;
+          if (parentEl && parentEl.closest && parentEl.closest('input,select,textarea,button')) return NodeFilter.FILTER_REJECT;
+          return rangeIntersectsNode(range, node) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+        }
+      });
+      const nodes = [];
+      let n;
+      while (n = walker.nextNode()) nodes.push(n);
+      return nodes;
+    }
+
+    function rangeIntersectsNode(range, node){
+      const nodeRange = document.createRange();
+      try { nodeRange.selectNodeContents(node); } catch { return false; }
+      return (range.compareBoundaryPoints(Range.END_TO_START, nodeRange) < 0 &&
+              range.compareBoundaryPoints(Range.START_TO_END, nodeRange) > 0);
+    }
+
+    function getOffsetsForTextNode(textNode, range){
+      let startOffset = 0, endOffset = textNode.nodeValue.length;
+      if (range.startContainer === textNode) startOffset = range.startOffset;
+      else {
+        const r = document.createRange(); r.selectNodeContents(textNode);
+        if (range.compareBoundaryPoints(Range.START_TO_END, r) >= 0) startOffset = endOffset;
+      }
+      if (range.endContainer === textNode) endOffset = range.endOffset;
+      else {
+        const r = document.createRange(); r.selectNodeContents(textNode);
+        if (range.compareBoundaryPoints(Range.END_TO_START, r) <= 0) endOffset = startOffset;
+      }
+      startOffset = Math.max(0, Math.min(startOffset, textNode.nodeValue.length));
+      endOffset = Math.max(0, Math.min(endOffset, textNode.nodeValue.length));
+      if (endOffset < startOffset) endOffset = startOffset;
+      return { startOffset, endOffset };
+    }
+
+    function splitTextNode(textNode, startOffset, endOffset){
+      let node = textNode;
+      if (endOffset < node.nodeValue.length) node.splitText(endOffset);
+      if (startOffset > 0) node = node.splitText(startOffset);
+      return node;
+    }
+
+    // Submission
+    function getAllAnswers(){
+      const answers = {};
+      for (let q = 27; q <= 31; q++) {
+        const sel = document.querySelector(`input[name="q${q}"]:checked`);
+        answers[q] = sel ? sel.value : '';
+      }
+      for (let q = 32; q <= 35; q++) {
+        const sel = document.querySelector(`select[data-question="${q}"]`);
+        answers[q] = sel ? sel.value : '';
+      }
+      for (let q = 36; q <= 40; q++) {
+        const sel = document.querySelector(`input[name="q${q}"]:checked`);
+        answers[q] = sel ? sel.value : '';
+      }
+      return answers;
+    }
+
+    function checkAnswer(questionNum, userAnswer){
+      return userAnswer === ANSWER_KEY[questionNum];
+    }
+
+    function submitAnswers(){
+      if (testSubmitted) return;
+      testSubmitted = true;
+      const answers = getAllAnswers();
+      let correct = 0;
+      const results = {};
+      for (const [q, answer] of Object.entries(answers)){
+        const isCorrect = checkAnswer(q, answer);
+        if (isCorrect) correct++;
+        results[q] = { answer, isCorrect };
+      }
+      document.querySelectorAll('.answer-input').forEach(el => { el.disabled = true; });
+      showResults(correct, results);
+    }
+
+    function showResults(correct, results){
+      const modal = document.getElementById('submissionModal');
+      document.getElementById('scoreDisplay').textContent = `${correct} / 14`;
+      const percentage = Math.round((correct / 14) * 100);
+      document.getElementById('feedbackMessage').textContent = 
+        `You got ${percentage}% correct. Time: ${String(Math.floor(timeElapsed / 60)).padStart(2, '0')}:${String(timeElapsed % 60).padStart(2, '0')}`;
+      let resultsHTML = '';
+      for (const [q, result] of Object.entries(results)){
+        const correctAnswer = ANSWER_KEY[q];
+        const isCorrect = result.isCorrect;
+        const icon = isCorrect ? '✓' : '✗';
+        const resultClass = isCorrect ? 'correct' : 'incorrect';
+        resultsHTML += `<div class="result-item ${resultClass}">
+          <strong>Q${q}: ${icon}</strong>
+          <div class="detail"><strong>Your answer:</strong> ${result.answer || '(empty)'}</div>
+          <div class="detail"><strong>Correct answer:</strong> ${correctAnswer}</div>
+        </div>`;
+      }
+      document.getElementById('detailedResults').innerHTML = resultsHTML;
+      modal.style.display = 'flex';
+    }
+
+    document.getElementById('submitBtn').addEventListener('click', submitAnswers);
+    document.getElementById('submitBtn2').addEventListener('click', submitAnswers);
+    document.getElementById('closeResultsBtn').addEventListener('click', () => {
+      document.getElementById('submissionModal').style.display = 'none';
+    });
+
+    // Divider
+    const divider = document.getElementById('divider');
+    const passagePanel = document.querySelector('.passage-container');
+    const testContainer = document.querySelector('.test-container');
+    let isResizing = false;
+    divider.addEventListener('mousedown', () => { isResizing = true; });
+    document.addEventListener('mouseup', () => { isResizing = false; });
+    document.addEventListener('mousemove', (e) => {
+      if (!isResizing) return;
+      const container = testContainer.getBoundingClientRect();
+      const newPassageWidth = e.clientX - container.left;
+      const minWidth = 250, maxWidth = container.width - 250;
+      if (newPassageWidth > minWidth && newPassageWidth < maxWidth){
+        passagePanel.style.width = newPassageWidth + 'px';
+      }
+    });
+  </script>
+</body>
+</html>

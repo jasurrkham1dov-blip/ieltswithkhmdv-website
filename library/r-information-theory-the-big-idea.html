@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IELTS Reading Test - Information Theory (Q1-14)</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      overflow: hidden;
+      color: #1e293b;
+    }
+    .test-wrapper { display:flex; flex-direction:column; height:100vh; }
+    .test-container { display:flex; flex:1; overflow:hidden; }
+
+    .header {
+      background:#ffffff; border-bottom:1px solid #cbd5e1;
+      padding:1rem 2rem; display:flex; justify-content:space-between;
+      align-items:center; box-shadow:0 4px 12px rgba(0,0,0,.08);
+      gap:1rem; flex-wrap:wrap;
+    }
+    .header__logo { display:flex; align-items:center; gap:.75rem; }
+    .header__title { font-size:1.1rem; font-weight:600; color:#1e293b; flex:1; min-width:300px; }
+    .header__timer {
+      font-size:1.25rem; font-weight:600; color:#dc2305;
+      background:#fef3c7; padding:.5rem 1.5rem; border-radius:9999px;
+      border:1px solid #fcd34d; white-space:nowrap;
+    }
+    .header__icons { display:flex; gap:1.25rem; align-items:center; }
+    .header__telegram {
+      display:flex; align-items:center; gap:0.5rem;
+      padding:0.5rem 1.2rem;
+      background:linear-gradient(90deg, #0369a1, #0284c7);
+      color:#fff; border-radius:9999px; text-decoration:none;
+      font-weight:600; font-size:0.9rem; transition:all .3s ease;
+      border:1px solid #0c4a6e;
+    }
+    .header__telegram:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(2,132,199,0.5); }
+
+    .answer-indicators {
+      display:flex; gap:0.5rem; flex-wrap:wrap;
+      padding:1rem 2rem; background:#f1f5f9;
+      border-bottom:1px solid #cbd5e1; align-items:center; font-size:0.8rem;
+    }
+    .indicator-label { font-weight:600; color:#475569; margin-right:0.5rem; }
+    .answer-circle {
+      width:2.2rem; height:2.2rem; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      font-weight:700; cursor:default; transition:all .3s ease;
+      border:2px solid #cbd5e1; background:#cbd5e1; color:#64748b; font-size:0.7rem;
+    }
+    .answer-circle.answered  { background:#10b981; border-color:#059669; color:#fff; box-shadow:0 0 8px rgba(16,185,129,0.4); }
+    .answer-circle.unanswered{ background:#ef4444; border-color:#dc2626; color:#fff; box-shadow:0 0 8px rgba(239,68,68,0.4); }
+
+    .passage-container {
+      width:45%; height:100%; overflow-y:auto;
+      padding:1.5rem; box-sizing:border-box;
+      background:#fafafa; border-right:1px solid #cbd5e1;
+      position:relative; user-select:text;
+    }
+    .questions-container {
+      flex:1; height:100%; overflow-y:auto;
+      padding:1.5rem; box-sizing:border-box;
+      background:#fafafa; position:relative; user-select:text;
+    }
+    .passage-container::-webkit-scrollbar,
+    .questions-container::-webkit-scrollbar { width:8px; }
+    .passage-container::-webkit-scrollbar-track,
+    .questions-container::-webkit-scrollbar-track { background:#f1f5f9; }
+    .passage-container::-webkit-scrollbar-thumb,
+    .questions-container::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:4px; }
+
+    .divider { width:14px; background:#cbd5e1; cursor:col-resize; position:relative; user-select:none; }
+    .divider-handle {
+      width:6px; height:60px; background:#94a3b8; border-radius:4px;
+      position:absolute; top:50%; left:4px; transform:translateY(-50%);
+    }
+
+    .highlight { border-radius:.25rem; padding:0 .15rem; }
+    .highlight.yellow { background:rgba(234,179,8,0.6); }
+    .highlight.green  { background:rgba(34,197,94,0.6); }
+    .highlight.pink   { background:rgba(236,72,153,0.6); }
+    .highlight.blue   { background:rgba(59,130,246,0.6); }
+    .highlight.purple { background:rgba(147,51,234,0.6); }
+    .highlight.red    { background:rgba(239,68,68,0.6); }
+
+    .highlight-toolbar {
+      position:fixed; background:#ffffff; border:1px solid #cbd5e1;
+      border-radius:.5rem; box-shadow:0 8px 16px rgba(0,0,0,.15);
+      display:none; z-index:2000; padding:.5rem;
+      transform:translate(-50%,-100%); margin-top:-.5rem;
+      gap:.35rem; align-items:center; flex-direction:row;
+    }
+    .highlight-toolbar button {
+      background:none; border:none; width:2rem; height:2rem;
+      cursor:pointer; border-radius:.25rem; transition:all .2s ease;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .highlight-toolbar button:hover { background:#f1f5f9; transform:scale(1.08); }
+    .highlight-toolbar button.remove { color:#ef4444; width:auto; padding:0 .5rem; gap:.35rem; }
+    .highlight-color { width:1.5rem; height:1.5rem; border-radius:9999px; border:2px solid #cbd5e1; }
+    .highlight-color.yellow { background:#eab308; }
+    .highlight-color.green  { background:#22c55e; }
+    .highlight-color.pink   { background:#ec4899; }
+    .highlight-color.blue   { background:#3b82f6; }
+    .highlight-color.purple { background:#9333ea; }
+    .highlight-color.red    { background:#ef4444; }
+
+    #passageContent { line-height:1.8; font-size:1.05rem; color:#1e293b; }
+    #passageContent p { margin:0.8rem 0; text-align:justify; }
+    #passageContent .paragraph-letter {
+      font-weight:700; color:#d97706; font-size:1.1rem;
+      margin-top:1rem; margin-bottom:0.25rem;
+    }
+
+    .sectionRubric {
+      margin:1.5rem; padding:1.25rem; background:#ffffff;
+      border:1px solid #cbd5e1; border-radius:.75rem;
+      box-shadow:0 4px 12px rgba(0,0,0,.05);
+    }
+    .sectionRubric h2 { font-size:1.25rem; color:#d97706; margin-bottom:.5rem; }
+    .sectionRubric p  { margin:0.5rem 0; color:#475569; font-size:0.95rem; }
+
+    .question {
+      background:#ffffff; padding:1.5rem; margin-bottom:1.5rem;
+      border:1px solid #cbd5e1; border-radius:.75rem;
+      box-shadow:0 2px 8px rgba(0,0,0,.04); transition:all .3s ease;
+    }
+    .question:hover { box-shadow:0 4px 12px rgba(0,0,0,.08); border-color:#94a3b8; }
+    .question.answered   { border-left:4px solid #10b981; }
+    .question.unanswered { border-left:4px solid #ef4444; }
+    .question-title { font-weight:700; font-size:1rem; color:#1e293b; margin-bottom:0.75rem; }
+
+    .options-group { display:flex; flex-direction:column; gap:0.5rem; }
+    .option {
+      display:flex; align-items:center; padding:0.75rem;
+      background:#f8fafc; border:1px solid #cbd5e1;
+      border-radius:.5rem; cursor:pointer; transition:all .2s ease;
+    }
+    .option:hover { background:#f1f5f9; border-color:#94a3b8; }
+    .option input[type="radio"] { margin-right:0.75rem; cursor:pointer; accent-color:#0284c7; }
+
+    .text-input {
+      padding:0.75rem; border:1px solid #cbd5e1; border-radius:.5rem;
+      font-size:0.95rem; width:100%; box-sizing:border-box; transition:all .2s ease;
+    }
+    .text-input:focus { outline:none; border-color:#0284c7; box-shadow:0 0 0 3px rgba(2,132,199,0.1); }
+
+    .submit-btn {
+      padding:0.75rem 2rem;
+      background:linear-gradient(135deg, #0284c7, #0369a1);
+      color:#fff; border:none; border-radius:.5rem;
+      font-weight:600; cursor:pointer; transition:all .3s ease; font-size:1rem;
+    }
+    .submit-btn:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(2,132,199,0.4); }
+
+    #submissionModal {
+      display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+      background:rgba(0,0,0,.5); align-items:center; justify-content:center; z-index:3000;
+    }
+    .modal-content {
+      background:#ffffff; border-radius:1rem; padding:2rem;
+      max-width:700px; max-height:85vh; overflow-y:auto;
+      box-shadow:0 25px 50px rgba(0,0,0,.15);
+    }
+    .modal-content h2 { font-size:1.5rem; font-weight:700; margin-bottom:1rem; color:#1e293b; }
+    .score-display { font-size:2.5rem; font-weight:700; color:#0284c7; text-align:center; margin:1rem 0; }
+    .feedback-message { text-align:center; font-size:1rem; color:#475569; margin:1rem 0; line-height:1.6; }
+    #detailedResults { margin-top:1.5rem; }
+    .result-item { padding:1rem; margin-bottom:1rem; border-radius:.5rem; border-left:4px solid; }
+    .result-item.correct   { background:#ecfdf5; border-left-color:#10b981; }
+    .result-item.incorrect { background:#fef2f2; border-left-color:#ef4444; }
+    .result-item strong { font-weight:700; display:block; margin-bottom:0.5rem; font-size:0.95rem; }
+    .result-detail { font-size:0.9rem; margin:0.5rem 0; line-height:1.5; }
+    .explanation {
+      margin-top:0.75rem; padding:0.75rem; background:#ffffff;
+      border-left:3px solid #0284c7; border-radius:4px;
+      font-size:0.9rem; color:#1e293b; line-height:1.6;
+    }
+    .close-results-btn {
+      margin-top:1.5rem; width:100%; padding:0.75rem;
+      background:#cbd5e1; border:none; border-radius:.5rem;
+      cursor:pointer; font-weight:600; transition:all .2s ease;
+    }
+    .close-results-btn:hover { background:#94a3b8; }
+
+    .info-note {
+      background:#e0f2fe; border:1px solid #0284c7; padding:0.75rem;
+      border-radius:.5rem; margin-bottom:1rem; font-size:0.9rem; color:#0c4a6e;
+    }
+  </style>
+</head>
+<body>
+<div class="test-wrapper">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header__logo">
+      <i class="fas fa-book" style="font-size:1.5rem; color:#0284c7;"></i>
+      <div class="header__title">IELTS Reading - Information Theory (Q1-14)</div>
+    </div>
+    <div class="header__timer"><span id="timerDisplay">00:00</span></div>
+    <div class="header__icons">
+      <a href="https://t.me/ieltswithkhmdv" target="_blank" rel="noopener noreferrer" class="header__telegram">
+        <i class="fab fa-telegram"></i>
+        <span>@ieltswithkhmdv</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Answer Indicators -->
+  <div class="answer-indicators">
+    <span class="indicator-label">Question Status:</span>
+    <div id="answerIndicators" style="display:flex; gap:0.5rem; flex-wrap:wrap;"></div>
+  </div>
+
+  <!-- Test Container -->
+  <div class="test-container">
+
+    <!-- Passage Panel -->
+    <div class="passage-container">
+      <div class="sectionRubric">
+        <h2>Reading Passage 3</h2>
+        <p><strong>The Big Idea – Information Theory</strong></p>
+        <p><em>How Claude Shannon's mathematics shaped the modern world of communication.</em></p>
+      </div>
+
+      <div id="passageContent">
+        <p>Information theory lies at the heart of everything — from DVD players and the genetic code of DNA to the physics of the universe at its most fundamental. It has been central to the development of the science of communication, which enables data to be sent electronically and has therefore had a major impact on our lives.</p>
+
+        <div class="paragraph-letter">A</div>
+        <p>In April 2002 an event took place which demonstrated one of the many applications of information theory. The space probe, Voyager I, launched in 1977, had sent back spectacular images of Jupiter and Saturn and then soared out of the Solar System on a one-way mission to the stars. After 25 years of exposure to the freezing temperatures of deep space, the probe was beginning to show its age. Sensors and circuits were on the brink of failing and NASA experts realised that they had to do something or lose contact with their probe forever. The solution was to get a message to Voyager I to instruct it to use spares to change the failing parts. With the probe 12 billion kilometres from Earth, this was not an easy task. By means of a radio dish belonging to NASA's Deep Space Network, the message was sent out into the depths of space. Even travelling at the speed of light, it took over 11 hours to reach its target, far beyond the orbit of Pluto. Yet, incredibly, the little probe managed to hear the faint call from its home planet, and successfully made the switchover.</p>
+
+        <div class="paragraph-letter">B</div>
+        <p>It was the longest-distance repair job in history, and a triumph for the NASA engineers. But it also highlighted the astonishing power of the techniques developed by American communications engineer Claude Shannon, who had died just a year earlier. Born in 1916 in Petoskey, Michigan, Shannon showed an early talent for maths and for building gadgets, and made breakthroughs in the foundations of computer technology when still a student. While at Bell Laboratories, Shannon developed information theory, but shunned the resulting acclaim. In the 1940s, he single-handedly created an entire science of communication which has since inveigled its way into a host of applications, from DVDs to satellite communications to bar codes — any area, in short, where data has to be conveyed rapidly yet accurately.</p>
+
+        <div class="paragraph-letter">C</div>
+        <p>This all seems light years away from the down-to-earth uses Shannon originally had for his work, which began when he was a 22-year-old graduate engineering student at the prestigious Massachusetts Institute of Technology in 1939. He set out with an apparently simple aim: to pin down the precise meaning of the concept of 'information'. The most basic form of information, Shannon argued, is whether something is true or false — which can be captured in the binary unit, or 'bit', of the form 1 or 0. Having identified this fundamental unit, Shannon set about defining otherwise vague ideas about information and how to transmit it from place to place. In the process he discovered something surprising: it is always possible to guarantee information will get through random interference — 'noise' — intact.</p>
+
+        <div class="paragraph-letter">D</div>
+        <p>Noise usually means unwanted sounds which interfere with genuine information. Information theory generalises this idea via theorems that capture the effects of noise with mathematical precision. In particular, Shannon showed that noise sets a limit on the rate at which information can pass along communication channels while remaining error-free. This rate depends on the relative strengths of the signal and noise travelling down the communication channel, and on its capacity (its 'bandwidth'). The resulting limit, given in units of bits per second, is the absolute maximum rate of error-free communication given signal strength and noise level. The trick, Shannon showed, is to find ways of packaging up — 'coding' — information to cope with the ravages of noise, while staying within the information-carrying capacity — 'bandwidth' — of the communication system being used.</p>
+
+        <div class="paragraph-letter">E</div>
+        <p>Over the years scientists have devised many such coding methods, and they have proved crucial in many technological feats. The Voyager spacecraft transmitted data using codes which added one extra bit for every single bit of information; the result was an error rate of just one bit in 10,000 — and stunningly clear pictures of the planets. Other codes have become part of everyday life — such as the Universal Product Code, or bar code, which uses a simple error-detecting system that ensures supermarket check-out lasers can read the price even on, say, a crumpled bag of crisps. As recently as 1993, engineers made a major breakthrough by discovering so-called turbo codes — which come very close to Shannon's ultimate limit for the maximum rate that data can be transmitted reliably, and now play a key role in the mobile videophone revolution.</p>
+
+        <div class="paragraph-letter">F</div>
+        <p>Shannon also laid the foundations of more efficient ways of storing information, by stripping out superfluous ('redundant') bits from data which contributed little real information. As mobile phone text messages like 'I CN C U' show, it is often possible to leave out a lot of data without losing much meaning. As with error correction, however, there's a limit beyond which messages become too ambiguous. Shannon showed how to calculate this limit, opening the way to the design of compression methods that cram maximum information into the minimum space.</p>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="divider" id="divider"><div class="divider-handle"></div></div>
+
+    <!-- Questions Panel -->
+    <div class="questions-container">
+      <div id="questionsContent">
+
+        <div class="sectionRubric">
+          <h2>Questions 1–14</h2>
+          <p>Answer all 14 questions based on the passage above.</p>
+        </div>
+
+        <!-- Q1–6: Paragraph Matching -->
+        <div style="margin-bottom:2rem;">
+          <div class="info-note">
+            <strong>Questions 1–6: Paragraph Matching</strong><br>
+            The passage has six paragraphs, A–F. Which paragraph contains the following information?<br>
+            Write the correct letter (A–F) for each answer.
+          </div>
+
+          <div class="question">
+            <div class="question-title">1. An explanation of the factors affecting the transmission of information</div>
+            <div class="options-group">
+              <label class="option"><input type="radio" name="q1" value="A"> A</label>
+              <label class="option"><input type="radio" name="q1" value="B"> B</label>
+              <label class="option"><input type="radio" name="q1" value="C"> C</label>
+              <label class="option"><input type="radio" name="q1" value="D"> D</label>
+              <label class="option"><input type="radio" name="q1" value="E"> E</label>
+              <label class="option"><input type="radio" name="q1" value="F"> F</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <div class="question-title">2. An example of how unnecessary information can be omitted</div>
+            <div class="options-group">
+              <label class="option"><input type="radio" name="q2" value="A"> A</label>
+              <label class="option"><input type="radio" name="q2" value="B"> B</label>
+              <label class="option"><input type="radio" name="q2" value="C"> C</label>
+              <label class="option"><input type="radio" name="q2" value="D"> D</label>
+              <label class="option"><input type="radio" name="q2" value="E"> E</label>
+              <label class="option"><input type="radio" name="q2" value="F"> F</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <div class="question-title">3. A reference to Shannon's attitude to fame</div>
+            <div class="options-group">
+              <label class="option"><input type="radio" name="q3" value="A"> A</label>
+              <label class="option"><input type="radio" name="q3" value="B"> B</label>
+              <label class="option"><input type="radio" name="q3" value="C"> C</label>
+              <label class="option"><input type="radio" name="q3" value="D"> D</label>
+              <label class="option"><input type="radio" name="q3" value="E"> E</label>
+              <label class="option"><input type="radio" name="q3" value="F"> F</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <div class="question-title">4. Details of a machine capable of interpreting incomplete information</div>
+            <div class="options-group">
+              <label class="option"><input type="radio" name="q4" value="A"> A</label>
+              <label class="option"><input type="radio" name="q4" value="B"> B</label>
+              <label class="option"><input type="radio" name="q4" value="C"> C</label>
+              <label class="option"><input type="radio" name="q4" value="D"> D</label>
+              <label class="option"><input type="radio" name="q4" value="E"> E</label>
+              <label class="option"><input type="radio" name="q4" value="F"> F</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <div class="question-title">5. A detailed account of an incident involving information theory</div>
+            <div class="options-group">
+              <label class="option"><input type="radio" name="q5" value="A"> A</label>
+              <label class="option"><input type="radio" name="q5" value="B"> B</label>
+              <label class="option"><input type="radio" name="q5" value="C"> C</label>
+              <label class="option"><input type="radio" name="q5" value="D"> D</label>
+              <label class="option"><input type="radio" name="q5" value="E"> E</label>
+              <label class="option"><input type="radio" name="q5" value="F"> F</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <div class="question-title">6. A reference to what Shannon initially intended to achieve in his research</div>
+            <div class="options-group">
+              <label class="option"><input type="radio" name="q6" value="A"> A</label>
+              <label class="option"><input type="radio" name="q6" value="B"> B</label>
+              <label class="option"><input type="radio" name="q6" value="C"> C</label>
+              <label class="option"><input type="radio" name="q6" value="D"> D</label>
+              <label class="option"><input type="radio" name="q6" value="E"> E</label>
+              <label class="option"><input type="radio" name="q6" value="F"> F</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q7–11: Note Completion -->
+        <div style="margin-bottom:2rem;">
+          <div class="info-note">
+            <strong>Questions 7–11: Complete the Notes</strong><br>
+            Choose <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer.
+          </div>
+
+          <div class="question" style="padding:2rem; background:#f8fafc;">
+            <div style="font-weight:700; font-size:1.1rem; margin-bottom:1.5rem; text-align:center;">The Voyager 1 Space Probe</div>
+
+            <ul style="list-style:disc; padding-left:1.5rem; line-height:2.6; font-size:0.97rem; color:#1e293b;">
+              <li>
+                The probe transmitted pictures of both
+                <strong>7.</strong> <input type="text" name="q7" class="text-input" placeholder="two planets" style="width:220px; display:inline-block; margin:0 4px; padding:0.4rem 0.6rem;">
+                , then left the
+                <strong>8.</strong> <input type="text" name="q8" class="text-input" placeholder="max 3 words" style="width:180px; display:inline-block; margin:0 4px; padding:0.4rem 0.6rem;">
+              </li>
+              <li>The freezing temperatures were found to have a negative effect on parts of the space probe.</li>
+              <li>
+                Scientists feared that both the
+                <strong>9.</strong> <input type="text" name="q9" class="text-input" placeholder="two things" style="width:220px; display:inline-block; margin:0 4px; padding:0.4rem 0.6rem;">
+                were about to stop working.
+              </li>
+              <li>
+                The only hope was to tell the probe to replace them with
+                <strong>10.</strong> <input type="text" name="q10" class="text-input" placeholder="max 3 words" style="width:160px; display:inline-block; margin:0 4px; padding:0.4rem 0.6rem;">
+                — but distance made communication difficult.
+              </li>
+              <li>
+                A <strong>11.</strong> <input type="text" name="q11" class="text-input" placeholder="max 3 words" style="width:160px; display:inline-block; margin:0 4px; padding:0.4rem 0.6rem;">
+                was used to transmit the message at the speed of light.
+              </li>
+              <li>The message was picked up by the probe and the switchover took place.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Q12–14: True / False / Not Given -->
+        <div style="margin-bottom:2rem;">
+          <div class="info-note">
+            <strong>Questions 12–14: True / False / Not Given</strong><br>
+            Write <strong>TRUE</strong> if it agrees · <strong>FALSE</strong> if it contradicts · <strong>NOT GIVEN</strong> if there is no information.
+          </div>
+
+          <div class="question">
+            <div class="question-title">12. The concept of describing something as true or false was the starting point for Shannon in his attempts to send messages over distances.</div>
+            <div class="options-group">
+              <label class="option"><input type="radio" name="q12" value="TRUE"> TRUE</label>
+              <label class="option"><input type="radio" name="q12" value="FALSE"> FALSE</label>
+              <label class="option"><input type="radio" name="q12" value="NOT GIVEN"> NOT GIVEN</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <div class="question-title">13. The amount of information that can be sent in a given time period is determined with reference to the signal strength and noise level.</div>
+            <div class="options-group">
+              <label class="option"><input type="radio" name="q13" value="TRUE"> TRUE</label>
+              <label class="option"><input type="radio" name="q13" value="FALSE"> FALSE</label>
+              <label class="option"><input type="radio" name="q13" value="NOT GIVEN"> NOT GIVEN</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <div class="question-title">14. Products have now been developed which can convey more information than Shannon had anticipated as possible.</div>
+            <div class="options-group">
+              <label class="option"><input type="radio" name="q14" value="TRUE"> TRUE</label>
+              <label class="option"><input type="radio" name="q14" value="FALSE"> FALSE</label>
+              <label class="option"><input type="radio" name="q14" value="NOT GIVEN"> NOT GIVEN</label>
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <div style="text-align:center; margin-top:2rem; padding-top:2rem; border-top:2px solid #cbd5e1;">
+            <button class="submit-btn" id="submitBtn">Submit Answers</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div style="background:#ffffff; border-top:1px solid #cbd5e1; height:0;"></div>
+</div>
+
+<!-- Submission Modal -->
+<div id="submissionModal">
+  <div class="modal-content">
+    <h2>Results &amp; Explanations</h2>
+    <div class="score-display" id="scoreDisplay">0 / 14</div>
+    <div class="feedback-message" id="feedbackMessage">Loading results...</div>
+    <div id="detailedResults"></div>
+    <button class="close-results-btn" id="closeResultsBtn">Close</button>
+  </div>
+</div>
+
+<script>
+  const TOTAL = 14;
+
+  /******************************************************************
+   * ANSWER KEY
+   ******************************************************************/
+  const ANSWER_KEY = {
+    1:  { answer: 'D',                    type: 'radio',    explanation: 'Paragraph D explains that transmission rate depends on "the relative strengths of the signal and noise" and the "bandwidth" of the channel.' },
+    2:  { answer: 'F',                    type: 'radio',    explanation: 'Paragraph F gives the text-message example "I CN C U" to show how redundant data can be stripped out.' },
+    3:  { answer: 'B',                    type: 'radio',    explanation: 'Paragraph B states Shannon "shunned the resulting acclaim" — showing his reluctance about fame.' },
+    4:  { answer: 'E',                    type: 'radio',    explanation: 'Paragraph E describes the bar code, a device that can read a price even on a crumpled bag — interpreting incomplete/imperfect information.' },
+    5:  { answer: 'A',                    type: 'radio',    explanation: 'Paragraph A gives a detailed account of the Voyager I repair in April 2002 — a real-world application of information theory.' },
+    6:  { answer: 'C',                    type: 'radio',    explanation: 'Paragraph C describes Shannon\'s original aim: "to pin down the precise meaning of the concept of information."' },
+    7:  { answer: 'jupiter and saturn',   type: 'text_both', explanation: 'Paragraph A states the probe "sent back spectacular images of Jupiter and Saturn." Both planets are required.' },
+    8:  { answer: 'solar system',         type: 'text',     explanation: 'Paragraph A says the probe "soared out of the Solar System on a one-way mission to the stars."' },
+    9:  { answer: 'sensors and circuits', type: 'text_both', explanation: 'Paragraph A states "Sensors and circuits were on the brink of failing." Both are required.' },
+    10: { answer: 'spares',               type: 'text',     explanation: 'Paragraph A says the message was sent "to instruct it to use spares to change the failing parts."' },
+    11: { answer: 'radio dish',           type: 'text',     explanation: 'Paragraph A states "By means of a radio dish belonging to NASA\'s Deep Space Network, the message was sent."' },
+    12: { answer: 'TRUE',                 type: 'radio',    explanation: 'Paragraph C confirms Shannon\'s starting point was whether something is true or false — "the most basic form of information."' },
+    13: { answer: 'TRUE',                 type: 'radio',    explanation: 'Paragraph D states the rate "depends on the relative strengths of the signal and noise… and on its capacity (its bandwidth)."' },
+    14: { answer: 'FALSE',                type: 'radio',    explanation: 'Paragraph E says turbo codes "come very close to Shannon\'s ultimate limit" — they approach but do not exceed it. Nothing surpasses his theoretical maximum.' }
+  };
+
+  let timeElapsed = 0;
+  let testSubmitted = false;
+
+  /******************************************************************
+   * TIMER
+   ******************************************************************/
+  setInterval(() => {
+    if (!testSubmitted) {
+      timeElapsed++;
+      const m = String(Math.floor(timeElapsed / 60)).padStart(2, '0');
+      const s = String(timeElapsed % 60).padStart(2, '0');
+      document.getElementById('timerDisplay').textContent = `${m}:${s}`;
+    }
+  }, 1000);
+
+  /******************************************************************
+   * ANSWER INDICATORS
+   ******************************************************************/
+  function isQuestionAnswered(q) {
+    const type = ANSWER_KEY[q].type;
+    if (type === 'radio') {
+      return !!document.querySelector(`input[name="q${q}"]:checked`);
+    } else {
+      const inp = document.querySelector(`input[name="q${q}"]`);
+      return inp && inp.value.trim().length > 0;
+    }
+  }
+
+  function updateAnswerIndicators() {
+    const container = document.getElementById('answerIndicators');
+    container.innerHTML = '';
+    for (let i = 1; i <= TOTAL; i++) {
+      const answered = isQuestionAnswered(i);
+      const circle = document.createElement('div');
+      circle.className = `answer-circle ${answered ? 'answered' : 'unanswered'}`;
+      circle.textContent = i;
+      circle.title = answered ? 'Answered' : 'Not answered';
+      container.appendChild(circle);
+    }
+  }
+
+  updateAnswerIndicators();
+  document.querySelectorAll('input').forEach(el => {
+    el.addEventListener('change', updateAnswerIndicators);
+    el.addEventListener('input', updateAnswerIndicators);
+  });
+
+  /******************************************************************
+   * GET ALL ANSWERS
+   ******************************************************************/
+  function getAllAnswers() {
+    const answers = {};
+    for (let i = 1; i <= TOTAL; i++) {
+      const type = ANSWER_KEY[i].type;
+      if (type === 'radio') {
+        const sel = document.querySelector(`input[name="q${i}"]:checked`);
+        answers[i] = sel ? sel.value.trim() : '';
+      } else {
+        const inp = document.querySelector(`input[name="q${i}"]`);
+        answers[i] = inp ? inp.value.trim() : '';
+      }
+    }
+    return answers;
+  }
+
+  /******************************************************************
+   * CHECK ANSWER
+   ******************************************************************/
+  function checkAnswer(qNum, userAnswer) {
+    const user = userAnswer.toLowerCase().trim();
+    if (user === '') return false; // empty = incorrect
+
+    const ak = ANSWER_KEY[qNum];
+    const correct = ak.answer.toLowerCase().trim();
+
+    // Questions requiring BOTH words (sensors and circuits / jupiter and saturn)
+    if (ak.type === 'text_both') {
+      const parts = correct.split(' and ');
+      return parts.every(part => user.includes(part.trim()));
+    }
+
+    if (user === correct) return true;
+    if (correct.includes(user) || user.includes(correct)) return true;
+    return false;
+  }
+
+  /******************************************************************
+   * SUBMIT
+   ******************************************************************/
+  function submitAnswers() {
+    if (testSubmitted) return;
+    testSubmitted = true;
+    const answers = getAllAnswers();
+    let correct = 0;
+    const results = {};
+    for (let i = 1; i <= TOTAL; i++) {
+      const isCorrect = checkAnswer(i, answers[i]);
+      if (isCorrect) correct++;
+      results[i] = { answer: answers[i], isCorrect };
+    }
+    showResults(correct, results);
+  }
+
+  /******************************************************************
+   * SHOW RESULTS
+   ******************************************************************/
+  function showResults(correct, results) {
+    document.getElementById('scoreDisplay').textContent = `${correct} / ${TOTAL}`;
+    const pct = Math.round((correct / TOTAL) * 100);
+    const m = String(Math.floor(timeElapsed / 60)).padStart(2, '0');
+    const s = String(timeElapsed % 60).padStart(2, '0');
+    document.getElementById('feedbackMessage').textContent =
+      `You got ${pct}% correct. Time: ${m}:${s}`;
+
+    let html = '';
+    for (let i = 1; i <= TOTAL; i++) {
+      const r = results[i];
+      const ak = ANSWER_KEY[i];
+      const icon = r.isCorrect ? '✓' : '✗';
+      const cls  = r.isCorrect ? 'correct' : 'incorrect';
+      html += `<div class="result-item ${cls}">
+        <strong>Q${i}: ${icon} ${r.isCorrect ? 'Correct' : 'Incorrect'}</strong>
+        <div class="result-detail"><strong>Correct Answer:</strong> ${ak.answer}</div>
+        <div class="result-detail"><strong>Your Answer:</strong> ${r.answer || '(empty)'}</div>
+        <div class="explanation"><strong>📚 Explanation:</strong> ${ak.explanation}</div>
+      </div>`;
+    }
+    document.getElementById('detailedResults').innerHTML = html;
+    document.getElementById('submissionModal').style.display = 'flex';
+  }
+
+  document.getElementById('submitBtn').addEventListener('click', submitAnswers);
+  document.getElementById('closeResultsBtn').addEventListener('click', () => {
+    document.getElementById('submissionModal').style.display = 'none';
+  });
+
+  /******************************************************************
+   * HIGHLIGHT FUNCTIONALITY
+   ******************************************************************/
+  const HIGHLIGHT_ROOTS = [document.getElementById('passageContent'), document.getElementById('questionsContent')];
+  const highlightToolbar = document.createElement('div');
+  highlightToolbar.className = 'highlight-toolbar';
+  ['yellow','green','pink','blue','purple','red'].forEach(color => {
+    const btn = document.createElement('button');
+    btn.innerHTML = `<div class="highlight-color ${color}"></div>`;
+    btn.addEventListener('click', () => { applyHighlight(color); highlightToolbar.style.display = 'none'; });
+    highlightToolbar.appendChild(btn);
+  });
+  const removeBtn = document.createElement('button');
+  removeBtn.className = 'remove';
+  removeBtn.innerHTML = '<i class="fas fa-trash"></i> Remove';
+  removeBtn.addEventListener('click', () => { removeHighlights(); highlightToolbar.style.display = 'none'; });
+  highlightToolbar.appendChild(removeBtn);
+  document.body.appendChild(highlightToolbar);
+
+  HIGHLIGHT_ROOTS.forEach(root => {
+    root.addEventListener('mouseup', () => {
+      const selection = window.getSelection();
+      if (selection.toString().length > 0) {
+        const range = selection.getRangeAt(0);
+        const rect = range.getBoundingClientRect();
+        highlightToolbar.style.left = rect.left + rect.width / 2 + 'px';
+        highlightToolbar.style.top  = rect.top + 'px';
+        highlightToolbar.style.display = 'flex';
+      } else {
+        highlightToolbar.style.display = 'none';
+      }
+    });
+  });
+
+  function applyHighlight(color) {
+    const sel = window.getSelection();
+    if (!sel.rangeCount || sel.isCollapsed) return;
+    const range = sel.getRangeAt(0);
+    removeHighlightsInRange(range);
+    const root = HIGHLIGHT_ROOTS.find(r => r.contains(range.commonAncestorContainer)) || HIGHLIGHT_ROOTS[0];
+    const textNodes = getTextNodesIntersectingRange(root, range);
+    if (!textNodes.length) return;
+    textNodes.forEach(node => {
+      const { startOffset, endOffset } = getOffsetsForTextNode(node, range);
+      if (startOffset === endOffset) return;
+      const selectedNode = splitTextNode(node, startOffset, endOffset);
+      const span = document.createElement('span');
+      span.className = `highlight ${color}`;
+      selectedNode.parentNode.insertBefore(span, selectedNode);
+      span.appendChild(selectedNode);
+      mergeAdjacentHighlights(span);
+    });
+  }
+
+  function removeHighlights() {
+    const sel = window.getSelection();
+    if (!sel.rangeCount || sel.isCollapsed) return;
+    removeHighlightsInRange(sel.getRangeAt(0));
+  }
+
+  function removeHighlightsInRange(range) {
+    HIGHLIGHT_ROOTS.forEach(root => {
+      Array.from(root.querySelectorAll('span.highlight')).forEach(sp => {
+        if (rangeIntersectsNode(range, sp)) unwrapHighlightSpan(sp);
+      });
+    });
+  }
+
+  function unwrapHighlightSpan(span) {
+    const parent = span.parentNode;
+    while (span.firstChild) parent.insertBefore(span.firstChild, span);
+    parent.removeChild(span);
+    parent.normalize();
+  }
+
+  function mergeAdjacentHighlights(span) {
+    const prev = span.previousSibling;
+    if (prev && prev.nodeType === 1 && prev.classList.contains('highlight') && prev.className === span.className) {
+      while (span.firstChild) prev.appendChild(span.firstChild);
+      span.remove(); span = prev;
+    }
+    const next = span.nextSibling;
+    if (next && next.nodeType === 1 && next.classList.contains('highlight') && next.className === span.className) {
+      while (next.firstChild) span.appendChild(next.firstChild);
+      next.remove();
+    }
+  }
+
+  function getTextNodesIntersectingRange(root, range) {
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: node => {
+        if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        return rangeIntersectsNode(range, node) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      }
+    });
+    const nodes = []; let n;
+    while (n = walker.nextNode()) nodes.push(n);
+    return nodes;
+  }
+
+  function rangeIntersectsNode(range, node) {
+    const nr = document.createRange();
+    try { nr.selectNodeContents(node); } catch { return false; }
+    return range.compareBoundaryPoints(Range.END_TO_START, nr) < 0 &&
+           range.compareBoundaryPoints(Range.START_TO_END, nr) > 0;
+  }
+
+  function getOffsetsForTextNode(textNode, range) {
+    let startOffset = 0, endOffset = textNode.nodeValue.length;
+    if (range.startContainer === textNode) startOffset = range.startOffset;
+    else { const r = document.createRange(); r.selectNodeContents(textNode); if (range.compareBoundaryPoints(Range.START_TO_END, r) >= 0) startOffset = endOffset; }
+    if (range.endContainer === textNode) endOffset = range.endOffset;
+    else { const r = document.createRange(); r.selectNodeContents(textNode); if (range.compareBoundaryPoints(Range.END_TO_START, r) <= 0) endOffset = startOffset; }
+    startOffset = Math.max(0, Math.min(startOffset, textNode.nodeValue.length));
+    endOffset   = Math.max(0, Math.min(endOffset,   textNode.nodeValue.length));
+    if (endOffset < startOffset) endOffset = startOffset;
+    return { startOffset, endOffset };
+  }
+
+  function splitTextNode(textNode, startOffset, endOffset) {
+    let node = textNode;
+    if (endOffset < node.nodeValue.length) node.splitText(endOffset);
+    if (startOffset > 0) node = node.splitText(startOffset);
+    return node;
+  }
+
+  /******************************************************************
+   * RESIZABLE DIVIDER
+   ******************************************************************/
+  const divider = document.getElementById('divider');
+  const passagePanel = document.querySelector('.passage-container');
+  const testContainer = document.querySelector('.test-container');
+  let isResizing = false;
+
+  divider.addEventListener('mousedown', () => { isResizing = true; });
+  document.addEventListener('mouseup',  () => { isResizing = false; });
+  document.addEventListener('mousemove', e => {
+    if (!isResizing) return;
+    const bounds = testContainer.getBoundingClientRect();
+    const newWidth = e.clientX - bounds.left;
+    if (newWidth > 250 && newWidth < bounds.width - 250)
+      passagePanel.style.width = newWidth + 'px';
+  });
+</script>
+</body>
+</html>

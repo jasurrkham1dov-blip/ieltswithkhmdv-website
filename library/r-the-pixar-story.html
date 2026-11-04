@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading - The Pixar Story | @ieltswithkhmdv</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        body { background:#f5f5f5; color:#333; line-height:1.6; overflow:hidden; }
+        .loading-screen, .start-screen { min-height:100vh; display:flex; align-items:center; justify-content:center; background:#f9fafb; position:fixed; top:0; left:0; width:100%; z-index:9999; flex-direction:column; }
+        .spinner { border:5px solid #f3f3f3; border-top:5px solid #2563eb; border-radius:50%; width:50px; height:50px; animation:spin 1s linear infinite; margin-bottom:20px; }
+        @keyframes spin { to { transform:rotate(360deg); } }
+        .start-title { font-size:2.2rem; font-weight:bold; color:#1e40af; margin-bottom:20px; }
+        .start-button { padding:14px 48px; background:#2563eb; color:white; border:none; border-radius:8px; font-size:1.2rem; cursor:pointer; transition:.3s; }
+        .start-button:hover { background:#1d4ed8; }
+        .hidden { display:none!important; }
+
+        .container { display:flex; flex-direction:column; height:100vh; width:100vw; background:white; }
+        header { background:white; padding:12px 24px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 12px rgba(0,0,0,.1); z-index:100; border-bottom:1px solid #e2e8f0; }
+        .logo-area { background:#2563eb; color:white; padding:10px 22px; border-radius:9999px; text-decoration:none; font-weight:bold; display:flex; align-items:center; gap:10px; box-shadow:0 4px 12px rgba(37,99,235,.3); }
+        .logo-area:hover { background:#1d4ed8; transform:translateY(-2px); }
+        .passage-info { font-weight:600; color:#1e293b; font-size:1.1rem; }
+        .timer { background:#fee2e2; color:#991b1b; padding:10px 18px; border-radius:8px; font-weight:bold; border:1px solid #fecaca; font-size:1.1rem; }
+
+        .progress-container { padding:12px 24px; background:#f8fafc; border-bottom:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
+        .progress-items { display:flex; gap:8px; flex-wrap:wrap; }
+        .progress-item { width:42px; height:42px; border-radius:50%; background:#e2e8f0; display:flex; align-items:center; justify-content:center; font-weight:bold; cursor:pointer; transition:.3s; font-size:1.1rem; }
+        .progress-item.current { background:#3b82f6; color:white; transform:scale(1.18); }
+        .progress-item.answered { background:#86efac; color:#166534; }
+
+        .main-content { display:flex; flex:1; overflow:hidden; position:relative; }
+        .passage-container { flex:1; background:#fafafa; overflow-y:auto; padding:30px; transition:flex 0.3s; }
+        .questions-container { width:42%; background:white; border-left:1px solid #e2e8f0; overflow-y:auto; padding:30px; transition:width 0.3s; }
+        .resizer { width:12px; background:#cbd5e0; cursor:col-resize; position:relative; transition:.3s; z-index:10; }
+        .resizer:hover { background:#94a3b8; }
+        .resizer::after { content:''; position:absolute; top:0; left:50%; width:2px; height:100%; background:#2563eb; transform:translateX(-50%); }
+
+        .passage h2 { font-size:1.8rem; color:#1e293b; margin-bottom:24px; text-align:center; }
+        .passage-content p { margin:20px 0; text-align:justify; font-size:1.05rem; }
+
+        .question-group { background:#f8fafc; padding:24px; border-radius:12px; margin-bottom:28px; border:1px solid #e2e8f0; }
+        .section-title { font-size:1.4rem; font-weight:bold; color:#1e293b; margin-bottom:16px; padding-bottom:10px; border-bottom:2px solid #3b82f6; }
+
+        .tfng-btns { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin:16px 0; }
+        .tfng-btn { padding:14px; background:#e2e8f0; border:none; border-radius:8px; cursor:pointer; font-weight:bold; transition:.3s; font-size:1rem; }
+        .tfng-btn.selected { background:#2563eb; color:white; }
+
+        .gap-input { padding:10px; border:1px solid #ccc; border-radius:6px; font-size:1.05rem; width:240px; margin:6px 0; }
+
+        .btn-submit { background:#16a34a; color:white; padding:16px 48px; border:none; border-radius:8px; font-size:1.2rem; cursor:pointer; margin:40px auto; display:block; font-weight:bold; }
+
+        .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center; }
+        .modal-content { background:white; padding:36px; border-radius:16px; max-width:680px; width:92%; max-height:92vh; overflow-y:auto; text-align:center; }
+        .score-display { font-size:3.5rem; font-weight:bold; color:#16a34a; margin:24px 0; }
+        .answer-item { padding:18px; margin:12px 0; background:#f8fafc; border-radius:10px; border-left:6px solid #e2e8f0; text-align:left; font-size:1.05rem; }
+        .answer-item.correct { border-left-color:#16a34a; background:#f0fdf4; }
+        .answer-item.incorrect { border-left-color:#dc2626; background:#fef2f2; }
+
+        .highlight { background-color:#fff176; cursor:pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="loading-screen" id="loadingScreen">
+        <div><div class="spinner"></div><h2>Loading Test...</h2></div>
+    </div>
+
+    <div class="start-screen hidden" id="startScreen">
+        <div>
+            <h1 class="start-title">IELTS Reading Practice</h1>
+            <p style="font-size:1.4rem;color:#444;margin-bottom:35px;">The Pixar Story</p>
+            <button class="start-button" onclick="startTest()">Start Test</button>
+        </div>
+    </div>
+
+    <div class="container hidden" id="testContainer">
+        <header>
+            <a href="https://t.me/ieltswithkhmdv" target="_blank" class="logo-area">
+                <i class="fab fa-telegram-plane"></i> @ieltswithkhmdv
+            </a>
+            <div class="passage-info">Passage 1</div>
+            <div class="timer" id="timer">20:00</div>
+        </header>
+
+        <div class="progress-container">
+            <div class="progress-items">
+                <div class="progress-item" data-question="1">1</div>
+                <div class="progress-item" data-question="2">2</div>
+                <div class="progress-item" data-question="3">3</div>
+                <div class="progress-item" data-question="4">4</div>
+                <div class="progress-item" data-question="5">5</div>
+                <div class="progress-item" data-question="6">6</div>
+                <div class="progress-item" data-question="7">7</div>
+                <div class="progress-item" data-question="8">8</div>
+                <div class="progress-item" data-question="9">9</div>
+                <div class="progress-item" data-question="10">10</div>
+                <div class="progress-item" data-question="11">11</div>
+                <div class="progress-item" data-question="12">12</div>
+                <div class="progress-item current" data-question="13">13</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="passage-container" id="passage">
+                <div class="passage">
+                    <h2>The Pixar Story<br>The animation studio Pixar has experienced a number of challenges in its short history</h2>
+                    <div class="passage-content" id="passageText">
+                        <p><strong>A</strong> Between 2000 and 2005, under former Chief Executive Officer (CEO) Michael D. Eisner, Walt Disney Company set its shareholder meetings in a series of cold-weather cities during cold-weather months. Many suspected that this had been to discourage attendance by the company's increasingly restless shareholders. In 2006, however, there was no need for such measures. In October 2005, Chief Operating Officer Robert Iger had replaced Eisner as CEO. On taking charge, Iger had quickly carried out a bold stroke, negotiating a buyout of Pixar Animation Studios. Although the price was high, the acquisition proved to be overwhelmingly popular.</p>
+
+                        <p><strong>B</strong> Pixar had started life twenty years earlier as Pixar Inc., a computer hardware company, one of hundreds dotting the landscape of the San Francisco Bay Area in California. Within the company, a tiny animation group made short promotional films that brought in practically zero revenue; the group came close more than once to being shut down. When the Pixar Image Computer proved unprofitable, the company turned to selling animation software and making animated commercials, but it kept losing money year after year.</p>
+
+                        <p><strong>C</strong> In 1991, when Disney agreed to finance the production of Pixar's first feature film for cinema release, Disney had virtually dictated the terms of the contract. In late 1993, Disney considered ordering Pixar to shut down production of the John Lasseter directed film, Toy Story, on account of issues with the script. At the time, Hollywood commentators doubted whether audiences would even sit through a full-length film in the new medium of computer animation. It was unclear whether computer animation would prove to be a novelty that would quickly wear thin.</p>
+
+                        <p><strong>D</strong> Before long, however, things had changed dramatically. A succession of beloved and commercially successful animated feature films, starting with the 1995 release of Toy Story and including A Bug's Life and Finding Nemo, made Pixar the world's dominant animation studio. Disney made a fortune distributing the films. When Pixar's majority owner and CEO, Steve Jobs, cut off contract talks with Disney in early 2004, as the end of their distribution contract was in sight, the business press focused on the question of how Disney would cope. By then, it was Disney that seemed to need Pixar—the distribution of Pixar's films made up around 45% of the operating income from Disney's film operations. Disney's internal market research showed that mothers of young children trusted the Pixar brand more than Disney's.</p>
+
+                        <p><strong>E</strong> With the 2005 acquisition, John Lasseter was soon to hold the titles of Chief Creative Officer for Disney and Pixar animation and Principal Creative Advisor for Disney's worldwide theme parks and resorts. Having created a new genre of film with his colleagues at Pixar, Lasseter had been able to make the films he wanted to make, and he was coming back to Disney on his own terms, having briefly been an employee there when he was young.</p>
+
+                        <p><strong>F</strong> When Iger brought Lasseter on to speak at the 2006 shareholders' meeting, Lasseter was met with energetic applause as the sound system played a few bars of the signature song of Toy Story. In his speech, Lasseter recalled afternoons as a schoolboy running home to catch Bugs Bunny cartoons on TV. It wasn't long, he told the audience, before he realized he wanted to earn a living from making cartoons. He went on to talk about working on the Jungle Cruise ride in Disneyland, and the terrible jokes that he and his fellow operator told to enliven the show. He said the experience had brought him out of his shell and given him confidence in front of people. He also explained how he joined Disney's animation division fresh out of the California Institute of the Arts, and saw one of the early trials of 3-D computer animation. He mentioned the disappointment he had felt as a young man in trying, and failing, to get the Disney studio to embrace the new technology. Keeping his presentation upbeat, he said simply, 'So I followed my dream to work with one of the most amazing people I've ever known in my life—Ed Catmull.'</p>
+
+                        <p><strong>G</strong> The sixty-one-year-old president of Pixar, Dr. Edwin Catmull, was seated amongst the shareholders. Catmull has been a computer graphics researcher who had fallen accidentally into the role of business leader. Those who knew him well invariably described him as brilliant, but his intelligence was not the kind that advertised itself by dominating conversations; by and large, he was keener on listening than talking. When he did speak, his words were friendly and polite.</p>
+
+                        <p><strong>H</strong> While Catmull had built upon the work of others, the revolution in 3-D animation was in many respects his revolution. It was Catmull who had held to his vision of fully computer-animated movies. And it was Catmull, while running computer graphics labs at the New York Institute of Technology and George Lucas's Lucasfilm, who had assembled the technical and creative staff that would go on to become the heart of Pixar Animation Studios.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="resizer" id="resizer"></div>
+
+            <div class="questions-container" id="questions">
+                <div class="question-group">
+                    <div class="section-title">Questions 1–6</div>
+                    <p>Choose TRUE if the statement agrees with the information given in the text, choose FALSE if the statement contradicts the information, or choose NOT GIVEN if there is no information on this.</p>
+
+                    <div style="margin:16px 0;">
+                        <strong>1</strong> Robert Iger had a low opinion of Michael D. Eisner.<br>
+                        <div class="tfng-btns">
+                            <button class="tfng-btn" data-q="1" data-val="TRUE">TRUE</button>
+                            <button class="tfng-btn" data-q="1" data-val="FALSE">FALSE</button>
+                            <button class="tfng-btn" data-q="1" data-val="NOT GIVEN">NOT GIVEN</button>
+                        </div>
+                        <div>Answer: <strong id="ans1">-</strong></div>
+                    </div>
+
+                    <div style="margin:16px 0;">
+                        <strong>2</strong> Pixar Inc. had extremely limited financial success in its early years.<br>
+                        <div class="tfng-btns">
+                            <button class="tfng-btn" data-q="2" data-val="TRUE">TRUE</button>
+                            <button class="tfng-btn" data-q="2" data-val="FALSE">FALSE</button>
+                            <button class="tfng-btn" data-q="2" data-val="NOT GIVEN">NOT GIVEN</button>
+                        </div>
+                        <div>Answer: <strong id="ans2">-</strong></div>
+                    </div>
+
+                    <div style="margin:16px 0;">
+                        <strong>3</strong> There were difficulties during the production of the film Toy Story.<br>
+                        <div class="tfng-btns">
+                            <button class="tfng-btn" data-q="3" data-val="TRUE">TRUE</button>
+                            <button class="tfng-btn" data-q="3" data-val="FALSE">FALSE</button>
+                            <button class="tfng-btn" data-q="3" data-val="NOT GIVEN">NOT GIVEN</button>
+                        </div>
+                        <div>Answer: <strong id="ans3">-</strong></div>
+                    </div>
+
+                    <div style="margin:16px 0;">
+                        <strong>4</strong> In the early 1990s, Hollywood commentators were convinced animated films had a promising future.<br>
+                        <div class="tfng-btns">
+                            <button class="tfng-btn" data-q="4" data-val="TRUE">TRUE</button>
+                            <button class="tfng-btn" data-q="4" data-val="FALSE">FALSE</button>
+                            <button class="tfng-btn" data-q="4" data-val="NOT GIVEN">NOT GIVEN</button>
+                        </div>
+                        <div>Answer: <strong id="ans4">-</strong></div>
+                    </div>
+
+                    <div style="margin:16px 0;">
+                        <strong>5</strong> Finding Nemo was more popular than Toy Story.<br>
+                        <div class="tfng-btns">
+                            <button class="tfng-btn" data-q="5" data-val="TRUE">TRUE</button>
+                            <button class="tfng-btn" data-q="5" data-val="FALSE">FALSE</button>
+                            <button class="tfng-btn" data-q="5" data-val="NOT GIVEN">NOT GIVEN</button>
+                        </div>
+                        <div>Answer: <strong id="ans5">-</strong></div>
+                    </div>
+
+                    <div style="margin:16px 0;">
+                        <strong>6</strong> In 2004, Pixar contributed little to Disney's income from its film operations.<br>
+                        <div class="tfng-btns">
+                            <button class="tfng-btn" data-q="6" data-val="TRUE">TRUE</button>
+                            <button class="tfng-btn" data-q="6" data-val="FALSE">FALSE</button>
+                            <button class="tfng-btn" data-q="6" data-val="NOT GIVEN">NOT GIVEN</button>
+                        </div>
+                        <div>Answer: <strong id="ans6">-</strong></div>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <div class="section-title">Questions 7–13</div>
+                    <p>Complete the notes below.</p>
+                    <p>Write ONE WORD ONLY from the passage for each answer.</p>
+
+                    <p><strong>Lasseter and Catmull – a professional success story</strong></p>
+
+                    <p><strong>John Lasseter</strong></p>
+                    <p>• was keen on watching Bugs Bunny cartoons when he was a schoolboy</p>
+                    <p>• worked as a ride <input type="text" class="gap-input" id="q7" placeholder="7"> at Disneyland which increased his <input type="text" class="gap-input" id="q8" placeholder="8"></p>
+                    <p>• attended California Institute of the Arts</p>
+                    <p>• suffered <input type="text" class="gap-input" id="q9" placeholder="9"> over rejection of new technology by Disney studio</p>
+
+                    <p><strong>Ed Catmull</strong></p>
+                    <p>• was Pixar's <input type="text" class="gap-input" id="q10" placeholder="10"> at time of shareholder meeting in 2006</p>
+                    <p>• preferred <input type="text" class="gap-input" id="q11" placeholder="11"> to taking control of conversations</p>
+                    <p>• did not let go of his <input type="text" class="gap-input" id="q12" placeholder="12"> for computer animated films</p>
+                    <p>• ran various computer graphics laboratories</p>
+                    <p>• brought together the various teams on which the <input type="text" class="gap-input" id="q13" placeholder="13"> of Pixar would be founded</p>
+
+                    <div style="margin-top:12px; font-size:0.95rem; color:#555;">
+                        Your answers: 
+                        <strong id="ans7">-</strong> | 
+                        <strong id="ans8">-</strong> | 
+                        <strong id="ans9">-</strong> | 
+                        <strong id="ans10">-</strong> | 
+                        <strong id="ans11">-</strong> | 
+                        <strong id="ans12">-</strong> | 
+                        <strong id="ans13">-</strong>
+                    </div>
+                </div>
+
+                <button class="btn-submit" id="submit-btn">Submit Answers</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="resultsModal">
+        <div class="modal-content">
+            <h2>Test Complete!</h2>
+            <div class="score-display" id="scoreDisplay">0/13</div>
+            <div id="reviewAnswers"></div>
+            <button class="btn-submit" style="margin-top:24px;" onclick="document.getElementById('resultsModal').style.display='none'">Close</button>
+        </div>
+    </div>
+
+    <script>
+        let timeLeft = 1200; // 20 minutes
+        const timerInterval = setInterval(() => {
+            let m = String(Math.floor(timeLeft/60)).padStart(2,'0');
+            let s = String(timeLeft%60).padStart(2,'0');
+            document.getElementById('timer').textContent = `${m}:${s}`;
+            if (--timeLeft < 0) { clearInterval(timerInterval); submitAnswers(); }
+        }, 1000);
+
+        const correctAnswers = {
+            1: "NOT GIVEN",
+            2: "TRUE",
+            3: "TRUE",
+            4: "FALSE",
+            5: "NOT GIVEN",
+            6: "FALSE",
+            7: "operator",
+            8: "confidence",
+            9: "disappointment",
+            10: "president",
+            11: "listening",
+            12: "vision",
+            13: "heart"
+        };
+
+        // T/F/NG buttons (1-6)
+        document.querySelectorAll('.tfng-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const q = this.getAttribute('data-q');
+                document.querySelectorAll(`.tfng-btn[data-q="${q}"]`).forEach(b => b.classList.remove('selected'));
+                this.classList.add('selected');
+                document.getElementById('ans'+q).textContent = this.getAttribute('data-val');
+                markAnswered(q);
+            });
+        });
+
+        // Gaps (7-13)
+        document.querySelectorAll('.gap-input[id^="q"]').forEach(input => {
+            input.addEventListener('input', function() {
+                const q = this.id.slice(1);
+                const val = this.value.trim();
+                document.getElementById('ans'+q).textContent = val || '-';
+                markAnswered(q);
+            });
+        });
+
+        function markAnswered(q) {
+            const item = document.querySelector(`.progress-item[data-question="${q}"]`);
+            if (item) item.classList.add('answered');
+        }
+
+        function submitAnswers() {
+            clearInterval(timerInterval);
+            let score = 0;
+            let review = '';
+
+            // Questions 1-6 T/F/NG
+            for (let i=1; i<=6; i++) {
+                let user = document.getElementById('ans'+i)?.textContent.trim() || '-';
+                let correct = correctAnswers[i];
+                let isCorrect = user.toUpperCase() === correct.toUpperCase();
+                if (isCorrect) score++;
+                review += `<div class="answer-item ${isCorrect?'correct':'incorrect'}">
+                    <strong>Q${i}</strong>: Your answer <strong>${user}</strong> → Correct: <strong>${correct}</strong>
+                </div>`;
+            }
+
+            // Questions 7-13 gaps
+            for (let i=7; i<=13; i++) {
+                let user = document.getElementById('ans'+i)?.textContent.trim().toLowerCase() || '-';
+                let correct = correctAnswers[i].toLowerCase();
+                let isCorrect = user === correct;
+                if (isCorrect) score++;
+                review += `<div class="answer-item ${isCorrect?'correct':'incorrect'}">
+                    <strong>Q${i}</strong>: Your answer <strong>${user}</strong> → Correct: <strong>${correct}</strong>
+                </div>`;
+            }
+
+            document.getElementById('scoreDisplay').textContent = score + '/13';
+            document.getElementById('reviewAnswers').innerHTML = review;
+            document.getElementById('resultsModal').style.display = 'flex';
+        }
+
+        document.getElementById('submit-btn').addEventListener('click', submitAnswers);
+
+        function startTest() {
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('testContainer').classList.remove('hidden');
+        }
+
+        setTimeout(() => {
+            document.getElementById('loadingScreen').classList.add('hidden');
+            document.getElementById('startScreen').classList.remove('hidden');
+        }, 2000);
+
+        // Resizer logic
+        const resizer = document.getElementById('resizer');
+        const leftSide = resizer.previousElementSibling;
+        const rightSide = resizer.nextElementSibling;
+        let isResizing = false;
+
+        resizer.addEventListener('mousedown', (e) => {
+            isResizing = true;
+            document.body.style.cursor = 'col-resize';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isResizing) return;
+            const containerRect = document.querySelector('.main-content').getBoundingClientRect();
+            const x = e.clientX - containerRect.left;
+            const totalWidth = containerRect.width;
+            const leftWidth = (x / totalWidth) * 100;
+            leftSide.style.flex = `0 0 ${leftWidth}%`;
+            rightSide.style.width = `${100 - leftWidth}%`;
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (isResizing) {
+                isResizing = false;
+                document.body.style.cursor = 'default';
+            }
+        });
+
+        // Text Highlight
+        function makeTextHighlightable(element) {
+            element.addEventListener('mouseup', function(e) {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON' || e.target.tagName === 'SELECT') return;
+                const selection = window.getSelection();
+                const selectedText = selection.toString().trim();
+                if (selectedText.length > 0 && selectedText.length < 500) {
+                    try {
+                        const range = selection.getRangeAt(0);
+                        if (!element.contains(range.commonAncestorContainer)) return;
+                        const span = document.createElement('span');
+                        span.className = 'highlight';
+                        range.surroundContents(span);
+                        span.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            const parent = this.parentNode;
+                            while (this.firstChild) parent.insertBefore(this.firstChild, this);
+                            parent.removeChild(this);
+                            parent.normalize();
+                        });
+                        selection.removeAllRanges();
+                    } catch(e) { }
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            makeTextHighlightable(document.getElementById('passageText'));
+        });
+    </script>
+</body>
+</html>

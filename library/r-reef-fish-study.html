@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Volume 7 – IELTS Reading – Passage 1 (Reef fish study)</title>
+<style>
+  :root{
+    --bg:#0b0f14;--card:#0f172a;--muted:#9fb0c3;--text:#e9f0f6;--accent:#38bdf8;--accent2:#22c55e;--danger:#ef4444;--border:#1e293b;
+    --chip:#0a2138;--input:#0b1322;--shadow:0 10px 40px rgba(0,0,0,.35);
+  }
+  [data-theme="light"]{
+    --bg:#f7fafc;--card:#ffffff;--muted:#5a6b7c;--text:#0b1220;--accent:#2563eb;--accent2:#16a34a;--danger:#dc2626;--border:#dbe4f0;
+    --chip:#eef5ff;--input:#f3f7fc;--shadow:0 10px 30px rgba(0,0,0,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,var(--bg),var(--bg));color:var(--text);line-height:1.65}
+  .wrap{max-width:1400px;margin:auto;padding:24px}
+  header{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+  h1{font-size:clamp(22px,4vw,34px);margin:0}
+  .right{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .pill{background:var(--chip);border:1px solid var(--border);padding:8px 12px;border-radius:999px;color:var(--muted)}
+  .brand{background:linear-gradient(90deg,var(--accent),#60a5fa);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
+  .grid{display:grid;grid-template-columns:1fr;gap:18px;margin-top:16px}
+  @media(min-width:1100px){.grid{grid-template-columns:1fr 1fr}}
+  .card{background:linear-gradient(180deg,var(--card),var(--card));border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:18px}
+  .passage{white-space:pre-wrap}
+  .badge{display:inline-block;padding:4px 8px;border-radius:999px;background:var(--chip);border:1px solid var(--border);color:var(--muted);font-size:.85rem}
+  .q{border:1px dashed var(--border);border-radius:12px;padding:14px;margin:12px 0}
+  .q h4{margin:0 0 6px 0}
+  .options{display:grid;gap:8px;margin-top:6px}
+  label{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--border);border-radius:10px;cursor:pointer}
+  input[type=text]{width:100%;padding:10px;border-radius:10px;border:1px solid var(--border);background:var(--input);color:var(--text)}
+  .controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  button{border:1px solid var(--border);background:var(--chip);color:var(--text);padding:10px 14px;border-radius:12px;cursor:pointer}
+  .btn-primary{background:linear-gradient(90deg,var(--accent),#60a5fa);border-color:#2563eb;color:#03101e}
+  .btn-ghost{background:transparent}
+  .score{font-weight:700}
+  .correct{outline:2px solid var(--accent2)}
+  .incorrect{outline:2px solid var(--danger)}
+  .explain{color:var(--muted);font-size:.95rem;margin-top:6px;display:none}
+  .explain.show{display:block}
+  details{border:1px solid var(--border);border-radius:12px;padding:10px 12px}
+  summary{cursor:pointer}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+  .stopwatch{font-feature-settings:"tnum";font-variant-numeric:tabular-nums;font-weight:700;padding:8px 12px;border:1px solid var(--border);border-radius:10px}
+  mark.hl{background:#fde047;color:inherit;padding:0 .15em;border-radius:.25em}
+  [data-theme="light"] mark.hl{background:#fff3b0}
+.brand a{text-decoration:none;background:linear-gradient(90deg,var(--accent),#60a5fa);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Volume 7 – IELTS Reading – Passage 1</h1>
+    <div class="right"><span class="pill brand"><a href="https://t.me/ieltswithkhmdv" target="_blank" rel="noopener">Jasurbek Khamidov | IELTS  (@ieltswithkhmdv)</a></span>
+      <span class="pill brand"><a href="https://t.me/ieltswithkhmdv" target="_blank" rel="noopener">Jasurbek Khamidov | IELTS  (@ieltswithkhmdv)</a></span>
+      <button id="themeBtn" title="Toggle light/dark">🌗 Theme</button>
+    </div>
+  </header>
+
+  <div class="grid">
+    <section class="card">
+      <h2>Reef fish study</h2>
+      <p class="badge">Tom Holmes examines the relationship between size and survival in fish on Australia's Great Barrier Reef</p>
+
+      <div class="toolbar">
+        <button id="hlBtn">Highlight selection</button>
+        <button id="clearHlBtn" class="btn-ghost">Clear highlights</button>
+        <span class="stopwatch" id="timer">00:00</span>
+        <button id="startStop">Start</button>
+        <button id="lapBtn">Lap</button>
+        <button id="resetTimer" class="btn-ghost">Reset</button>
+      </div>
+
+      <div class="passage" id="passage">
+It is a widely held belief among those who study animals that larger size conveys some form of advantage throughout life. The idea that certain body characteristics may influence a prey's ability to survive when being attacked by a predator has received considerable attention in the past, and has been applied to a wide range of both animals and habitats. Body size, weight, growth rate, overall condition, sensory development and escape speed have all been linked to survival. Of these, body size has received the most attention from researchers, which has subsequently led to the development of a number of theories on how this characteristic may influence the predator‑prey relationship. One of the most popular of these is known as the ‘bigger is better’ hypothesis. This theory predicts that larger body size should increase an individual's ability to escape from a predator due to the characteristics associated with this, such as overall strength and visual development. Bigger is thought to be better, but is this always the case?
+
+Compared with other habitats and ecosystems, not a great deal is known about predator‑prey relationships within tropical reef communities. What we do know is largely limited to predator identity and, to some extent, to what these predators eat. But what drives these interactions and how does body size influence the outcome? How would fish populations respond to the removal of certain predators from a reef fish community? It is precisely these questions that have led our research team to Lizard Island, in the northern sector of the Great Barrier Reef. We want to examine the predator‑prey relationship during the ‘early juvenile’ or larval phase of tropical fish, and determine whether a predator's choice of prey is influenced by factors such as the prey's size, weight and swimming speed, as these characteristics vary from individual to individual at the beginning of the juvenile stage.
+
+Most coral reef fish have a life cycle consisting of an open‑ocean larval phase followed by a juvenile to adult phase near the reef. The transition between the two stages is marked by rapid and dramatic changes in the body of the fish, and a sudden move from the open ocean to coral reef habitats. This point is commonly known as ‘settlement’. Not surprisingly, it is also characterised by increased levels of mortality in the first 48 hours following settlement, as individuals are forced to adapt to life not only on the reef but also with a previously unknown set of predators.
+
+However, studying the interactions between predators and prey during this phase is no easy task. On the northern Great Barrier Reef, coral reef fish settlement usually occurs within 2–3 days of a new moon during the warmer summer months. These short windows of opportunity, combined with the difficulties associated with working underwater, transporting fish and adapting them to the laboratory, often make research a daunting task. These obstacles are overcome using a combination of innovative techniques, long working hours and a measure of sheer persistence. We collect the larval fish immediately prior to settlement using purpose‑built traps that use artificial light to attract and contain fish of this life stage only. These fish are subsequently transported to an aquarium, along with predatory fish, before being used in a series of aquarium and field‑based trials.
+
+According to the ‘bigger is better’ hypothesis, being larger at the time of settlement should result in an increased chance of surviving an attack by a predator during the period immediately following settlement. However, our initial research shows that this is not always true. There may be several reasons for this.
+
+Communities of reef‑based predators can differ considerably over quite small distances. Species that are abundant in one location may be particularly rare in a similar habitat just 100 metres away. In the same way that different predators prefer different types of prey, so too do they prefer different sizes of prey. This relationship is driven by physical characteristics of predators, such as mouth size, and behavioural differences between different predator species. As a result, the predator community into which a reef fish settles may very well determine which individuals survive.
+
+So why don't larger individuals survive more often than smaller fish over this period? The answer may well lie in an alternative hypothesis known as ‘optimal foraging theory’. According to this theory, being either very large or very small in size should assist prey to escape during a predatory encounter. The theory predicts that a predator should prefer those individuals that provide the greatest energy return. This is generally a trade‑off between the potential energy intake from eating a fish and the amount of energy required to catch it. Larger prey provide a higher energy return but smaller prey generally require less energy to catch. This usually results in a preference for medium‑sized prey.
+
+At the time of settlement, juvenile reef fish vary in the characteristics that can help them survive a predatory attack. However, these characteristics are not strongly associated with body size. For example, larger individuals are not necessarily faster. This means that they may be easier to catch than smaller prey. If this is the case then, according to the optimal foraging theory, predators should prefer larger prey because of their greater energy return. Consequently, larger prey individuals may be targeted by some predators at the time of settlement. Our research hopes to show that larger size may, in fact, be a distinct disadvantage during certain life stages.
+      </div>
+      <details style="margin-top:12px">
+        <summary>Source & notes</summary>
+        <p>Passage adapted from your PDF “Volume 7 (reading)”. Layout is optimised for web use. Theme and timer persist in your browser.</p>
+        <ul id="laps" style="margin:0;padding-left:18px"></ul>
+      </details>
+    </section>
+
+    <section class="card" id="questions">
+      <h2>Questions 1–13</h2>
+
+      <h3>Questions 1–4 • True / False / Not Given</h3>
+      <div class="q" data-type="tfn" data-answer="F" data-explain="Research has focused most on body size, not escape speed.">
+        <h4>1) Research to date has concentrated on the importance of escape speed in surviving an attack by a predator.</h4>
+        <div class="options">
+          <label><input type="radio" name="q1" value="T"> True</label>
+          <label><input type="radio" name="q1" value="F"> False</label>
+          <label><input type="radio" name="q1" value="NG"> Not Given</label>
+        </div>
+        <div class="explain"></div>
+      </div>
+
+      <div class="q" data-type="tfn" data-answer="T" data-explain="‘Bigger is better’ links size with traits like visual development.">
+        <h4>2) According to the ‘bigger is better’ hypothesis, larger animals have better eyesight.</h4>
+        <div class="options">
+          <label><input type="radio" name="q2" value="T"> True</label>
+          <label><input type="radio" name="q2" value="F"> False</label>
+          <label><input type="radio" name="q2" value="NG"> Not Given</label>
+        </div>
+        <div class="explain"></div>
+      </div>
+
+      <div class="q" data-type="tfn" data-answer="F" data-explain="The passage says early juveniles vary in characteristics.">
+        <h4>3) Early‑juvenile reef fish share similar characteristics.</h4>
+        <div class="options">
+          <label><input type="radio" name="q3" value="T"> True</label>
+          <label><input type="radio" name="q3" value="F"> False</label>
+          <label><input type="radio" name="q3" value="NG"> Not Given</label>
+        </div>
+        <div class="explain"></div>
+      </div>
+
+      <div class="q" data-type="tfn" data-answer="NG" data-explain="No comparison of adult vs juvenile swimming speed is provided.">
+        <h4>4) Fully developed reef fish have a slower swimming speed than juveniles.</h4>
+        <div class="options">
+          <label><input type="radio" name="q4" value="T"> True</label>
+          <label><input type="radio" name="q4" value="F"> False</label>
+          <label><input type="radio" name="q4" value="NG"> Not Given</label>
+        </div>
+        <div class="explain"></div>
+      </div>
+
+      <h3>Questions 5–7 • Life cycle diagram (short answers)</h3>
+      <div class="q" data-type="short" data-answer="open ocean" data-explain="Phase 1 larval stage takes place in the open ocean.">
+        <h4>5) Phase 1 (Larval stage): takes place in the ______.</h4>
+        <input type="text" name="q5" placeholder="Your answer">
+        <div class="explain"></div>
+      </div>
+      <div class="q" data-type="short" data-answer="reef" data-explain="Phase 2 juvenile stage is near the reef.">
+        <h4>6) Phase 2 (Juvenile stage): takes place close to the ______.</h4>
+        <input type="text" name="q6" placeholder="Your answer">
+        <div class="explain"></div>
+      </div>
+      <div class="q" data-type="short" data-answer="mortality" data-explain="Mortality rates are high soon after settlement.">
+        <h4>7) The move is called settlement; ______ rates are high early in this stage.</h4>
+        <input type="text" name="q7" placeholder="Your answer">
+        <div class="explain"></div>
+      </div>
+
+      <h3>Questions 8–13 • Notes completion (ONE or TWO WORDS)</h3>
+      <div class="q" data-type="short" data-answer="new moon" data-explain="Settlement occurs within 2–3 days of a new moon.">
+        <h4>8) Time‑change of habitat takes place in summer and is linked to the ______.</h4>
+        <input type="text" name="q8" placeholder="Your answer">
+        <div class="explain"></div>
+      </div>
+      <div class="q" data-type="short" data-answer="laboratory" data-explain="Adapting fish to the laboratory is challenging.">
+        <h4>9) Adaptation – difficult to move and settle fish into the ______.</h4>
+        <input type="text" name="q9" placeholder="Your answer">
+        <div class="explain"></div>
+      </div>
+      <div class="q" data-type="short" data-answer="artificial light" data-explain="Purpose‑built traps use artificial light.">
+        <h4>10) Larval fish are drawn into a special trap with the aid of ______.</h4>
+        <input type="text" name="q10" placeholder="Your answer">
+        <div class="explain"></div>
+      </div>
+      <div class="q" data-type="short" data-answer="predatory fish" data-explain="Predatory fish are also collected for the trials.">
+        <h4>11) ______ are also collected and both undergo trials.</h4>
+        <input type="text" name="q11" placeholder="Your answer">
+        <div class="explain"></div>
+      </div>
+      <div class="q" data-type="short" data-answer="mouth size" data-explain="Physical features such as mouth size affect prey choice.">
+        <h4>12) Physical features (e.g., ______) affect which prey a predator can eat.</h4>
+        <input type="text" name="q12" placeholder="Your answer">
+        <div class="explain"></div>
+      </div>
+      <div class="q" data-type="short" data-answer="medium" data-explain="Optimal foraging suggests preference for medium‑sized prey.">
+        <h4>13) Optimal foraging theory suggests the most common choice of prey should be ______ in size.</h4>
+        <input type="text" name="q13" placeholder="Your answer">
+        <div class="explain"></div>
+      </div>
+
+      <div class="controls">
+        <button class="btn-primary" id="checkBtn">Check answers</button>
+        <button id="toggleExplain">Toggle explanations</button>
+        <button id="resetBtn" class="btn-ghost">Reset</button>
+        <span class="score" id="score"></span>
+      </div>
+      <p style="opacity:.75;margin-top:8px">Answer checking is case‑insensitive. Short answers accept exact wording.</p>
+    </section>
+  </div>
+</div>
+
+<script>
+  // Theme toggle with persistence
+  const themeBtn = document.getElementById('themeBtn');
+  const rootHtml = document.documentElement;
+  const savedTheme = localStorage.getItem('v7_theme');
+  if(savedTheme){ rootHtml.setAttribute('data-theme', savedTheme); }
+  themeBtn.addEventListener('click',()=>{
+    const cur = rootHtml.getAttribute('data-theme')==='light'?'dark':'light';
+    rootHtml.setAttribute('data-theme', cur);
+    localStorage.setItem('v7_theme', cur);
+  });
+
+  // Stopwatch
+  let t=0, iv=null, running=false;
+  const timerEl = document.getElementById('timer');
+  const startStop = document.getElementById('startStop');
+  const resetTimer = document.getElementById('resetTimer');
+  const lapBtn = document.getElementById('lapBtn');
+  const laps = document.getElementById('laps');
+  function fmt(s){
+    const m = Math.floor(s/60).toString().padStart(2,'0');
+    const ss = (s%60).toString().padStart(2,'0');
+    return m+':'+ss;
+  }
+  function tick(){ t++; timerEl.textContent = fmt(t); }
+  startStop.addEventListener('click',()=>{
+    if(!running){ iv=setInterval(tick,1000); running=true; startStop.textContent='Pause'; }
+    else{ clearInterval(iv); running=false; startStop.textContent='Start'; }
+  });
+  resetTimer.addEventListener('click',()=>{
+    clearInterval(iv); running=false; t=0; timerEl.textContent='00:00'; startStop.textContent='Start'; laps.innerHTML='';
+  });
+  lapBtn.addEventListener('click',()=>{
+    const li=document.createElement('li'); li.textContent='Lap – '+fmt(t); laps.appendChild(li);
+  });
+
+  // Highlight selection inside passage
+  const passage = document.getElementById('passage');
+  document.getElementById('hlBtn').addEventListener('click', ()=>{
+    const sel = window.getSelection();
+    if(!sel || sel.rangeCount===0) return;
+    const range = sel.getRangeAt(0);
+    if(!passage.contains(range.commonAncestorContainer)) return;
+    try{
+      const mark = document.createElement('mark');
+      mark.className='hl';
+      range.surroundContents(mark);
+      sel.removeAllRanges();
+    }catch(e){
+      // Fallback: wrap extracted contents
+      const mark = document.createElement('mark'); mark.className='hl';
+      mark.appendChild(range.extractContents());
+      range.insertNode(mark);
+      sel.removeAllRanges();
+    }
+  });
+  document.getElementById('clearHlBtn').addEventListener('click', ()=>{
+    passage.querySelectorAll('mark.hl').forEach(m=>{
+      const parent=m.parentNode;
+      while(m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+    });
+  });
+
+  // Answer checking
+  const norm = v => (v||'').trim().toLowerCase().replace(/\s+/g,' ');
+  function check(){
+    let total=0,right=0;
+    document.querySelectorAll('.q').forEach(q=>{
+      total++;
+      const type=q.dataset.type;
+      const a=q.dataset.answer||'';
+      let user='';
+      if(type==='tfn'){
+        const chosen=q.querySelector('input[type=radio]:checked');
+        user=chosen?chosen.value:'';
+        q.querySelectorAll('label').forEach(l=>l.classList.remove('correct','incorrect'));
+        if(chosen){
+          if(user===a){ chosen.parentElement.classList.add('correct'); right++; }
+          else{ chosen.parentElement.classList.add('incorrect'); }
+        }
+      } else if(type==='short'){
+        user=q.querySelector('input[type=text]').value;
+        if(norm(user)===norm(a)){ q.classList.add('correct'); q.classList.remove('incorrect'); right++; }
+        else { q.classList.remove('correct'); q.classList.add('incorrect'); }
+      }
+      const ex=q.querySelector('.explain');
+      if(ex){ ex.textContent='Explanation: '+(q.dataset.explain||''); }
+    });
+    document.getElementById('score').textContent=`Score: ${right}/${total}`;
+  }
+  function resetAll(){
+    document.getElementById('score').textContent='';
+    document.querySelectorAll('input[type=radio]').forEach(i=>i.checked=false);
+    document.querySelectorAll('input[type=text]').forEach(i=>i.value='');
+    document.querySelectorAll('.correct,.incorrect').forEach(el=>{el.classList.remove('correct','incorrect')});
+  }
+  document.getElementById('checkBtn').addEventListener('click',check);
+  document.getElementById('toggleExplain').addEventListener('click',()=>{
+    document.querySelectorAll('.explain').forEach(e=>e.classList.toggle('show'));
+  });
+  document.getElementById('resetBtn').addEventListener('click',resetAll);
+</script>
+
+  <footer style="margin-top:18px;opacity:.85">© Jasurbek Khamidov | IELTS  (@ieltswithkhmdv) — <a href="https://t.me/ieltswithkhmdv" target="_blank" rel="noopener">https://t.me/ieltswithkhmdv</a></footer>
+</body>
+</html>
