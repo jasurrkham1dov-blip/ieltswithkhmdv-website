@@ -260,7 +260,7 @@ footer .wrap{padding-block:26px;display:flex;justify-content:space-between;gap:1
     <div class="head"><h2>Everything in one place</h2></div>
     <div class="offers">
       <a href="#tests"><h3>Free tests</h3><p>Single reading passages and listening parts from real exams, with automatic checking.</p><span class="go">Open the library →</span></a>
-      <a href="#premium"><h3>Premium</h3><p>Full Reading and Listening mock tests, unlocked with an access code.</p><span class="go">How to get access →</span></a>
+      <a href="#premium"><h3>Premium</h3><p>Full Reading and Listening mock tests, sent to you on Telegram after payment.</p><span class="go">How to get access →</span></a>
       <a href="#courses"><h3>Courses</h3><p>RLC 2.0 live course on Zoom and the 30-day self-study course.</p><span class="go">See the courses →</span></a>
       <a href="#mocks"><h3>Sunday mocks</h3><p>A full Reading and Listening mock every Sunday under exam conditions.</p><span class="go">Join this Sunday →</span></a>
     </div>
@@ -309,19 +309,19 @@ footer .wrap{padding-block:26px;display:flex;justify-content:space-between;gap:1
   <div class="pagehead">
     <p class="eyebrow">Premium</p>
     <h1 style="margin-top:10px">Full mock tests</h1>
-    <p class="lead">Complete 40-question Reading and Listening tests built from real exam reports. One payment unlocks every premium test on this site.</p>
+    <p class="lead">Complete 40-question Reading and Listening tests built from real exam reports. Premium tests are not stored on this site. After payment you receive them on Telegram.</p>
   </div>
   <div class="unlock" id="unlock">
     <div>
-      <h3 id="unlock-title">Unlock premium</h3>
+      <h3 id="unlock-title">Get premium</h3>
       <ol class="steps">
         <li><b>1</b>Message <span class="handle">@khmdv_j</span> on Telegram and pay.</li>
-        <li><b>2</b>You receive your access code.</li>
-        <li><b>3</b>Enter the code here. This browser stays unlocked.</li>
+        <li><b>2</b>You are added to the premium channel.</li>
+        <li><b>3</b>You receive the full mock tests there.</li>
       </ol>
     </div>
     <div>
-      <form id="code-form" autocomplete="off">
+      <form id="code-form" autocomplete="off" hidden>
         <input id="code" name="code" placeholder="ACCESS CODE" aria-label="Access code" maxlength="40">
         <button class="btn gold" type="submit">Unlock</button>
       </form>
@@ -496,7 +496,7 @@ footer .wrap{padding-block:26px;display:flex;justify-content:space-between;gap:1
   /* ---------- viewer ---------- */
   function openTest(id){
     const t = byId[id]; if (!t) return;
-    if (t.p && !unlocked){ location.hash = 'premium'; $('#code').focus(); flash('Enter your access code to open "'+t.t+'".', 'bad'); return; }
+    if (t.p){ location.hash = 'premium'; flash('"'+t.t+'" is a premium test. Message @khmdv_j on Telegram to get it.', 'bad'); return; }
     $('#v-title').textContent = t.t;
     $('#v-full').href = t.f;
     $('#v-frame').src = t.f;
@@ -557,7 +557,7 @@ footer .wrap{padding-block:26px;display:flex;justify-content:space-between;gap:1
         <span class="ti">${esc(t.t)}</span>
         ${scoreTag(t.id)}
         <span class="lv">${esc(t.lv)}</span>
-        ${prem ? `<span class="tag prem">${unlocked ? 'Unlocked' : 'Locked'}</span>` : ''}
+        ${prem ? `<span class="tag prem">Premium</span>` : ''}
       </button></li>`).join('') : '<li class="empty">No tests match. Try a shorter search.</li>';
   }
   function renderLists(){ renderList('free'); renderList('prem'); }
@@ -641,9 +641,7 @@ footer .wrap{padding-block:26px;display:flex;justify-content:space-between;gap:1
     return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2,'0')).join('');
   }
   function paintUnlock(){
-    $('#unlock-title').textContent = unlocked ? 'Premium is unlocked on this browser' : 'Unlock premium';
-    $('#code-form').hidden = unlocked;
-    if (unlocked) flash('All premium tests are open. Good luck!', 'good');
+    unlocked = false;
   }
   $('#code-form').addEventListener('submit', async e => {
     e.preventDefault();
