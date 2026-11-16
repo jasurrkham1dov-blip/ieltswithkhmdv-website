@@ -520,5 +520,6 @@ function applyInlineHighlights(){
     for(let i=7;i<=13;i++){let inp=document.getElementById(`q${i}`); if(inp.value.trim()==='')continue; let ok=checkText(inp.value,ANSWERS[i]); inp.classList.add(ok?'correct':'incorrect'); if(!inp.nextElementSibling?.classList.contains('summary-feedback')){let fb=document.createElement('span');fb.className=`summary-feedback ${ok?'correct':'incorrect'}`;fb.textContent=ok?'✓':`✗ ${ANSWERS[i][0]}`;inp.insertAdjacentElement('afterend',fb);}}
 }
 </script>
+<script src="../track.js"></script>
 </body>
 </html>

@@ -1,24 +1,671 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>IELTS with KHMDV</title>
-  <meta name="description" content="IELTS Reading and Listening practice tests and Sunday mock exams by @ieltswithkhmdv">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b1640'/%3E%3Ctext x='32' y='43' font-family='Arial' font-weight='700' font-size='30' fill='%23e9a23b' text-anchor='middle'%3EK%3C/text%3E%3C/svg%3E">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,400..700,0..100;1,9..144,400..700,0..100&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-  <script>
-    try { const t = localStorage.getItem('khmdv-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
-</head>
-<body>
-  <div id="app"><div class="boot">Loading…</div></div>
-  <div id="modal-root"></div>
-  <div id="toasts"></div>
-  <script type="module" src="js/app.js"></script>
-</body>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light}body{margin:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<title>IELTS with KHMDV – real-exam Reading and Listening tests</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Real-exam IELTS Reading and Listening tests, premium mock tests, courses and Sunday mocks by Jasurbek Khamidov (@ieltswithkhmdv).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout concept: an exam-day report board. Left-aligned editorial hero, a three-column
+   "reported in real exams" board as the signature element, then quiet working pages. */
+:root{
+  --bg:#F3F7FA; --surface:#FFFFFF; --sunk:#E8EFF5; --fg:#0B1B2B; --muted:#51647A; --line:#D3DEE8;
+  --accent:#0B84B8; --accent-strong:#076A95; --on-accent:#FFFFFF; --tint:#DDF1FA;
+  --gold:#A8700A; --gold-tint:#FBEFD3; --hot:#C4391D; --ok:#1B7F4B;
+  --display:"Bricolage Grotesque","Arial Narrow",Arial,sans-serif;
+  --body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --r:10px; --wrap:1120px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#08131E; --surface:#0F1E2D; --sunk:#0B1825; --fg:#E7EFF6; --muted:#93A6B9; --line:#22374B;
+  --accent:#3DBBEC; --accent-strong:#7AD2F4; --on-accent:#04202E; --tint:#0F3247;
+  --gold:#E8B24A; --gold-tint:#33270E; --hot:#FF8468; --ok:#5BD093; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#08131E; --surface:#0F1E2D; --sunk:#0B1825; --fg:#E7EFF6; --muted:#93A6B9; --line:#22374B;
+  --accent:#3DBBEC; --accent-strong:#7AD2F4; --on-accent:#04202E; --tint:#0F3247;
+  --gold:#E8B24A; --gold-tint:#33270E; --hot:#FF8468; --ok:#5BD093; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:16px/1.55 var(--body);-webkit-font-smoothing:antialiased}
+a{color:var(--accent-strong)}
+h1,h2,h3{font-family:var(--display);line-height:1.08;margin:0;text-wrap:balance;letter-spacing:-.01em}
+p{margin:0}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.eyebrow{font:700 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-strong)}
+.muted{color:var(--muted)}
+
+/* header */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:16px;padding-block:12px;flex-wrap:wrap}
+.mark{font:800 19px/1 var(--display);color:var(--fg);text-decoration:none;letter-spacing:-.02em}
+.mark b{color:var(--accent-strong);font-weight:800}
+nav{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+nav a{padding:7px 11px;border-radius:999px;text-decoration:none;color:var(--muted);font-weight:600;font-size:14.5px}
+nav a:hover{color:var(--fg);background:var(--sunk)}
+nav a[aria-current="page"]{color:var(--fg);background:var(--tint)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:999px;border:1px solid transparent;background:var(--accent);color:var(--on-accent);font-weight:700;text-decoration:none;cursor:pointer;font-size:15px}
+.btn:hover{background:var(--accent-strong)}
+.btn.ghost{background:transparent;color:var(--fg);border-color:var(--line)}
+.btn.ghost:hover{background:var(--sunk)}
+.btn.gold{background:var(--gold);color:var(--surface)}
+.btn.sm{padding:7px 13px;font-size:14px}
+
+/* views */
+main{padding-block:0 72px}
+.view{display:none}
+.view.on{display:block}
+.section{padding-block:56px 0}
+.section > .head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.section h2{font-size:clamp(26px,3.6vw,38px);font-weight:700}
+.lead{font-size:18px;color:var(--muted);max-width:62ch}
+
+/* hero */
+.hero{padding-block:52px 8px;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:40px;align-items:start}
+.hero h1{font-size:clamp(38px,6.2vw,72px);font-weight:800;letter-spacing:-.035em}
+.hero h1 em{font-style:normal;color:var(--accent-strong)}
+.hero .lead{margin-top:18px}
+.cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.facts{display:flex;gap:28px;flex-wrap:wrap;margin-top:34px;padding-top:20px;border-top:1px solid var(--line)}
+.facts div{min-width:0}
+.facts b{display:block;font:700 26px/1.1 var(--mono);font-variant-numeric:tabular-nums}
+.facts span{font-size:13.5px;color:var(--muted)}
+
+/* report board (signature) */
+.board{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.board-head{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--sunk)}
+.board-head span{font:700 12px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.live{display:inline-flex;align-items:center;gap:7px;color:var(--hot)}
+.live i{width:8px;height:8px;border-radius:50%;background:var(--hot);animation:pulse 1.8s infinite}
+@keyframes pulse{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.live i{animation:none}}
+.tabs{display:flex;border-bottom:1px solid var(--line)}
+.tabs button{flex:1;padding:10px 6px;background:none;border:0;border-bottom:2px solid transparent;font:700 13px/1 var(--mono);color:var(--muted);cursor:pointer}
+.tabs button[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--accent)}
+.rows{list-style:none;margin:0;padding:0;max-height:392px;overflow:auto}
+.rows li{display:flex;align-items:center;gap:10px;padding:9px 16px;border-bottom:1px solid var(--line);font-size:14.5px}
+.rows li:last-child{border-bottom:0}
+.rows .n{font:500 12px/1 var(--mono);color:var(--muted);width:22px;flex:none}
+.rows .ti{flex:1;min-width:0}
+.rows button.ti{background:none;border:0;padding:0;text-align:left;cursor:pointer;color:var(--accent-strong);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.tag{flex:none;font:700 10.5px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:5px 7px;border-radius:5px;background:var(--sunk);color:var(--muted)}
+.tag.hot{background:color-mix(in srgb,var(--hot) 14%,var(--surface));color:var(--hot)}
+.tag.free{background:var(--tint);color:var(--accent-strong)}
+.tag.prem{background:var(--gold-tint);color:var(--gold)}
+.board-foot{padding:10px 16px;font-size:13px;color:var(--muted);border-top:1px solid var(--line)}
+
+/* offers */
+.offers{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);overflow:hidden}
+.offers a{padding:22px 20px;text-decoration:none;color:var(--fg);border-right:1px solid var(--line);display:flex;flex-direction:column;gap:8px;min-width:0}
+.offers a:last-child{border-right:0}
+.offers a:hover{background:var(--sunk)}
+.offers h3{font-size:20px;font-weight:700}
+.offers p{font-size:14.5px;color:var(--muted)}
+.offers .go{margin-top:auto;padding-top:10px;font-weight:700;color:var(--accent-strong);font-size:14.5px}
+
+/* results */
+.results{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.res{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.bands{display:flex;gap:18px;flex-wrap:wrap}
+.bands div b{display:block;font:700 30px/1 var(--mono);font-variant-numeric:tabular-nums}
+.bands div span{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+.res p{font-size:14.5px;color:var(--muted)}
+.res a{font-size:13.5px;font-weight:600;margin-top:auto}
+
+/* library */
+.pagehead{padding-block:44px 22px}
+.pagehead h1{font-size:clamp(32px,5vw,52px);font-weight:800;letter-spacing:-.03em}
+.pagehead .lead{margin-top:12px}
+.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.search{flex:1 1 240px;min-width:0;padding:11px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);font:inherit}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{padding:8px 13px;border-radius:999px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-weight:600;font-size:14px;color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.count{font-size:14px;color:var(--muted);margin-bottom:10px}
+.list{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);overflow:hidden}
+.list li{border-bottom:1px solid var(--line)}
+.list li:last-child{border-bottom:0}
+.item{display:flex;align-items:center;gap:12px;width:100%;padding:13px 16px;background:none;border:0;text-align:left;cursor:pointer}
+.item:hover{background:var(--sunk)}
+.item .kind{flex:none;width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font:700 12px/1 var(--mono);background:var(--tint);color:var(--accent-strong)}
+.item .kind.l{background:var(--sunk);color:var(--fg)}
+.item .ti{flex:1;min-width:0;font-weight:600}
+.item .lv{flex:none;font:500 12.5px/1 var(--mono);color:var(--muted)}
+.item .done{flex:none;color:var(--ok);font-weight:700;font-size:13px}
+.empty{padding:28px 16px;color:var(--muted);text-align:center}
+
+/* premium / courses */
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:24px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.panel h3{font-size:24px;font-weight:700}
+.panel ul{margin:0;padding-left:20px;color:var(--muted);display:flex;flex-direction:column;gap:5px}
+.panel .foot{margin-top:auto;padding-top:8px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.unlock{background:var(--gold-tint);border:1px solid color-mix(in srgb,var(--gold) 35%,transparent);border-radius:var(--r);padding:22px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;align-items:center;margin-bottom:22px}
+.unlock h3{font-size:22px;font-weight:700}
+.unlock form{display:flex;gap:8px;flex-wrap:wrap}
+.unlock input{flex:1 1 180px;min-width:0;padding:11px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);font:500 15px var(--mono);text-transform:uppercase}
+.msg{font-size:14px;font-weight:600;min-height:1.4em;margin-top:8px}
+.msg.bad{color:var(--hot)} .msg.good{color:var(--ok)}
+.steps{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:15px}
+.steps b{font-family:var(--mono);margin-right:8px;color:var(--gold)}
+.handle{font:700 15px var(--mono);user-select:all}
+
+/* viewer */
+.viewer{position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;flex-direction:column}
+.viewer header{display:flex;align-items:center;gap:10px;padding:calc(8px + env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) 8px max(12px,env(safe-area-inset-left,0px));border-bottom:1px solid var(--line);background:var(--surface)}
+.viewer header strong{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:15px}
+.viewer iframe{flex:1;width:100%;border:0;background:#fff}
+
+/* progress */
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);overflow:hidden}
+.tile{padding:18px 20px;border-right:1px solid var(--line);min-width:0}
+.tile:last-child{border-right:0}
+.tile span{display:block;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+.tile b{display:block;font:700 28px/1.2 var(--mono);font-variant-numeric:tabular-nums;margin-top:6px}
+.tile small{display:block;font-size:13.5px;color:var(--muted);margin-top:2px}
+.level{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:16px;margin-top:16px}
+.lvl-band{font:800 64px/1 var(--display);letter-spacing:-.03em;color:var(--accent-strong)}
+.lvl-name{font:700 20px/1.2 var(--display);margin-top:4px}
+.meter{height:10px;border-radius:999px;background:var(--sunk);overflow:hidden;margin-top:6px}
+.meter i{display:block;height:100%;background:var(--accent);border-radius:999px}
+.skills{display:flex;flex-direction:column;gap:14px}
+.skill{display:flex;justify-content:space-between;gap:10px;align-items:baseline;font-weight:600}
+.skill b{font:700 18px var(--mono)}
+.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;align-items:end;height:150px;margin-top:8px}
+.week div{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:5px;height:100%;min-width:0}
+.week i{display:block;width:100%;max-width:44px;border-radius:6px 6px 0 0;background:var(--accent);min-height:2px}
+.week i.zero{background:var(--line)}
+.week em{font:500 11.5px var(--mono);font-style:normal;color:var(--muted)}
+.week strong{font:700 11.5px var(--mono)}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+table.res{width:100%;border-collapse:collapse;font-size:14.5px;min-width:560px}
+table.res th,table.res td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line)}
+table.res th{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+table.res tr:last-child td{border-bottom:0}
+table.res td.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.band-pill{display:inline-block;font:700 12px var(--mono);padding:4px 8px;border-radius:6px;background:var(--tint);color:var(--accent-strong)}
+.item .score{flex:none;font:700 12.5px var(--mono);color:var(--ok)}
+.v-time{flex:none;font:700 13px var(--mono);color:var(--muted)}
+.confirm{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:14px}
+@media (max-width:900px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.tile:nth-child(2){border-right:0}.tile:nth-child(-n+2){border-bottom:1px solid var(--line)}.level{grid-template-columns:minmax(0,1fr)}}
+footer{border-top:1px solid var(--line);margin-top:72px}
+footer .wrap{padding-block:26px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:14px;color:var(--muted)}
+
+@media (max-width:900px){
+  .hero{grid-template-columns:minmax(0,1fr);gap:28px;padding-block:34px 0}
+  .offers{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .offers a:nth-child(2){border-right:0}
+  .offers a:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .results{grid-template-columns:minmax(0,1fr)}
+  .two,.unlock{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){
+  .offers{grid-template-columns:minmax(0,1fr)}
+  .offers a{border-right:0;border-bottom:1px solid var(--line)}
+  .offers a:last-child{border-bottom:0}
+  nav{margin-left:0;width:100%}
+  nav a{padding:6px 9px;font-size:14px}
+  .item .lv{display:none}
+}
+</style>
+
+<div class="top"><div class="wrap">
+  <a class="mark" href="#home">ieltswithkhmdv<b>.com</b></a>
+  <nav id="nav">
+    <a href="#tests">Free tests</a>
+    <a href="#premium">Premium</a>
+    <a href="#courses">Courses</a>
+    <a href="#mocks">Sunday mocks</a>
+    <a href="#progress">My progress</a>
+  </nav>
+  <a class="btn sm" href="https://t.me/ieltswithkhmdv" target="_blank" rel="noopener">Telegram</a>
+</div></div>
+
+<main>
+<!-- HOME -->
+<div class="view" id="v-home"><div class="wrap">
+  <section class="hero">
+    <div>
+      <p class="eyebrow">Jasurbek Khamidov · IELTS Reading &amp; Listening</p>
+      <h1 style="margin-top:14px">Practise the passages that <em>turn up in the real exam.</em></h1>
+      <p class="lead">Every test here comes from real IELTS exams reported by students. Solve them on screen the way the computer-delivered test works: timer, highlighting, instant score and band.</p>
+      <div class="cta">
+        <a class="btn" href="#tests">Start a free test</a>
+        <a class="btn ghost" href="#premium">See premium tests</a>
+      </div>
+      <div class="facts">
+        <div><b id="f-free">164</b><span>free tests on this site</span></div>
+        <div><b id="f-prem">42</b><span>premium full mocks</span></div>
+        <div><b>28.4K</b><span>students on Telegram</span></div>
+      </div>
+    </div>
+    <div class="board" aria-label="Passages reported in real exams">
+      <div class="board-head"><span>Reported in real exams · last 2 months</span><span class="live"><i></i>Nov 2026</span></div>
+      <div class="tabs" role="tablist" id="rtabs"></div>
+      <ol class="rows" id="rrows"></ol>
+      <div class="board-foot">Blue titles open as a free test. The rest are on the Telegram channel.</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="head"><h2>Everything in one place</h2></div>
+    <div class="offers">
+      <a href="#tests"><h3>Free tests</h3><p>Single reading passages and listening parts from real exams, with automatic checking.</p><span class="go">Open the library →</span></a>
+      <a href="#premium"><h3>Premium</h3><p>Full Reading and Listening mock tests, unlocked with an access code.</p><span class="go">How to get access →</span></a>
+      <a href="#courses"><h3>Courses</h3><p>RLC 2.0 live course on Zoom and the 30-day self-study course.</p><span class="go">See the courses →</span></a>
+      <a href="#mocks"><h3>Sunday mocks</h3><p>A full Reading and Listening mock every Sunday under exam conditions.</p><span class="go">Join this Sunday →</span></a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="head"><h2>Recent student results</h2><a href="https://t.me/ieltswithkhmdv" target="_blank" rel="noopener">More results on Telegram →</a></div>
+    <div class="results" id="results"></div>
+  </section>
+
+  <section class="section">
+    <div class="two">
+      <div class="panel">
+        <p class="eyebrow">Free on the channel</p>
+        <h3>Study plan and Mastery books</h3>
+        <p class="muted">The Reading &amp; Listening band 9 study plan, TRUE / FALSE / NOT GIVEN Mastery, List of Headings Mastery, Matching Information Mastery, Reading Mastery and Listening Mastery are all pinned on Telegram.</p>
+        <div class="foot"><a class="btn ghost" href="https://t.me/ieltswithkhmdv/7950" target="_blank" rel="noopener">Open the most useful posts</a></div>
+      </div>
+      <div class="panel">
+        <p class="eyebrow">Had your exam?</p>
+        <h3>Report your passages</h3>
+        <p class="muted">Tell us which Reading passages and Listening parts you got. Your report helps the next student, and the passage is added here as a test.</p>
+        <div class="foot"><a class="btn ghost" href="https://t.me/khmdv_j" target="_blank" rel="noopener">Message @khmdv_j</a></div>
+      </div>
+    </div>
+  </section>
+</div></div>
+
+<!-- TESTS -->
+<div class="view" id="v-tests"><div class="wrap">
+  <div class="pagehead">
+    <p class="eyebrow">Free library</p>
+    <h1 style="margin-top:10px">Free practice tests</h1>
+    <p class="lead">Real-exam reading passages and listening parts. No sign-up. Your answers are checked as soon as you submit.</p>
+  </div>
+  <div class="tools">
+    <input class="search" id="q-free" type="search" placeholder="Search by passage title, e.g. Voynich" aria-label="Search free tests">
+    <div class="chips" id="chips-free"></div>
+  </div>
+  <p class="count" id="count-free"></p>
+  <ul class="list" id="list-free"></ul>
+</div></div>
+
+<!-- PREMIUM -->
+<div class="view" id="v-premium"><div class="wrap">
+  <div class="pagehead">
+    <p class="eyebrow">Premium</p>
+    <h1 style="margin-top:10px">Full mock tests</h1>
+    <p class="lead">Complete 40-question Reading and Listening tests built from real exam reports. One payment unlocks every premium test on this site.</p>
+  </div>
+  <div class="unlock" id="unlock">
+    <div>
+      <h3 id="unlock-title">Unlock premium</h3>
+      <ol class="steps">
+        <li><b>1</b>Message <span class="handle">@khmdv_j</span> on Telegram and pay.</li>
+        <li><b>2</b>You receive your access code.</li>
+        <li><b>3</b>Enter the code here. This browser stays unlocked.</li>
+      </ol>
+    </div>
+    <div>
+      <form id="code-form" autocomplete="off">
+        <input id="code" name="code" placeholder="ACCESS CODE" aria-label="Access code" maxlength="40">
+        <button class="btn gold" type="submit">Unlock</button>
+      </form>
+      <p class="msg" id="code-msg" role="status"></p>
+      <a class="btn ghost sm" href="https://t.me/khmdv_j" target="_blank" rel="noopener">Buy access on Telegram</a>
+    </div>
+  </div>
+  <div class="tools">
+    <input class="search" id="q-prem" type="search" placeholder="Search premium tests" aria-label="Search premium tests">
+    <div class="chips" id="chips-prem"></div>
+  </div>
+  <p class="count" id="count-prem"></p>
+  <ul class="list" id="list-prem"></ul>
+</div></div>
+
+<!-- COURSES -->
+<div class="view" id="v-courses"><div class="wrap">
+  <div class="pagehead">
+    <p class="eyebrow">Courses</p>
+    <h1 style="margin-top:10px">Study with Jasurbek</h1>
+    <p class="lead">Two ways to prepare for Reading and Listening, both built on tests that are likely to appear in your exam.</p>
+  </div>
+  <div class="two">
+    <div class="panel">
+      <p class="eyebrow">Live on Zoom</p>
+      <h3>RLC 2.0 — Reading &amp; Listening Course</h3>
+      <ul>
+        <li>26 live lessons</li>
+        <li>4 full mock tests, held on Sundays</li>
+        <li>60 selected Reading and Listening tests</li>
+        <li>Bonus: lifetime access to the Premium Channel</li>
+      </ul>
+      <div class="foot"><a class="btn" href="https://t.me/khmdv_j" target="_blank" rel="noopener">Ask about the next start date</a></div>
+    </div>
+    <div class="panel">
+      <p class="eyebrow">At your own pace</p>
+      <h3>30-day self-study course</h3>
+      <ul>
+        <li>A full Reading and a full Listening test every day</li>
+        <li>An explanation for every test</li>
+        <li>Strict attendance: miss three days without a reason and you leave the group</li>
+        <li>Made for students taking the exam in November and December</li>
+      </ul>
+      <div class="foot"><a class="btn" href="https://t.me/khmdv_j" target="_blank" rel="noopener">Join via @khmdv_j</a></div>
+    </div>
+    <div class="panel">
+      <p class="eyebrow">Telegram</p>
+      <h3>Premium Channel</h3>
+      <ul>
+        <li>More than 100 computer-delivered Reading and Listening tests</li>
+        <li>Monthly exam predictions</li>
+        <li>One payment, lifetime access, future updates included</li>
+      </ul>
+      <div class="foot"><a class="btn ghost" href="https://t.me/khmdv_j" target="_blank" rel="noopener">Ask for the price</a></div>
+    </div>
+    <div class="panel">
+      <p class="eyebrow">Free</p>
+      <h3>Free live lessons</h3>
+      <p class="muted">Free live lessons are announced on the main channel. Turn on notifications so you do not miss the next one.</p>
+      <div class="foot"><a class="btn ghost" href="https://t.me/ieltswithkhmdv" target="_blank" rel="noopener">Open @ieltswithkhmdv</a></div>
+    </div>
+  </div>
+</div></div>
+
+<!-- MOCKS -->
+<div class="view" id="v-mocks"><div class="wrap">
+  <div class="pagehead">
+    <p class="eyebrow">Every Sunday</p>
+    <h1 style="margin-top:10px">Sunday mock tests</h1>
+    <p class="lead">One full Reading test and one full Listening test under exam timing. You get your score and band the moment you submit.</p>
+  </div>
+  <div class="two">
+    <div class="panel">
+      <p class="eyebrow">Next mock</p>
+      <h3 class="mono" id="next-sunday">Sunday</h3>
+      <p class="muted">The start time and the test password are posted on the Telegram channel on the day.</p>
+      <div class="foot"><a class="btn" href="https://t.me/ieltswithkhmdv" target="_blank" rel="noopener">Get the time on Telegram</a></div>
+    </div>
+    <div class="panel">
+      <p class="eyebrow">Format</p>
+      <h3>Same rules as the real test</h3>
+      <ul>
+        <li>Reading: 3 passages, 40 questions, 60 minutes</li>
+        <li>Listening: 4 parts, 40 questions, audio plays once</li>
+        <li>Candidate ID is your name</li>
+        <li>Past mocks stay in Premium for practice</li>
+      </ul>
+      <div class="foot"><a class="btn ghost" href="#premium">Practise past mocks</a></div>
+    </div>
+  </div>
+</div></div>
+<!-- PROGRESS -->
+<div class="view" id="v-progress"><div class="wrap">
+  <div class="pagehead">
+    <p class="eyebrow">My progress</p>
+    <h1 style="margin-top:10px">Your level and study time</h1>
+    <p class="lead">Time is counted while a test is open and you are working on it. Your band is estimated from the scores of the tests you submit. Everything is saved in this browser on this device only.</p>
+  </div>
+  <div id="prog-empty" class="panel" hidden>
+    <h3>No tests finished yet</h3>
+    <p class="muted">Open a test, answer the questions and press Submit. Your score, estimated band and study time will appear here.</p>
+    <div class="foot"><a class="btn" href="#tests">Start a free test</a></div>
+  </div>
+  <div id="prog-body">
+    <div class="tiles" id="tiles"></div>
+    <div class="level">
+      <div class="panel">
+        <p class="eyebrow">Current level</p>
+        <div><div class="lvl-band" id="lvl-band">–</div><div class="lvl-name" id="lvl-name"></div></div>
+        <p class="muted" id="lvl-note"></p>
+        <div><div class="skill"><span id="next-label">Progress to the next band</span><b id="next-pct"></b></div><div class="meter"><i id="next-bar" style="width:0%"></i></div></div>
+        <div class="skills" id="skills"></div>
+      </div>
+      <div class="panel">
+        <p class="eyebrow">Study time, last 7 days</p>
+        <div class="week" id="week"></div>
+        <p class="muted" id="rank"></p>
+      </div>
+    </div>
+    <section class="section" style="padding-block:32px 0">
+      <div class="head"><h2 style="font-size:26px">Recent results</h2>
+        <div class="confirm"><button class="btn ghost sm" id="reset-btn" type="button">Clear my progress</button><span id="reset-confirm" hidden>Delete all saved time and scores? <button class="btn sm" id="reset-yes" type="button">Yes, delete</button> <button class="btn ghost sm" id="reset-no" type="button">Cancel</button></span></div>
+      </div>
+      <div class="tablewrap"><table class="res"><thead><tr><th>Test</th><th>Skill</th><th>Score</th><th>Band</th><th>Time on test</th><th>Date</th></tr></thead><tbody id="res-body"></tbody></table></div>
+    </section>
+  </div>
+</div></div>
+</main>
+
+<footer><div class="wrap">
+  <span>© 2026 Jasurbek Khamidov · ieltswithkhmdv.com</span>
+  <span>Channel <a href="https://t.me/ieltswithkhmdv" target="_blank" rel="noopener">@ieltswithkhmdv</a> · Contact <a href="https://t.me/khmdv_j" target="_blank" rel="noopener">@khmdv_j</a> · Ads <a href="https://t.me/ieltswithkhmdvads" target="_blank" rel="noopener">@ieltswithkhmdvads</a></span>
+</div></footer>
+
+<div class="viewer" id="viewer" hidden>
+  <header>
+    <button class="btn ghost sm" id="v-back" type="button">← Back</button>
+    <strong id="v-title"></strong>
+    <span class="v-time" id="v-time" title="Time spent on this test"></span>
+    <a class="btn ghost sm" id="v-full" target="_blank" rel="noopener">Full screen ↗</a>
+  </header>
+  <iframe id="v-frame" title="Test"></iframe>
+</div>
+
+<script src="data.js"></script>
+<script>
+(function(){
+  const D = window.KH_DATA, $ = s => document.querySelector(s);
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const store = {
+    get(k, d){ try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch(e){ return d; } },
+    set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+  };
+  const byId = Object.fromEntries(D.tests.map(t => [t.id, t]));
+  let unlocked = store.get('kh-unlocked', false) === true;
+  let done = new Set(store.get('kh-done', []));
+
+  /* ---------- routing ---------- */
+  const VIEWS = ['home','tests','premium','courses','mocks','progress'];
+  function route(){
+    const h = (location.hash || '').replace('#','');
+    const v = VIEWS.includes(h) ? h : 'home';
+    VIEWS.forEach(n => $('#v-'+n).classList.toggle('on', n === v));
+    document.querySelectorAll('#nav a').forEach(a => {
+      if (a.getAttribute('href') === '#'+v) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
+    });
+    if (v === 'progress') renderProgress();
+    window.scrollTo(0,0);
+  }
+  window.addEventListener('hashchange', route);
+
+  /* ---------- viewer ---------- */
+  function openTest(id){
+    const t = byId[id]; if (!t) return;
+    if (t.p && !unlocked){ location.hash = 'premium'; $('#code').focus(); flash('Enter your access code to open "'+t.t+'".', 'bad'); return; }
+    $('#v-title').textContent = t.t;
+    $('#v-full').href = t.f;
+    $('#v-frame').src = t.f;
+    $('#viewer').hidden = false;
+    document.body.style.overflow = 'hidden';
+    done.add(id); store.set('kh-done', [...done]);
+    curTest = id; paintViewerTime();
+  }
+  function closeTest(){
+    $('#viewer').hidden = true; $('#v-frame').src = 'about:blank';
+    document.body.style.overflow = '';
+    curTest = null;
+    renderLists(); renderProgress();
+  }
+  $('#v-back').addEventListener('click', closeTest);
+
+  /* ---------- report board ---------- */
+  const labs = Object.keys(D.reported); let curLab = labs[0];
+  function renderBoard(){
+    $('#rtabs').innerHTML = labs.map(l => `<button role="tab" aria-selected="${l===curLab}" data-l="${esc(l)}">${esc(l)} · ${D.reported[l].length}</button>`).join('');
+    $('#rrows').innerHTML = D.reported[curLab].map((x,i) => {
+      const n = `<span class="n">${String(i+1).padStart(2,'0')}</span>`;
+      const hot = x.hot ? '<span class="tag hot">3+ times</span>' : '';
+      return x.id
+        ? `<li>${n}<button class="ti" data-open="${x.id}">${esc(x.t)}</button>${hot}<span class="tag free">Free test</span></li>`
+        : `<li>${n}<span class="ti">${esc(x.t)}</span>${hot}</li>`;
+    }).join('');
+  }
+  $('#rtabs').addEventListener('click', e => { const b = e.target.closest('button'); if (b){ curLab = b.dataset.l; renderBoard(); } });
+
+  /* ---------- results (from channel posts) ---------- */
+  const RES = [
+    {b:[['Listening','9.0'],['Reading','7.0'],['Overall','7.0']], t:'Premium Channel member.', d:'9 Nov 2026', u:'https://t.me/ieltswithkhmdv/7940'},
+    {b:[['Reading','8.0'],['Listening','8.0']], t:'Prepared only with the free tests from the channel.', d:'11 Nov 2026', u:'https://t.me/ieltswithkhmdv/7991'},
+    {b:[['Listening','8.5'],['Reading','8.0'],['Overall','7.5']], t:'Took part in the mock tests before the exam.', d:'28 Oct 2026', u:'https://t.me/ieltswithkhmdv/7708'},
+    {b:[['Listening','7.5'],['Reading','7.5'],['Overall','7.0']], t:'RLC 1.0 student. Before the course: Listening 7.0, Reading 6.0–6.5.', d:'3 Nov 2026', u:'https://t.me/ieltswithkhmdv/7845'},
+    {b:[['Listening','8.5'],['Reading','7.0']], t:'Premium Channel member. Listening went from 7.0 to 8.5.', d:'28 Oct 2026', u:'https://t.me/ieltswithkhmdv/7703'},
+    {b:[['Reading','8.5'],['Listening','8.0']], t:'Worked through the channel tests and gained 1.5 bands in both.', d:'28 Oct 2026', u:'https://t.me/ieltswithkhmdv/7710'}
+  ];
+  $('#results').innerHTML = RES.map(r => `<article class="res"><div class="bands">${r.b.map(x=>`<div><b>${x[1]}</b><span>${x[0]}</span></div>`).join('')}</div><p>${esc(r.t)}</p><a href="${r.u}" target="_blank" rel="noopener">${r.d} · see the post →</a></article>`).join('');
+
+  /* ---------- lists ---------- */
+  const FILTERS = {
+    free: [['all','All'],['r','Reading'],['l','Listening'],['Passage 1','Passage 1'],['Passage 2','Passage 2'],['Passage 3','Passage 3']],
+    prem: [['all','All'],['r','Reading'],['l','Listening']]
+  };
+  const state = { free:{q:'',f:'all'}, prem:{q:'',f:'all'} };
+  function renderList(key){
+    const prem = key === 'prem' ? 1 : 0, s = state[key], q = s.q.trim().toLowerCase();
+    const items = D.tests.filter(t => t.p === prem)
+      .filter(t => s.f === 'all' || t.k === s.f || t.lv === s.f)
+      .filter(t => !q || t.t.toLowerCase().includes(q))
+      .sort((a,b) => a.t.localeCompare(b.t));
+    $('#chips-'+key).innerHTML = FILTERS[key].map(f => `<button class="chip" aria-pressed="${s.f===f[0]}" data-f="${f[0]}">${f[1]}</button>`).join('');
+    $('#count-'+key).textContent = items.length + (items.length === 1 ? ' test' : ' tests');
+    $('#list-'+key).innerHTML = items.length ? items.map(t => `<li><button class="item" data-open="${t.id}">
+        <span class="kind ${t.k}">${t.k === 'r' ? 'R' : 'L'}</span>
+        <span class="ti">${esc(t.t)}</span>
+        ${scoreTag(t.id)}
+        <span class="lv">${esc(t.lv)}</span>
+        ${prem ? `<span class="tag prem">${unlocked ? 'Unlocked' : 'Locked'}</span>` : ''}
+      </button></li>`).join('') : '<li class="empty">No tests match. Try a shorter search.</li>';
+  }
+  function renderLists(){ renderList('free'); renderList('prem'); }
+  ['free','prem'].forEach(key => {
+    $('#q-'+key).addEventListener('input', e => { state[key].q = e.target.value; renderList(key); });
+    $('#chips-'+key).addEventListener('click', e => { const b = e.target.closest('.chip'); if (b){ state[key].f = b.dataset.f; renderList(key); } });
+  });
+  document.addEventListener('click', e => { const b = e.target.closest('[data-open]'); if (b) openTest(b.dataset.open); });
+
+  /* ---------- progress: time and band ---------- */
+  let curTest = null;
+  const fmtTime = s => { s = Math.round(s || 0); const h = Math.floor(s/3600), m = Math.floor(s%3600/60); return h ? h+'h '+String(m).padStart(2,'0')+'m' : (m ? m+' min' : (s ? '<1 min' : '0 min')); };
+  const R_BAND = [[39,9],[37,8.5],[35,8],[33,7.5],[30,7],[27,6.5],[23,6],[19,5.5],[15,5],[13,4.5],[10,4],[8,3.5],[6,3],[4,2.5],[0,2]];
+  const L_BAND = [[39,9],[37,8.5],[35,8],[32,7.5],[30,7],[26,6.5],[23,6],[18,5.5],[16,5],[13,4.5],[10,4],[8,3.5],[6,3],[4,2.5],[0,2]];
+  function band(c, t, k){ const raw = Math.round(c / t * 40); const tb = k === 'l' ? L_BAND : R_BAND; for (const [min,b] of tb) if (raw >= min) return b; return 2; }
+  const LEVELS = [[8,'Expert'],[7,'Advanced'],[6,'Upper-intermediate'],[5,'Intermediate'],[4,'Pre-intermediate'],[0,'Beginner']];
+  const levelName = b => LEVELS.find(l => b >= l[0])[1];
+  const half = x => Math.round(x * 2) / 2;
+  function scoreTag(id){
+    const r = store.get('kh-results', {})[id];
+    if (r && r.best) return `<span class="score">${r.best.c}/${r.best.t} · Band ${band(r.best.c, r.best.t, r.k).toFixed(1)}</span>`;
+    return done.has(id) ? '<span class="done">Opened</span>' : '';
+  }
+  function paintViewerTime(){
+    if (!curTest) return;
+    const t = store.get('kh-time', {tests:{}});
+    $('#v-time').textContent = '⏱ ' + fmtTime((t.tests || {})[curTest] || 0);
+  }
+  setInterval(paintViewerTime, 5000);
+  function dayKey(d){ return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
+  function renderProgress(){
+    const time = store.get('kh-time', {total:0, tests:{}, days:{}});
+    const hist = store.get('kh-history', []);
+    const results = store.get('kh-results', {});
+    const empty = !hist.length && !(time.total > 0);
+    $('#prog-empty').hidden = !empty; $('#prog-body').hidden = empty;
+    if (empty) return;
+    const today = new Date(); let week = 0; const days = [];
+    for (let i = 6; i >= 0; i--){ const d = new Date(today); d.setDate(d.getDate() - i); const s = (time.days || {})[dayKey(d)] || 0; week += s; days.push([d, s]); }
+    let streak = 0; for (let i = 0; i < 365; i++){ const d = new Date(today); d.setDate(d.getDate() - i); if ((time.days || {})[dayKey(d)] > 0) streak++; else if (i > 0) break; }
+    $('#tiles').innerHTML = [
+      ['Today', fmtTime(days[6][1]), 'on tests'],
+      ['This week', fmtTime(week), 'last 7 days'],
+      ['Total time', fmtTime(time.total), streak + (streak === 1 ? ' day in a row' : ' days in a row')],
+      ['Tests finished', String(Object.keys(results).length), hist.length + (hist.length === 1 ? ' attempt' : ' attempts')]
+    ].map(x => `<div class="tile"><span>${x[0]}</span><b>${x[1]}</b><small>${x[2]}</small></div>`).join('');
+    const max = Math.max(1, ...days.map(d => d[1]));
+    $('#week').innerHTML = days.map(([d,s]) => `<div><strong>${s ? Math.max(1, Math.round(s/60)) + 'm' : ''}</strong><i class="${s ? '' : 'zero'}" style="height:${s ? Math.max(4, Math.round(s / max * 100)) : 2}%"></i><em>${d.toLocaleDateString('en-GB',{weekday:'short'})}</em></div>`).join('');
+    const hrs = (time.total || 0) / 3600;
+    const rank = hrs >= 30 ? 'Marathon runner' : hrs >= 10 ? 'Committed' : hrs >= 2 ? 'Regular' : 'Getting started';
+    const nextH = hrs >= 30 ? null : hrs >= 10 ? 30 : hrs >= 2 ? 10 : 2;
+    $('#rank').textContent = 'Practice rank: ' + rank + (nextH ? '. ' + fmtTime((nextH - hrs) * 3600) + ' more to reach the next rank.' : '.');
+    /* band per skill = average of the last 5 attempts */
+    const avg = k => { const a = hist.filter(x => x.k === k).slice(-5); if (!a.length) return null; return {b: a.reduce((s,x) => s + band(x.c, x.t, x.k), 0) / a.length, n: a.length, pct: a.reduce((s,x) => s + x.c / x.t, 0) / a.length}; };
+    const r = avg('r'), l = avg('l'), parts = [r, l].filter(Boolean);
+    if (parts.length){
+      const exact = parts.reduce((s,x) => s + x.b, 0) / parts.length, ov = half(exact);
+      $('#lvl-band').textContent = 'Band ' + ov.toFixed(1);
+      $('#lvl-name').textContent = levelName(ov);
+      const n = hist.length;
+      $('#lvl-note').textContent = 'Estimated from your last ' + parts.reduce((s,x) => s + x.n, 0) + ' attempts' + (n < 3 ? '. Finish at least 3 tests for a more reliable level.' : '.') + ' Single passages and parts are scaled to a full 40-question test.';
+      if (ov >= 9){ $('#next-label').textContent = 'Top band reached'; $('#next-pct').textContent = ''; $('#next-bar').style.width = '100%'; }
+      else { const lo = Math.floor(exact * 2) / 2, pct = Math.round((exact - lo) / 0.5 * 100); $('#next-label').textContent = 'Progress to Band ' + (lo + 0.5).toFixed(1); $('#next-pct').textContent = pct + '%'; $('#next-bar').style.width = pct + '%'; }
+      $('#skills').innerHTML = [['Reading', r], ['Listening', l]].map(([nm, v]) => `<div><div class="skill"><span>${nm}</span><b>${v ? 'Band ' + half(v.b).toFixed(1) : 'No tests yet'}</b></div><div class="meter"><i style="width:${v ? Math.round(v.pct * 100) : 0}%"></i></div></div>`).join('');
+    } else {
+      $('#lvl-band').textContent = '–'; $('#lvl-name').textContent = 'No score yet';
+      $('#lvl-note').textContent = 'Submit a test to see your estimated band.';
+      $('#next-label').textContent = 'Progress to the next band'; $('#next-pct').textContent = ''; $('#next-bar').style.width = '0%'; $('#skills').innerHTML = '';
+    }
+    $('#res-body').innerHTML = hist.length ? hist.slice(-25).reverse().map(x => { const t = byId[x.id]; return `<tr><td>${esc(t ? t.t : x.id)}</td><td>${x.k === 'l' ? 'Listening' : 'Reading'}</td><td class="num">${x.c}/${x.t}</td><td><span class="band-pill">${band(x.c, x.t, x.k).toFixed(1)}</span></td><td class="num">${fmtTime((time.tests || {})[x.id] || 0)}</td><td class="num">${new Date(x.at).toLocaleDateString('en-GB',{day:'numeric',month:'short'})}</td></tr>`; }).join('') : '<tr><td colspan="6" class="muted">No submitted tests yet. Time is being counted; press Submit in a test to record a score.</td></tr>';
+  }
+  $('#reset-btn').addEventListener('click', () => { $('#reset-confirm').hidden = false; $('#reset-btn').hidden = true; });
+  $('#reset-no').addEventListener('click', () => { $('#reset-confirm').hidden = true; $('#reset-btn').hidden = false; });
+  $('#reset-yes').addEventListener('click', () => { ['kh-time','kh-history','kh-results','kh-done'].forEach(k => { try { localStorage.removeItem(k); } catch(e){} }); done = new Set(); $('#reset-confirm').hidden = true; $('#reset-btn').hidden = false; renderLists(); renderProgress(); });
+  window.addEventListener('message', e => { if (e.data && e.data.kh === 'result') { renderLists(); if ($('#v-progress').classList.contains('on')) renderProgress(); } });
+
+  /* ---------- premium unlock ---------- */
+  function flash(text, cls){ const m = $('#code-msg'); m.textContent = text; m.className = 'msg ' + (cls || ''); }
+  async function sha256(s){
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+    return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2,'0')).join('');
+  }
+  function paintUnlock(){
+    $('#unlock-title').textContent = unlocked ? 'Premium is unlocked on this browser' : 'Unlock premium';
+    $('#code-form').hidden = unlocked;
+    if (unlocked) flash('All premium tests are open. Good luck!', 'good');
+  }
+  $('#code-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    const code = $('#code').value.trim().toUpperCase();
+    if (!code){ flash('Type the access code you received on Telegram.', 'bad'); return; }
+    let ok = false;
+    try { ok = D.codes.includes(await sha256(code)); } catch(err){ flash('This browser cannot check the code. Open the site in Chrome or Safari.', 'bad'); return; }
+    if (ok){ unlocked = true; store.set('kh-unlocked', true); paintUnlock(); renderLists(); }
+    else flash('That code is not valid. Check it and try again, or message @khmdv_j.', 'bad');
+  });
+
+  /* ---------- next Sunday (Asia/Tashkent) ---------- */
+  (function(){
+    const now = new Date(new Date().toLocaleString('en-US', {timeZone:'Asia/Tashkent'}));
+    const add = (7 - now.getDay()) % 7; now.setDate(now.getDate() + add);
+    $('#next-sunday').textContent = (add === 0 ? 'Today, ' : '') + now.toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long'});
+  })();
+
+  $('#f-free').textContent = D.tests.filter(t => !t.p).length;
+  $('#f-prem').textContent = D.tests.filter(t => t.p).length;
+  renderBoard(); renderLists(); paintUnlock(); route();
+})();
+</script>
+
 </html>

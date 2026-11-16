@@ -476,5 +476,6 @@ function applyInlineHighlights(){
     for(let i=11;i<=13;i++){ let selected=document.querySelector(`input[name="mc_${i}"]:checked`); if(selected){ let ok=selected.value===ANSWERS[i]; let parent=selected.closest('.mc-option'); parent.classList.add(ok?'correct-highlight':'incorrect-highlight'); let fb=document.createElement('span');fb.className=`mc-feedback ${ok?'correct':'incorrect'}`;fb.textContent=ok?'✓':`✗ ${ANSWERS[i]}`;parent.appendChild(fb);}}
 }
 </script>
+<script src="../track.js"></script>
 </body>
 </html>

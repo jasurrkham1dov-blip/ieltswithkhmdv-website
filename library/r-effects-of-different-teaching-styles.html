@@ -508,5 +508,6 @@ function applyInlineHighlights(){
     for(let i=27;i<=40;i++){let sel=document.getElementById(`q${i}`); if(!sel.value)continue; let ok=sel.value===ANSWERS[i]; sel.classList.add(ok?'correct':'incorrect'); if(!sel.nextElementSibling?.classList.contains('dropdown-feedback')){let fb=document.createElement('span');fb.className=`dropdown-feedback ${ok?'correct':'incorrect'}`;fb.textContent=ok?'✓':`✗ ${ANSWERS[i]}`;sel.parentNode.appendChild(fb);}}
 }
 </script>
+<script src="../track.js"></script>
 </body>
 </html>
